@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIM-Pay OS | Bitcopper Tech Spa</title>
+    <style>
+        :root { --bg: #0a192f; --card: #112240; --primary: #64ffda; --text: #ccd6f6; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 40px; }
+        .container { background: var(--card); padding: 30px; border-radius: 12px; width: 100%; max-width: 500px; text-align: center; border: 1px solid var(--primary); }
+        .btn { background: var(--primary); color: var(--bg); border: none; padding: 12px; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
+        #adminPanel { position: fixed; bottom: 20px; right: 20px; }
+        .btn-admin { background: none; border: 1px solid var(--primary); color: var(--primary); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; }
+        #adminMenu { display: none; background: var(--card); padding: 15px; border-radius: 8px; border: 1px solid var(--primary); margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>BIM-Pay OS</h1>
+    <div class="container">
+        <input type="file" id="fileInput" accept=".ifc" style="display:none" onchange="document.getElementById('fname').innerText = this.files[0].name">
+        <label for="fileInput" style="cursor:pointer; border: 2px dashed var(--primary); padding: 20px; display: block;">
+            📁 Seleccionar IFC <br> <span id="fname" style="font-size:0.8rem; color:var(--primary)"></span>
+        </label>
+        <button class="btn" onclick="procesarBIM()">EJECUTAR AUDITOR

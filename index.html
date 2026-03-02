@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitcopper Technologies LLC — Technology from the Earth</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--copper:#B87333;--copper-light:#D4944A;--blue:#2B7FD4;--black:#000;--near-black:#080808;--dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--gray:#2A2A2A;--text:#E8E0D8;--text-dim:#7A7065;--text-muted:#4A4540;--green:#2ECC71}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+nav.scrolled{backdrop-filter:blur(20px);background:rgba(0,0,0,0.85);border-bottom:1px solid rgba(184,115,51,0.15)}
+.nav-logo{display:flex;align-items:center;gap:16px;text-decoration:none}
+.nav-logo img{width:40px;height:40px;object-fit:contain}
+.nav-logo-text{display:flex;flex-direction:column}
+.nav-logo-name{font-family:'Bebas Neue';font-size:20px;letter-spacing:4px;color:var(--text)}
+.nav-logo-sub{font-family:'Space Mono';font-size:8px;letter-spacing:3px;color:var(--copper)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--text-dim);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:color 0.3s;font-family:'Space Mono'}
+.nav-links a:hover{color:var(--copper)}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 60px 80px;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(184,115,51,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(184,115,51,0.03) 1px,transparent 1px);background-size:60px 60px}
+.hero-glow{position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(184,115,51,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:pulse 5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}}
+.hero-content{position:relative;z-index:2;max-width:1000px}
+.hero-tag{font-family:'Space Mono';font-size:10px;letter-spacing:5px;color:var(--copper);text-transform:uppercase;margin-bottom:32px;display:flex;align-items:center;gap:16px}
+.hero-tag::before{content:'';width:40px;height:1px;background:var(--copper)}
+.hero-title{font-family:'Bebas Neue';font-size:clamp(60px,10vw,120px);line-height:0.9;letter-spacing:2px;margin-bottom:16px}
+.hero-title .copper{color:var(--copper)}
+.hero-title .blue{color:var(--blue)}
+.hero-subtitle{font-family:'Bebas Neue';font-size:clamp(20px,3vw,36px);letter-spacing:6px;color:var(--text-dim);margin-bottom:40px}
+.hero-desc{font-size:16px;line-height:1.8;color:var(--text-dim);max-width:600px;margin-bottom:60px}
+.hero-badges{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:60px}
+.badge{background:var(--dark2);border:1px solid var(--gray);padding:8px 20px;font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted)}
+.badge.active{border-color:rgba(184,115,51,0.4);color:var(--copper)}
+section{padding:120px 60px;position:relative}
+.section-label{font-family:'Space Mono';font-size:9px;letter-spacing:5px;color:var(--copper);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:16px}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(184,115,51,0.4),transparent);max-width:200px}
+.section-title{font-family:'Bebas Neue';font-size:clamp(40px,6vw,72px);letter-spacing:3px;line-height:1;margin-bottom:24px}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px}
+.product-card{background:var(--dark2);padding:48px 36px;display:flex;flex-direction:column;gap:20px;border:1px solid var(--gray);transition:all 0.4s;position:relative;overflow:hidden;text-decoration:none}
+.product-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--copper);transform:scaleX(0);transition:transform 0.4s;transform-origin:left}
+.product-card:hover::before{transform:scaleX(1)}
+.product-card:hover{border-color:rgba(184,115,51,0.4);transform:translateY(-4px)}
+.product-card.blue-card::before{background:var(--blue)}
+.product-card.blue-card:hover{border-color:rgba(43,127,212,0.4)}
+.product-tag{font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--copper);text-transform:uppercase}
+.product-tag.blue{color:var(--blue)}
+.product-name{font-family:'Bebas Neue';font-size:40px;letter-spacing:3px;color:var(--text);line-height:1}
+.product-desc{font-size:14px;color:var(--text-dim);line-height:1.8;flex:1}
+.product-link{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--copper);text-decoration:none;display:flex;align-items:center;gap:8px;transition:gap 0.3s}
+.product-link.blue{color:var(--blue)}
+.product-card:hover .product-link{gap:16px}
+.product-status{display:inline-block;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);color:#2ECC71;font-family:'Space Mono';font-size:8px;letter-spacing:2px;padding:3px 8px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:60px}
+.about-text p{font-size:15px;line-height:1.9;color:var(--text-dim);margin-bottom:20px}
+.about-text p strong{color:var(--copper);font-weight:500}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.about-stat{background:var(--dark2);padding:32px;border-top:2px solid var(--copper)}
+.about-stat-value{font-family:'Bebas Neue';font-size:48px;color:var(--copper);line-height:1;margin-bottom:8px}
+.about-stat-label{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--text-muted)}
+.team-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:2px;max-width:500px;margin-top:60px}
+.team-card{background:var(--dark2);padding:40px;border-left:3px solid var(--copper)}
+.team-name{font-family:'Bebas Neue';font-size:32px;letter-spacing:2px;color:var(--text);margin-bottom:4px}
+.team-role{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--copper);margin-bottom:16px}
+.team-desc{font-size:13px;color:var(--text-dim);line-height:1.8}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:60px}
+.contact-card{background:var(--dark2);padding:40px}
+.contact-label{font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:12px}
+.contact-value{font-size:15px;color:var(--text);margin-bottom:4px}
+.contact-sub{font-size:12px;color:var(--text-muted)}
+footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);padding:60px}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:60px}
+.footer-brand-name{font-family:'Bebas Neue';font-size:28px;letter-spacing:4px;color:var(--copper);margin-bottom:4px}
+.footer-brand-sub{font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:16px}
+.footer-brand-desc{font-size:13px;color:var(--text-muted);line-height:1.8;max-width:280px}
+.footer-col-title{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--copper);text-transform:uppercase;margin-bottom:20px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:12px}
+.footer-links a{color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.3s}
+.footer-links a:hover{color:var(--copper)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--gray)}
+.footer-copy{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--text-muted)}
+.footer-tag{font-family:'Space Mono';font-size:9px;color:var(--copper);font-style:italic}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--copper)}
+@media(max-width:900px){nav{padding:20px 24px}.nav-links{display:none}section{padding:80px 24px}.hero{padding:100px 24px 60px}.products-grid,.about-grid,.contact-grid,.footer-inner{grid-template-columns:1fr;gap:2px}footer{padding:40px 24px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <a href="/" class="nav-logo">
+    <div style="width:40px;height:40px;border:1.5px solid var(--copper);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:16px;color:var(--copper)">BCu</div>
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">BITCOPPER</span>
+      <span class="nav-logo-sub">TECHNOLOGIES LLC</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#productos">Productos</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="/bitcu" style="color:var(--copper)">BITCU</a></li>
+    <li><a href="/smartbuild" style="color:var(--blue)">SmartBuild</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Wyoming LLC &middot; Calama, Chile &middot; Technology from the Earth</div>
+    <h1 class="hero-title">BIT<span class="copper">COPPER</span><br><span style="font-size:0.6em;color:var(--text-dim)">TECHNOLOGIES</span></h1>
+    <div class="hero-subtitle">Desde el cobre al codigo</div>
+    <p class="hero-desc">Empresa de tecnologia nacida en Chuquicamata, la capital mundial del cobre. Desarrollamos soluciones digitales que conectan el mundo fisico con la economia digital — desde monedas respaldadas por calor hasta inteligencia artificial para construccion.</p>
+    <div class="hero-badges">
+      <div class="badge active">Wyoming LLC</div>
+      <div class="badge active">Bitcopper Tech SpA Chile</div>
+      <div class="badge">Founded 2026</div>
+      <div class="badge">Chuquicamata Origin</div>
+    </div>
+  </div>
+</section>
+
+<section id="productos" style="background:var(--dark2)">
+  <div class="section-label">Productos</div>
+  <h2 class="section-title reveal">Nuestras Soluciones</h2>
+  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8">Tres productos que conectan el mundo fisico con la economia digital, nacidos desde la tierra del cobre.</p>
+  <div class="products-grid">
+    <a href="/bitcu" class="product-card reveal">
+      <div class="product-tag">Protocolo &middot; Moneda Digital</div>
+      <div class="product-name">BITCU</div>
+      <div class="product-desc">La primera moneda digital nativa respaldada por el calor fisico de los procesadores. Proof of Heat Protocol. Real World Asset anclado al cobre LME.</div>
+      <div><span class="product-status">MAINNET ACTIVO</span></div>
+      <div class="product-link">Ver BITCU Network &rarr;</div>
+    </a>
+    <a href="/smartbuild" class="product-card blue-card reveal">
+      <div class="product-tag blue">IA &middot; Construccion</div>
+      <div class="product-name">SMARTBUILD APU</div>
+      <div class="product-desc">Inteligencia artificial para presupuestos de construccion. Genera Analisis de Precios Unitarios automaticamente, ahorrando horas de trabajo manual a ingenieros y constructoras.</div>
+      <div><span class="product-status">EN PRODUCCION</span></div>
+      <div class="product-link blue">Ver SmartBuild &rarr;</div>
+    </a>
+    <a href="/llc" class="product-card reveal">
+      <div class="product-tag">Corporativo &middot; USA</div>
+      <div class="product-name">LLC USA</div>
+      <div class="product-desc">Bitcopper Technologies LLC, constituida en Wyoming. Entidad legal para operaciones internacionales, contratos globales y expansion al mercado norteamericano.</div>
+      <div><span class="product-status" style="color:var(--copper);border-color:rgba(184,115,51,0.3);background:rgba(184,115,51,0.1)">CONSTITUYENDO 2026</span></div>
+      <div class="product-link">Ver LLC &rarr;</div>
+    </a>
+  </div>
+</section>
+
+<section id="nosotros">
+  <div class="section-label">Nosotros</div>
+  <h2 class="section-title reveal">Tecnologia desde<br>la Tierra del Cobre</h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>Bitcopper Technologies nacio en <strong>Chuquicamata</strong>, la mina de cobre a tajo abierto mas grande del mundo, donde el metal que conecta la civilizacion moderna sale de la tierra cada dia.</p>
+      <p>Nuestra mision es construir tecnologia que tenga <strong>respaldo fisico real</strong> — no promesas digitales sin sustancia. Cada producto que desarrollamos esta anclado a algo tangible: el calor de los procesadores, los costos reales de construccion, la ley de los mercados internacionales.</p>
+      <p>Operamos bajo <strong>Bitcopper Tech SpA</strong> en Chile y <strong>Bitcopper Technologies LLC</strong> en Wyoming, USA, para servir tanto al mercado latinoamericano como al mercado global.</p>
+    </div>
+    <div class="about-stats reveal">
+      <div class="about-stat"><div class="about-stat-value">2026</div><div class="about-stat-label">Ano de Fundacion</div></div>
+      <div class="about-stat"><div class="about-stat-value">3</div><div class="about-stat-label">Productos Activos</div></div>
+      <div class="about-stat"><div class="about-stat-value">2</div><div class="about-stat-label">Entidades Legales</div></div>
+      <div class="about-stat"><div class="about-stat-value" id="blocksCount">1000+</div><div class="about-stat-label">Bloques BITCU Minados</div></div>
+    </div>
+  </div>
+  <div class="team-grid" style="margin-top:80px">
+    <div class="team-card reveal">
+      <div class="team-name">Pedro Ramos Morales</div>
+      <div class="team-role">Founder &middot; CEO &middot; Chuquicamatino</div>
+      <div class="team-desc">Creador del protocolo Proof of Heat y el bloque genesis de BITCU. Fundador de Bitcopper Tech SpA y Bitcopper Technologies LLC. Visionario de la interseccion entre el mundo fisico del cobre y la economia digital.</div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" style="background:var(--dark2)">
+  <div class="section-label">Contacto</div>
+  <h2 class="section-title reveal">Trabajemos Juntos</h2>
+  <div class="contact-grid">
+    <div class="contact-card reveal">
+      <div class="contact-label">Email Corporativo</div>
+      <div class="contact-value">bitcoppertech@gmail.com</div>
+      <div class="contact-sub">Respuesta en 24-48 horas habiles</div>
+    </div>
+    <div class="contact-card reveal">
+      <div class="contact-label">Ubicacion</div>
+      <div class="contact-value">Calama, Region de Antofagasta</div>
+      <div class="contact-sub">Chile &middot; Wyoming, USA</div>
+    </div>
+    <div class="contact-card reveal">
+      <div class="contact-label">Entidad Chile</div>
+      <div class="contact-value">Bitcopper Tech SpA</div>
+      <div class="contact-sub">RUT pendiente de registro</div>
+    </div>
+    <div class="contact-card reveal">
+      <div class="contact-label">Entidad USA</div>
+      <div class="contact-value">Bitcopper Technologies LLC</div>
+      <div class="contact-sub">Wyoming &middot; Constituyendo Marzo 2026</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">BITCOPPER</div>
+      <div class="footer-brand-sub">TECHNOLOGIES LLC</div>
+      <div class="footer-brand-desc">Tecnologia nacida en Chuquicamata, la tierra del cobre. Conectando el mundo fisico con la economia digital desde 2026.</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Productos</div>
+      <ul class="footer-links">
+        <li><a href="/bitcu">BITCU Network</a></li>
+        <li><a href="/smartbuild">SmartBuild APU</a></li>
+        <li><a href="/llc">LLC USA</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="/llc">Bitcopper Technologies LLC</a></li>
+        <li><a href="#">Bitcopper Tech SpA</a></li>
+        <li><a href="/bitcu#transparencia">Transparencia BITCU</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Links</div>
+      <ul class="footer-links">
+        <li><a href="https://github.com/bitcoppertech-collab" target="_blank">GitHub</a></li>
+        <li><a href="/bitcu#whitepaper">Whitepaper v2.2</a></li>
+        <li><a href="mailto:bitcoppertech@gmail.com">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">&copy; 2026 Bitcopper Technologies LLC &middot; Wyoming, USA &middot; Pedro Ramos Morales</div>
+    <div class="footer-tag">In cuprum veritas.</div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60));
+const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*100);obs.unobserve(e.target)}})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+fetch('https://bitcu-server-production.up.railway.app/api/stats').then(r=>r.json()).then(d=>{
+  if(d.total_blocks) document.getElementById('blocksCount').textContent=(d.total_blocks).toLocaleString();
+}).catch(()=>{});
+</script>
+</body>
+</html>

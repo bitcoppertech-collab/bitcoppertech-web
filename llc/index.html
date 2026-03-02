@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitcopper Technologies LLC — Wyoming, USA</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--copper:#B87333;--blue:#2B7FD4;--black:#000;--near-black:#080808;--dark2:#141414;--dark3:#1C1C1C;--gray:#2A2A2A;--text:#E8E0D8;--text-dim:#7A7065;--text-muted:#4A4540}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);background:rgba(0,0,0,0.85);border-bottom:1px solid rgba(184,115,51,0.15)}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo-icon{width:36px;height:36px;border:1.5px solid var(--copper);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:14px;color:var(--copper)}
+.nav-logo-text{font-family:'Bebas Neue';font-size:18px;letter-spacing:3px;color:var(--text)}
+.nav-back{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--text-dim);text-decoration:none;transition:color 0.3s}
+.nav-back:hover{color:var(--copper)}
+section{padding:120px 60px;position:relative}
+.hero{min-height:80vh;display:flex;align-items:center;background:linear-gradient(135deg,var(--black) 0%,var(--dark2) 100%);border-bottom:1px solid rgba(184,115,51,0.2)}
+.hero-content{max-width:800px}
+.hero-tag{font-family:'Space Mono';font-size:10px;letter-spacing:5px;color:var(--copper);margin-bottom:24px;display:flex;align-items:center;gap:16px}
+.hero-tag::before{content:'';width:40px;height:1px;background:var(--copper)}
+.hero-title{font-family:'Bebas Neue';font-size:clamp(48px,8vw,100px);line-height:0.9;letter-spacing:2px;margin-bottom:16px}
+.hero-title span{color:var(--copper)}
+.hero-subtitle{font-family:'Bebas Neue';font-size:clamp(18px,3vw,32px);letter-spacing:4px;color:var(--text-dim);margin-bottom:32px}
+.hero-desc{font-size:15px;line-height:1.8;color:var(--text-dim);max-width:560px}
+.status-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(184,115,51,0.1);border:1px solid rgba(184,115,51,0.3);padding:10px 20px;font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--copper);margin-top:32px}
+.dot{width:6px;height:6px;background:var(--copper);border-radius:50%;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.section-label{font-family:'Space Mono';font-size:9px;letter-spacing:5px;color:var(--copper);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:16px}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(184,115,51,0.4),transparent);max-width:200px}
+.section-title{font-family:'Bebas Neue';font-size:clamp(36px,5vw,64px);letter-spacing:3px;line-height:1;margin-bottom:24px}
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-top:48px}
+.info-card{background:var(--dark2);padding:36px;border-top:2px solid var(--copper)}
+.info-label{font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:10px}
+.info-value{font-size:18px;font-weight:500;color:var(--text);margin-bottom:4px}
+.info-sub{font-size:13px;color:var(--text-dim)}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px}
+.why-card{background:var(--dark2);padding:36px;border:1px solid var(--gray);transition:all 0.3s}
+.why-card:hover{border-color:rgba(184,115,51,0.4)}
+.why-icon{font-family:'Space Mono';font-size:24px;color:var(--copper);margin-bottom:16px}
+.why-title{font-size:16px;font-weight:500;color:var(--text);margin-bottom:10px}
+.why-desc{font-size:13px;color:var(--text-dim);line-height:1.7}
+.timeline{display:flex;flex-direction:column;gap:0;margin-top:48px;max-width:700px}
+.timeline-item{display:grid;grid-template-columns:120px 1fr;gap:32px;padding:32px 0;border-bottom:1px solid var(--gray)}
+.timeline-item:last-child{border-bottom:none}
+.timeline-date{font-family:'Space Mono';font-size:11px;color:var(--copper);letter-spacing:2px;padding-top:4px}
+.timeline-content{}
+.timeline-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:8px}
+.timeline-desc{font-size:13px;color:var(--text-dim);line-height:1.7}
+.timeline-status{display:inline-block;font-family:'Space Mono';font-size:9px;letter-spacing:2px;padding:3px 8px;margin-top:8px}
+.timeline-status.done{background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);color:#2ECC71}
+.timeline-status.pending{background:rgba(184,115,51,0.1);border:1px solid rgba(184,115,51,0.3);color:var(--copper)}
+.infobox{background:var(--dark2);border-left:3px solid var(--copper);padding:24px 32px;font-family:'Space Mono';font-size:12px;color:var(--text-dim);line-height:1.8;margin-top:48px;max-width:700px}
+.infobox-label{font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:12px}
+footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);padding:40px 60px;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--text-muted)}
+.footer-tag{font-family:'Space Mono';font-size:9px;color:var(--copper);font-style:italic}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--copper)}
+@media(max-width:900px){nav{padding:20px 24px}section{padding:80px 24px}.hero{padding:100px 24px 60px}.info-grid,.why-grid{grid-template-columns:1fr}.timeline-item{grid-template-columns:1fr;gap:8px}footer{padding:32px 24px;flex-direction:column;gap:16px;text-align:center}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">BCu</div>
+    <span class="nav-logo-text">BITCOPPER TECHNOLOGIES</span>
+  </a>
+  <a href="/" class="nav-back">&larr; Volver al inicio</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">Wyoming, USA &middot; Limited Liability Company</div>
+    <h1 class="hero-title">BITCOPPER<br><span>TECHNOLOGIES</span></h1>
+    <div class="hero-subtitle">LLC &mdash; Wyoming, USA</div>
+    <p class="hero-desc">Entidad legal estadounidense para operaciones internacionales, contratos globales y expansion al mercado norteamericano. Constituida bajo las leyes del Estado de Wyoming — el marco legal mas favorable para empresas tecnologicas.</p>
+    <div class="status-badge"><span class="dot"></span>Constituyendo Marzo 2026</div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Informacion Legal</div>
+  <h2 class="section-title reveal">Datos de la Entidad</h2>
+  <div class="info-grid">
+    <div class="info-card reveal">
+      <div class="info-label">Nombre Legal</div>
+      <div class="info-value">Bitcopper Technologies LLC</div>
+      <div class="info-sub">Limited Liability Company</div>
+    </div>
+    <div class="info-card reveal">
+      <div class="info-label">Estado de Constitucion</div>
+      <div class="info-value">Wyoming, USA</div>
+      <div class="info-sub">Sin impuesto estatal &middot; Maxima privacidad</div>
+    </div>
+    <div class="info-card reveal">
+      <div class="info-label">Fundador &amp; Manager</div>
+      <div class="info-value">Pedro Ramos Morales</div>
+      <div class="info-sub">Chuquicamata, Chile &middot; Ciudadano Chileno</div>
+    </div>
+    <div class="info-card reveal">
+      <div class="info-label">Ano de Constitucion</div>
+      <div class="info-value">2026</div>
+      <div class="info-sub">Marzo 2026 &middot; En proceso</div>
+    </div>
+    <div class="info-card reveal">
+      <div class="info-label">Industria</div>
+      <div class="info-value">Technology &middot; Fintech &middot; AI</div>
+      <div class="info-sub">Blockchain &middot; Software &middot; Construction Tech</div>
+    </div>
+    <div class="info-card reveal">
+      <div class="info-label">Entidad Relacionada Chile</div>
+      <div class="info-value">Bitcopper Tech SpA</div>
+      <div class="info-sub">Calama, Region de Antofagasta, Chile</div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--dark2)">
+  <div class="section-label">Por que Wyoming</div>
+  <h2 class="section-title reveal">El Estado mas Favorable<br>para Tecnologia</h2>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <div class="why-icon">0%</div>
+      <div class="why-title">Sin Impuesto Estatal</div>
+      <div class="why-desc">Wyoming no cobra impuesto sobre ingresos corporativos ni personales. Ideal para empresas tecnologicas con operaciones internacionales.</div>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">&#128274;</div>
+      <div class="why-title">Maxima Privacidad</div>
+      <div class="why-desc">Wyoming no requiere divulgar publicamente los nombres de los miembros o managers de la LLC. Informacion protegida por ley estatal.</div>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">&#9889;</div>
+      <div class="why-title">Crypto-Friendly</div>
+      <div class="why-desc">Wyoming fue el primer estado en aprobar leyes especificas para activos digitales y blockchain. Marco legal claro para empresas cripto.</div>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">&#127758;</div>
+      <div class="why-title">Reconocimiento Global</div>
+      <div class="why-desc">Una LLC de Wyoming es reconocida en todo el mundo como entidad legal seria. Abre puertas a contratos, inversiones y servicios en USA y globalmente.</div>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">&#128176;</div>
+      <div class="why-title">Bajo Costo</div>
+      <div class="why-desc">Constitucion y mantenimiento anual a bajo costo comparado con Delaware o California. Annual report fee minimo.</div>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">&#128737;</div>
+      <div class="why-title">Proteccion de Activos</div>
+      <div class="why-desc">Separacion legal completa entre los activos personales del fundador y los activos de la empresa. Responsabilidad limitada real.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Hoja de Ruta</div>
+  <h2 class="section-title reveal">Proceso de Constitucion</h2>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-date">FEB 2026</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Diseno del Logo y Marca</div>
+        <div class="timeline-desc">Creacion de identidad visual de Bitcopper Technologies LLC con isotipo de cobre.</div>
+        <span class="timeline-status done">COMPLETADO</span>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-date">MAR 2026</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Constitucion LLC Wyoming</div>
+        <div class="timeline-desc">Registro formal de Bitcopper Technologies LLC en el Estado de Wyoming. Obtencion de EIN (Employer Identification Number) del IRS.</div>
+        <span class="timeline-status pending">EN PROCESO</span>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Q2 2026</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Cuenta Bancaria USA</div>
+        <div class="timeline-desc">Apertura de cuenta bancaria empresarial en USA. Mercury Bank o Relay Financial para operaciones en dolares.</div>
+        <span class="timeline-status pending">PENDIENTE</span>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Q2 2026</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Contratos Internacionales</div>
+        <div class="timeline-desc">Primeros contratos bajo entidad LLC para clientes en USA, Canada y Europa. SmartBuild APU y BITCU Protocol licensing.</div>
+        <span class="timeline-status pending">PENDIENTE</span>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Q3 2026</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Expansion Norte America</div>
+        <div class="timeline-desc">Lanzamiento de SmartBuild APU para el mercado de construccion norteamericano. BITCU Protocol para empresas tech en USA.</div>
+        <span class="timeline-status pending">PENDIENTE</span>
+      </div>
+    </div>
+  </div>
+  <div class="infobox reveal">
+    <div class="infobox-label">NOTA LEGAL</div>
+    Bitcopper Technologies LLC esta en proceso de constitucion formal en el Estado de Wyoming, USA.
+    La entidad chilena Bitcopper Tech SpA opera actualmente todos los productos y servicios.
+    Para consultas comerciales: bitcoppertech@gmail.com
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">&copy; 2026 Bitcopper Technologies LLC &middot; Wyoming, USA &middot; Pedro Ramos Morales</div>
+  <div class="footer-tag">In cuprum veritas.</div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target)}})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
