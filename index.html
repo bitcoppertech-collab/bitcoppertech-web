@@ -60,6 +60,9 @@ section{padding:120px 60px;position:relative}
 .about-stat{background:var(--dark2);padding:32px;border-top:2px solid var(--copper)}
 .about-stat-value{font-family:'Bebas Neue';font-size:48px;color:var(--copper);line-height:1;margin-bottom:8px}
 .about-stat-label{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--text-muted)}
+.about-stat-link{text-decoration:none;display:block;transition:opacity 0.3s}
+.about-stat-link:hover{opacity:0.7}
+.about-stat-link .about-stat-label{color:var(--blue)}
 .team-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:2px;max-width:500px;margin-top:60px}
 .team-card{background:var(--dark2);padding:40px;border-left:3px solid var(--copper)}
 .team-name{font-family:'Bebas Neue';font-size:32px;letter-spacing:2px;color:var(--text);margin-bottom:4px}
@@ -106,6 +109,7 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
     <li><a href="/bitcu" style="color:var(--copper)">BITCU</a></li>
     <li><a href="/smartbuild" style="color:var(--blue)">SmartBuild</a></li>
     <li><a href="/cupr" style="color:var(--copper)">CUPR</a></li>
+    <li><a href="/clpt" style="color:var(--copper)">CLPT</a></li>
   </ul>
 </nav>
 
@@ -129,7 +133,7 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
 <section id="productos" style="background:var(--dark2)">
   <div class="section-label">Productos</div>
   <h2 class="section-title reveal">Nuestras Soluciones</h2>
-  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8">Tres productos que conectan el mundo fisico con la economia digital, nacidos desde la tierra del cobre.</p>
+  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8">Cinco productos que conectan el mundo fisico con la economia digital, nacidos desde la tierra del cobre.</p>
   <div class="products-grid">
     <a href="/bitcu" class="product-card reveal">
       <div class="product-tag">Protocolo &middot; Moneda Digital</div>
@@ -142,7 +146,7 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
       <div class="product-tag blue">IA &middot; Construccion</div>
       <div class="product-name">SMARTBUILD APU</div>
       <div class="product-desc">Inteligencia artificial para presupuestos de construccion. Genera Analisis de Precios Unitarios automaticamente, ahorrando horas de trabajo manual a ingenieros y constructoras.</div>
-      <div><span class="product-status">EN PRODUCCION</span></div>
+      <div><span class="product-status">ACTIVO</span></div>
       <div class="product-link blue">Ver SmartBuild &rarr;</div>
     </a>
     <a href="/llc" class="product-card reveal">
@@ -151,6 +155,20 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
       <div class="product-desc">Bitcopper Technologies LLC, constituida en Wyoming. Entidad legal para operaciones internacionales, contratos globales y expansion al mercado norteamericano.</div>
       <div><span class="product-status" style="color:var(--copper);border-color:rgba(184,115,51,0.3);background:rgba(184,115,51,0.1)">CONSTITUYENDO 2026</span></div>
       <div class="product-link">Ver LLC &rarr;</div>
+    </a>
+    <a href="/cupr" class="product-card reveal">
+      <div class="product-tag">Token &middot; Commodity</div>
+      <div class="product-name">CUPR</div>
+      <div class="product-desc">Token anclado al precio del cobre LME. Activo digital respaldado por el metal que conecta la civilizacion moderna con la economia digital.</div>
+      <div><span class="product-status" style="color:var(--copper);border-color:rgba(184,115,51,0.3);background:rgba(184,115,51,0.1)">EN CONSTRUCCION</span></div>
+      <div class="product-link">Ver CUPR &rarr;</div>
+    </a>
+    <a href="/clpt" class="product-card reveal">
+      <div class="product-tag">Token &middot; Protocolo</div>
+      <div class="product-name">CLPT</div>
+      <div class="product-desc">Token nativo del ecosistema Bitcopper. Utilidad, gobernanza y acceso al protocolo Proof of Heat desde la tierra del cobre.</div>
+      <div><span class="product-status" style="color:var(--copper);border-color:rgba(184,115,51,0.3);background:rgba(184,115,51,0.1)">EN CONSTRUCCION</span></div>
+      <div class="product-link">Ver CLPT &rarr;</div>
     </a>
   </div>
 </section>
@@ -168,7 +186,10 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
       <div class="about-stat"><div class="about-stat-value">2026</div><div class="about-stat-label">Ano de Fundacion</div></div>
       <div class="about-stat"><div class="about-stat-value">3</div><div class="about-stat-label">Productos Activos</div></div>
       <div class="about-stat"><div class="about-stat-value">2</div><div class="about-stat-label">Entidades Legales</div></div>
-      <div class="about-stat"><div class="about-stat-value" id="blocksCount">-</div><div class="about-stat-label">Bloques BITCU Minados</div></div>
+      <a href="/bitcu" class="about-stat about-stat-link">
+        <div class="about-stat-value" id="blocksCount">-</div>
+        <div class="about-stat-label">Bloques BITCU Minados &rarr;</div>
+      </a>
     </div>
   </div>
   <div class="team-grid" style="margin-top:80px">
@@ -219,8 +240,9 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
       <ul class="footer-links">
         <li><a href="/bitcu">BITCU Network</a></li>
         <li><a href="/smartbuild">SmartBuild APU</a></li>
-        <li><a href="/cupr">CUPR Token</a></li>
         <li><a href="/llc">LLC USA</a></li>
+        <li><a href="/cupr">CUPR Token</a></li>
+        <li><a href="/clpt">CLPT</a></li>
       </ul>
     </div>
     <div>
@@ -255,7 +277,7 @@ async function fetchStats(){
     const d=await r.json();
     document.getElementById('blocksCount').textContent=(d.total_blocks||0).toLocaleString('es-CL');
   }catch(e){
-    document.getElementById('blocksCount').textContent='1000+';
+    document.getElementById('blocksCount').textContent='1.000+';
   }
 }
 fetchStats();
