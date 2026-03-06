@@ -248,9 +248,17 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60));
 const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*100);obs.unobserve(e.target)}})},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-fetch('https://bitcu-server-production.up.railway.app/api/stats').then(r=>r.json()).then(d=>{
-  if(d.total_blocks) document.getElementById('blocksCount').textContent=(d.total_blocks).toLocaleString();
-}).catch(()=>{});
+async function fetchStats(){
+  try{
+    const r=await fetch('https://bitcu-server-production.up.railway.app/api/stats');
+    const d=await r.json();
+    document.getElementById('blocksCount').textContent=(d.total_blocks||0).toLocaleString('es-CL');
+  }catch(e){
+    document.getElementById('blocksCount').textContent='1000+';
+  }
+}
+fetchStats();
+setInterval(fetchStats,15000);
 </script>
 </body>
 </html>
