@@ -1,4 +1,6 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "redirects": [
     { "source": "/smartbuild", "permanent": false, "destination": "https://smartbuild-apu-prod-3d7b.vercel.app" },
     { "source": "/smartbuild/:path*", "permanent": false, "destination": "https://smartbuild-apu-prod-3d7b.vercel.app/:path*" }
