@@ -4,9 +4,5 @@
   "redirects": [
     { "source": "/smartbuild", "permanent": false, "destination": "https://smartbuild-apu-prod-3d7b.vercel.app" },
     { "source": "/smartbuild/:path*", "permanent": false, "destination": "https://smartbuild-apu-prod-3d7b.vercel.app/:path*" }
-  ],
-  "rewrites": [
-    { "source": "/CUPR",  "destination": "/CUPR/index.html" },
-    { "source": "/CUPR/", "destination": "/CUPR/index.html" }
   ]
 }
