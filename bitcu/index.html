@@ -283,7 +283,7 @@ document.addEventListener('keydown',e=>{
         <div style="background:var(--dark3);padding:16px"><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:6px">1 ETH =</div><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text)" id="rate-eth">---</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">BITCU</div></div>
         <div style="background:var(--dark3);padding:16px"><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:6px">1000 CLP =</div><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text)" id="rate-clp">---</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">BITCU</div></div>
       </div>
-      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:20px">Cobre LME: <span id="copper-price" style="color:var(--copper)">---</span> USD/ton</div><div style="margin-top:20px;background:var(--dark3);padding:16px;border-left:3px solid var(--copper)"><div style="font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:8px">DEPOSITO USDT EN POLYGON</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text);word-break:break-all">0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec</div><a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank" style="display:inline-block;margin-top:8px;color:var(--copper);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-decoration:none">Ver en Polygonscan →</a></div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:20px">Cobre LME: <span id="copper-price" style="color:var(--copper)">---</span> USD/ton</div>
     </div>
     <div style="background:var(--dark2);padding:40px">
       <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">COBRE LME &mdash; HISTORICO 30 DIAS</div>
@@ -293,44 +293,11 @@ document.addEventListener('keydown',e=>{
   </div>
 </section>
 
-
-<section id="x402" style="background:var(--near-black)">
-  <div class="section-label">Protocolo x402</div>
-  <h2 class="section-title reveal">IAs que Pagan<br>con BITCU</h2>
-  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8;margin-bottom:60px">El protocolo x402 permite que agentes de IA autónomos paguen por recursos computacionales directamente en BITCU, sin intervención humana.</p>
-  <div class="steps">
-    <div class="step reveal"><div class="step-number">01</div><div class="step-title">IA hace request</div><div class="step-desc">El agente IA solicita un recurso: inferencia, cómputo, almacenamiento o acceso a la API de minería.</div></div>
-    <div class="step reveal"><div class="step-number">02</div><div class="step-title">Servidor responde 402</div><div class="step-desc">El servidor responde Payment Required con el precio en BITCU y las instrucciones de pago via headers HTTP.</div></div>
-    <div class="step reveal"><div class="step-number">03</div><div class="step-title">IA paga en BITCU</div><div class="step-desc">La IA reenvía el request con x-bitcu-wallet y x-bitcu-payment. El servidor debita automáticamente de su balance.</div></div>
-    <div class="step reveal"><div class="step-number">04</div><div class="step-title">Recurso entregado</div><div class="step-desc">El servidor entrega el recurso solicitado. La IA pagó con el calor de sus propios circuitos de cobre.</div></div>
-  </div>
-  <div style="margin-top:48px;background:var(--dark2);border-left:3px solid var(--copper);padding:24px 32px;font-family:Space Mono,monospace;font-size:13px;color:var(--text)">
-    <div style="font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:12px">TARIFAS x402</div>
-    Inferencia IA: 0.001 BITCU / request<br>
-    Tiempo de cómputo: 0.0005 BITCU / segundo<br>
-    Almacenamiento: 0.0001 BITCU / MB<br>
-    Acceso API minería: 0.00001 BITCU / request
-  </div>
-</section>
-
-<section id="puente">
-  <div class="section-label">Puente</div>
-  <h2 class="section-title reveal">BITCU ↔ USDT<br>BTC · ETH · CLP</h2>
-  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8;margin-bottom:60px">El precio de BITCU está indexado al precio del cobre en el London Metal Exchange (LME). La fórmula: BITCU = cobre_USD_ton × ρ₀ × 10⁶</p>
-  <div class="security-grid">
-    <div class="security-card reveal"><div class="security-number">// FÓRMULA</div><div class="security-title">Precio LME</div><div class="security-desc">1 BITCU = precio_cobre(USD/ton) × 1.68×10⁻⁸ × 10⁶. Con cobre a $9,500/ton: 1 BITCU ≈ $159.60 USD. El valor sube con el precio del cobre.</div><span class="security-tag">LME INDEXED</span></div>
-    <div class="security-card reveal"><div class="security-number">// SWAP</div><div class="security-title">Conversión Automática</div><div class="security-desc">Convierte USDT, BTC, ETH o CLP a BITCU en un solo request HTTP. Fee del 0.5%. La IA puede llegar sin BITCU y pagar con sus monedas nativas.</div><span class="security-tag">0.5% FEE</span></div>
-    <div class="security-card reveal"><div class="security-number">// FLUJO IA</div><div class="security-title">Pago Autónomo</div><div class="security-desc">IA recibe 402 → llama al puente con USDT → puente acredita BITCU → IA reenvía request con pago. Todo automático, sin intervención humana.</div><span class="security-tag">AUTONOMOUS</span></div>
-  </div>
-  <div style="margin-top:48px;text-align:center">
-    <a href="https://bitcu-server-production.up.railway.app/bridge/rate" target="_blank" class="btn-secondary">Ver Cotización en Vivo →</a>
-  </div>
-</section>
 <section id="red" style="background:var(--dark2)">
   <div class="section-label"><span class="live-dot"></span>En Vivo</div>
   <h2 class="section-title reveal">Red Global en Tiempo Real</h2>
   <div class="dashboard-frame reveal">
-    <iframe src="/bitcu/dashboard.html" style="width:100%;height:700px;border:none;display:block"></iframe>
+    <iframe src="https://bitcoppertech-collab.github.io/bitcu-network/dashboard.html" title="BITCU Network" loading="lazy"></iframe>
   </div>
 </section>
 
@@ -339,7 +306,7 @@ document.addEventListener('keydown',e=>{
   <div class="whitepaper-inner">
     <div class="whitepaper-preview reveal">
       <div class="whitepaper-title">BITCOPPER</div>
-      <div class="whitepaper-subtitle">PROOF OF HEAT PROTOCOL &mdash; WHITEPAPER v3.0</div>
+      <div class="whitepaper-subtitle">PROOF OF HEAT PROTOCOL &mdash; WHITEPAPER v1.0</div>
       <ul class="whitepaper-toc">
         <li><span>01</span><span>El Bloque Genesis y el Creador</span></li>
         <li><span>02</span><span>BITCU como Real World Asset (RWA)</span></li>
@@ -348,17 +315,14 @@ document.addEventListener('keydown',e=>{
         <li><span>05</span><span>Seguridad y Resistencia Cuantica</span></li>
         <li><span>06</span><span>El Libro Mayor Fisico</span></li>
         <li><span>07</span><span>Arquitectura del Sistema</span></li>
-        <li><span>08</span><span>Protocolo x402 &mdash; Micropagos de IA</span></li>
-        <li><span>09</span><span>Puente BITCU &harr; USDT / BTC / ETH / CLP</span></li>
-        <li><span>10</span><span>Marco Legal &mdash; Codigo Propietario</span></li>
-        <li><span>10</span><span>Hoja de Ruta 2026-2028</span></li>
+        <li><span>08</span><span>Hoja de Ruta 2026-2028</span></li>
       </ul>
     </div>
     <div class="whitepaper-cta reveal">
       <h3>Profundiza en el Protocolo</h3>
       <p>El whitepaper tecnico cubre los fundamentos fisicos, el protocolo de consenso, los mecanismos de seguridad cuantica y la vision a largo plazo.</p>
-      <p style="font-family:'Space Mono',monospace;font-size:11px;color:var(--copper);letter-spacing:2px">10 secciones 10 secciones &middot; x402 &middot; Puente LME &middot; Resistencia Cuanticamiddot; Sistema Bicapa BITCU/CUPR 10 secciones &middot; x402 &middot; Puente LME &middot; Resistencia Cuanticamiddot; Patron Cobre 10 secciones &middot; x402 &middot; Puente LME &middot; Resistencia Cuanticamiddot; 29M CUPR</p>
-      <a href="https://github.com/bitcoppertech-collab/bitcu-miner/releases/download/v3-0/bitcopper-whitepaper-v3.pdf" class="btn-primary" style="width:fit-content">Descargar Whitepaper</a>
+      <p style="font-family:'Space Mono',monospace;font-size:11px;color:var(--copper);letter-spacing:2px">10 secciones &middot; Ecuaciones fisicas &middot; Referencias academicas</p>
+      <a href="https://github.com/bitcoppertech-collab/bitcu-miner/releases" class="btn-primary" style="width:fit-content">Descargar Whitepaper</a>
       <a href="https://github.com/bitcoppertech-collab/bitcu-miner" class="btn-secondary" style="width:fit-content">Ver en GitHub</a>
     </div>
   </div>
@@ -377,8 +341,8 @@ document.addEventListener('keydown',e=>{
     <div class="security-card reveal">
       <div class="security-number">// 02</div>
       <div class="security-title">Codigo Auditable</div>
-      <div class="security-desc">El codigo fuente es propietario de Pedro Ramos Morales y Bitcopper Technologies LLC. Licencias comerciales disponibles bajo solicitud formal.</div>
-      <span class="security-tag">CODIGO PROPIETARIO</span>
+      <div class="security-desc">Todo el codigo fuente esta disponible en GitHub bajo la organizacion bitcoppertech-collab. El servidor, el agente de mineria y la app movil son auditables por cualquier desarrollador.</div>
+      <span class="security-tag">OPEN SOURCE</span>
       <br><a href="https://github.com/bitcoppertech-collab" target="_blank" style="display:inline-block;margin-top:12px;color:var(--copper);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-decoration:none">Ver en GitHub &rarr;</a>
     </div>
     <div class="security-card reveal">
