@@ -71,12 +71,12 @@ section{padding:120px 60px;position:relative}
 .step-number{font-family:'Bebas Neue';font-size:60px;color:rgba(184,115,51,0.15);line-height:1;margin-bottom:16px}
 .step-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:12px}
 .step-desc{font-size:13px;color:var(--text-dim);line-height:1.7}
-.download-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px}
-.download-card{background:var(--dark2);padding:48px 36px;display:flex;flex-direction:column;gap:20px;border:1px solid var(--gray);transition:all 0.3s;position:relative;overflow:hidden}
+.download-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:60px}
+.download-card{background:var(--dark2);padding:40px 28px;display:flex;flex-direction:column;gap:20px;border:1px solid var(--gray);transition:all 0.3s;position:relative;overflow:hidden}
 .download-card.featured{border-color:rgba(184,115,51,0.5);background:var(--dark3)}
 .download-card.featured::before{content:'RECOMENDADO';position:absolute;top:16px;right:-28px;background:var(--copper);color:var(--black);font-family:'Space Mono';font-size:8px;letter-spacing:2px;padding:4px 40px;transform:rotate(45deg)}
 .download-card:hover{transform:translateY(-4px);border-color:rgba(184,115,51,0.5)}
-.download-os{font-family:'Bebas Neue';font-size:40px;letter-spacing:3px;color:var(--text)}
+.download-os{font-family:'Bebas Neue';font-size:36px;letter-spacing:3px;color:var(--text)}
 .download-icon{font-size:32px}
 .download-desc{font-size:13px;color:var(--text-dim);line-height:1.7;flex:1}
 .download-specs{font-family:'Space Mono';font-size:10px;color:var(--text-muted);letter-spacing:1px}
@@ -243,21 +243,46 @@ document.addEventListener('keydown',e=>{
   <div class="section-label">Descarga</div>
   <h2 class="section-title reveal">Elige tu Plataforma</h2>
   <div class="download-grid">
-    <div class="download-card featured reveal"><div class="download-icon">🍎</div><div class="download-os">MacOS</div><div class="download-desc">Agente de mineria completo para Apple Silicon e Intel. Interfaz nativa con metricas de temperatura en tiempo real.</div><div class="download-specs">macOS 12+ &middot; Apple Silicon / Intel</div><a href="https://github.com/bitcoppertech-collab/bitcu-miner/releases/latest/download/bitcopper-mac.dmg" class="download-btn">Descargar .dmg</a></div>
-    <div class="download-card reveal"><div class="download-icon">🐧</div><div class="download-os">Linux</div><div class="download-desc">AppImage portable para cualquier distribucion. Sin instalacion, sin dependencias. Solo descarga y ejecuta.</div><div class="download-specs">Ubuntu, Fedora, Arch &middot; x64</div><a href="https://github.com/bitcoppertech-collab/bitcu-miner/releases/latest/download/bitcopper-linux.AppImage" class="download-btn">Descargar .AppImage</a></div>
-    <div class="download-card reveal"><div class="download-icon">📱</div><div class="download-os">iPhone</div><div class="download-desc">App movil via Expo Go. Mina desde tu iPhone usando el calor del procesador y la bateria como proxy termico.</div><div class="download-specs">iOS 15+ &middot; Requiere Expo Go</div><a href="https://github.com/bitcoppertech-collab/bitcopper-m3" class="download-btn">Ver Instrucciones</a></div>
+    <div class="download-card featured reveal">
+      <div class="download-icon">🍎</div>
+      <div class="download-os">MacOS Silicon</div>
+      <div class="download-desc">Agente de mineria para Apple Silicon (M1, M2, M3). Interfaz nativa con metricas de temperatura en tiempo real.</div>
+      <div class="download-specs">macOS 12+ &middot; Apple Silicon M1/M2/M3</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcu-miner-releases/releases/download/v1.0.0/BITCU.Miner-1.0.0-Silicon.dmg" class="download-btn">Descargar .dmg</a>
+    </div>
+    <div class="download-card reveal">
+      <div class="download-icon">🍎</div>
+      <div class="download-os">MacOS Intel</div>
+      <div class="download-desc">Agente de mineria para Mac con procesador Intel. Compatible con iMac, MacBook Pro y MacBook Air anteriores a 2021.</div>
+      <div class="download-specs">macOS 12+ &middot; Intel Core i5/i7/i9</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcu-miner-releases/releases/download/v1.0.0/BITCU.Miner-1.0.0-Intel.dmg" class="download-btn">Descargar .dmg Intel</a>
+    </div>
+    <div class="download-card reveal">
+      <div class="download-icon">🐧</div>
+      <div class="download-os">Linux</div>
+      <div class="download-desc">AppImage portable para cualquier distribucion. Sin instalacion, sin dependencias. Solo descarga y ejecuta.</div>
+      <div class="download-specs">Ubuntu, Fedora, Arch &middot; x64</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcu-miner-releases/releases/download/v1.0.0/BITCU.Miner-1.0.0-arm64.AppImage" class="download-btn">Descargar .AppImage</a>
+    </div>
+    <div class="download-card reveal">
+      <div class="download-icon">📱</div>
+      <div class="download-os">iPhone</div>
+      <div class="download-desc">App movil via Expo Go. Mina desde tu iPhone usando el calor del procesador y la bateria como proxy termico.</div>
+      <div class="download-specs">iOS 15+ &middot; Requiere Expo Go</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcopper-m3" class="download-btn">Ver Instrucciones</a>
+    </div>
   </div>
 </section>
 
 <section id="x402" style="background:var(--dark2)">
   <div class="section-label">Protocolo x402</div>
-  <h2 class="section-title reveal">IAs que Pagan con BITCU</h2>
-  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8;margin-bottom:48px">El protocolo x402 permite que agentes de IA autonomos paguen por recursos computacionales directamente en BITCU, sin intervencion humana.</p>
+  <h2 class="section-title reveal">IAs que Pagan<br>con BITCU</h2>
+  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8;margin-bottom:60px">El protocolo x402 permite que agentes de IA autonomos paguen por recursos computacionales directamente en BITCU, sin intervencion humana.</p>
   <div class="steps">
-    <div class="step reveal"><div class="step-number">01</div><div class="step-title">IA hace request</div><div class="step-desc">El agente solicita un recurso: inferencia, computo, almacenamiento o acceso a la API de mineria.</div></div>
-    <div class="step reveal"><div class="step-number">02</div><div class="step-title">Servidor responde 402</div><div class="step-desc">El servidor responde Payment Required con el precio en BITCU e instrucciones de pago via headers HTTP.</div></div>
-    <div class="step reveal"><div class="step-number">03</div><div class="step-title">IA paga en BITCU</div><div class="step-desc">La IA reenvía el request con x-bitcu-wallet y x-bitcu-payment. El servidor debita automaticamente.</div></div>
-    <div class="step reveal"><div class="step-number">04</div><div class="step-title">Recurso entregado</div><div class="step-desc">El servidor entrega el recurso. La IA pago con el calor de sus propios circuitos de cobre.</div></div>
+    <div class="step reveal"><div class="step-number">01</div><div class="step-title">IA hace request</div><div class="step-desc">El agente IA solicita un recurso: inferencia, computo, almacenamiento o acceso a la API de mineria.</div></div>
+    <div class="step reveal"><div class="step-number">02</div><div class="step-title">Servidor responde 402</div><div class="step-desc">El servidor responde Payment Required con el precio en BITCU y las instrucciones de pago via headers HTTP.</div></div>
+    <div class="step reveal"><div class="step-number">03</div><div class="step-title">IA paga en BITCU</div><div class="step-desc">La IA reenvía el request con x-bitcu-wallet y x-bitcu-payment. El servidor debita automaticamente de su balance.</div></div>
+    <div class="step reveal"><div class="step-number">04</div><div class="step-title">Recurso entregado</div><div class="step-desc">El servidor entrega el recurso solicitado. La IA pago con el calor de sus propios circuitos de cobre.</div></div>
   </div>
   <div style="margin-top:48px;background:var(--dark3);border-left:3px solid var(--copper);padding:24px 32px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text);max-width:600px">
     <div style="font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:12px">TARIFAS x402</div>
@@ -284,11 +309,15 @@ document.addEventListener('keydown',e=>{
         <div style="background:var(--dark3);padding:16px"><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:6px">1000 CLP =</div><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text)" id="rate-clp">---</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">BITCU</div></div>
       </div>
       <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:20px">Cobre LME: <span id="copper-price" style="color:var(--copper)">---</span> USD/ton</div>
+      <div style="margin-top:20px;background:var(--dark3);padding:16px;border-left:3px solid var(--copper)"><div style="font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:8px">DEPOSITO USDT EN POLYGON</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text);word-break:break-all">0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec</div><a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank" style="display:inline-block;margin-top:8px;color:var(--copper);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-decoration:none">Ver en Polygonscan →</a></div>
     </div>
     <div style="background:var(--dark2);padding:40px">
       <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">COBRE LME &mdash; HISTORICO 30 DIAS</div>
       <canvas id="copperChart"></canvas>
       <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:16px">Indexado a LME + variacion red Bitcopper</div>
+      <div style="margin-top:24px;text-align:center">
+        <a href="https://bitcu-server-production.up.railway.app/bridge/rate" target="_blank" class="btn-secondary" style="font-size:9px;padding:10px 20px">Ver Cotizacion en Vivo →</a>
+      </div>
     </div>
   </div>
 </section>
@@ -297,7 +326,7 @@ document.addEventListener('keydown',e=>{
   <div class="section-label"><span class="live-dot"></span>En Vivo</div>
   <h2 class="section-title reveal">Red Global en Tiempo Real</h2>
   <div class="dashboard-frame reveal">
-    <iframe src="https://bitcoppertech-collab.github.io/bitcu-network/dashboard.html" title="BITCU Network" loading="lazy"></iframe>
+    <iframe src="/bitcu/dashboard.html" style="width:100%;height:700px;border:none;display:block"></iframe>
   </div>
 </section>
 
@@ -306,23 +335,28 @@ document.addEventListener('keydown',e=>{
   <div class="whitepaper-inner">
     <div class="whitepaper-preview reveal">
       <div class="whitepaper-title">BITCOPPER</div>
-      <div class="whitepaper-subtitle">PROOF OF HEAT PROTOCOL &mdash; WHITEPAPER v1.0</div>
+      <div class="whitepaper-subtitle">EL PATRON COBRE &mdash; WHITEPAPER v3.0 &mdash; SISTEMA BICAPA BITCU / CUPR</div>
       <ul class="whitepaper-toc">
-        <li><span>01</span><span>El Bloque Genesis y el Creador</span></li>
-        <li><span>02</span><span>BITCU como Real World Asset (RWA)</span></li>
-        <li><span>03</span><span>Fundamentos Fisicos</span></li>
-        <li><span>04</span><span>Protocolo Proof of Heat</span></li>
-        <li><span>05</span><span>Seguridad y Resistencia Cuantica</span></li>
-        <li><span>06</span><span>El Libro Mayor Fisico</span></li>
-        <li><span>07</span><span>Arquitectura del Sistema</span></li>
-        <li><span>08</span><span>Hoja de Ruta 2026-2028</span></li>
+        <li><span>01</span><span>El Problema Fundamental del Dinero Digital</span></li>
+        <li><span>02</span><span>Capa 0 &mdash; El Cobre Fisico (LME)</span></li>
+        <li><span>03</span><span>Capa 1 &mdash; BITCU: El Mineral Digital</span></li>
+        <li><span>3.1</span><span>Proof of Heat &mdash; Protocolo de Consenso</span></li>
+        <li><span>3.2</span><span>TAL &mdash; Thermodynamic Abstraction Layer</span></li>
+        <li><span>3.3</span><span>Patron Cobre &mdash; Sistema Bicapa BITCU / CUPR</span></li>
+        <li><span>04</span><span>Capa 2 &mdash; CUPR: La Reserva Soberana (29M)</span></li>
+        <li><span>05</span><span>El Patron Cobre &mdash; Arquitectura Completa</span></li>
+        <li><span>06</span><span>Protocolo x402 &mdash; La Economia de las IAs</span></li>
+        <li><span>07</span><span>Puente de Liquidez BITCU &harr; USDT / BTC / ETH / CLP</span></li>
+        <li><span>08</span><span>Seguridad &mdash; TAL + Post-Cuantica + Satelital</span></li>
+        <li><span>09</span><span>Marco Legal &mdash; SpA Chile + LLC Wyoming</span></li>
+        <li><span>10</span><span>Hoja de Ruta 2026-2030</span></li>
       </ul>
     </div>
     <div class="whitepaper-cta reveal">
       <h3>Profundiza en el Protocolo</h3>
       <p>El whitepaper tecnico cubre los fundamentos fisicos, el protocolo de consenso, los mecanismos de seguridad cuantica y la vision a largo plazo.</p>
-      <p style="font-family:'Space Mono',monospace;font-size:11px;color:var(--copper);letter-spacing:2px">10 secciones &middot; Ecuaciones fisicas &middot; Referencias academicas</p>
-      <a href="https://github.com/bitcoppertech-collab/bitcu-miner/releases" class="btn-primary" style="width:fit-content">Descargar Whitepaper</a>
+      <p style="font-family:'Space Mono',monospace;font-size:11px;color:var(--copper);letter-spacing:2px">10 secciones &middot; TAL &middot; Patron Cobre &middot; Sistema Bicapa BITCU/CUPR &middot; x402 &middot; Puente LME &middot; Resistencia Cuantica &middot; 29M CUPR</p>
+      <a href="https://github.com/bitcoppertech-collab/bitcu-miner/releases/download/v3-0/bitcopper-whitepaper-v3.pdf" class="btn-primary" style="width:fit-content">Descargar Whitepaper</a>
       <a href="https://github.com/bitcoppertech-collab/bitcu-miner" class="btn-secondary" style="width:fit-content">Ver en GitHub</a>
     </div>
   </div>
@@ -341,8 +375,8 @@ document.addEventListener('keydown',e=>{
     <div class="security-card reveal">
       <div class="security-number">// 02</div>
       <div class="security-title">Codigo Auditable</div>
-      <div class="security-desc">Todo el codigo fuente esta disponible en GitHub bajo la organizacion bitcoppertech-collab. El servidor, el agente de mineria y la app movil son auditables por cualquier desarrollador.</div>
-      <span class="security-tag">OPEN SOURCE</span>
+      <div class="security-desc">El codigo fuente es propietario de Pedro Ramos Morales y Bitcopper Technologies LLC. Licencias comerciales disponibles bajo solicitud formal.</div>
+      <span class="security-tag">CODIGO PROPIETARIO</span>
       <br><a href="https://github.com/bitcoppertech-collab" target="_blank" style="display:inline-block;margin-top:12px;color:var(--copper);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-decoration:none">Ver en GitHub &rarr;</a>
     </div>
     <div class="security-card reveal">
@@ -353,10 +387,10 @@ document.addEventListener('keydown',e=>{
     </div>
   </div>
   <div style="margin-top:48px;background:var(--dark2);border-left:3px solid var(--copper);padding:24px 32px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text-dim);max-width:800px;line-height:1.8">
-    <div style="font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:12px">AVISO IMPORTANTE</div>
-    BITCU es una moneda digital experimental en fase de desarrollo. No inviertas fondos que no puedas permitirte perder.
-    El puente USDT/BTC/ETH/CLP es una simulacion del protocolo y no maneja fondos reales en esta etapa.
-    La mineria Proof of Heat es gratuita, solo necesitas tu procesador.
+    <div style="font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:12px">AVISO DE RED</div>
+    La red Bitcopper est&aacute; en operaci&oacute;n &mdash; bloques, recompensas e identidades t&eacute;rmicas son registros reales de la cadena. <span style="background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);color:#2ECC71;font-size:9px;padding:2px 8px;letter-spacing:2px;margin-left:4px">EN VIVO</span><br>
+    El puente USDT/BTC/ETH/CLP es una simulaci&oacute;n del protocolo x402 y no maneja fondos reales en esta etapa. <span style="background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.2);color:#ffd700;font-size:9px;padding:2px 8px;letter-spacing:2px;margin-left:4px">SIMULADO</span><br>
+    La miner&iacute;a Proof of Heat es gratuita, solo necesitas tu procesador y una identidad t&eacute;rmica sellada. Este software es propiedad de Bitcopper Tech SpA. <span style="background:rgba(184,115,51,0.1);border:1px solid rgba(184,115,51,0.3);color:#B87333;font-size:9px;padding:2px 8px;letter-spacing:2px;margin-left:4px">&copy; BITCOPPER TECH SPA</span>
   </div>
 </section>
 
@@ -416,13 +450,19 @@ async function fetchBridge(){
   try{
     const r=await fetch('https://bitcu-server-production.up.railway.app/bridge/rate');
     const d=await r.json();
-    document.getElementById('bitcu-price').textContent='$'+parseFloat(d.bitcu_usd).toFixed(4);
-    document.getElementById('rate-usdt').textContent=d.rates.USDT.bitcu_per_1;
-    document.getElementById('rate-btc').textContent=parseFloat(d.rates.BTC.bitcu_per_1).toFixed(2);
-    document.getElementById('rate-eth').textContent=parseFloat(d.rates.ETH.bitcu_per_1).toFixed(2);
-    document.getElementById('rate-clp').textContent=(parseFloat(d.rates.CLP.bitcu_per_1)*1000).toFixed(6);
-    document.getElementById('copper-price').textContent=d.copper_lme.usd_per_ton;
-  }catch(e){}
+    const usd = d.bitcu_price?.usd || d.bitcu_usd || 0;
+    const usdt = d.exchange_rates?.USDT?.bitcu_per_unit || d.rates?.USDT?.bitcu_per_1 || 0;
+    const btc  = d.exchange_rates?.BTC?.bitcu_per_unit  || d.rates?.BTC?.bitcu_per_1  || 0;
+    const eth  = d.exchange_rates?.ETH?.bitcu_per_unit  || d.rates?.ETH?.bitcu_per_1  || 0;
+    const clp  = d.exchange_rates?.CLP?.bitcu_per_unit  || d.rates?.CLP?.bitcu_per_1  || 0;
+    const copper = d.copper_lme?.usd_per_ton || 0;
+    document.getElementById('bitcu-price').textContent='$'+parseFloat(usd).toFixed(4);
+    document.getElementById('rate-usdt').textContent=parseFloat(usdt).toFixed(4);
+    document.getElementById('rate-btc').textContent=parseFloat(btc).toFixed(2);
+    document.getElementById('rate-eth').textContent=parseFloat(eth).toFixed(2);
+    document.getElementById('rate-clp').textContent=(parseFloat(clp)*1000).toFixed(6);
+    document.getElementById('copper-price').textContent=parseFloat(copper).toFixed(2);
+  }catch(e){console.error('Bridge error:',e);}
 }
 fetchBridge();setInterval(fetchBridge,30000);
 
