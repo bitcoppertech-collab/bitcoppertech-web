@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLPT — La Primera Stablecoin Soberana de Latinoamérica · Bitcopper</title>
+<meta name="description" content="CLPT es el peso chileno digital. 1 CLPT = $1 CLP. La primera stablecoin soberana de Latinoamérica, respaldada por reserva real y construida sobre Bitcopper.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+:root {
+  --bg:     #030608;
+  --panel:  #070c10;
+  --panel2: #0b1520;
+  --border: #102030;
+  --red:    #c0392b;
+  --red2:   #e74c3c;
+  --blue:   #1a5276;
+  --blue2:  #2e86c1;
+  --gold:   #c8903a;
+  --gold2:  #e8b060;
+  --copper: #b87333;
+  --green:  #00e87a;
+  --white:  #eef4ff;
+  --dim:    #2a4060;
+  --mono:   'Share Tech Mono', monospace;
+  --disp:   'Bebas Neue', cursive;
+  --serif:  'Crimson Pro', Georgia, serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* Bandera chile sutil en background */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse at 15% 25%, rgba(192,57,43,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 75%, rgba(26,82,118,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(184,115,51,0.03) 0%, transparent 40%);
+  pointer-events:none;z-index:0;
+}
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(192,57,43,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,82,118,0.015) 1px, transparent 1px);
+  background-size:56px 56px;
+  pointer-events:none;z-index:0;
+}
+
+.wrap{position:relative;z-index:1;}
+
+/* ── NAV ─────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:60px;
+  background:rgba(3,6,8,0.95);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(16px);
+}
+.nav-logo{
+  font-family:var(--disp);font-size:1.2rem;letter-spacing:5px;
+  background:linear-gradient(90deg,var(--copper),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-decoration:none;
+}
+.nav-links{display:flex;gap:22px;align-items:center;}
+.nav-links a{
+  font-family:var(--mono);font-size:0.6rem;letter-spacing:2px;
+  color:var(--dim);text-decoration:none;transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--gold2);}
+.nav-links a.active{color:var(--gold2);}
+.nav-flag{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:0.6rem;letter-spacing:2px;
+  padding:5px 12px;border-radius:20px;
+  border:1px solid rgba(192,57,43,0.3);
+  color:rgba(232,176,96,0.8);text-decoration:none;
+}
+
+/* ── HERO ────────────────────────────────────────── */
+.hero{
+  min-height:100vh;
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding:100px 80px 60px;
+  gap:60px;
+  position:relative;overflow:hidden;
+}
+
+/* Giant peso sign */
+.hero::before{
+  content:'$';
+  position:absolute;
+  font-family:var(--disp);
+  font-size:60vw;line-height:1;
+  color:rgba(192,57,43,0.025);
+  right:-8vw;top:50%;
+  transform:translateY(-50%);
+  pointer-events:none;
+}
+
+.eyebrow{
+  font-family:var(--mono);font-size:0.62rem;letter-spacing:5px;
+  color:var(--red2);margin-bottom:20px;
+  display:flex;align-items:center;gap:12px;
+}
+.eyebrow::before{content:'';width:28px;height:1px;background:var(--red2);}
+
+.hero h1{
+  font-family:var(--disp);
+  font-size:clamp(4.5rem,10vw,8rem);
+  line-height:0.88;letter-spacing:8px;
+  background:linear-gradient(150deg, #c0392b 0%, #e74c3c 35%, var(--gold2) 70%, #2e86c1 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:8px;
+  animation:fadeUp 0.7s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+.hero-sub{
+  font-family:var(--disp);font-size:clamp(1.2rem,3vw,2.2rem);
+  letter-spacing:5px;color:var(--dim);margin-bottom:28px;
+  animation:fadeUp 0.7s 0.08s ease both;
+}
+
+.parity-badge{
+  display:inline-flex;align-items:center;gap:16px;
+  background:rgba(192,57,43,0.08);
+  border:1px solid rgba(192,57,43,0.25);
+  border-radius:10px;padding:14px 22px;
+  margin-bottom:28px;
+  animation:fadeUp 0.7s 0.12s ease both;
+}
+.parity-left{font-family:var(--disp);font-size:1.8rem;color:var(--gold2);letter-spacing:3px;}
+.parity-eq{font-family:var(--mono);font-size:1.2rem;color:var(--dim);}
+.parity-right{font-family:var(--disp);font-size:1.8rem;color:var(--red2);letter-spacing:2px;}
+.parity-sub{font-family:var(--mono);font-size:0.56rem;color:var(--dim);letter-spacing:2px;}
+
+.hero-desc{
+  font-size:1.08rem;color:rgba(238,244,255,0.65);
+  line-height:1.8;max-width:520px;
+  margin-bottom:36px;font-style:italic;
+  animation:fadeUp 0.7s 0.16s ease both;
+}
+
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp 0.7s 0.22s ease both;}
+
+.btn-chile{
+  font-family:var(--mono);font-size:0.65rem;letter-spacing:3px;
+  padding:13px 28px;
+  background:linear-gradient(135deg, var(--red), var(--red2));
+  color:white;border:none;border-radius:4px;
+  cursor:pointer;text-decoration:none;display:inline-block;
+  transition:all 0.25s;
+  box-shadow:0 0 24px rgba(192,57,43,0.4);
+}
+.btn-chile:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(192,57,43,0.6);}
+.btn-blue{
+  font-family:var(--mono);font-size:0.65rem;letter-spacing:3px;
+  padding:12px 28px;background:transparent;
+  color:#5ba3d0;border:1px solid rgba(46,134,193,0.4);
+  border-radius:4px;cursor:pointer;
+  text-decoration:none;display:inline-block;transition:all 0.25s;
+}
+.btn-blue:hover{background:rgba(46,134,193,0.08);}
+.btn-gold{
+  font-family:var(--mono);font-size:0.65rem;letter-spacing:3px;
+  padding:12px 28px;background:transparent;
+  color:var(--gold2);border:1px solid rgba(200,144,58,0.4);
+  border-radius:4px;cursor:pointer;
+  text-decoration:none;display:inline-block;transition:all 0.25s;
+}
+.btn-gold:hover{background:rgba(200,144,58,0.08);}
+
+/* Hero right — coin visual */
+.hero-right{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  animation:fadeUp 0.7s 0.1s ease both;
+}
+
+.coin-stack{
+  position:relative;width:380px;height:380px;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* Chile flag rings */
+.flag-ring{
+  position:absolute;border-radius:50%;
+  animation:spinRing linear infinite;
+}
+.fr1{width:460px;height:460px;border:2px solid rgba(192,57,43,0.12);animation-duration:25s;}
+.fr2{width:520px;height:520px;border:1px solid rgba(46,134,193,0.08);animation-duration:40s;animation-direction:reverse;}
+.fr3{width:400px;height:400px;border:1px solid rgba(200,144,58,0.1);animation-duration:18s;}
+@keyframes spinRing{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+.fr1::before,.fr2::before{
+  content:'';position:absolute;
+  width:10px;height:10px;border-radius:50%;
+  top:-5px;left:50%;transform:translateX(-50%);
+}
+.fr1::before{background:var(--red2);box-shadow:0 0 10px var(--red2);}
+.fr2::before{background:var(--blue2);box-shadow:0 0 10px var(--blue2);}
+
+.coin-main{
+  width:300px;height:300px;border-radius:50%;
+  background:conic-gradient(from 0deg,
+    #c0392b 0deg 120deg,
+    #f0f0f0 120deg 124deg,
+    #c0392b 124deg 180deg,
+    #1a5276 180deg 360deg
+  );
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:2;
+  animation:coinFloat 5s ease-in-out infinite;
+  box-shadow:
+    0 0 50px rgba(192,57,43,0.35),
+    0 0 100px rgba(26,82,118,0.2),
+    inset 0 0 30px rgba(0,0,0,0.5);
+}
+@keyframes coinFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-14px) rotate(1deg)}}
+
+.coin-inner{
+  width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #1a3a5c, #0d1a2a);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;
+  box-shadow:inset 0 0 20px rgba(0,0,0,0.6);
+}
+.coin-symbol{font-family:var(--disp);font-size:3rem;letter-spacing:4px;color:var(--gold2);line-height:1;}
+.coin-peso{font-family:var(--mono);font-size:0.65rem;color:var(--dim);letter-spacing:3px;}
+.coin-star{font-size:1.2rem;color:var(--red2);}
+
+.coin-glow{
+  position:absolute;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle, rgba(192,57,43,0.15) 0%, transparent 70%);
+  animation:glowPulse 3s ease-in-out infinite;
+  z-index:1;
+}
+@keyframes glowPulse{0%,100%{opacity:0.6;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+
+/* Data chips */
+.dchip{
+  position:absolute;
+  background:rgba(7,12,16,0.96);
+  border:1px solid var(--border);
+  border-radius:8px;padding:10px 14px;
+  font-family:var(--mono);font-size:0.58rem;
+  z-index:10;backdrop-filter:blur(8px);
+  animation:chipFloat ease-in-out infinite;
+}
+.c1{top:30px;right:-10px;animation-duration:4s;}
+.c2{bottom:50px;left:-20px;animation-duration:5.5s;animation-delay:1s;}
+.c3{top:150px;left:-40px;animation-duration:6s;animation-delay:0.5s;}
+@keyframes chipFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.cv{color:var(--gold2);font-size:0.82rem;margin-bottom:2px;}
+.cl{color:var(--dim);font-size:0.52rem;letter-spacing:2px;}
+
+/* ── STATS BAR ───────────────────────────────────── */
+.stats-bar{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--border);border-radius:12px;overflow:hidden;
+  margin:0 80px;
+}
+.sitem{
+  background:var(--panel);
+  padding:26px 24px;
+  border-right:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.sitem:last-child{border-right:none;}
+.sitem::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.sitem:nth-child(1)::before{background:linear-gradient(90deg,var(--red),transparent);}
+.sitem:nth-child(2)::before{background:linear-gradient(90deg,var(--blue2),transparent);}
+.sitem:nth-child(3)::before{background:linear-gradient(90deg,var(--gold),transparent);}
+.sitem:nth-child(4)::before{background:linear-gradient(90deg,var(--green),transparent);}
+.sv{font-family:var(--disp);font-size:2.2rem;letter-spacing:2px;line-height:1;}
+.sitem:nth-child(1) .sv{color:var(--red2);}
+.sitem:nth-child(2) .sv{color:#5ba3d0;}
+.sitem:nth-child(3) .sv{color:var(--gold2);}
+.sitem:nth-child(4) .sv{color:var(--green);}
+.sl{font-family:var(--mono);font-size:0.56rem;color:var(--dim);letter-spacing:2px;margin-top:6px;}
+
+/* ── SECTION SHARED ──────────────────────────────── */
+section{padding:90px 80px;}
+section:nth-child(even){background:rgba(8,14,20,0.5);}
+
+.sec-label{
+  font-family:var(--mono);font-size:0.6rem;letter-spacing:5px;
+  color:var(--dim);margin-bottom:12px;
+  display:flex;align-items:center;gap:12px;
+}
+.sec-label::before{content:'';width:24px;height:1px;background:var(--red2);}
+
+.sec-title{
+  font-family:var(--disp);
+  font-size:clamp(2.5rem,5vw,4rem);
+  letter-spacing:4px;line-height:1;
+  margin-bottom:16px;
+}
+.sec-title.red{background:linear-gradient(135deg,var(--red),var(--red2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sec-title.blue{background:linear-gradient(135deg,var(--blue2),#5ba3d0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sec-title.gold{background:linear-gradient(135deg,var(--copper),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+
+.sec-desc{
+  font-size:1.05rem;color:rgba(238,244,255,0.65);
+  max-width:640px;line-height:1.8;margin-bottom:48px;
+}
+
+/* ── PARIDAD ─────────────────────────────────────── */
+.paridad-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.paridad-text p{font-size:1.05rem;color:rgba(238,244,255,0.72);line-height:1.85;margin-bottom:18px;}
+.paridad-text strong{color:var(--gold2);}
+.paridad-text em{color:var(--red2);}
+
+.formula-box{
+  background:var(--panel);border:1px solid var(--border);
+  border-left:3px solid var(--red);
+  border-radius:8px;padding:20px 22px;
+  font-family:var(--mono);font-size:0.75rem;
+  line-height:1.9;color:var(--gold2);margin-top:24px;
+}
+.formula-box .ft{color:var(--dim);font-size:0.56rem;letter-spacing:3px;margin-bottom:8px;}
+
+.mech-cards{display:flex;flex-direction:column;gap:12px;}
+.mcard{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:10px;padding:18px 20px;
+  display:flex;gap:16px;align-items:flex-start;
+  transition:border-color 0.25s,transform 0.25s;
+}
+.mcard:hover{border-color:var(--red);transform:translateX(4px);}
+.mcard-icon{
+  font-size:1.3rem;width:42px;height:42px;
+  background:rgba(192,57,43,0.1);
+  border:1px solid rgba(192,57,43,0.2);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.mcard-title{font-family:var(--mono);font-size:0.63rem;letter-spacing:2px;color:var(--gold2);margin-bottom:4px;}
+.mcard-body{font-size:0.9rem;color:rgba(238,244,255,0.62);line-height:1.55;}
+
+/* ── LATAM MAP ───────────────────────────────────── */
+.latam-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.token-cards{display:flex;flex-direction:column;gap:10px;}
+.tcard{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:10px;padding:16px 20px;
+  display:flex;justify-content:space-between;align-items:center;
+  transition:border-color 0.3s,transform 0.3s;
+}
+.tcard:hover{transform:translateX(4px);}
+.tcard.active{border-color:var(--red2);background:rgba(192,57,43,0.06);}
+.tcard.active:hover{border-color:var(--red);}
+.tcard.soon{border-color:rgba(46,134,193,0.25);}
+.tcard.soon:hover{border-color:var(--blue2);}
+.tcard.future{opacity:0.5;}
+.tc-left{display:flex;align-items:center;gap:14px;}
+.tc-flag{font-size:1.6rem;}
+.tc-name{font-family:var(--disp);font-size:1.2rem;letter-spacing:3px;}
+.tcard.active .tc-name{color:var(--red2);}
+.tcard.soon .tc-name{color:#5ba3d0;}
+.tcard.future .tc-name{color:var(--dim);}
+.tc-currency{font-family:var(--mono);font-size:0.6rem;color:var(--dim);letter-spacing:1px;margin-top:2px;}
+.tc-badge{
+  font-family:var(--mono);font-size:0.56rem;letter-spacing:2px;
+  padding:4px 10px;border-radius:12px;
+}
+.badge-live{background:rgba(192,57,43,0.15);color:var(--red2);border:1px solid rgba(192,57,43,0.3);}
+.badge-soon{background:rgba(46,134,193,0.12);color:#5ba3d0;border:1px solid rgba(46,134,193,0.25);}
+.badge-future{background:rgba(42,64,96,0.3);color:var(--dim);border:1px solid var(--border);}
+
+.latam-text p{font-size:1.05rem;color:rgba(238,244,255,0.72);line-height:1.85;margin-bottom:18px;}
+.latam-text strong{color:var(--gold2);}
+.market-stat{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:10px;padding:20px;margin-top:8px;
+}
+.ms-val{font-family:var(--disp);font-size:2.8rem;color:var(--red2);letter-spacing:2px;line-height:1;}
+.ms-label{font-family:var(--mono);font-size:0.58rem;color:var(--dim);letter-spacing:2px;margin-top:4px;}
+
+/* ── ARQUITECTURA ────────────────────────────────── */
+.arch-flow{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  position:relative;
+}
+.aflow-item{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:12px;padding:24px 20px;
+  text-align:center;position:relative;
+}
+.aflow-item:nth-child(1){border-top:2px solid var(--copper);}
+.aflow-item:nth-child(2){border-top:2px solid var(--red2);}
+.aflow-item:nth-child(3){border-top:2px solid #5ba3d0;}
+.aflow-num{
+  font-family:var(--disp);font-size:3rem;
+  opacity:0.1;position:absolute;top:8px;right:14px;
+}
+.aflow-icon{font-size:1.8rem;margin-bottom:12px;}
+.aflow-title{font-family:var(--mono);font-size:0.65rem;letter-spacing:2px;margin-bottom:10px;}
+.aflow-item:nth-child(1) .aflow-title{color:var(--copper);}
+.aflow-item:nth-child(2) .aflow-title{color:var(--red2);}
+.aflow-item:nth-child(3) .aflow-title{color:#5ba3d0;}
+.aflow-body{font-size:0.9rem;color:rgba(238,244,255,0.6);line-height:1.6;}
+
+/* ── COMO CONSEGUIR ──────────────────────────────── */
+.steps-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+.steps-flow::before{
+  content:'';position:absolute;
+  top:36px;left:calc(12.5% + 18px);right:calc(12.5% + 18px);
+  height:1px;
+  background:linear-gradient(90deg,var(--red),var(--gold),var(--blue2),var(--green));
+}
+.fstep{text-align:center;padding:0 14px;}
+.fstep-num{
+  width:52px;height:52px;border-radius:50%;
+  font-family:var(--disp);font-size:1.4rem;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;position:relative;z-index:1;
+}
+.fstep:nth-child(1) .fstep-num{background:rgba(192,57,43,0.15);border:1px solid var(--red);color:var(--red2);}
+.fstep:nth-child(2) .fstep-num{background:rgba(200,144,58,0.15);border:1px solid var(--gold);color:var(--gold2);}
+.fstep:nth-child(3) .fstep-num{background:rgba(46,134,193,0.15);border:1px solid var(--blue2);color:#5ba3d0;}
+.fstep:nth-child(4) .fstep-num{background:rgba(0,232,122,0.12);border:1px solid var(--green);color:var(--green);}
+.fstep-title{font-family:var(--mono);font-size:0.63rem;letter-spacing:2px;color:var(--white);margin-bottom:8px;}
+.fstep-body{font-size:0.88rem;color:rgba(238,244,255,0.6);line-height:1.6;}
+
+/* ── CONVERTER ───────────────────────────────────── */
+.converter-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;
+}
+.converter-box{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:14px;padding:28px;
+}
+.conv-title{font-family:var(--mono);font-size:0.6rem;letter-spacing:3px;color:var(--dim);margin-bottom:20px;}
+.conv-input-wrap{position:relative;margin-bottom:16px;}
+.conv-currency{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  font-family:var(--disp);font-size:1.3rem;color:var(--red2);letter-spacing:2px;
+}
+.conv-input{
+  width:100%;background:#020507;
+  border:1px solid var(--border);border-radius:8px;
+  padding:16px 16px 16px 80px;
+  font-family:var(--disp);font-size:1.8rem;
+  color:var(--gold2);outline:none;letter-spacing:2px;
+  transition:border-color 0.2s;
+}
+.conv-input:focus{border-color:var(--red);}
+.conv-arrow{
+  text-align:center;padding:8px 0;
+  font-family:var(--mono);font-size:0.7rem;color:var(--dim);
+}
+.conv-result{
+  background:rgba(0,0,0,0.3);border:1px solid rgba(192,57,43,0.2);
+  border-radius:8px;padding:16px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.conv-result-label{font-family:var(--mono);font-size:0.58rem;color:var(--dim);letter-spacing:2px;}
+.conv-result-val{font-family:var(--disp);font-size:1.8rem;color:var(--red2);letter-spacing:2px;}
+.conv-rate-note{font-family:var(--mono);font-size:0.58rem;color:var(--dim);margin-top:12px;text-align:center;}
+
+.converter-right{display:flex;flex-direction:column;gap:12px;}
+.cinfo{
+  background:var(--panel);border:1px solid var(--border);border-radius:10px;
+  padding:16px 18px;display:flex;justify-content:space-between;align-items:center;
+}
+.ci-label{font-family:var(--mono);font-size:0.58rem;letter-spacing:2px;color:var(--dim);}
+.ci-val{font-family:var(--disp);font-size:1.2rem;color:var(--gold2);letter-spacing:2px;}
+
+/* ── AVISO LEGAL ─────────────────────────────────── */
+.aviso{
+  background:rgba(192,57,43,0.04);
+  border:1px solid rgba(192,57,43,0.12);
+  border-radius:10px;padding:20px 24px;
+  font-family:var(--mono);font-size:0.63rem;letter-spacing:1px;
+  color:rgba(238,244,255,0.5);line-height:1.7;
+  margin:0 80px;
+}
+.aviso strong{color:rgba(232,100,80,0.8);}
+
+/* ── FOOTER ──────────────────────────────────────── */
+footer{
+  padding:48px 80px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:20px;
+}
+.footer-brand{font-family:var(--disp);font-size:1.5rem;letter-spacing:5px;color:var(--copper);}
+.footer-links{display:flex;gap:22px;}
+.footer-links a{font-family:var(--mono);font-size:0.58rem;color:var(--dim);text-decoration:none;letter-spacing:2px;transition:color 0.2s;}
+.footer-links a:hover{color:var(--gold2);}
+.footer-copy{font-family:var(--mono);font-size:0.56rem;color:var(--dim);letter-spacing:1px;}
+.footer-motto{font-family:var(--serif);font-style:italic;color:rgba(192,57,43,0.4);font-size:0.9rem;}
+
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 80px;}
+
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;padding:100px 24px 48px;}
+  .hero-right{display:none;}
+  .stats-bar{grid-template-columns:repeat(2,1fr);margin:0 24px;}
+  section{padding:60px 24px;}
+  .paridad-grid,.latam-grid,.arch-flow,.converter-wrap{grid-template-columns:1fr;}
+  .steps-flow{grid-template-columns:repeat(2,1fr);gap:24px;}
+  .steps-flow::before{display:none;}
+  .aviso{margin:0 24px;}
+  footer{padding:32px 24px;flex-direction:column;align-items:flex-start;}
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- NAV -->
+<nav>
+  <a href="/bitcu" class="nav-logo">BITCOPPER</a>
+  <div class="nav-links">
+    <a href="/bitcu">BITCU</a>
+    <a href="/cupr">CUPR</a>
+    <a href="#paridad">PARIDAD</a>
+    <a href="#latam">LATINOAMÉRICA</a>
+    <a href="#como">¿CÓMO FUNCIONA?</a>
+    <a href="#convertir">CONVERTIR</a>
+    <a href="/bitcu#whitepaper">WHITEPAPER</a>
+    <a href="#" class="nav-flag">🇨🇱 CHILE FIRST</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="eyebrow">PESO CHILENO DIGITAL · PARIDAD 1:1 · POLYGON</div>
+    <h1>CLPT</h1>
+    <div class="hero-sub">CHILEAN PESO TOKEN</div>
+
+    <div class="parity-badge">
+      <div>
+        <div class="parity-left">1 CLPT</div>
+        <div class="parity-sub">TOKEN DIGITAL</div>
+      </div>
+      <div class="parity-eq">=</div>
+      <div>
+        <div class="parity-right">$1 CLP</div>
+        <div class="parity-sub">PESO CHILENO REAL</div>
+      </div>
+    </div>
+
+    <p class="hero-desc">
+      La primera stablecoin soberana de Latinoamérica. Sin banco central extranjero, sin vigilancia estatal.
+      Respaldada por reserva real auditada. <em>Del pueblo chileno, para el pueblo latinoamericano.</em>
+    </p>
+
+    <div class="hero-btns">
+      <a href="#convertir" class="btn-chile">CONVERTIR CLP → CLPT</a>
+      <a href="#como" class="btn-blue">¿CÓMO FUNCIONA?</a>
+      <a href="/bitcu#whitepaper" class="btn-gold">WHITEPAPER</a>
+    </div>
+  </div>
+
+  <!-- Coin -->
+  <div class="hero-right">
+    <div class="coin-stack">
+      <div class="flag-ring fr1"></div>
+      <div class="flag-ring fr2"></div>
+      <div class="flag-ring fr3"></div>
+      <div class="coin-glow"></div>
+      <div class="coin-main">
+        <div class="coin-inner">
+          <div class="coin-star">★</div>
+          <div class="coin-symbol">CLPT</div>
+          <div class="coin-peso">PESO DIGITAL · 1:1 CLP</div>
+        </div>
+      </div>
+      <!-- Data chips -->
+      <div class="dchip c1"><div class="cv">1:1</div><div class="cl">PARIDAD CLP</div></div>
+      <div class="dchip c2"><div class="cv">POLYGON</div><div class="cl">RED ERC-20</div></div>
+      <div class="dchip c3"><div class="cv">$100M</div><div class="cl">META RESERVA</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="sitem"><div class="sv">1:1</div><div class="sl">PARIDAD FIJA CLP</div></div>
+  <div class="sitem"><div class="sv">POLYGON</div><div class="sl">RED BLOCKCHAIN</div></div>
+  <div class="sitem"><div class="sv">$100M</div><div class="sl">META RESERVA USD</div></div>
+  <div class="sitem"><div class="sv">6</div><div class="sl">PAÍSES LATAM FASE 3</div></div>
+</div>
+
+<div style="height:80px"></div>
+<div class="divider"></div>
+
+<!-- PARIDAD -->
+<section id="paridad">
+  <div class="sec-label">// 01 · MECANISMO</div>
+  <div class="sec-title red">PARIDAD 1:1</div>
+  <p class="sec-desc">Por cada CLPT emitido existe exactamente $1 CLP en reserva auditada. La paridad es inviolable por diseño del contrato inteligente.</p>
+
+  <div class="paridad-grid">
+    <div class="paridad-text">
+      <p>CLPT no es una promesa — es <strong>matemática verificable on-chain</strong>. El contrato inteligente en Polygon verifica en tiempo real que el total de tokens circulantes nunca supera el CLP en reserva certificada.</p>
+      <p>A diferencia del CBDC del Banco Central de Chile, CLPT <em>no puede ser censurado</em>. Ningún gobierno puede congelar tu wallet, bloquear tu transacción ni rastrear tus compras sin tu consentimiento.</p>
+      <p>La reserva es custodiada en instrumentos regulados bajo supervisión de la CMF y auditada trimestralmente por firma certificada. Cada auditoría es pública y publicada on-chain.</p>
+
+      <div class="formula-box">
+        <div class="ft">CONTRATO DE PARIDAD — INVARIANTE PERMANENTE</div>
+        totalCLPT_circulante ≤ reserva_CLP_auditada<br><br>
+        mint(amount): require(reserva_verificada ≥ totalSupply + amount)<br>
+        burn(amount): libera amount CLP a cuenta_bancaria_usuario<br><br>
+        Auditoría on-chain cada: 90 días<br>
+        Oráculo de reserva: Chainlink + firma auditora CMF
+      </div>
+    </div>
+
+    <div class="mech-cards">
+      <div class="mcard"><div class="mcard-icon">💰</div>
+        <div><div class="mcard-title">DEPÓSITO CLP → EMISIÓN CLPT</div>
+        <div class="mcard-body">Depositas $1.000 CLP → el sistema emite 1.000 CLPT a tu wallet automáticamente. Proceso verificado por oráculo.</div></div>
+      </div>
+      <div class="mcard"><div class="mcard-icon">🔥</div>
+        <div><div class="mcard-title">RETIRO CLPT → QUEMA</div>
+        <div class="mcard-body">Envías 1.000 CLPT al contrato → se queman y liberan $1.000 CLP a tu cuenta bancaria. Sin intermediarios.</div></div>
+      </div>
+      <div class="mcard"><div class="mcard-icon">🔍</div>
+        <div><div class="mcard-title">AUDITORÍA PÚBLICA</div>
+        <div class="mcard-body">Cada 90 días una firma certificada verifica reserva CLP = CLPT circulante. Reporte publicado en Polygon y sitio web.</div></div>
+      </div>
+      <div class="mcard"><div class="mcard-icon">🛡</div>
+        <div><div class="mcard-title">SIN CBDC · SIN VIGILANCIA</div>
+        <div class="mcard-body">Tu wallet CLPT es tuya. Sin rastreo estatal. Sin bloqueo arbitrario. Sin permiso del banco central para usarla.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LATAM -->
+<section id="latam" style="background:rgba(8,14,20,0.5)">
+  <div class="sec-label">// 02 · VISIÓN</div>
+  <div class="sec-title blue">LATINOAMÉRICA PRIMERO</div>
+  <p class="sec-desc">CLPT es el primer token de una familia de stablecoins soberanas latinoamericanas. La misma infraestructura, 6 países, 650 millones de personas.</p>
+
+  <div class="latam-grid">
+    <div class="token-cards">
+      <div class="tcard active">
+        <div class="tc-left">
+          <div class="tc-flag">🇨🇱</div>
+          <div><div class="tc-name">CLPT</div><div class="tc-currency">Peso Chileno · CLP</div></div>
+        </div>
+        <div class="tc-badge badge-live">FASE 1 · 2026</div>
+      </div>
+      <div class="tcard soon">
+        <div class="tc-left">
+          <div class="tc-flag">🇦🇷</div>
+          <div><div class="tc-name">ARST</div><div class="tc-currency">Peso Argentino · ARS</div></div>
+        </div>
+        <div class="tc-badge badge-soon">FASE 3 · 2027</div>
+      </div>
+      <div class="tcard soon">
+        <div class="tc-left">
+          <div class="tc-flag">🇧🇷</div>
+          <div><div class="tc-name">BRLT</div><div class="tc-currency">Real Brasileño · BRL</div></div>
+        </div>
+        <div class="tc-badge badge-soon">FASE 3 · 2027</div>
+      </div>
+      <div class="tcard soon">
+        <div class="tc-left">
+          <div class="tc-flag">🇲🇽</div>
+          <div><div class="tc-name">MXNT</div><div class="tc-currency">Peso Mexicano · MXN</div></div>
+        </div>
+        <div class="tc-badge badge-soon">FASE 3 · 2027</div>
+      </div>
+      <div class="tcard future">
+        <div class="tc-left">
+          <div class="tc-flag">🇨🇴</div>
+          <div><div class="tc-name">COPT</div><div class="tc-currency">Peso Colombiano · COP</div></div>
+        </div>
+        <div class="tc-badge badge-future">FASE 4 · 2028</div>
+      </div>
+      <div class="tcard future">
+        <div class="tc-left">
+          <div class="tc-flag">🇵🇪</div>
+          <div><div class="tc-name">PERT</div><div class="tc-currency">Sol Peruano · PEN</div></div>
+        </div>
+        <div class="tc-badge badge-future">FASE 4 · 2028</div>
+      </div>
+    </div>
+
+    <div class="latam-text">
+      <p>Latinoamérica tiene <strong>650 millones de personas</strong>. El 70% no tiene acceso bancario pleno. Las remesas intrarregionales cuestan entre 5% y 12% de comisión.</p>
+      <p>CLPT resuelve esto para Chile primero. Luego la misma infraestructura de Bitcopper-Core se replica para Argentina, Brasil, México y el resto de la región — sin reinventar la rueda.</p>
+      <p>El objetivo es ser <strong>el Tether de Latinoamérica</strong>, pero construido desde adentro, por latinoamericanos, para latinoamericanos. Sin dependencia de Wall Street.</p>
+
+      <div class="market-stat">
+        <div class="ms-val">$85B</div>
+        <div class="ms-label">MERCADO REMESAS LATAM/AÑO · COSTO PROMEDIO 8%</div>
+      </div>
+      <div class="market-stat" style="margin-top:10px">
+        <div class="ms-val" style="color:#5ba3d0">$2.1T</div>
+        <div class="ms-label">M2 MONETARIO COMBINADO LATINOAMÉRICA</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CÓMO FUNCIONA -->
+<section id="como">
+  <div class="sec-label">// 03 · ARQUITECTURA</div>
+  <div class="sec-title gold">¿CÓMO FUNCIONA?</div>
+  <p class="sec-desc">CLPT opera en un modelo híbrido: Polygon para el ciudadano, Bitcopper-Core para las instituciones.</p>
+
+  <div class="arch-flow" style="margin-bottom:48px">
+    <div class="aflow-item">
+      <div class="aflow-num">01</div>
+      <div class="aflow-icon">🔥</div>
+      <div class="aflow-title">CAPA BITCOPPER</div>
+      <div class="aflow-body">BITCU se mina con calor físico real. La entropía termodinámica respalda el ecosistema completo, incluyendo las reservas de CLPT.</div>
+    </div>
+    <div class="aflow-item">
+      <div class="aflow-num">02</div>
+      <div class="aflow-icon">🇨🇱</div>
+      <div class="aflow-title">RESERVA CLP</div>
+      <div class="aflow-body">$100M USD en reserva 1:1 custodiados en entidades reguladas por la CMF. Cada CLPT emitido tiene su CLP real detrás.</div>
+    </div>
+    <div class="aflow-item">
+      <div class="aflow-num">03</div>
+      <div class="aflow-icon">⬡</div>
+      <div class="aflow-title">POLYGON ERC-20</div>
+      <div class="aflow-body">CLPT circula en Polygon. Compatible con MetaMask, Trust Wallet, Uniswap y cualquier protocolo DeFi. Transacciones en 2 segundos.</div>
+    </div>
+  </div>
+
+  <div class="steps-flow">
+    <div class="fstep">
+      <div class="fstep-num">01</div>
+      <div class="fstep-title">DEPOSITA CLP</div>
+      <div class="fstep-body">Transfiere pesos chilenos a la cuenta custodia de Bitcopper Tech SpA. Proceso KYC simple desde la app.</div>
+    </div>
+    <div class="fstep">
+      <div class="fstep-num">02</div>
+      <div class="fstep-title">RECIBE CLPT</div>
+      <div class="fstep-body">El contrato inteligente emite CLPT 1:1 a tu wallet Polygon. En minutos, sin banco intermediario.</div>
+    </div>
+    <div class="fstep">
+      <div class="fstep-num">03</div>
+      <div class="fstep-title">USA CLPT</div>
+      <div class="fstep-body">Paga, ahorra, envía remesas, opera en DeFi. Tu CLPT vale exactamente $1 CLP en cualquier momento.</div>
+    </div>
+    <div class="fstep">
+      <div class="fstep-num" style="color:var(--green);border-color:var(--green);background:rgba(0,232,122,0.12)">04</div>
+      <div class="fstep-title">RESCATA CUANDO QUIERAS</div>
+      <div class="fstep-body">Quema tus CLPT y recibe CLP en tu cuenta bancaria chilena. Sin costos, sin esperas.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONVERTIR -->
+<section id="convertir" style="background:rgba(8,14,20,0.5)">
+  <div class="sec-label">// 04 · CALCULADORA</div>
+  <div class="sec-title red">CONVERTIR CLP ↔ CLPT</div>
+  <p class="sec-desc">La paridad es exacta y permanente. Calcula cuántos CLPT recibirías por tu depósito.</p>
+
+  <div class="converter-wrap">
+    <div class="converter-box">
+      <div class="conv-title">CALCULADORA DE PARIDAD · 1 CLPT = $1 CLP</div>
+
+      <div class="conv-input-wrap">
+        <div class="conv-currency">$</div>
+        <input class="conv-input" type="number" id="clp-input" value="100000" min="0" placeholder="100000">
+      </div>
+      <div style="font-family:var(--mono);font-size:0.58rem;color:var(--dim);margin-bottom:16px">PESOS CHILENOS (CLP)</div>
+
+      <div class="conv-arrow">↕ CONVERSIÓN EXACTA · SIN SPREAD</div>
+
+      <div class="conv-result">
+        <div><div class="conv-result-label">RECIBIRÍAS</div><div class="conv-result-val" id="clpt-result">100,000</div></div>
+        <div style="font-family:var(--mono);font-size:0.65rem;color:var(--dim)">CLPT</div>
+      </div>
+      <div class="conv-rate-note">Comisión de emisión: 0.1% · Comisión Polygon: ~$0.001 USD</div>
+    </div>
+
+    <div class="converter-right">
+      <div class="cinfo"><div class="ci-label">PARIDAD</div><div class="ci-val">1:1 EXACTO</div></div>
+      <div class="cinfo"><div class="ci-label">MÍNIMO DEPÓSITO</div><div class="ci-val">$1.000 CLP</div></div>
+      <div class="cinfo"><div class="ci-label">TIEMPO EMISIÓN</div><div class="ci-val">~5 MIN</div></div>
+      <div class="cinfo"><div class="ci-label">KYC REQUERIDO</div><div class="ci-val">SÍ · NIVEL 2</div></div>
+      <div class="cinfo"><div class="ci-label">RED</div><div class="ci-val" style="color:#aa88ff">POLYGON</div></div>
+      <div class="cinfo"><div class="ci-label">AUDITORÍA</div><div class="ci-val">TRIMESTRAL</div></div>
+      <div class="cinfo"><div class="ci-label">RESCATE</div><div class="ci-val" style="color:var(--green)">SIEMPRE DISPONIBLE</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AVISO LEGAL -->
+<div style="height:48px"></div>
+<div class="aviso">
+  <strong>⚠ AVISO IMPORTANTE —</strong>
+  CLPT (Chilean Peso Token) es un proyecto en desarrollo. La paridad 1:1 y la reserva de $100M USD corresponden al diseño objetivo del sistema. El lanzamiento comercial está sujeto a la obtención del registro como PSAV ante la CMF de Chile y al cierre del financiamiento seed. No constituye una oferta de valores. © 2026 Bitcopper Tech SpA · Bitcopper Technologies LLC.
+</div>
+<div style="height:80px"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">BITCOPPER</div>
+    <div class="footer-motto">In cuprum veritas · De Chuquicamata al mundo</div>
+  </div>
+  <div class="footer-links">
+    <a href="/bitcu">BITCU</a>
+    <a href="/cupr">CUPR</a>
+    <a href="/clpt" style="color:var(--red2)">CLPT</a>
+    <a href="/bitcu#whitepaper">WHITEPAPER</a>
+    <a href="/bitcu#puente">PUENTE</a>
+    <a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank">POLYGONSCAN</a>
+  </div>
+  <div class="footer-copy">
+    © 2026 Bitcopper Tech SpA · Calama, Chile<br>
+    Pedro Ramos Morales · Chuquicamata
+  </div>
+</footer>
+
+</div>
+
+<script>
+// Converter
+const input = document.getElementById('clp-input');
+const result = document.getElementById('clpt-result');
+function updateResult() {
+  const val = parseFloat(input.value) || 0;
+  const clpt = (val * 0.999).toFixed(0); // 0.1% fee
+  result.textContent = parseInt(clpt).toLocaleString('es-CL');
+}
+input.addEventListener('input', updateResult);
+updateResult();
+
+// Scroll animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.mcard,.tcard,.aflow-item,.cinfo,.fstep').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
