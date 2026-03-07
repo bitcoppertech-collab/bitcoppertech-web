@@ -6,7 +6,7 @@
 <title>Bitcopper Technologies LLC — Technology from the Earth</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--copper:#B87333;--copper-light:#D4944A;--blue:#2B7FD4;--black:#000;--near-black:#080808;--dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--gray:#2A2A2A;--text:#E8E0D8;--text-dim:#7A7065;--text-muted:#4A4540;--green:#2ECC71}
+:root{--copper:#B87333;--copper-light:#D4944A;--blue:#2B7FD4;--black:#000;--near-black:#080808;--dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--gray:#2A2A2A;--text:#E8E0D8;--text-dim:#7A7065;--text-muted:#4A4540;--green:#2ECC71;--amber:#ffc040}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
 body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
@@ -45,12 +45,16 @@ section{padding:120px 60px;position:relative}
 .product-card:hover{border-color:rgba(184,115,51,0.4);transform:translateY(-4px)}
 .product-card.blue-card::before{background:var(--blue)}
 .product-card.blue-card:hover{border-color:rgba(43,127,212,0.4)}
+.product-card.amber-card::before{background:var(--amber)}
+.product-card.amber-card:hover{border-color:rgba(255,192,64,0.4)}
 .product-tag{font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--copper);text-transform:uppercase}
 .product-tag.blue{color:var(--blue)}
+.product-tag.amber{color:var(--amber)}
 .product-name{font-family:'Bebas Neue';font-size:40px;letter-spacing:3px;color:var(--text);line-height:1}
 .product-desc{font-size:14px;color:var(--text-dim);line-height:1.8;flex:1}
 .product-link{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--copper);text-decoration:none;display:flex;align-items:center;gap:8px;transition:gap 0.3s}
 .product-link.blue{color:var(--blue)}
+.product-link.amber{color:var(--amber)}
 .product-card:hover .product-link{gap:16px}
 .product-status{display:inline-block;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);color:#2ECC71;font-family:'Space Mono';font-size:8px;letter-spacing:2px;padding:3px 8px}
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:60px}
@@ -110,6 +114,7 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
     <li><a href="/smartbuild" style="color:var(--blue)">SmartBuild</a></li>
     <li><a href="/cupr" style="color:var(--copper)">CUPR</a></li>
     <li><a href="/clpt" style="color:var(--copper)">CLPT</a></li>
+    <li><a href="/tal3" style="color:var(--amber)">TAL</a></li>
   </ul>
 </nav>
 
@@ -133,7 +138,7 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
 <section id="productos" style="background:var(--dark2)">
   <div class="section-label">Productos</div>
   <h2 class="section-title reveal">Nuestras Soluciones</h2>
-  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8">Cinco productos que conectan el mundo fisico con la economia digital, nacidos desde la tierra del cobre.</p>
+  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8">Seis productos que conectan el mundo fisico con la economia digital, nacidos desde la tierra del cobre.</p>
   <div class="products-grid">
     <a href="/bitcu" class="product-card reveal">
       <div class="product-tag">Protocolo &middot; Moneda Digital</div>
@@ -169,6 +174,13 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
       <div class="product-desc">Token nativo del ecosistema Bitcopper. Utilidad, gobernanza y acceso al protocolo Proof of Heat desde la tierra del cobre.</div>
       <div><span class="product-status" style="color:var(--copper);border-color:rgba(184,115,51,0.3);background:rgba(184,115,51,0.1)">EN CONSTRUCCION</span></div>
       <div class="product-link">Ver CLPT &rarr;</div>
+    </a>
+    <a href="/tal3" class="product-card amber-card reveal">
+      <div class="product-tag amber">Motor Fisico &middot; Proof of Heat</div>
+      <div class="product-name">TAL v3.0</div>
+      <div class="product-desc">Thermodynamic Abstraction Layer. El motor que traduce fenomenos fisicos reales en el score de consenso BITCU. 8 modulos termodinamicos. Un score. Una recompensa.</div>
+      <div><span class="product-status" style="color:var(--amber);border-color:rgba(255,192,64,0.3);background:rgba(255,192,64,0.1)">EN VIVO</span></div>
+      <div class="product-link amber">Ver TAL v3.0 &rarr;</div>
     </a>
   </div>
 </section>
@@ -243,6 +255,7 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
         <li><a href="/llc">LLC USA</a></li>
         <li><a href="/cupr">CUPR Token</a></li>
         <li><a href="/clpt">CLPT</a></li>
+        <li><a href="/tal3">TAL v3.0</a></li>
       </ul>
     </div>
     <div>
