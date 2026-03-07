@@ -442,7 +442,7 @@ async function fetchStats(){
     document.getElementById('statMiners').textContent=d.total_miners||d.active_miners||0;
   }catch(e){}
 }
-document.addEventListener("DOMContentLoaded",()=>{fetchStats();setInterval(fetchStats,5000);});
+fetchStats();setInterval(fetchStats,5000);
 
 async function fetchBridge(){
   try{
@@ -462,7 +462,7 @@ async function fetchBridge(){
     document.getElementById('copper-price').textContent=parseFloat(copper).toFixed(2);
   }catch(e){console.error('Bridge error:',e);}
 }
-document.addEventListener("DOMContentLoaded",()=>{fetchBridge();setInterval(fetchBridge,30000);});
+fetchBridge();setInterval(fetchBridge,30000);
 
 const base=9500,labels=[],vals=[];
 for(let i=29;i>=0;i--){
