@@ -165,8 +165,8 @@ input[type=number]{-moz-appearance:textfield}
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
   <div class="hero-content">
-    <div class="hero-tag">Thermodynamic Abstraction Layer &middot; v2.0 &middot; Motor Físico BITCU</div>
-    <h1 class="hero-title">TAL<span> v2.0</span></h1>
+    <div class="hero-tag">Thermodynamic Abstraction Layer &middot; v3.0 &middot; Motor Físico BITCU</div>
+    <h1 class="hero-title">TAL<span> v3.0</span></h1>
     <div class="hero-subtitle">El Motor del Proof of Heat</div>
     <p class="hero-desc">El TAL traduce fenómenos físicos reales — disipación térmica, electromigración, ruido Johnson-Nyquist — en un score de consenso que determina la recompensa exacta de cada bloque BITCU. No hay matemáticas arbitrarias: cada cálculo está anclado a la Segunda Ley de la Termodinámica.</p>
   </div>
@@ -297,65 +297,24 @@ input[type=number]{-moz-appearance:textfield}
   <div class="sim-grid reveal">
     <div class="sim-params">
       <div style="font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:24px">PARÁMETROS DE ENTRADA</div>
-
-      <div class="param-group">
-        <div class="param-label">Temp. Chip (°C)</div>
-        <input type="number" class="param-input" id="p_chip" value="85" min="20" max="110">
-      </div>
-      <div class="param-group">
-        <div class="param-label">Temp. Ambiente (°C)</div>
-        <input type="number" class="param-input" id="p_amb" value="25" min="10" max="45">
-      </div>
-      <div class="param-group">
-        <div class="param-label">Temp. GPU (°C)</div>
-        <input type="number" class="param-input" id="p_gpu" value="75" min="20" max="95">
-      </div>
-      <div class="param-group">
-        <div class="param-label">Potencia CPU (W)</div>
-        <input type="number" class="param-input" id="p_cpuw" value="65" min="5" max="300">
-      </div>
-      <div class="param-group">
-        <div class="param-label">Potencia GPU (W)</div>
-        <input type="number" class="param-input" id="p_gpuw" value="120" min="0" max="500">
-      </div>
-      <div class="param-group">
-        <div class="param-label">Corriente (A)</div>
-        <input type="number" class="param-input" id="p_curr" value="0.5" min="0.01" max="10" step="0.01">
-      </div>
-      <div class="param-group">
-        <div class="param-label">Duración bloque (s)</div>
-        <input type="number" class="param-input" id="p_dur" value="600" min="1" max="3600">
-      </div>
-
+      <div class="param-group"><div class="param-label">Temp. Chip (°C)</div><input type="number" class="param-input" id="p_chip" value="85" min="20" max="110"></div>
+      <div class="param-group"><div class="param-label">Temp. Ambiente (°C)</div><input type="number" class="param-input" id="p_amb" value="25" min="10" max="45"></div>
+      <div class="param-group"><div class="param-label">Temp. GPU (°C)</div><input type="number" class="param-input" id="p_gpu" value="75" min="20" max="95"></div>
+      <div class="param-group"><div class="param-label">Potencia CPU (W)</div><input type="number" class="param-input" id="p_cpuw" value="65" min="5" max="300"></div>
+      <div class="param-group"><div class="param-label">Potencia GPU (W)</div><input type="number" class="param-input" id="p_gpuw" value="120" min="0" max="500"></div>
+      <div class="param-group"><div class="param-label">Corriente (A)</div><input type="number" class="param-input" id="p_curr" value="0.5" min="0.01" max="10" step="0.01"></div>
+      <div class="param-group"><div class="param-label">Duración bloque (s)</div><input type="number" class="param-input" id="p_dur" value="600" min="1" max="3600"></div>
       <button class="btn-run" id="btnCalc" onclick="calcularTAL()">▶ CALCULAR TAL</button>
     </div>
 
     <div class="sim-results" id="simResults">
       <div style="font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:8px">RESULTADO DEL BLOQUE</div>
-
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
-        <div class="result-card">
-          <div class="result-label">SCORE TAL · M7</div>
-          <div class="result-value" id="res_tal">—</div>
-          <div class="result-sub" id="res_nivel">Nivel: —</div>
-        </div>
-        <div class="result-card" style="border-left-color:var(--amber)">
-          <div class="result-label">RECOMPENSA BITCU · M8</div>
-          <div class="result-value" style="color:var(--amber)" id="res_bitcu">—</div>
-          <div class="result-sub" id="res_atoms">atoms: —</div>
-        </div>
-        <div class="result-card" style="border-left-color:var(--green)">
-          <div class="result-label">RESISTIVIDAD ρ(T) · M4</div>
-          <div class="result-value" style="color:var(--green);font-size:24px" id="res_rho">—</div>
-          <div class="result-sub">Ω·m · Oráculo del cobre</div>
-        </div>
-        <div class="result-card" style="border-left-color:var(--blue)">
-          <div class="result-label">V_RMS JOHNSON-NYQUIST · M6</div>
-          <div class="result-value" style="color:var(--blue);font-size:24px" id="res_vrms">—</div>
-          <div class="result-sub">Semilla wallet térmica</div>
-        </div>
+        <div class="result-card"><div class="result-label">SCORE TAL · M7</div><div class="result-value" id="res_tal">—</div><div class="result-sub" id="res_nivel">Nivel: —</div></div>
+        <div class="result-card" style="border-left-color:var(--amber)"><div class="result-label">RECOMPENSA BITCU · M8</div><div class="result-value" style="color:var(--amber)" id="res_bitcu">—</div><div class="result-sub" id="res_atoms">atoms: —</div></div>
+        <div class="result-card" style="border-left-color:var(--green)"><div class="result-label">RESISTIVIDAD ρ(T) · M4</div><div class="result-value" style="color:var(--green);font-size:24px" id="res_rho">—</div><div class="result-sub">Ω·m · Oráculo del cobre</div></div>
+        <div class="result-card" style="border-left-color:var(--blue)"><div class="result-label">V_RMS JOHNSON-NYQUIST · M6</div><div class="result-value" style="color:var(--blue);font-size:24px" id="res_vrms">—</div><div class="result-sub">Semilla wallet térmica</div></div>
       </div>
-
       <div style="background:var(--dark2);padding:20px;margin-top:4px">
         <div style="font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:16px">DESGLOSE MÓDULOS</div>
         <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px" id="res_modulos">
@@ -366,7 +325,6 @@ input[type=number]{-moz-appearance:textfield}
           <div style="text-align:center"><div style="font-family:'Space Mono';font-size:9px;color:var(--text-muted)">M6</div><div style="font-family:'Bebas Neue';font-size:28px;color:var(--blue)" id="res_s6">—</div></div>
         </div>
       </div>
-
       <div style="background:var(--dark2);padding:16px;font-family:'Space Mono';font-size:10px;color:var(--text-muted);line-height:1.8" id="res_formula">
         Ingresa parámetros y presiona CALCULAR TAL para ver el desglose completo del bloque.
       </div>
@@ -379,40 +337,13 @@ input[type=number]{-moz-appearance:textfield}
   <div class="section-label">Ponderación</div>
   <h2 class="section-title reveal">Consensus M7</h2>
   <p class="reveal" style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.9">El score final es la suma ponderada de los 5 módulos activos. Los pesos reflejan la importancia física de cada fenómeno en el Proof of Heat.</p>
-
   <div class="consensus-grid reveal">
-    <div class="consensus-card" style="border-bottom-color:var(--copper)">
-      <div class="consensus-mod">M2 · DISIPACIÓN</div>
-      <div class="consensus-score" style="color:var(--copper)" id="c_m2">—</div>
-      <div class="consensus-weight">peso: 20%</div>
-      <div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m2" style="background:var(--copper);width:0%"></div></div>
-    </div>
-    <div class="consensus-card" style="border-bottom-color:var(--amber)">
-      <div class="consensus-mod">M3 · ELECTROMIG.</div>
-      <div class="consensus-score" style="color:var(--amber)" id="c_m3">—</div>
-      <div class="consensus-weight">peso: 20%</div>
-      <div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m3" style="background:var(--amber);width:0%"></div></div>
-    </div>
-    <div class="consensus-card" style="border-bottom-color:var(--green)">
-      <div class="consensus-mod">M4 · MATTHIESSEN</div>
-      <div class="consensus-score" style="color:var(--green)" id="c_m4">—</div>
-      <div class="consensus-weight">peso: 25%</div>
-      <div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m4" style="background:var(--green);width:0%"></div></div>
-    </div>
-    <div class="consensus-card" style="border-bottom-color:var(--violet)">
-      <div class="consensus-mod">M5 · MULTI-SENSOR</div>
-      <div class="consensus-score" style="color:var(--violet)" id="c_m5">—</div>
-      <div class="consensus-weight">peso: 25%</div>
-      <div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m5" style="background:var(--violet);width:0%"></div></div>
-    </div>
-    <div class="consensus-card" style="border-bottom-color:var(--blue)">
-      <div class="consensus-mod">M6 · JOHNSON-N.</div>
-      <div class="consensus-score" style="color:var(--blue)" id="c_m6">—</div>
-      <div class="consensus-weight">peso: 10%</div>
-      <div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m6" style="background:var(--blue);width:0%"></div></div>
-    </div>
+    <div class="consensus-card" style="border-bottom-color:var(--copper)"><div class="consensus-mod">M2 · DISIPACIÓN</div><div class="consensus-score" style="color:var(--copper)" id="c_m2">—</div><div class="consensus-weight">peso: 20%</div><div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m2" style="background:var(--copper);width:0%"></div></div></div>
+    <div class="consensus-card" style="border-bottom-color:var(--amber)"><div class="consensus-mod">M3 · ELECTROMIG.</div><div class="consensus-score" style="color:var(--amber)" id="c_m3">—</div><div class="consensus-weight">peso: 20%</div><div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m3" style="background:var(--amber);width:0%"></div></div></div>
+    <div class="consensus-card" style="border-bottom-color:var(--green)"><div class="consensus-mod">M4 · MATTHIESSEN</div><div class="consensus-score" style="color:var(--green)" id="c_m4">—</div><div class="consensus-weight">peso: 25%</div><div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m4" style="background:var(--green);width:0%"></div></div></div>
+    <div class="consensus-card" style="border-bottom-color:var(--violet)"><div class="consensus-mod">M5 · MULTI-SENSOR</div><div class="consensus-score" style="color:var(--violet)" id="c_m5">—</div><div class="consensus-weight">peso: 25%</div><div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m5" style="background:var(--violet);width:0%"></div></div></div>
+    <div class="consensus-card" style="border-bottom-color:var(--blue)"><div class="consensus-mod">M6 · JOHNSON-N.</div><div class="consensus-score" style="color:var(--blue)" id="c_m6">—</div><div class="consensus-weight">peso: 10%</div><div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m6" style="background:var(--blue);width:0%"></div></div></div>
   </div>
-
   <div style="margin-top:2px;background:var(--dark2);padding:32px;border-left:3px solid var(--copper)">
     <div style="font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:16px">FÓRMULA CONSENSUS M7</div>
     <div style="font-family:'Space Mono';font-size:14px;color:var(--text);line-height:2">
@@ -427,49 +358,17 @@ input[type=number]{-moz-appearance:textfield}
   <div class="section-label">Niveles</div>
   <h2 class="section-title reveal">Tabla de Recompensas TAL</h2>
   <p class="reveal" style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.9">El nivel depende del score. A mayor temperatura y trabajo físico real del procesador, mayor recompensa. No hay forma de simular calor sin hardware real.</p>
-
   <table class="reward-table reveal">
     <thead>
-      <tr>
-        <th>NIVEL TAL</th>
-        <th>RANGO SCORE</th>
-        <th>RECOMPENSA RELATIVA</th>
-        <th>CONDICIÓN FÍSICA</th>
-        <th>MÓDULO DOMINANTE</th>
-      </tr>
+      <tr><th>NIVEL TAL</th><th>RANGO SCORE</th><th>RECOMPENSA RELATIVA</th><th>CONDICIÓN FÍSICA</th><th>MÓDULO DOMINANTE</th></tr>
     </thead>
     <tbody>
-      <tr>
-        <td>ATOM</td>
-        <td>0% — 25%</td>
-        <td style="color:var(--text-muted)">Mínima · idle térmico</td>
-        <td>Procesador en reposo, temperatura baja</td>
-        <td style="color:var(--blue)">M6 Johnson-Nyquist</td>
-      </tr>
-      <tr>
-        <td style="color:var(--copper)">COPPER</td>
-        <td>25% — 50%</td>
-        <td style="color:var(--copper)">Base · operación normal</td>
-        <td>Carga moderada, T_chip &gt; 60°C</td>
-        <td style="color:var(--copper)">M2 Disipación</td>
-      </tr>
-      <tr>
-        <td style="color:var(--amber)">HEAT</td>
-        <td>50% — 75%</td>
-        <td style="color:var(--amber)">Alta · carga sostenida</td>
-        <td>Alta carga CPU+GPU, T_chip &gt; 80°C</td>
-        <td style="color:var(--green)">M4 Matthiessen</td>
-      </tr>
-      <tr>
-        <td style="color:var(--green)">GENESIS</td>
-        <td>75% — 100%</td>
-        <td style="color:var(--green)">Máxima · stress físico total</td>
-        <td>Máxima carga, multi-sensor activo, T &gt; 90°C</td>
-        <td style="color:var(--violet)">M5 Multi-Sensor</td>
-      </tr>
+      <tr><td>ATOM</td><td>0% — 25%</td><td style="color:var(--text-muted)">Mínima · idle térmico</td><td>Procesador en reposo, temperatura baja</td><td style="color:var(--blue)">M6 Johnson-Nyquist</td></tr>
+      <tr><td style="color:var(--copper)">COPPER</td><td>25% — 50%</td><td style="color:var(--copper)">Base · operación normal</td><td>Carga moderada, T_chip &gt; 60°C</td><td style="color:var(--copper)">M2 Disipación</td></tr>
+      <tr><td style="color:var(--amber)">HEAT</td><td>50% — 75%</td><td style="color:var(--amber)">Alta · carga sostenida</td><td>Alta carga CPU+GPU, T_chip &gt; 80°C</td><td style="color:var(--green)">M4 Matthiessen</td></tr>
+      <tr><td style="color:var(--green)">GENESIS</td><td>75% — 100%</td><td style="color:var(--green)">Máxima · stress físico total</td><td>Máxima carga, multi-sensor activo, T &gt; 90°C</td><td style="color:var(--violet)">M5 Multi-Sensor</td></tr>
     </tbody>
   </table>
-
   <div style="margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:2px" class="reveal">
     <div class="formula-box">
       <div class="fl">FÓRMULA RECOMPENSA M8</div>
@@ -501,7 +400,7 @@ input[type=number]{-moz-appearance:textfield}
   <div class="footer-inner">
     <div>
       <div class="footer-brand-name">BITCOPPER</div>
-      <div class="footer-brand-tag">THERMODYNAMIC ABSTRACTION LAYER v2.0</div>
+      <div class="footer-brand-tag">THERMODYNAMIC ABSTRACTION LAYER v3.0</div>
       <div class="footer-brand-desc">El motor físico que convierte calor real en moneda real. Ocho módulos termodinámicos. Un score. Una recompensa.</div>
     </div>
     <div>
@@ -532,10 +431,7 @@ input[type=number]{-moz-appearance:textfield}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
-// ── Constantes físicas ────────────────────────────────────────
 const kB=1.380649e-23, eV_J=1.602176e-19, rho0=1.68e-8, alpha=3.93e-3;
-
-// ── Cálculo TAL local ─────────────────────────────────────────
 function calcTAL(p) {
   const Tk=p.chip+273.15, Ta=p.amb+273.15, Tg=p.gpu+273.15, Tb=(p.bat||40)+273.15;
   const dur=p.dur, I=p.curr, J=p.dens||1e10;
@@ -560,39 +456,17 @@ function calcTAL(p) {
   const atoms=bitcu*1e18;
   return {tal:talFinal,bitcu,atoms,rho,vrms,s1:talFinal,s2,s3,s4,s5,s6};
 }
-
 function nivel(t){return t<0.25?'ATOM':t<0.5?'COPPER':t<0.75?'HEAT':'GENESIS'}
 function nivelColor(t){return t<0.25?'var(--text-dim)':t<0.5?'var(--copper)':t<0.75?'var(--amber)':'var(--green)'}
-
-// ── Params por defecto para live ──────────────────────────────
 const liveParams={chip:85,amb:25,gpu:75,bat:40,cpuw:65,gpuw:120,batw:15,curr:0.5,dens:1e10,dur:600};
 let liveResult=calcTAL(liveParams);
-
-// ── Gráfica ───────────────────────────────────────────────────
 const chartLabels=[], chartData=[];
 const talChartCtx=document.getElementById('talChart').getContext('2d');
 const talChart=new Chart(talChartCtx,{
   type:'line',
-  data:{
-    labels:chartLabels,
-    datasets:[{
-      label:'Score TAL %',
-      data:chartData,
-      borderColor:'#B87333',
-      backgroundColor:'rgba(184,115,51,0.08)',
-      borderWidth:2,pointRadius:0,fill:true,tension:0.4
-    }]
-  },
-  options:{
-    responsive:true,animation:{duration:300},
-    plugins:{legend:{display:false}},
-    scales:{
-      x:{ticks:{color:'#4A4540',font:{size:9,family:'Space Mono'}},grid:{color:'rgba(255,255,255,0.03)'}},
-      y:{min:0,max:100,ticks:{color:'#4A4540',font:{size:9,family:'Space Mono'}},grid:{color:'rgba(255,255,255,0.03)'}}
-    }
-  }
+  data:{labels:chartLabels,datasets:[{label:'Score TAL %',data:chartData,borderColor:'#B87333',backgroundColor:'rgba(184,115,51,0.08)',borderWidth:2,pointRadius:0,fill:true,tension:0.4}]},
+  options:{responsive:true,animation:{duration:300},plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#4A4540',font:{size:9,family:'Space Mono'}},grid:{color:'rgba(255,255,255,0.03)'}},y:{min:0,max:100,ticks:{color:'#4A4540',font:{size:9,family:'Space Mono'}},grid:{color:'rgba(255,255,255,0.03)'}}}}
 });
-
 function pushChart(val){
   const t=new Date().toLocaleTimeString('es',{hour12:false});
   chartLabels.push(t); chartData.push(+(val*100).toFixed(2));
@@ -600,14 +474,10 @@ function pushChart(val){
   talChart.update();
   document.getElementById('chartMeta').textContent=`último: ${t} · ${chartLabels.length} bloques`;
 }
-
-// ── Actualizar UI live ────────────────────────────────────────
 function updateLiveUI(r){
   const pct=(r.tal*100).toFixed(1);
   const nv=nivel(r.tal);
   const nc=nivelColor(r.tal);
-
-  // Stats bar
   document.getElementById('liveTal').textContent=pct+'%';
   document.getElementById('liveTal').style.color=nc;
   document.getElementById('liveNivel').textContent=nv;
@@ -615,86 +485,47 @@ function updateLiveUI(r){
   document.getElementById('liveBitcu').textContent=r.bitcu.toExponential(3);
   document.getElementById('liveMotor').textContent='FORTRAN/PY';
   document.getElementById('liveBlocks').textContent='—';
-
-  // Score hero
   document.getElementById('talScoreBig').textContent=pct;
   document.getElementById('talScoreBig').style.color=nc;
   document.getElementById('talNivelBig').textContent=nv;
   document.getElementById('talNivelBig').style.color=nc;
-  document.getElementById('talBitcuBig').textContent=
-    `Recompensa estimada: ${r.bitcu.toExponential(6)} BITCU · ${r.atoms.toExponential(4)} atoms`;
-
-  // Módulos
-  const mods=[
-    ['m1',r.s1,'#4488ff'],['m2',r.s2,'var(--copper)'],['m3',r.s3,'var(--amber)'],
-    ['m4',r.s4,'var(--green)'],['m5',r.s5,'var(--violet)'],['m6',r.s6,'var(--blue)'],
-    ['m7',r.tal,'var(--red)'],['m8',r.tal,'var(--amber)']
-  ];
+  document.getElementById('talBitcuBig').textContent=`Recompensa estimada: ${r.bitcu.toExponential(6)} BITCU · ${r.atoms.toExponential(4)} atoms`;
+  const mods=[['m1',r.s1,'#4488ff'],['m2',r.s2,'var(--copper)'],['m3',r.s3,'var(--amber)'],['m4',r.s4,'var(--green)'],['m5',r.s5,'var(--violet)'],['m6',r.s6,'var(--blue)'],['m7',r.tal,'var(--red)'],['m8',r.tal,'var(--amber)']];
   mods.forEach(([id,val])=>{
     const el=document.getElementById(id+'score');
     const bar=document.getElementById(id+'bar');
     if(el) el.textContent=(val*100).toFixed(0)+'%';
     if(bar) bar.style.width=(val*100)+'%';
   });
-
-  // Consensus
-  [['m2',r.s2,'var(--copper)'],['m3',r.s3,'var(--amber)'],
-   ['m4',r.s4,'var(--green)'],['m5',r.s5,'var(--violet)'],['m6',r.s6,'var(--blue)']
-  ].forEach(([id,val,color])=>{
+  [['m2',r.s2,'var(--copper)'],['m3',r.s3,'var(--amber)'],['m4',r.s4,'var(--green)'],['m5',r.s5,'var(--violet)'],['m6',r.s6,'var(--blue)']].forEach(([id,val,color])=>{
     const el=document.getElementById('c_'+id);
     const bar=document.getElementById('cb_'+id);
     if(el){el.textContent=(val*100).toFixed(0)+'%';el.style.color=color;}
     if(bar) bar.style.width=(val*100)+'%';
   });
-
   pushChart(r.tal);
 }
-
-// ── Fetch stats de la red ──────────────────────────────────────
 async function fetchNetStats(){
-  try{
-    const r=await fetch('https://bitcu-server-production.up.railway.app/api/stats');
-    const d=await r.json();
-    document.getElementById('liveBlocks').textContent=(d.total_blocks||0).toLocaleString('es-CL');
-  }catch(e){}
+  try{const r=await fetch('https://bitcu-server-production.up.railway.app/api/stats');const d=await r.json();document.getElementById('liveBlocks').textContent=(d.total_blocks||0).toLocaleString('es-CL');}catch(e){}
 }
-
-// ── Live loop ─────────────────────────────────────────────────
 function liveTick(){
-  // Simular variación realista de temperatura
-  liveParams.chip = 80 + Math.random()*15;
-  liveParams.gpuw = 100 + Math.random()*40;
-  liveResult = calcTAL(liveParams);
+  liveParams.chip=80+Math.random()*15;
+  liveParams.gpuw=100+Math.random()*40;
+  liveResult=calcTAL(liveParams);
   updateLiveUI(liveResult);
 }
-
-// Init
 liveTick();
 fetchNetStats();
-setInterval(liveTick, 5000);
-setInterval(fetchNetStats, 15000);
-
-// ── Simulador ─────────────────────────────────────────────────
+setInterval(liveTick,5000);
+setInterval(fetchNetStats,15000);
 function calcularTAL(){
   const btn=document.getElementById('btnCalc');
   btn.disabled=true; btn.textContent='CALCULANDO...';
   setTimeout(()=>{
-    const p={
-      chip: parseFloat(document.getElementById('p_chip').value)||85,
-      amb:  parseFloat(document.getElementById('p_amb').value)||25,
-      gpu:  parseFloat(document.getElementById('p_gpu').value)||75,
-      bat:  40,
-      cpuw: parseFloat(document.getElementById('p_cpuw').value)||65,
-      gpuw: parseFloat(document.getElementById('p_gpuw').value)||120,
-      batw: 15,
-      curr: parseFloat(document.getElementById('p_curr').value)||0.5,
-      dens: 1e10,
-      dur:  parseFloat(document.getElementById('p_dur').value)||600
-    };
+    const p={chip:parseFloat(document.getElementById('p_chip').value)||85,amb:parseFloat(document.getElementById('p_amb').value)||25,gpu:parseFloat(document.getElementById('p_gpu').value)||75,bat:40,cpuw:parseFloat(document.getElementById('p_cpuw').value)||65,gpuw:parseFloat(document.getElementById('p_gpuw').value)||120,batw:15,curr:parseFloat(document.getElementById('p_curr').value)||0.5,dens:1e10,dur:parseFloat(document.getElementById('p_dur').value)||600};
     const r=calcTAL(p);
     const nv=nivel(r.tal);
     const nc=nivelColor(r.tal);
-
     document.getElementById('res_tal').textContent=(r.tal*100).toFixed(2)+'%';
     document.getElementById('res_tal').style.color=nc;
     document.getElementById('res_nivel').textContent='Nivel: '+nv;
@@ -707,15 +538,10 @@ function calcularTAL(){
     document.getElementById('res_s4').textContent=(r.s4*100).toFixed(0)+'%';
     document.getElementById('res_s5').textContent=(r.s5*100).toFixed(0)+'%';
     document.getElementById('res_s6').textContent=(r.s6*100).toFixed(0)+'%';
-    document.getElementById('res_formula').innerHTML=
-      `TAL = 0.20×<span style="color:var(--copper)">${(r.s2*100).toFixed(0)}%</span> + 0.20×<span style="color:var(--amber)">${(r.s3*100).toFixed(0)}%</span> + 0.25×<span style="color:var(--green)">${(r.s4*100).toFixed(0)}%</span> + 0.25×<span style="color:var(--violet)">${(r.s5*100).toFixed(0)}%</span> + 0.10×<span style="color:var(--blue)">${(r.s6*100).toFixed(0)}%</span> = <span style="color:${nc};font-size:13px">${(r.tal*100).toFixed(2)}%</span><br>
-      ρ(${p.chip}°C) = ${r.rho.toExponential(4)} Ω·m · BITCU = ${r.bitcu.toExponential(6)} · atoms = ${r.atoms.toExponential(4)}`;
-
+    document.getElementById('res_formula').innerHTML=`TAL = 0.20×<span style="color:var(--copper)">${(r.s2*100).toFixed(0)}%</span> + 0.20×<span style="color:var(--amber)">${(r.s3*100).toFixed(0)}%</span> + 0.25×<span style="color:var(--green)">${(r.s4*100).toFixed(0)}%</span> + 0.25×<span style="color:var(--violet)">${(r.s5*100).toFixed(0)}%</span> + 0.10×<span style="color:var(--blue)">${(r.s6*100).toFixed(0)}%</span> = <span style="color:${nc};font-size:13px">${(r.tal*100).toFixed(2)}%</span><br>ρ(${p.chip}°C) = ${r.rho.toExponential(4)} Ω·m · BITCU = ${r.bitcu.toExponential(6)} · atoms = ${r.atoms.toExponential(4)}`;
     btn.disabled=false; btn.textContent='▶ CALCULAR TAL';
-  }, 300);
+  },300);
 }
-
-// ── Nav scroll ────────────────────────────────────────────────
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60));
 const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target)}})},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
