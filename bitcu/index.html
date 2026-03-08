@@ -316,7 +316,7 @@ document.addEventListener('keydown',e=>{
       <canvas id="copperChart"></canvas>
       <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:16px">Indexado a LME + variacion red Bitcopper</div>
       <div style="margin-top:24px;text-align:center">
-        <a href="https://bitcu-server-production.up.railway.app/bridge/rate" target="_blank" class="btn-secondary" style="font-size:9px;padding:10px 20px">Ver Cotizacion en Vivo →</a>
+        <a href="https://bitcoppertech.cl/bitcu#red" target="_blank" class="btn-secondary" style="font-size:9px;padding:10px 20px">Ver Cotizacion en Vivo →</a>
       </div>
     </div>
   </div>
@@ -446,7 +446,7 @@ fetchStats();setInterval(fetchStats,5000);
 
 async function fetchBridge(){
   try{
-    const r=await fetch('https://bitcu-server-production.up.railway.app/bridge/rate');
+    const r=await fetch('https://bitcoppertech.cl/bitcu#red');
     const d=await r.json();
     const usd = d.bitcu_price?.usd || d.bitcu_usd || 0;
     const usdt = d.exchange_rates?.USDT?.bitcu_per_unit || d.rates?.USDT?.bitcu_per_1 || 0;
