@@ -437,7 +437,7 @@ document.addEventListener('keydown',e=>{
       <div>
         <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:4px">RESTANTES</div>
         <div style="font-family:'Bebas Neue';font-size:32px;color:var(--copper)" id="entropy-restantes">---</div>
-        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">de 3,000,000,000,000,000 BITCU</div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">∞ · limitado por entropía del universo</div>
       </div>
       <div>
         <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:4px">PROYECCIÓN EMISIÓN TOTAL</div>
@@ -629,7 +629,7 @@ async function fetchEntropy(){
     document.getElementById('entropy-pct').textContent=pct.toFixed(6)+'%';
     document.getElementById('entropy-sjk').textContent=sjk.toFixed(4);
     document.getElementById('entropy-emitidos').textContent=emitidos.toFixed(2);
-    document.getElementById('entropy-restantes').textContent=restantes.toLocaleString('es-CL',{maximumFractionDigits:0});
+    document.getElementById('entropy-restantes').textContent='∞';
     document.getElementById('entropy-years').textContent=years?parseInt(years).toLocaleString('es-CL'):'∞';
     document.getElementById('entropy-cu').textContent=cu.toFixed(3)+' kg';
     document.getElementById('entropy-temp').textContent=temp.toFixed(1);
