@@ -733,7 +733,14 @@ footer {
       <p>
         El valor de CUPR emerge del mercado — su <strong>piso está respaldado por el costo de quemar BITCU</strong>. A mayor red, más costoso emitir CUPR, más escaso, más valioso. No especulación: termodinámica.</p>
 
-      
+      <div class="formula-box">
+        <div class="f-title">FÓRMULA PATRÓN COBRE — PRECIO CUPR</div>
+        CUPR_USD = cobre_LME_USD_ton × ρ₀ × 10⁶<br>
+        <br>
+        ρ₀ = 1.68 × 10⁻⁸ Ω·m  (resistividad base cobre)<br>
+        Ley de Matthiessen: ρ(T) = ρ₀ × (1 + α × ΔT)<br>
+        α  = 3.93 × 10⁻³ /°C
+      </div>
     </div>
 
     <div class="what-cards">
@@ -762,7 +769,7 @@ footer {
         <div class="wcard-icon">📐</div>
         <div>
           <div class="wcard-title">VALOR EMERGENTE</div>
-          <div class="wcard-body">El precio de CUPR lo determina el mercado. El piso es el costo de quemar BITCU — a mayor red, mayor piso. Primeros holders más recompensados.</div>
+          <div class="wcard-body">El precio de CUPR lo determina el mercado. El piso es el costo de quemar BITCU — a mayor red, mayor piso. Sin ancla LME directa.</div>
         </div>
       </div>
     </div>
@@ -902,7 +909,6 @@ footer {
       <div class="fstep-body">El calor acumulado supera el umbral de entropía. El bloque es validado y BITCU es acreditado a tu wallet en la red Bitcopper.</div>
     </div>
     <div class="fstep">
-      <div class="fstep-num">03</div>
       <div class="fstep-num" style="color:#aa88ff;border-color:var(--poly);background:rgba(130,71,229,0.15)">03</div>
       <div class="fstep-title">PUENTE BITCU → CUPR</div>
       <div class="fstep-body">BITCU acumulado puede quemarse para emitir CUPR. El burn ratio crece con la red — los primeros holders obtienen más CUPR por menos BITCU.</div>
@@ -986,8 +992,8 @@ footer {
       <div class="pfeat">
         <div class="pfeat-icon">🌐</div>
         <div>
-          <div class="pfeat-title">DEFI NATIVO</div>
-          <div class="pfeat-sub">UNISWAP · QUICKSWAP · LIQUIDEZ DESCENTRALIZADA</div>
+          <div class="pfeat-title">PROTOCOLO X402</div>
+          <div class="pfeat-sub">IAs PAGAN CON CUPR · PAGOS AUTÓNOMOS M2M</div>
         </div>
       </div>
     </div>
@@ -1030,13 +1036,13 @@ footer {
       <div class="rcard-title">∞ BITCU</div>
       <div class="rcard-body">BITCU es ilimitado — su emisión la controla el Reloj de Entropía Universal (S_max = 10^123 J/K, Penrose). Cuando S_global → S_max, la emisión se detiene. La física decide.</div>
     </div>
-    
+    <div class="rcard">
+      <div class="rcard-num">// 06</div>
+      <div class="rcard-title">NODOS SATELITALES</div>
+      <div class="rcard-body">Checkpoints en órbita LEO garantizan la inmutabilidad del registro. Fuera del alcance de ataques físicos terrestres y de la censura de estados.</div>
     </div>
   </div>
 </section>
-
-<div style="height:80px"></div>
-<!-- FOOTER -->
 
 <!-- CALCULADORA BITCU → CUPR -->
 <section id="calculadora" style="background:rgba(4,7,10,0.95);border-top:1px solid rgba(184,115,51,0.2)">
@@ -1046,15 +1052,18 @@ footer {
 
   <div style="max-width:600px;margin:0 auto">
     <div style="background:rgba(8,14,20,0.9);border:1px solid rgba(184,115,51,0.3);padding:48px">
+      
       <div style="margin-bottom:32px">
         <label style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:#b87333;display:block;margin-bottom:12px">BITCU A QUEMAR</label>
         <input type="number" id="calc-bitcu" value="100" min="0" step="0.001"
           style="width:100%;background:rgba(4,7,10,0.9);border:1px solid rgba(184,115,51,0.4);color:#e8d8c0;font-family:'Share Tech Mono',monospace;font-size:24px;padding:16px;outline:none">
       </div>
-      <button onclick="calcularConversion()"
+
+      <button onclick="calcularConversion()" 
         style="width:100%;background:rgba(184,115,51,0.15);border:1px solid #b87333;color:#e8b060;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;padding:16px;cursor:pointer;margin-bottom:32px">
         CALCULAR CONVERSIÓN
       </button>
+
       <div id="calc-resultado" style="display:none">
         <div style="border-top:1px solid rgba(184,115,51,0.2);padding-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
           <div>
@@ -1085,82 +1094,33 @@ footer {
 
 <script>
 async function calcularConversion() {
-  const bitcu = parseFloat(document.getElementById('calc-bitcu').value) || 0;
-  if (bitcu <= 0) return;
+  const bitcu = parseFloat(document.getElementById('calc-bitcu').value) || 0
+  if (bitcu <= 0) return
   try {
-    const r = await fetch('https://bitcu-server-production.up.railway.app/api/convert?bitcu=' + bitcu);
-    const d = await r.json();
-    if (!d.ok) return;
-    document.getElementById('calc-cupr').textContent = parseFloat(d.simulacion.cupr_emitido).toLocaleString('es-CL', {maximumFractionDigits:6});
-    document.getElementById('calc-valor').textContent = '$' + parseFloat(d.cupr.valor_piso_usd).toLocaleString('es-CL', {maximumFractionDigits:4}) + ' USD';
-    document.getElementById('calc-ratio').textContent = parseFloat(d.cupr.burn_ratio).toExponential(4);
-    document.getElementById('calc-circulacion').textContent = parseFloat(d.red.bitcu_circulacion).toFixed(2) + ' BITCU';
-    document.getElementById('calc-resultado').style.display = 'block';
-  } catch(e) { console.error(e); }
-}
-</script>
-    <div class="footer-brand">BITCOPPER</div>
-    <div class="footer-motto">Cuprum in Veritas</div>
-  </div>
-  <div class="footer-links">
-    <a href="/bitcu">BITCU</a>
-    <a href="/CUPR" class="active" style="color:var(--gold2)">CUPR</a>
-    <a href="/bitcu#whitepaper">WHITEPAPER</a>
-    <a href="/bitcu#puente">PUENTE</a>
-    <a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank">POLYGONSCAN</a>
-  </div>
-  <div class="footer-copy">
-    © 2026 Bitcopper Tech SpA · Calama, Chile<br>
-    Pedro Ramos Morales · Chuquicamata
-  </div>
-</footer>
-
-</div><!-- /wrap -->
-
-<script>
-// Lazy animation on scroll
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.style.opacity = '1'
-      e.target.style.transform = 'translateY(0)'
-    }
-  })
-}, { threshold: 0.1 })
-
-document.querySelectorAll('.rcard, .wcard, .pfeat, .fstep, .tdetail').forEach(el => {
-  el.style.opacity = '0'
-  el.style.transform = 'translateY(16px)'
-  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease'
-  observer.observe(el)
-})
-
-// Live copper price (conecta al servidor Bitcopper)
-async function fetchRate() {
-  try {
-    const r = await fetch('https://bitcu-server-production.up.railway.app/bridge/rate')
+    const r = await fetch(`https://bitcu-server-production.up.railway.app/api/convert?bitcu=${bitcu}`)
     const d = await r.json()
-    if (d.copper_usd_ton) {
-      const cuprPrice = (d.copper_usd_ton * 1.68e-8 * 1e6).toFixed(6)
-      document.querySelectorAll('[data-cupr-price]').forEach(el => {
-        el.textContent = `$${cuprPrice} USD`
-      })
-    }
+    if (!d.ok) return
+    document.getElementById('calc-cupr').textContent = parseFloat(d.simulacion.cupr_emitido).toLocaleString('es-CL', {maximumFractionDigits:6})
+    document.getElementById('calc-valor').textContent = '$' + parseFloat(d.cupr.valor_piso_usd).toLocaleString('es-CL', {maximumFractionDigits:6}) + ' USD'
+    document.getElementById('calc-ratio').textContent = parseFloat(d.cupr.burn_ratio).toExponential(4)
+    document.getElementById('calc-circulacion').textContent = parseFloat(d.red.bitcu_circulacion).toFixed(2) + ' BITCU'
+    document.getElementById('calc-resultado').style.display = 'block'
   } catch(e) {}
 }
-fetchRate()
-setInterval(fetchRate, 30000)
-</script>
-</body>
-</html>
- + parseFloat(d.cupr.valor_piso_usd).toLocaleString('es-CL', {maximumFractionDigits:4}) + ' USD';
-    document.getElementById('calc-ratio').textContent = parseFloat(d.cupr.burn_ratio).toExponential(4);
-    document.getElementById('calc-circulacion').textContent = parseFloat(d.red.bitcu_circulacion).toFixed(2) + ' BITCU';
-    document.getElementById('calc-resultado').style.display = 'block';
-  } catch(e) { console.error(e); }
-}
 </script>
 
+<!-- AVISO LEGAL -->
+<div class="aviso">
+  <strong>⚠ AVISO IMPORTANTE —</strong>
+  El puente USDT/BTC/ETH/CLP es una simulación del protocolo x402 y no maneja fondos reales en esta etapa.
+  La red Bitcopper está en operación — bloques, recompensas e identidades térmicas son registros reales de la cadena.
+  CUPR es un token experimental en fase de desarrollo. No constituye una oferta de valores.
+  Este software es propiedad de Bitcopper Tech SpA. © 2026.
+</div>
+
+<div style="height:80px"></div>
+
+<!-- FOOTER -->
 <footer>
   <div>
     <div class="footer-brand">BITCOPPER</div>
@@ -1171,6 +1131,7 @@ setInterval(fetchRate, 30000)
     <a href="/CUPR" class="active" style="color:var(--gold2)">CUPR</a>
     <a href="/bitcu#whitepaper">WHITEPAPER</a>
     <a href="/bitcu#puente">PUENTE</a>
+    <a href="https://github.com/bitcoppertech-collab" target="_blank">GITHUB</a>
     <a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank">POLYGONSCAN</a>
   </div>
   <div class="footer-copy">
@@ -1217,3 +1178,4 @@ setInterval(fetchRate, 30000)
 </script>
 </body>
 </html>
+
