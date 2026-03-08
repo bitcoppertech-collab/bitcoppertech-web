@@ -106,7 +106,6 @@ nav {
   position: relative; overflow: hidden;
 }
 
-/* giant watermark */
 .hero::before {
   content: 'CUPR';
   position: absolute;
@@ -197,7 +196,6 @@ nav {
 }
 .btn-poly:hover { background: rgba(130,71,229,0.2); }
 
-/* Hero right — coin */
 .hero-right {
   display: flex; align-items: center; justify-content: center;
   position: relative;
@@ -210,7 +208,6 @@ nav {
   display: flex; align-items: center; justify-content: center;
 }
 
-/* Orbital rings */
 .orbit {
   position: absolute;
   border-radius: 50%;
@@ -222,7 +219,6 @@ nav {
 .orbit-3 { width: 440px; height: 440px; animation-duration: 20s; border-color: rgba(200,144,58,0.08); }
 @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 
-/* Orbit dots */
 .orbit-dot {
   position: absolute;
   width: 6px; height: 6px;
@@ -246,7 +242,6 @@ nav {
   50%      { transform: translateY(-14px) rotate(1deg); }
 }
 
-/* Glow pulse behind coin */
 .coin-glow {
   position: absolute;
   width: 300px; height: 300px;
@@ -257,7 +252,6 @@ nav {
 }
 @keyframes glowPulse { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.12)} }
 
-/* Floating data chips */
 .data-chip {
   position: absolute;
   background: rgba(8,14,20,0.95);
@@ -399,7 +393,6 @@ section:nth-child(even) { background: rgba(8,14,20,0.5); }
   gap: 48px; align-items: center;
 }
 
-/* Donut chart SVG */
 .donut-wrap { display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .donut-svg { width: 280px; height: 280px; }
 
@@ -547,20 +540,6 @@ section:nth-child(even) { background: rgba(8,14,20,0.5); }
 }
 .rcard-body { font-size: 0.9rem; color: rgba(232,216,192,0.62); line-height: 1.65; }
 
-/* ── AVISO LEGAL ─────────────────────────────────────────── */
-.aviso {
-  background: rgba(255,51,85,0.04);
-  border: 1px solid rgba(255,51,85,0.15);
-  border-radius: 10px;
-  padding: 20px 24px;
-  font-family: var(--mono);
-  font-size: 0.65rem; letter-spacing: 1px;
-  color: rgba(232,216,192,0.55);
-  line-height: 1.7;
-  margin: 0 80px 0;
-}
-.aviso strong { color: rgba(255,100,120,0.8); }
-
 /* ── FOOTER ──────────────────────────────────────────────── */
 footer {
   padding: 48px 80px;
@@ -593,7 +572,6 @@ footer {
   .flow-steps     { grid-template-columns: repeat(2,1fr); gap: 24px; }
   .flow-steps::before { display: none; }
   .respaldo-grid  { grid-template-columns: 1fr; }
-  .aviso          { margin: 0 28px; }
   footer          { padding: 32px 28px; flex-direction: column; align-items: flex-start; }
   nav             { padding: 0 20px; }
   .nav-links      { display: none; }
@@ -638,7 +616,6 @@ footer {
       <a href="/bitcu#whitepaper" class="btn-poly">WHITEPAPER</a>
     </div>
 
-    <!-- Mini stats -->
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:48px;border:1px solid var(--border);border-radius:10px;overflow:hidden;max-width:520px">
       <div style="background:var(--panel);padding:18px 20px;border-right:1px solid var(--border)">
         <div style="font-family:var(--disp);font-size:1.8rem;color:var(--gold2);letter-spacing:2px">29M</div>
@@ -655,7 +632,6 @@ footer {
     </div>
   </div>
 
-  <!-- Coin -->
   <div class="hero-right">
     <div class="coin-wrap">
       <div class="orbit orbit-1"><div class="orbit-dot"></div></div>
@@ -664,13 +640,10 @@ footer {
       <div class="coin-glow"></div>
       <img src="/assets/cupr-logo.png" alt="CUPR Token" class="coin-img"
            onerror="this.style.display='none';document.getElementById('coin-fallback').style.display='flex'">
-      <!-- Fallback si no hay imagen -->
       <div id="coin-fallback" style="display:none;width:320px;height:320px;border-radius:50%;background:conic-gradient(from 0deg,#6b3a1a,#b87333,#d4924a,#c8903a,#8b4513,#b87333,#6b3a1a);align-items:center;justify-content:center;flex-direction:column;position:relative;z-index:2;box-shadow:0 0 60px rgba(184,115,51,0.5)">
         <div style="font-family:var(--disp);font-size:3.5rem;letter-spacing:6px;color:#e8b060">CUPR</div>
         <div style="font-family:var(--mono);font-size:0.6rem;color:rgba(232,176,96,0.6);letter-spacing:3px;margin-top:4px">CUPRUM IN VERITAS</div>
       </div>
-
-      <!-- Floating chips -->
       <div class="data-chip chip-1">
         <div class="chip-val">29,000,000</div>
         <div class="chip-lbl">CUPR SUPPLY</div>
@@ -721,26 +694,9 @@ footer {
 
   <div class="what-grid">
     <div class="what-text">
-      <p>
-        El sistema Bitcopper es <strong>bicapa</strong>: BITCU es el mineral digital que se mina con calor real,
-        y CUPR es la reserva soberana que lo representa en el ecosistema DeFi de Polygon.
-      </p>
-      <p>
-        Con un suministro <strong>fijo e irrepetible de 29 millones de tokens</strong>, CUPR actúa como
-        el patrón cobre del ecosistema — análogo al papel que el oro jugó en el sistema Bretton Woods,
-        pero respaldado por <em>entropía termodinámica real</em> en vez de metal físico.
-      </p>
-      <p>
-        El valor de CUPR emerge del mercado — su <strong>piso está respaldado por el costo de quemar BITCU</strong>. A mayor red, más costoso emitir CUPR, más escaso, más valioso. No especulación: termodinámica.</p>
-
-      <div class="formula-box">
-        <div class="f-title">FÓRMULA PATRÓN COBRE — PRECIO CUPR</div>
-        CUPR_USD = cobre_LME_USD_ton × ρ₀ × 10⁶<br>
-        <br>
-        ρ₀ = 1.68 × 10⁻⁸ Ω·m  (resistividad base cobre)<br>
-        Ley de Matthiessen: ρ(T) = ρ₀ × (1 + α × ΔT)<br>
-        α  = 3.93 × 10⁻³ /°C
-      </div>
+      <p>El sistema Bitcopper es <strong>bicapa</strong>: BITCU es el mineral digital que se mina con calor real, y CUPR es la reserva soberana que lo representa en el ecosistema DeFi de Polygon.</p>
+      <p>Con un suministro <strong>fijo e irrepetible de 29 millones de tokens</strong>, CUPR actúa como el patrón cobre del ecosistema — análogo al papel que el oro jugó en el sistema Bretton Woods, pero respaldado por <em>entropía termodinámica real</em> en vez de metal físico.</p>
+      <p>El valor de CUPR emerge del mercado — su <strong>piso está respaldado por el costo de quemar BITCU</strong>. A mayor red, más costoso emitir CUPR, más escaso, más valioso. No especulación: termodinámica.</p>
     </div>
 
     <div class="what-cards">
@@ -769,7 +725,7 @@ footer {
         <div class="wcard-icon">📐</div>
         <div>
           <div class="wcard-title">VALOR EMERGENTE</div>
-          <div class="wcard-body">El precio de CUPR lo determina el mercado. El piso es el costo de quemar BITCU — a mayor red, mayor piso. Sin ancla LME directa.</div>
+          <div class="wcard-body">El precio de CUPR lo determina el mercado. El piso es el costo de quemar BITCU — a mayor red, mayor piso. Primeros holders más recompensados.</div>
         </div>
       </div>
     </div>
@@ -782,13 +738,10 @@ footer {
 <section id="tokenomics">
   <div class="section-label">// 02 · DISTRIBUCIÓN</div>
   <div class="section-title">TOKENOMICS</div>
-  <p class="section-desc">
-    29 millones de CUPR distribuidos con criterio soberano. Sin preventa especulativa, sin VC, sin inflación.
-  </p>
+  <p class="section-desc">29 millones de CUPR distribuidos con criterio soberano. Sin preventa especulativa, sin VC, sin inflación.</p>
 
   <div class="tokenomics-wrap">
     <div class="donut-wrap">
-      <!-- SVG Donut chart -->
       <svg class="donut-svg" viewBox="0 0 200 200">
         <defs>
           <filter id="glow">
@@ -796,30 +749,22 @@ footer {
             <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
-        <!-- Segmentos: Reserva 40%, Ecosistema 25%, Liquidez 20%, Equipo 10%, Legal 5% -->
-        <!-- Total circunferencia: 2π×70 ≈ 439.8 -->
         <circle cx="100" cy="100" r="70" fill="none" stroke="#122030" stroke-width="28"/>
-        <!-- Reserva principal 40% = 175.9 -->
         <circle cx="100" cy="100" r="70" fill="none" stroke="#b87333" stroke-width="28"
                 stroke-dasharray="175.9 263.9" stroke-dashoffset="0" filter="url(#glow)"
                 transform="rotate(-90 100 100)"/>
-        <!-- Ecosistema 25% = 109.9 -->
         <circle cx="100" cy="100" r="70" fill="none" stroke="#d4924a" stroke-width="28"
                 stroke-dasharray="109.9 329.9" stroke-dashoffset="-175.9"
                 transform="rotate(-90 100 100)"/>
-        <!-- Liquidez 20% = 87.9 -->
         <circle cx="100" cy="100" r="70" fill="none" stroke="#8247e5" stroke-width="26"
                 stroke-dasharray="87.9 351.9" stroke-dashoffset="-285.8"
                 transform="rotate(-90 100 100)"/>
-        <!-- Equipo 10% = 44.0 -->
         <circle cx="100" cy="100" r="70" fill="none" stroke="#00e87a" stroke-width="24"
                 stroke-dasharray="44.0 395.8" stroke-dashoffset="-373.7"
                 transform="rotate(-90 100 100)"/>
-        <!-- Legal 5% = 22.0 -->
         <circle cx="100" cy="100" r="70" fill="none" stroke="#304858" stroke-width="22"
                 stroke-dasharray="22.0 417.8" stroke-dashoffset="-417.7"
                 transform="rotate(-90 100 100)"/>
-        <!-- Centro -->
         <text x="100" y="94" text-anchor="middle" font-family="'Bebas Neue'" font-size="22" fill="#d4924a" letter-spacing="2">29M</text>
         <text x="100" y="112" text-anchor="middle" font-family="'Share Tech Mono'" font-size="7" fill="#304858" letter-spacing="1">CUPR TOTAL</text>
       </svg>
@@ -893,9 +838,7 @@ footer {
 <section id="como-funciona">
   <div class="section-label">// 03 · MECÁNICA</div>
   <div class="section-title">CÓMO FUNCIONA</div>
-  <p class="section-desc">
-    El sistema bicapa BITCU/CUPR convierte calor físico en reserva digital en 4 pasos verificables.
-  </p>
+  <p class="section-desc">El sistema bicapa BITCU/CUPR convierte calor físico en reserva digital en 4 pasos verificables.</p>
 
   <div class="flow-steps">
     <div class="fstep">
@@ -909,7 +852,7 @@ footer {
       <div class="fstep-body">El calor acumulado supera el umbral de entropía. El bloque es validado y BITCU es acreditado a tu wallet en la red Bitcopper.</div>
     </div>
     <div class="fstep">
-      <div class="fstep-num" style="color:#aa88ff;border-color:var(--poly);background:rgba(130,71,229,0.15)">03</div>
+      <div class="fstep-num">03</div>
       <div class="fstep-title">PUENTE BITCU → CUPR</div>
       <div class="fstep-body">BITCU acumulado puede quemarse para emitir CUPR. El burn ratio crece con la red — los primeros holders obtienen más CUPR por menos BITCU.</div>
     </div>
@@ -927,9 +870,7 @@ footer {
 <section id="polygon" class="poly-section">
   <div class="section-label">// 04 · INFRAESTRUCTURA</div>
   <div class="section-title">CUPR EN POLYGON</div>
-  <p class="section-desc">
-    Polygon ofrece transacciones de alta velocidad con comisiones mínimas, ideal para la capa de reserva del ecosistema Bitcopper.
-  </p>
+  <p class="section-desc">Polygon ofrece transacciones de alta velocidad con comisiones mínimas, ideal para la capa de reserva del ecosistema Bitcopper.</p>
 
   <div class="poly-grid">
     <div class="poly-info">
@@ -937,7 +878,6 @@ footer {
         <div class="poly-hex-icon">⬡</div>
         POLYGON MAINNET · ERC-20
       </div>
-
       <div class="contract-box">
         <div class="contract-label">CONTRATO CUPR EN POLYGON</div>
         <div class="contract-addr">
@@ -946,14 +886,10 @@ footer {
           </a>
         </div>
       </div>
-
       <div class="contract-box" style="margin-top:10px">
         <div class="contract-label">WALLET DEPÓSITO USDT</div>
-        <div class="contract-addr">
-          0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec
-        </div>
+        <div class="contract-addr">0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec</div>
       </div>
-
       <a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec"
          target="_blank" class="btn-poly" style="width:fit-content;margin-top:10px">
         VER EN POLYGONSCAN →
@@ -992,8 +928,8 @@ footer {
       <div class="pfeat">
         <div class="pfeat-icon">🌐</div>
         <div>
-          <div class="pfeat-title">PROTOCOLO X402</div>
-          <div class="pfeat-sub">IAs PAGAN CON CUPR · PAGOS AUTÓNOMOS M2M</div>
+          <div class="pfeat-title">DEFI NATIVO</div>
+          <div class="pfeat-sub">UNISWAP · QUICKSWAP · LIQUIDEZ DESCENTRALIZADA</div>
         </div>
       </div>
     </div>
@@ -1006,9 +942,7 @@ footer {
 <section id="respaldo">
   <div class="section-label">// 05 · RESPALDO</div>
   <div class="section-title">RESPALDADO POR BITCU</div>
-  <p class="section-desc">
-    CUPR no es un token vacío. Su valor nace del calor físico irreversible que produce cada procesador que mina BITCU en la red Bitcopper.
-  </p>
+  <p class="section-desc">CUPR no es un token vacío. Su valor nace del calor físico irreversible que produce cada procesador que mina BITCU en la red Bitcopper.</p>
 
   <div class="respaldo-grid">
     <div class="rcard">
@@ -1036,13 +970,10 @@ footer {
       <div class="rcard-title">∞ BITCU</div>
       <div class="rcard-body">BITCU es ilimitado — su emisión la controla el Reloj de Entropía Universal (S_max = 10^123 J/K, Penrose). Cuando S_global → S_max, la emisión se detiene. La física decide.</div>
     </div>
-    <div class="rcard">
-      <div class="rcard-num">// 06</div>
-      <div class="rcard-title">NODOS SATELITALES</div>
-      <div class="rcard-body">Checkpoints en órbita LEO garantizan la inmutabilidad del registro. Fuera del alcance de ataques físicos terrestres y de la censura de estados.</div>
-    </div>
   </div>
 </section>
+
+<div style="height:80px"></div>
 
 <!-- CALCULADORA BITCU → CUPR -->
 <section id="calculadora" style="background:rgba(4,7,10,0.95);border-top:1px solid rgba(184,115,51,0.2)">
@@ -1052,18 +983,15 @@ footer {
 
   <div style="max-width:600px;margin:0 auto">
     <div style="background:rgba(8,14,20,0.9);border:1px solid rgba(184,115,51,0.3);padding:48px">
-      
       <div style="margin-bottom:32px">
         <label style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:#b87333;display:block;margin-bottom:12px">BITCU A QUEMAR</label>
         <input type="number" id="calc-bitcu" value="100" min="0" step="0.001"
           style="width:100%;background:rgba(4,7,10,0.9);border:1px solid rgba(184,115,51,0.4);color:#e8d8c0;font-family:'Share Tech Mono',monospace;font-size:24px;padding:16px;outline:none">
       </div>
-
-      <button onclick="calcularConversion()" 
+      <button onclick="calcularConversion()"
         style="width:100%;background:rgba(184,115,51,0.15);border:1px solid #b87333;color:#e8b060;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;padding:16px;cursor:pointer;margin-bottom:32px">
         CALCULAR CONVERSIÓN
       </button>
-
       <div id="calc-resultado" style="display:none">
         <div style="border-top:1px solid rgba(184,115,51,0.2);padding-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
           <div>
@@ -1092,35 +1020,24 @@ footer {
   </div>
 </section>
 
+<!-- ✅ SCRIPT CALCULADORA CORREGIDO -->
 <script>
 async function calcularConversion() {
-  const bitcu = parseFloat(document.getElementById('calc-bitcu').value) || 0
-  if (bitcu <= 0) return
+  const bitcu = parseFloat(document.getElementById('calc-bitcu').value) || 0;
+  if (bitcu <= 0) return;
   try {
-    const r = await fetch(`https://bitcu-server-production.up.railway.app/api/convert?bitcu=${bitcu}`)
-    const d = await r.json()
-    if (!d.ok) return
-    document.getElementById('calc-cupr').textContent = parseFloat(d.simulacion.cupr_emitido).toLocaleString('es-CL', {maximumFractionDigits:6})
-    document.getElementById('calc-valor').textContent = '$' + parseFloat(d.cupr.valor_piso_usd).toLocaleString('es-CL', {maximumFractionDigits:6}) + ' USD'
-    document.getElementById('calc-ratio').textContent = parseFloat(d.cupr.burn_ratio).toExponential(4)
-    document.getElementById('calc-circulacion').textContent = parseFloat(d.red.bitcu_circulacion).toFixed(2) + ' BITCU'
-    document.getElementById('calc-resultado').style.display = 'block'
-  } catch(e) {}
+    const r = await fetch('https://bitcu-server-production.up.railway.app/api/convert?bitcu=' + bitcu);
+    const d = await r.json();
+    if (!d.ok) return;
+    document.getElementById('calc-cupr').textContent = parseFloat(d.simulacion.cupr_emitido).toLocaleString('es-CL', {maximumFractionDigits:6});
+    document.getElementById('calc-valor').textContent = '$' + parseFloat(d.cupr.valor_piso_usd).toLocaleString('es-CL', {maximumFractionDigits:4}) + ' USD';
+    document.getElementById('calc-ratio').textContent = parseFloat(d.cupr.burn_ratio).toExponential(4);
+    document.getElementById('calc-circulacion').textContent = parseFloat(d.red.bitcu_circulacion).toFixed(2) + ' BITCU';
+    document.getElementById('calc-resultado').style.display = 'block';
+  } catch(e) { console.error(e); }
 }
 </script>
 
-<!-- AVISO LEGAL -->
-<div class="aviso">
-  <strong>⚠ AVISO IMPORTANTE —</strong>
-  El puente USDT/BTC/ETH/CLP es una simulación del protocolo x402 y no maneja fondos reales en esta etapa.
-  La red Bitcopper está en operación — bloques, recompensas e identidades térmicas son registros reales de la cadena.
-  CUPR es un token experimental en fase de desarrollo. No constituye una oferta de valores.
-  Este software es propiedad de Bitcopper Tech SpA. © 2026.
-</div>
-
-<div style="height:80px"></div>
-
-<!-- FOOTER -->
 <footer>
   <div>
     <div class="footer-brand">BITCOPPER</div>
@@ -1128,10 +1045,9 @@ async function calcularConversion() {
   </div>
   <div class="footer-links">
     <a href="/bitcu">BITCU</a>
-    <a href="/CUPR" class="active" style="color:var(--gold2)">CUPR</a>
+    <a href="/cupr" class="active" style="color:var(--gold2)">CUPR</a>
     <a href="/bitcu#whitepaper">WHITEPAPER</a>
     <a href="/bitcu#puente">PUENTE</a>
-    <a href="https://github.com/bitcoppertech-collab" target="_blank">GITHUB</a>
     <a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank">POLYGONSCAN</a>
   </div>
   <div class="footer-copy">
@@ -1147,35 +1063,34 @@ async function calcularConversion() {
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
-      e.target.style.opacity = '1'
-      e.target.style.transform = 'translateY(0)'
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
     }
-  })
-}, { threshold: 0.1 })
+  });
+}, { threshold: 0.1 });
 
 document.querySelectorAll('.rcard, .wcard, .pfeat, .fstep, .tdetail').forEach(el => {
-  el.style.opacity = '0'
-  el.style.transform = 'translateY(16px)'
-  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease'
-  observer.observe(el)
-})
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
 
-// Live copper price (conecta al servidor Bitcopper)
+// Live copper price
 async function fetchRate() {
   try {
-    const r = await fetch('https://bitcu-server-production.up.railway.app/bridge/rate')
-    const d = await r.json()
+    const r = await fetch('https://bitcu-server-production.up.railway.app/bridge/rate');
+    const d = await r.json();
     if (d.copper_usd_ton) {
-      const cuprPrice = (d.copper_usd_ton * 1.68e-8 * 1e6).toFixed(6)
+      const cuprPrice = (d.copper_usd_ton * 1.68e-8 * 1e6).toFixed(6);
       document.querySelectorAll('[data-cupr-price]').forEach(el => {
-        el.textContent = `$${cuprPrice} USD`
-      })
+        el.textContent = '$' + cuprPrice + ' USD';
+      });
     }
   } catch(e) {}
 }
-fetchRate()
-setInterval(fetchRate, 30000)
+fetchRate();
+setInterval(fetchRate, 30000);
 </script>
 </body>
 </html>
-
