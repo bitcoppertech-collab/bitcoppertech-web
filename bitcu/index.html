@@ -147,6 +147,7 @@ document.addEventListener('keydown',e=>{
     <li><a href="#minar">Como Minar</a></li>
     <li><a href="#seguridad">Seguridad</a></li>
     <li><a href="#descargar">Descargar</a></li>
+      <li><a href="#daemon">Daemon</a></li>
     <li><a href="#puente">Puente</a></li>
     <li><a href="#red">Red en Vivo</a></li>
       <li><a href="#entropia">Reloj Entropía</a></li>
@@ -328,6 +329,78 @@ document.addEventListener('keydown',e=>{
   <h2 class="section-title reveal">Red Global en Tiempo Real</h2>
   <div class="dashboard-frame reveal">
     <iframe src="/bitcu/dashboard.html" style="width:100%;height:700px;border:none;display:block"></iframe>
+  </div>
+</section>
+
+<section id="daemon" style="background:var(--dark2)">
+  <h2 class="section-title reveal">ÚNETE A LA RED</h2>
+  <p style="text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:var(--text-muted);letter-spacing:2px;margin-bottom:16px">Tu placa tiene cobre. Ese cobre tiene valor. La red te recompensa por conectarte.</p>
+  <p style="text-align:center;font-family:'Space Mono',monospace;font-size:10px;color:var(--copper);letter-spacing:2px;margin-bottom:48px">Sin imposiciones · Sin configuración · Solo descarga y ejecuta</p>
+
+  <!-- Pasos -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px">
+    <div style="background:var(--dark3);padding:40px 32px">
+      <div style="font-family:'Bebas Neue';font-size:64px;color:rgba(184,115,51,0.2);line-height:1">01</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--copper);margin:12px 0 8px">DESCARGA</div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.8">Descarga el daemon para tu sistema operativo. Un binario pequeño, sin instalador, sin dependencias.</div>
+    </div>
+    <div style="background:var(--dark3);padding:40px 32px;border-left:1px solid var(--gray)">
+      <div style="font-family:'Bebas Neue';font-size:64px;color:rgba(184,115,51,0.2);line-height:1">02</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--copper);margin:12px 0 8px">HANDSHAKE</div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.8">Al ejecutarse por primera vez, el daemon mide tu placa, genera una identidad única e irreversible y firma el protocolo.</div>
+    </div>
+    <div style="background:var(--dark3);padding:40px 32px;border-left:1px solid var(--gray)">
+      <div style="font-family:'Bebas Neue';font-size:64px;color:rgba(184,115,51,0.2);line-height:1">03</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--copper);margin:12px 0 8px">RECOMPENSA</div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.8">Recibes BITCU por cada bloque validado. A más calor disipado, mayor recompensa. Tu placa aparece en el Mapa de Calor Global.</div>
+    </div>
+  </div>
+
+  <!-- Descargas daemon -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:2px">
+    <div style="background:var(--near-black);padding:32px 24px;border:1px solid rgba(184,115,51,0.3)">
+      <div style="font-size:28px;margin-bottom:12px">🍎</div>
+      <div style="font-family:'Bebas Neue';font-size:24px;letter-spacing:2px;color:var(--text)">MAC SILICON</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin:8px 0 16px">M1 · M2 · M3 · M4</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcopper-daemon/releases/download/v1.0.0/bitcopper-daemon-mac-silicon" class="download-btn" style="font-size:9px;padding:10px 16px">Descargar</a>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text-muted);margin-top:12px">chmod +x bitcopper-daemon-mac-silicon<br>./bitcopper-daemon-mac-silicon</div>
+    </div>
+    <div style="background:var(--near-black);padding:32px 24px;border:1px solid rgba(184,115,51,0.3)">
+      <div style="font-size:28px;margin-bottom:12px">💻</div>
+      <div style="font-family:'Bebas Neue';font-size:24px;letter-spacing:2px;color:var(--text)">MAC INTEL</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin:8px 0 16px">Core i5 · i7 · i9</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcopper-daemon/releases/download/v1.0.0/bitcopper-daemon-mac-intel" class="download-btn" style="font-size:9px;padding:10px 16px">Descargar</a>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text-muted);margin-top:12px">chmod +x bitcopper-daemon-mac-intel<br>./bitcopper-daemon-mac-intel</div>
+    </div>
+    <div style="background:var(--near-black);padding:32px 24px;border:1px solid rgba(184,115,51,0.3)">
+      <div style="font-size:28px;margin-bottom:12px">🐧</div>
+      <div style="font-family:'Bebas Neue';font-size:24px;letter-spacing:2px;color:var(--text)">LINUX</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin:8px 0 16px">Ubuntu · Debian · Arch</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcopper-daemon/releases/download/v1.0.0/bitcopper-daemon-linux" class="download-btn" style="font-size:9px;padding:10px 16px">Descargar</a>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text-muted);margin-top:12px">chmod +x bitcopper-daemon-linux<br>./bitcopper-daemon-linux</div>
+    </div>
+    <div style="background:var(--near-black);padding:32px 24px;border:1px solid rgba(184,115,51,0.3)">
+      <div style="font-size:28px;margin-bottom:12px">🪟</div>
+      <div style="font-family:'Bebas Neue';font-size:24px;letter-spacing:2px;color:var(--text)">WINDOWS</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin:8px 0 16px">Windows 10 · 11</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcopper-daemon/releases/download/v1.0.0/bitcopper-daemon-windows.exe" class="download-btn" style="font-size:9px;padding:10px 16px">Descargar</a>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text-muted);margin-top:12px">bitcopper-daemon-windows.exe</div>
+    </div>
+  </div>
+
+  <!-- Fórmula recompensa -->
+  <div style="background:var(--dark3);padding:40px;border-top:2px solid var(--gray);text-align:center">
+    <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">FÓRMULA DE RECOMPENSA</div>
+    <div style="font-family:'Bebas Neue';font-size:28px;color:var(--text);letter-spacing:2px;margin-bottom:8px">
+      R = ρ(T) × I² × t × TAL_score
+    </div>
+    <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--text-muted);line-height:2">
+      ρ(T) = resistividad del cobre a temperatura T &nbsp;·&nbsp; I = corriente estimada &nbsp;·&nbsp; t = tiempo de bloque<br>
+      A mayor temperatura → mayor ρ(T) → mayor recompensa BITCU
+    </div>
+    <div style="margin-top:24px;font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">
+      La termodinámica no tiene dueño · El acceso al hardware sí · Tú decides cuándo conectarte
+    </div>
   </div>
 </section>
 
