@@ -149,6 +149,7 @@ document.addEventListener('keydown',e=>{
     <li><a href="#descargar">Descargar</a></li>
     <li><a href="#puente">Puente</a></li>
     <li><a href="#red">Red en Vivo</a></li>
+      <li><a href="#entropia">Reloj Entropía</a></li>
   </ul>
 </nav>
 
@@ -330,6 +331,79 @@ document.addEventListener('keydown',e=>{
   </div>
 </section>
 
+<section id="entropia" style="background:var(--near-black)">
+  <h2 class="section-title reveal">RELOJ DE ENTROPÍA GLOBAL</h2>
+  <p style="text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:var(--text-muted);letter-spacing:2px;margin-bottom:48px">S = Σ(Q/T) · El universo físico decide cuándo termina la emisión</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px">
+    <div style="background:var(--dark2);padding:48px;display:flex;flex-direction:column;align-items:center;gap:24px">
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--copper);margin-bottom:8px">ENTROPÍA ACUMULADA</div>
+      <div style="position:relative;width:220px;height:220px">
+        <svg width="220" height="220" viewBox="0 0 220 220">
+          <circle cx="110" cy="110" r="95" fill="none" stroke="rgba(184,115,51,0.1)" stroke-width="12"/>
+          <circle cx="110" cy="110" r="95" fill="none" stroke="var(--copper)" stroke-width="12"
+            stroke-dasharray="597" stroke-dashoffset="597"
+            stroke-linecap="round" transform="rotate(-90 110 110)"
+            id="entropy-arc" style="transition:stroke-dashoffset 2s ease"/>
+        </svg>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center">
+          <div style="font-family:'Bebas Neue';font-size:42px;color:var(--copper);line-height:1" id="entropy-pct">0.0000%</div>
+          <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text-muted);letter-spacing:2px;margin-top:4px">DEL UNIVERSO</div>
+        </div>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--text-muted);text-align:center">
+        S_global = <span id="entropy-sjk" style="color:var(--copper)">---</span> J/K<br>S_max = 10¹² J/K
+      </div>
+    </div>
+    <div style="background:var(--dark3);padding:48px;display:flex;flex-direction:column;gap:20px">
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--copper)">EMISIÓN BITCU</div>
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:4px">EMITIDOS</div>
+        <div style="font-family:'Bebas Neue';font-size:32px;color:var(--text)" id="entropy-emitidos">---</div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">BITCU</div>
+      </div>
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:4px">RESTANTES</div>
+        <div style="font-family:'Bebas Neue';font-size:32px;color:var(--copper)" id="entropy-restantes">---</div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">de 3,000,000,000,000,000 BITCU</div>
+      </div>
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:4px">PROYECCIÓN EMISIÓN TOTAL</div>
+        <div style="font-family:'Bebas Neue';font-size:28px;color:var(--amber)" id="entropy-years">---</div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">años al ritmo actual</div>
+      </div>
+      <div style="background:rgba(184,115,51,0.05);border:1px solid rgba(184,115,51,0.2);padding:12px;margin-top:8px">
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">MASA Cu ESTIMADA EN RED</div>
+        <div style="font-family:'Bebas Neue';font-size:24px;color:var(--text)" id="entropy-cu">---</div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">kg de cobre en placas conectadas</div>
+      </div>
+    </div>
+  </div>
+  <div style="background:var(--dark2);padding:48px;border-top:2px solid var(--gray)">
+    <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--copper);margin-bottom:24px">MAPA DE CALOR GLOBAL · NODOS ACTIVOS</div>
+    <div style="position:relative;width:100%;max-width:900px;margin:0 auto">
+      <svg viewBox="0 0 900 450" style="width:100%;background:rgba(184,115,51,0.03);border:1px solid rgba(184,115,51,0.1);border-radius:8px">
+        <path d="M 120 80 L 200 70 L 240 100 L 220 160 L 180 200 L 130 180 L 100 140 Z" fill="rgba(184,115,51,0.08)" stroke="rgba(184,115,51,0.2)" stroke-width="1"/>
+        <path d="M 180 220 L 230 210 L 250 280 L 230 360 L 190 380 L 160 340 L 155 270 Z" fill="rgba(184,115,51,0.08)" stroke="rgba(184,115,51,0.2)" stroke-width="1"/>
+        <path d="M 390 60 L 450 55 L 470 90 L 440 110 L 390 105 L 375 80 Z" fill="rgba(184,115,51,0.08)" stroke="rgba(184,115,51,0.2)" stroke-width="1"/>
+        <path d="M 390 120 L 450 115 L 470 200 L 440 300 L 390 310 L 360 240 L 370 150 Z" fill="rgba(184,115,51,0.08)" stroke="rgba(184,115,51,0.2)" stroke-width="1"/>
+        <path d="M 470 50 L 720 45 L 750 120 L 700 180 L 580 190 L 470 160 L 460 100 Z" fill="rgba(184,115,51,0.08)" stroke="rgba(184,115,51,0.2)" stroke-width="1"/>
+        <path d="M 680 260 L 760 255 L 780 300 L 740 330 L 680 320 L 665 290 Z" fill="rgba(184,115,51,0.08)" stroke="rgba(184,115,51,0.2)" stroke-width="1"/>
+        <g id="heat-nodes"></g>
+        <circle cx="185" cy="290" r="8" fill="rgba(184,115,51,0.3)" stroke="var(--copper)" stroke-width="2">
+          <animate attributeName="r" values="6;12;6" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <text x="195" y="285" font-family="Space Mono" font-size="8" fill="var(--copper)">GÉNESIS · CHQ</text>
+      </svg>
+    </div>
+    <div style="display:flex;gap:32px;margin-top:16px;font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">
+      <span>🟠 Nodo activo</span>
+      <span>⚡ Temp promedio: <span id="entropy-temp" style="color:var(--copper)">---</span>°C</span>
+      <span>🔥 Calor total: <span id="entropy-heat" style="color:var(--amber)">---</span> J</span>
+      <span>⛏ Bloques totales: <span id="entropy-blocks" style="color:var(--text)">---</span></span>
+    </div>
+  </div>
+</section>
+
 <section id="whitepaper">
   <div class="section-label">Documentacion</div>
   <div class="whitepaper-inner">
@@ -417,6 +491,7 @@ document.addEventListener('keydown',e=>{
         <li><a href="#descargar">Descargar Agente</a></li>
         <li><a href="#puente">Puente</a></li>
         <li><a href="#red">Red en Vivo</a></li>
+      <li><a href="#entropia">Reloj Entropía</a></li>
       </ul>
     </div>
   </div>
@@ -463,6 +538,37 @@ async function fetchBridge(){
   }catch(e){console.error('Bridge error:',e);}
 }
 fetchBridge();setInterval(fetchBridge,30000);
+
+async function fetchEntropy(){
+  try{
+    const r=await fetch('https://bitcu-server-production.up.railway.app/api/entropy');
+    const d=await r.json();
+    const pct=parseFloat(d.reloj_entropia?.entropia_pct||0);
+    const sjk=parseFloat(d.reloj_entropia?.s_global_jk||0);
+    const emitidos=parseFloat(d.emision?.bitcu_emitidos||0);
+    const restantes=parseFloat(d.emision?.bitcu_restantes||0);
+    const years=d.emision?.years_remaining;
+    const cu=parseFloat(d.red?.masa_cu_kg||0);
+    const temp=parseFloat(d.red?.avg_temp_c||0);
+    const heat=parseFloat(d.red?.total_heat_j||0);
+    const blocks=parseInt(d.red?.total_blocks||0);
+
+    document.getElementById('entropy-pct').textContent=pct.toFixed(6)+'%';
+    document.getElementById('entropy-sjk').textContent=sjk.toFixed(4);
+    document.getElementById('entropy-emitidos').textContent=emitidos.toFixed(2);
+    document.getElementById('entropy-restantes').textContent=restantes.toLocaleString('es-CL',{maximumFractionDigits:0});
+    document.getElementById('entropy-years').textContent=years?parseInt(years).toLocaleString('es-CL'):'∞';
+    document.getElementById('entropy-cu').textContent=cu.toFixed(3)+' kg';
+    document.getElementById('entropy-temp').textContent=temp.toFixed(1);
+    document.getElementById('entropy-heat').textContent=heat.toExponential(3);
+    document.getElementById('entropy-blocks').textContent=blocks.toLocaleString('es-CL');
+
+    // Actualizar arco SVG
+    const arc=document.getElementById('entropy-arc');
+    if(arc){const offset=597-(597*(pct/100));arc.setAttribute('stroke-dashoffset',offset);}
+  }catch(e){console.error('Entropy error:',e);}
+}
+fetchEntropy();setInterval(fetchEntropy,15000);
 
 const base=9500,labels=[],vals=[];
 for(let i=29;i>=0;i--){
