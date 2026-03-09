@@ -587,7 +587,8 @@ footer {
   <div class="nav-links">
     <a href="/bitcu">BITCU</a>
     <a href="#que-es">¿QUÉ ES?</a>
-    <a href="#tokenomics">TOKENOMICS</a>
+    <a href="#generacion">GEN1</a>
+        <a href="#tokenomics">TOKENOMICS</a>
     <a href="#como-funciona">CÓMO FUNCIONA</a>
     <a href="#polygon">POLYGON</a>
     <a href="#respaldo">RESPALDO</a>
@@ -733,6 +734,113 @@ footer {
 </section>
 
 <div class="divider"></div>
+
+<!-- GENERACIÓN 1 -->
+<section id="generacion" style="background:rgba(4,7,10,0.98);border-top:1px solid rgba(184,115,51,0.15);border-bottom:1px solid rgba(184,115,51,0.15)">
+  <div class="section-label">// 01.5 · MODELO GENERACIONAL</div>
+  <div class="section-title">CUPR GENERACIÓN 1</div>
+  <p class="section-desc">Inspirado en Ethereum Classic — cada generación agota su supply y da paso a la siguiente con mayor escasez desde el día 1.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px">
+    <div style="background:#0a1118;padding:40px;text-align:center">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:rgba(232,216,192,0.4);margin-bottom:12px">PERÍODO GEN1</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:#b87333">2026 → 2029</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.4);margin-top:8px">3 años · acelerado por IAs 24/7</div>
+    </div>
+    <div style="background:#0a1118;padding:40px;text-align:center">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:rgba(232,216,192,0.4);margin-bottom:12px">EMISIÓN MÁXIMA/DÍA</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:#b87333">26,484 CUPR</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.4);margin-top:8px">29M ÷ 1,095 días</div>
+    </div>
+    <div style="background:#0a1118;padding:40px;text-align:center">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:rgba(232,216,192,0.4);margin-bottom:12px">UMBRAL MÍNIMO</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:#b87333" id="gen1-umbral">~1 BITCU</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.4);margin-top:8px">temp_avg × ρ₀ × 10⁶</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px">
+    <div style="background:#0a1118;padding:40px">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:#b87333;margin-bottom:24px">PROGRESO GEN1 EN VIVO</div>
+      <div style="background:rgba(184,115,51,0.08);border:1px solid rgba(184,115,51,0.2);height:8px;border-radius:4px;margin-bottom:12px;overflow:hidden">
+        <div id="gen1-barra" style="height:100%;background:linear-gradient(90deg,#b87333,#d4924a);border-radius:4px;transition:width 1s ease;width:0%"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.4)">
+        <span>01 MAR 2026</span>
+        <span id="gen1-pct" style="color:#b87333">0.00%</span>
+        <span>28 FEB 2029</span>
+      </div>
+      <div style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.4);margin-bottom:4px">DÍAS TRANSCURRIDOS</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#e8d8c0" id="gen1-dias-trans">—</div>
+        </div>
+        <div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.4);margin-bottom:4px">DÍAS RESTANTES</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#b87333" id="gen1-dias-rest">—</div>
+        </div>
+        <div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.4);margin-bottom:4px">CUPR EMITIDOS HOY</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#00e87a" id="gen1-hoy">—</div>
+        </div>
+        <div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.4);margin-bottom:4px">CUPO DISPONIBLE HOY</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#8247e5" id="gen1-cupo">—</div>
+        </div>
+      </div>
+    </div>
+    <div style="background:#0a1118;padding:40px">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:#b87333;margin-bottom:24px">GENERACIONES CUPR</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="border:1px solid rgba(184,115,51,0.4);padding:16px;background:rgba(184,115,51,0.05)">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#b87333">GEN 1 · ACTIVA</span>
+            <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#00e87a">● EN CURSO</span>
+          </div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.5);margin-top:8px">2026-2029 · 29M CUPR · burn dinámico</div>
+        </div>
+        <div style="border:1px solid rgba(255,255,255,0.05);padding:16px;background:rgba(255,255,255,0.02)">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:rgba(232,216,192,0.3)">GEN 2 · PENDIENTE</span>
+            <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.2)">○ 2029</span>
+          </div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.2);margin-top:8px">Nuevo contrato · holders Gen1 con ratio preferencial</div>
+        </div>
+        <div style="border:1px solid rgba(255,255,255,0.05);padding:16px;background:rgba(255,255,255,0.02)">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:rgba(232,216,192,0.3)">GEN 3 · PENDIENTE</span>
+            <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.2)">○ 2032+</span>
+          </div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.2);margin-top:8px">Supply aún más escaso · protocolo maduro</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#0a1118;padding:32px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(232,216,192,0.3);line-height:2">
+    BTC: 15 años (humanos, especulación) · ETH: 8 años (humanos + contratos) · <span style="color:#b87333">CUPR: 3 años (máquinas + IAs 24/7)</span>
+  </div>
+</section>
+
+<script>
+async function fetchGen1() {
+  try {
+    const r = await fetch('https://bitcu-server-production.up.railway.app/api/convert?bitcu=1');
+    const d = await r.json();
+    if (!d.ok) return;
+    const g = d.generacion;
+    const pct = parseFloat(g.pct_completado);
+    document.getElementById('gen1-barra').style.width = Math.min(pct, 100) + '%';
+    document.getElementById('gen1-pct').textContent = pct.toFixed(4) + '%';
+    document.getElementById('gen1-dias-trans').textContent = g.dias_transcurridos;
+    document.getElementById('gen1-dias-rest').textContent = g.dias_restantes;
+    document.getElementById('gen1-hoy').textContent = parseFloat(g.cupr_emitidos_hoy).toLocaleString('es-CL', {maximumFractionDigits:0});
+    document.getElementById('gen1-cupo').textContent = parseFloat(g.cupr_disponible_hoy).toLocaleString('es-CL', {maximumFractionDigits:0});
+    document.getElementById('gen1-umbral').textContent = parseFloat(d.umbral.min_bitcu).toFixed(4) + ' BITCU';
+  } catch(e) {}
+}
+fetchGen1();
+</script>
 
 <!-- TOKENOMICS -->
 <section id="tokenomics">
