@@ -639,7 +639,7 @@ async function buildCopperChart() {
   try {
     const r = await fetch('https://bitcu-server-production.up.railway.app/bridge/rate');
     const d = await r.json();
-    const base = d.copper_lme?.usd_per_ton || 9500;
+    const base = parseFloat(d.copper_lme?.usd_per_ton) || 9500;
     const labels = [], vals = [];
     for (let i = 29; i >= 0; i--) {
       const dt = new Date(); dt.setDate(dt.getDate() - i);
