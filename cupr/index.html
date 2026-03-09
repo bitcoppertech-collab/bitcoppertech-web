@@ -992,7 +992,7 @@ footer {
         style="width:100%;background:rgba(184,115,51,0.15);border:1px solid #b87333;color:#e8b060;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;padding:16px;cursor:pointer;margin-bottom:32px">
         CALCULAR CONVERSIÓN
       </button>
-      <div id="calc-alerta" style="display:none;margin-bottom:16px;padding:12px 16px;border:1px solid rgba(255,80,80,0.4);background:rgba(255,80,80,0.08);font-family:'Share Tech Mono',monospace;font-size:10px;color:#ff8080;letter-spacing:1px" id="calc-alerta"></div>
+      <div id="calc-alerta" style="display:none;margin-bottom:16px;padding:12px 16px;border:1px solid rgba(255,80,80,0.4);background:rgba(255,80,80,0.08);font-family:'Share Tech Mono',monospace;font-size:10px;color:#ff8080;letter-spacing:1px"></div>
       <div id="calc-resultado" style="display:none">
         <div style="border-top:1px solid rgba(184,115,51,0.2);padding-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
           <div>
@@ -1044,7 +1044,13 @@ async function calcularConversion() {
     const d = await r.json();
     if (!d.ok) return;
 
+    // Reset estado
     const alerta = document.getElementById('calc-alerta');
+    alerta.style.display = 'none';
+    alerta.style.borderColor = 'rgba(255,80,80,0.4)';
+    alerta.style.color = '#ff8080';
+    alerta.textContent = '';
+    document.getElementById('calc-resultado').style.display = 'none';
     const minBitcu = parseFloat(d.umbral.min_bitcu);
 
     if (bitcu < minBitcu) {

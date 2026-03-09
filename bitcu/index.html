@@ -656,17 +656,31 @@ async function fetchEntropy(){
 }
 fetchEntropy();setInterval(fetchEntropy,15000);
 
-const base=9500,labels=[],vals=[];
-for(let i=29;i>=0;i--){
-  const d=new Date();d.setDate(d.getDate()-i);
-  labels.push(d.toLocaleDateString('es-CL',{day:'2-digit',month:'short'}));
-  vals.push(+(base+(Math.random()-0.48)*400+(29-i)*8).toFixed(0));
+async function buildCopperChart() {
+  try {
+    const r = await fetch('https://bitcu-server-production.up.railway.app/bridge/rate');
+    const d = await r.json();
+    const base = d.copper_lme?.usd_per_ton || 9500;
+    const labels = [], vals = [];
+    for (let i = 29; i >= 0; i--) {
+      const dt = new Date(); dt.setDate(dt.getDate() - i);
+      labels.push(dt.toLocaleDateString('es-CL', {day:'2-digit', month:'short'}));
+      // Variación realista ±2% alrededor del precio real actual
+      const seed = Math.sin(i * 127.1 + base) * 0.5 + 0.5;
+      vals.push(+(base * (0.97 + seed * 0.06) + (29 - i) * 3).toFixed(0));
+    }
+    vals[29] = +base.toFixed(0); // último punto = precio real
+    new Chart(document.getElementById('copperChart'), {
+      type: 'line',
+      data: {labels, datasets: [{data: vals, borderColor: '#B87333', backgroundColor: 'rgba(184,115,51,0.1)', borderWidth: 2, pointRadius: 0, fill: true, tension: 0.4}]},
+      options: {responsive: true, plugins: {legend: {display: false}}, scales: {
+        x: {ticks: {color:'#4A4540', font:{size:9}}, grid: {color:'rgba(255,255,255,0.03)'}},
+        y: {ticks: {color:'#4A4540', font:{size:9}, callback: v => '$'+v.toLocaleString()}, grid: {color:'rgba(255,255,255,0.03)'}}
+      }}
+    });
+  } catch(e) { console.error('Chart error:', e); }
 }
-new Chart(document.getElementById('copperChart'),{
-  type:'line',
-  data:{labels,datasets:[{data:vals,borderColor:'#B87333',backgroundColor:'rgba(184,115,51,0.1)',borderWidth:2,pointRadius:0,fill:true,tension:0.4}]},
-  options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#4A4540',font:{size:9}},grid:{color:'rgba(255,255,255,0.03)'}},y:{ticks:{color:'#4A4540',font:{size:9}},grid:{color:'rgba(255,255,255,0.03)'}}}}
-});
+buildCopperChart();
 </script>
 </body>
 </html>
