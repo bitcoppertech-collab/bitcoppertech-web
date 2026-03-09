@@ -302,13 +302,7 @@
       .stat-value { font-size: 1.2rem; }
     }
   </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<style>
-  #mapa-calor { height: 280px; width: 100%; background: #0a1520; border-radius: 6px; }
-  .leaflet-container { background: #0a1520; }
-  .node-popup { font-family: 'Space Mono', monospace; font-size: 10px; color: #e8d8c0; }
-  .node-popup strong { color: #b87333; }
-</style>
+
 </head>
 <body>
 <div class="container">
@@ -372,14 +366,7 @@
 
   <!-- GRID PRINCIPAL -->
 
-  <!-- MAPA DE CALOR GLOBAL -->
-  <div class="panel" style="margin-bottom:16px;overflow:hidden">
-    <div class="panel-header">
-      <span class="panel-title">🌍 MAPA DE CALOR GLOBAL · NODOS ACTIVOS</span>
-      <span class="panel-count" id="map-count">0 NODOS</span>
-    </div>
-    <div id="mapa-calor"></div>
-  </div>
+
 
   <div class="main-grid">
     <!-- TABLA MINEROS -->
@@ -445,7 +432,6 @@
   </footer>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
   const API = 'https://bitcu-server-production.up.railway.app';
   let heatHistory = Array(30).fill(0);
@@ -556,62 +542,9 @@
   }
 
 
-  // ── MAPA LEAFLET ──────────────────────────────────
-  let mapaLeaflet = null;
-  let mapMarkers = [];
-
-  function initMapa() {
-    if (mapaLeaflet) return;
-    mapaLeaflet = L.map('mapa-calor', {
-      center: [-20, -65],
-      zoom: 3,
-      zoomControl: true,
-      attributionControl: false
-    });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19
-    }).addTo(mapaLeaflet);
-  }
-
-  async function fetchMap() {
-    try {
-      initMapa();
-      const r = await fetch(API + '/api/nodes/map');
-      const d = await r.json();
-      if (!d.ok) return;
-
-      // Limpiar markers anteriores
-      mapMarkers.forEach(m => mapaLeaflet.removeLayer(m));
-      mapMarkers = [];
-
-      document.getElementById('map-count').textContent = d.total_nodes + ' NODOS';
-
-      d.nodes.forEach(node => {
-        const color = node.flags.is_genesis ? '#b87333' : node.flags.is_server ? '#8247e5' : '#00e87a';
-        const icon = L.divIcon({
-          html: `<div style="width:14px;height:14px;border-radius:50%;background:${color};border:2px solid rgba(255,255,255,0.3);box-shadow:0 0 12px ${color}"></div>`,
-          iconSize: [14, 14],
-          className: ''
-        });
-        const marker = L.marker([node.location.lat, node.location.lon], { icon })
-          .addTo(mapaLeaflet)
-          .bindPopup(`
-            <div class="node-popup">
-              <strong>${node.location.city}, ${node.location.country}</strong><br>
-              ${node.flags.is_genesis ? '⭐ GÉNESIS · ' : ''}${node.flags.is_server ? '🖥 SERVER · ' : ''}
-              ${node.wallet_preview}<br>
-              ⛏ ${parseFloat(node.stats.total_bitcu).toFixed(2)} BITCU · ${node.stats.total_blocks} bloques<br>
-              🌡 ${node.stats.temp_avg}°C avg · TAL: ${node.stats.tal_score}<br>
-              📡 ${node.location.isp || ''}
-            </div>
-          `);
-        mapMarkers.push(marker);
-      });
-    } catch(e) {}
-  }
 
   async function refresh() {
-    await Promise.all([fetchStats(), fetchMiners(), fetchBlocks(), fetchMap()]);
+    await Promise.all([fetchStats(), fetchMiners(), fetchBlocks()]);
   }
   refresh();
   setInterval(refresh, 5000);
