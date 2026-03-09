@@ -680,7 +680,7 @@ async function buildCopperChart() {
     });
   } catch(e) { console.error('Chart error:', e); }
 }
-buildCopperChart();
+if (typeof Chart !== "undefined") { buildCopperChart(); } else { document.querySelector('script[src*="Chart"]').addEventListener("load", buildCopperChart); }
 </script>
 </body>
 </html>
