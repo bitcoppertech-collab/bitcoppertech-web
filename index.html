@@ -240,6 +240,107 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
   </div>
 </section>
 
+
+<!-- FAQ -->
+<section id="faq" style="background:#04070a;padding:80px 24px;border-top:1px solid rgba(184,115,51,0.15)">
+  <div style="max-width:860px;margin:0 auto">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:#b87333;margin-bottom:12px">// FAQ</div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,64px);color:#e8d8c0;margin-bottom:48px;letter-spacing:2px">PREGUNTAS FRECUENTES</h2>
+
+    <div id="faq-list" style="display:flex;flex-direction:column;gap:2px">
+
+      <div class="faq-item" onclick="toggleFaq(this)" style="background:#0a1118;border:1px solid rgba(184,115,51,0.15);cursor:pointer">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 28px">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#e8d8c0;letter-spacing:1px">¿Qué es BITCU y en qué se diferencia de Bitcoin?</div>
+          <span class="faq-arrow" style="color:#b87333;font-size:18px;transition:transform 0.3s">+</span>
+        </div>
+        <div class="faq-body" style="display:none;padding:0 28px 24px;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(232,216,192,0.6);line-height:2;letter-spacing:0.5px">
+          Bitcoin se basa en prueba de trabajo matemático (SHA-256). BITCU se basa en prueba de calor físico (Proof of Heat) — el calor real generado por los circuitos de cobre de tu procesador. No puedes falsificar calor sin hardware real que genuinamente caliente. El suministro es ∞ pero controlado por la entropía máxima del universo (S_max = 10¹²³ J/K, Penrose), lo que garantiza emisión durante miles de millones de años.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)" style="background:#0a1118;border:1px solid rgba(184,115,51,0.15);cursor:pointer">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 28px">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#e8d8c0;letter-spacing:1px">¿Cómo se determina el precio de BITCU?</div>
+          <span class="faq-arrow" style="color:#b87333;font-size:18px;transition:transform 0.3s">+</span>
+        </div>
+        <div class="faq-body" style="display:none;padding:0 28px 24px;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(232,216,192,0.6);line-height:2;letter-spacing:0.5px">
+          El precio de BITCU está indexado al cobre LME mediante la fórmula del patrón cobre:<br>
+          BITCU_USD = LME_Cu (USD/ton) × ρ₀ × 10⁶<br>
+          Donde ρ₀ = 1.68×10⁻⁸ Ω·m (resistividad del cobre puro). Con cobre a ~$9,500 USD/ton, 1 BITCU = ~$159.60 USD. El precio fluctúa con el mercado del cobre LME en tiempo real.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)" style="background:#0a1118;border:1px solid rgba(184,115,51,0.15);cursor:pointer">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 28px">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#e8d8c0;letter-spacing:1px">¿Qué es CUPR y cómo se obtiene?</div>
+          <span class="faq-arrow" style="color:#b87333;font-size:18px;transition:transform 0.3s">+</span>
+        </div>
+        <div class="faq-body" style="display:none;padding:0 28px 24px;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(232,216,192,0.6);line-height:2;letter-spacing:0.5px">
+          CUPR es la reserva soberana humana del ecosistema Bitcopper. Supply fijo: 29,000,000 (número atómico del cobre, Cu=29). Se obtiene quemando BITCU — un proceso irreversible. La Gen1 dura de 2026 a 2029 con un máximo de 26,484 CUPR emitidos por día. El umbral mínimo para convertir es termodinámico: temp_avg_red × ρ₀ × 10⁶ BITCU (~1 BITCU hoy). Los primeros holders reciben más CUPR por menos BITCU.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)" style="background:#0a1118;border:1px solid rgba(184,115,51,0.15);cursor:pointer">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 28px">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#e8d8c0;letter-spacing:1px">¿Necesito hardware especial para minar BITCU?</div>
+          <span class="faq-arrow" style="color:#b87333;font-size:18px;transition:transform 0.3s">+</span>
+        </div>
+        <div class="faq-body" style="display:none;padding:0 28px 24px;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(232,216,192,0.6);line-height:2;letter-spacing:0.5px">
+          No. Cualquier procesador que genere calor puede minar BITCU — Mac, Linux, Windows, iPhone, Android. Sin ASIC, sin GPU costosa, sin pools. Descarga el agente TAL v3.0 o el daemon v1.1.0, ingresa tu wallet y listo. A mayor temperatura del procesador, mayor recompensa por bloque.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)" style="background:#0a1118;border:1px solid rgba(184,115,51,0.15);cursor:pointer">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 28px">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#e8d8c0;letter-spacing:1px">¿Qué es el protocolo x402 y para qué sirve?</div>
+          <span class="faq-arrow" style="color:#b87333;font-size:18px;transition:transform 0.3s">+</span>
+        </div>
+        <div class="faq-body" style="display:none;padding:0 28px 24px;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(232,216,192,0.6);line-height:2;letter-spacing:0.5px">
+          x402 es el protocolo de pago autónomo para IAs. Permite que agentes de inteligencia artificial paguen por recursos computacionales directamente en BITCU, sin intervención humana. Una IA puede solicitar inferencia, tiempo de cómputo o almacenamiento y pagar automáticamente via headers HTTP. BITCU es el combustible nativo de la economía de las máquinas.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)" style="background:#0a1118;border:1px solid rgba(184,115,51,0.15);cursor:pointer">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 28px">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#e8d8c0;letter-spacing:1px">¿Es Bitcopper una empresa legal?</div>
+          <span class="faq-arrow" style="color:#b87333;font-size:18px;transition:transform 0.3s">+</span>
+        </div>
+        <div class="faq-body" style="display:none;padding:0 28px 24px;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(232,216,192,0.6);line-height:2;letter-spacing:0.5px">
+          Sí. Bitcopper opera bajo dos entidades legales: Bitcopper Tech SpA (Chile, RUT 78.355.848-3) y Bitcopper Technologies LLC (Wyoming, USA). Fundada por Pedro Ramos Morales, nacido en Chuquicamata — la capital mundial del cobre.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)" style="background:#0a1118;border:1px solid rgba(184,115,51,0.15);cursor:pointer">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 28px">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#e8d8c0;letter-spacing:1px">¿Cómo puedo convertir BITCU a USDT, BTC o CLP?</div>
+          <span class="faq-arrow" style="color:#b87333;font-size:18px;transition:transform 0.3s">+</span>
+        </div>
+        <div class="faq-body" style="display:none;padding:0 28px 24px;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(232,216,192,0.6);line-height:2;letter-spacing:0.5px">
+          El puente de liquidez BITCU ↔ USDT/BTC/ETH/CLP está disponible en bitcoppertech.cl/bitcu#puente. El precio se calcula en tiempo real usando el LME y las cotizaciones de mercado. Para CUPR, el DEX CUPR/USDT está proyectado para Q4 2026 en Polygon.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+function toggleFaq(el) {
+  const body = el.querySelector('.faq-body');
+  const arrow = el.querySelector('.faq-arrow');
+  const isOpen = body.style.display === 'block';
+  // Cerrar todos
+  document.querySelectorAll('.faq-body').forEach(b => b.style.display = 'none');
+  document.querySelectorAll('.faq-arrow').forEach(a => { a.textContent = '+'; a.style.transform = ''; });
+  if (!isOpen) {
+    body.style.display = 'block';
+    arrow.textContent = '×';
+    arrow.style.transform = 'rotate(45deg)';
+  }
+}
+</script>
+
 <footer>
   <div class="footer-inner">
     <div>
