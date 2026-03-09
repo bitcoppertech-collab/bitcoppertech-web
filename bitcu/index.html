@@ -297,7 +297,7 @@ document.addEventListener('keydown',e=>{
 
 <section id="puente">
   <div class="section-label">Puente</div>
-  <h2 class="section-title reveal">BITCU &harr; USDT BTC ETH CLP</h2>
+  <h2 class="section-title reveal">BITCU &harr; USDT</h2>
   <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8;margin-bottom:48px">Precio indexado al cobre LME. Formula: BITCU = cobre_USD_ton x rho0 x 10^6</p>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
     <div style="background:var(--dark2);padding:40px">
@@ -306,9 +306,6 @@ document.addEventListener('keydown',e=>{
       <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:32px">USD por 1 BITCU</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <div style="background:var(--dark3);padding:16px"><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:6px">1 USDT =</div><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text)" id="rate-usdt">---</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">BITCU</div></div>
-        <div style="background:var(--dark3);padding:16px"><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:6px">1 BTC =</div><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text)" id="rate-btc">---</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">BITCU</div></div>
-        <div style="background:var(--dark3);padding:16px"><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:6px">1 ETH =</div><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text)" id="rate-eth">---</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">BITCU</div></div>
-        <div style="background:var(--dark3);padding:16px"><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:6px">1000 CLP =</div><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text)" id="rate-clp">---</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">BITCU</div></div>
       </div>
       <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:20px">Cobre LME: <span id="copper-price" style="color:var(--copper)">---</span> USD/ton</div>
       <div style="margin-top:20px;background:var(--dark3);padding:16px;border-left:3px solid var(--copper)"><div style="font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:8px">DEPOSITO USDT EN POLYGON</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text);word-break:break-all">0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec</div><a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank" style="display:inline-block;margin-top:8px;color:var(--copper);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-decoration:none">Ver en Polygonscan →</a></div>
@@ -493,7 +490,7 @@ document.addEventListener('keydown',e=>{
         <li><span>04</span><span>Capa 2 &mdash; CUPR: La Reserva Soberana (29M)</span></li>
         <li><span>05</span><span>El Patron Cobre &mdash; Arquitectura Completa</span></li>
         <li><span>06</span><span>Protocolo x402 &mdash; La Economia de las IAs</span></li>
-        <li><span>07</span><span>Puente de Liquidez BITCU &harr; USDT / BTC / ETH / CLP</span></li>
+        <li><span>07</span><span>Puente de Liquidez BITCU &harr; USDT (Polygon)</span></li>
         <li><span>08</span><span>Seguridad &mdash; TAL + Post-Cuantica + Satelital</span></li>
         <li><span>09</span><span>Marco Legal &mdash; SpA Chile + LLC Wyoming</span></li>
         <li><span>10</span><span>Hoja de Ruta 2026-2030</span></li>
@@ -528,14 +525,14 @@ document.addEventListener('keydown',e=>{
     <div class="security-card reveal">
       <div class="security-number">// 03</div>
       <div class="security-title">Creador Identificable</div>
-      <div class="security-desc">Pedro Ramos Morales, nacido en Chuquicamata, Chile. Bloque genesis firmado el 1 de marzo de 2026. El puente USDT/BTC/ETH es una simulacion del protocolo y no maneja fondos reales en esta etapa.</div>
+      <div class="security-desc">Pedro Ramos Morales, nacido en Chuquicamata, Chile. Bloque genesis firmado el 1 de marzo de 2026. El puente USDT opera en Polygon Mainnet. Deposita USDT y recibe BITCU automaticamente.</div>
       <span class="security-tag">FASE EXPERIMENTAL</span>
     </div>
   </div>
   <div style="margin-top:48px;background:var(--dark2);border-left:3px solid var(--copper);padding:24px 32px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text-dim);max-width:800px;line-height:1.8">
     <div style="font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:12px">AVISO DE RED</div>
     La red Bitcopper est&aacute; en operaci&oacute;n &mdash; bloques, recompensas e identidades t&eacute;rmicas son registros reales de la cadena. <span style="background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);color:#2ECC71;font-size:9px;padding:2px 8px;letter-spacing:2px;margin-left:4px">EN VIVO</span><br>
-    El puente USDT/BTC/ETH/CLP es una simulaci&oacute;n del protocolo x402 y no maneja fondos reales en esta etapa. <span style="background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.2);color:#ffd700;font-size:9px;padding:2px 8px;letter-spacing:2px;margin-left:4px">SIMULADO</span><br>
+    El puente USDT opera en Polygon Mainnet en tiempo real. <span style="background:rgba(0,255,100,0.08);border:1px solid rgba(0,255,100,0.2);color:#00ff64;font-size:9px;padding:2px 8px;letter-spacing:2px;margin-left:4px">EN VIVO</span><br>
     La miner&iacute;a Proof of Heat es gratuita, solo necesitas tu procesador y una identidad t&eacute;rmica sellada. Este software es propiedad de Bitcopper Tech SpA. <span style="background:rgba(184,115,51,0.1);border:1px solid rgba(184,115,51,0.3);color:#B87333;font-size:9px;padding:2px 8px;letter-spacing:2px;margin-left:4px">&copy; BITCOPPER TECH SPA</span>
   </div>
 </section>
@@ -606,9 +603,6 @@ async function fetchBridge(){
     const copper = d.copper_lme?.usd_per_ton || 0;
     document.getElementById('bitcu-price').textContent='$'+parseFloat(usd).toFixed(4);
     document.getElementById('rate-usdt').textContent=parseFloat(usdt).toFixed(4);
-    document.getElementById('rate-btc').textContent=parseFloat(btc).toFixed(2);
-    document.getElementById('rate-eth').textContent=parseFloat(eth).toFixed(2);
-    document.getElementById('rate-clp').textContent=(parseFloat(clp)*1000).toFixed(6);
     document.getElementById('copper-price').textContent=parseFloat(copper).toFixed(2);
   }catch(e){console.error('Bridge error:',e);}
 }
