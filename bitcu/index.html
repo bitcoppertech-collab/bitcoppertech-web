@@ -666,14 +666,7 @@ async function fetchEntropy(){
     document.getElementById('entropy-years').textContent=years?parseInt(years).toLocaleString('es-CL'):'∞';
     document.getElementById('entropy-cu').textContent=cu.toFixed(3)+' kg';
     // Burns BITCU → CUPR desde cupr_burns
-    try {
-      const rb = await fetch('https://bitcu-server-production.up.railway.app/api/burns/totals');
-      const db = await rb.json();
-      if (db.ok) {
-        document.getElementById('entropy-burned').textContent = parseFloat(db.total_bitcu_burned).toFixed(6) + ' BITCU';
-        document.getElementById('entropy-cupr-emitidos').textContent = parseFloat(db.total_cupr_emitido).toLocaleString('es-CL', {maximumFractionDigits:2});
-      }
-    } catch(e) {}
+
     document.getElementById('entropy-temp').textContent=temp.toFixed(1);
     document.getElementById('entropy-heat').textContent=heat.toExponential(3);
     document.getElementById('entropy-blocks').textContent=blocks.toLocaleString('es-CL');
