@@ -164,6 +164,12 @@ document.addEventListener('keydown',e=>{
       const el = document.getElementById('inventory-balance');
       if (el) el.textContent = parseFloat(d.total_bitcu || 0).toFixed(4);
     } catch(e) {}
+    try {
+      const r2 = await fetch('https://bitcu-server-production.up.railway.app/api/burns/totals');
+      const d2 = await r2.json();
+      const el2 = document.getElementById('bridge-burned');
+      if (el2 && d2.ok) el2.textContent = parseFloat(d2.total_bitcu_burned || 0).toFixed(6);
+    } catch(e) {}
   }
 
   loadBridgeHistory();
@@ -336,7 +342,7 @@ document.addEventListener('keydown',e=>{
   <div class="section-label">Puente</div>
   <h2 class="section-title reveal">BITCU &harr; USDT</h2>
   <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8;margin-bottom:48px">Precio indexado al cobre LME. Formula: BITCU = cobre_USD_ton x rho0 x 10^6</p>
-  <div style="display:grid;grid-template-columns:1fr;gap:2px;max-width:100%">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:100%">
     <div style="background:var(--dark2);padding:40px">
       <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">COTIZACION EN VIVO</div>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--copper);line-height:1" id="bitcu-price">---</div>
@@ -346,6 +352,15 @@ document.addEventListener('keydown',e=>{
       </div>
       <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:20px">Cobre LME: <span id="copper-price" style="color:var(--copper)">---</span> USD/ton</div>
       <div style="margin-top:20px;background:var(--dark3);padding:16px;border-left:3px solid var(--copper)"><div style="font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:8px">DEPOSITO USDT EN POLYGON</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec</div><a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank" style="display:inline-block;margin-top:8px;color:var(--copper);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-decoration:none">Ver en Polygonscan →</a></div>
+    </div>
+    <div style="background:var(--dark2);padding:40px">
+      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">INVENTARIO BITCU</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--copper);line-height:1" id="inventory-balance">---</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:32px">BITCU disponibles</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px;margin-top:32px">BITCU QUEMADOS</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--text);line-height:1" id="bridge-burned">---</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:32px">total BITCU → CUPR</div>
+      <div style="margin-top:32px;font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);word-break:break-all;border-left:2px solid var(--copper);padding-left:12px">BTCU-ecaf39c6c225e72cab8814b5367fe78cc9304b0669677f8429fd9190bb00a25d</div>
     </div>
   </div>
   <div style="background:var(--dark2);padding:40px;margin-top:2px">
