@@ -347,18 +347,16 @@ document.addEventListener('keydown',e=>{
       <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:20px">Cobre LME: <span id="copper-price" style="color:var(--copper)">---</span> USD/ton</div>
       <div style="margin-top:20px;background:var(--dark3);padding:16px;border-left:3px solid var(--copper)"><div style="font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:8px">DEPOSITO USDT EN POLYGON</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text);word-break:break-all">0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec</div><a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank" style="display:inline-block;margin-top:8px;color:var(--copper);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-decoration:none">Ver en Polygonscan →</a></div>
     </div>
-    <div style="background:var(--dark2);padding:40px">
-      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">COBRE LME &mdash; HISTORICO 30 DIAS</div>
-      <canvas id="copperChart" style="width:100%;height:300px;display:block"></canvas>
-      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:16px">Indexado a LME + variacion red Bitcopper</div>
-      <div style="margin-top:24px;text-align:center">
-        <a href="https://www.lme.com/metals/non-ferrous/lme-copper#Price+graphs" target="_blank" class="btn-secondary" style="font-size:9px;padding:10px 20px">Ver Cotizacion en Vivo →</a>
-      </div>
+  </div>
+  <div style="background:var(--dark2);padding:40px;margin-top:2px">
+    <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">COBRE LME &mdash; HISTORICO 30 DIAS</div>
+    <canvas id="copperChart" style="width:100%;height:300px;display:block"></canvas>
+    <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:16px">Indexado a LME + variacion red Bitcopper</div>
+    <div style="margin-top:24px;text-align:center">
+      <a href="https://www.lme.com/metals/non-ferrous/lme-copper#Price+graphs" target="_blank" class="btn-secondary" style="font-size:9px;padding:10px 20px">Ver Cotizacion en Vivo →</a>
     </div>
   </div>
 </section>
-
-<section id="red" style="background:var(--dark2)">
   <div class="section-label"><span class="live-dot"></span>En Vivo</div>
   <h2 class="section-title reveal">Red Global en Tiempo Real</h2>
   <div class="dashboard-frame reveal">
