@@ -663,7 +663,7 @@ async function fetchEntropy(){
     document.getElementById('entropy-sjk').textContent=sjk.toFixed(4);
     document.getElementById('entropy-emitidos').textContent=emitidos.toFixed(2);
     document.getElementById('entropy-restantes').textContent='∞';
-    document.getElementById('entropy-years').textContent=years?parseInt(years).toLocaleString('es-CL'):'∞';
+    const yearsEl=document.getElementById('entropy-years'); if(yearsEl) yearsEl.textContent=years?parseInt(years).toLocaleString('es-CL'):'∞';
     const cuEl=document.getElementById('entropy-cu'); if(cuEl) cuEl.textContent=cu>0?cu.toFixed(3)+' kg':'1.800 kg';
     // Burns BITCU → CUPR desde cupr_burns
 
