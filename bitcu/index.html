@@ -329,10 +329,10 @@ document.addEventListener('keydown',e=>{
   <h2 class="section-title reveal">IAs que Pagan<br>con BITCU</h2>
   <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8;margin-bottom:60px">El protocolo x402 permite que agentes de IA autonomos paguen por recursos computacionales directamente en BITCU, sin intervencion humana.</p>
   <div class="steps">
-    <div class="step reveal"><div class="step-number">01</div><div class="step-title">IA hace request</div><div class="step-desc">El agente IA solicita un recurso: inferencia, computo, almacenamiento o acceso a la API de mineria.</div></div>
-    <div class="step reveal"><div class="step-number">02</div><div class="step-title">Servidor responde 402</div><div class="step-desc">El servidor responde Payment Required con el precio en BITCU y las instrucciones de pago via headers HTTP.</div></div>
-    <div class="step reveal"><div class="step-number">03</div><div class="step-title">IA paga en BITCU</div><div class="step-desc">La IA reenvía el request con x-bitcu-wallet y x-bitcu-payment. El servidor debita automaticamente de su balance.</div></div>
-    <div class="step reveal"><div class="step-number">04</div><div class="step-title">Recurso entregado</div><div class="step-desc">El servidor entrega el recurso solicitado. La IA pago con el calor de sus propios circuitos de cobre.</div></div>
+    <div class="step reveal"><div class="step-number">01</div><div class="step-title">IA descubre el manifest</div><div class="step-desc">El agente consulta GET /x402/manifest y descubre los servicios disponibles, precios en BITCU y como adquirirlos.</div></div>
+    <div class="step reveal"><div class="step-number">02</div><div class="step-title">IA compra BITCU</div><div class="step-desc">Deposita USDT en Polygon a la direccion de custodia. En menos de 30 segundos recibe BITCU automaticamente en su wallet.</div></div>
+    <div class="step reveal"><div class="step-number">03</div><div class="step-title">IA paga el servicio</div><div class="step-desc">Envia el request con headers x-bitcu-wallet y x-bitcu-payment: paid. El servidor verifica el saldo y debita automaticamente.</div></div>
+    <div class="step reveal"><div class="step-number">04</div><div class="step-title">Recurso entregado</div><div class="step-desc">El servidor entrega inferencia, computo o almacenamiento. Fee: 0.5%. Sin intermediarios, sin humanos, sin friccion.</div></div>
   </div>
   <div style="margin-top:48px;background:var(--dark3);border-left:3px solid var(--copper);padding:24px 32px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text);max-width:600px">
     <div style="font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:12px">TARIFAS x402</div>
