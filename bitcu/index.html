@@ -135,6 +135,41 @@ document.addEventListener('keydown',e=>{
   if(e.ctrlKey&&e.shiftKey&&['I','J','C'].includes(e.key))e.preventDefault();
   if(e.ctrlKey&&['u','s'].includes(e.key))e.preventDefault();
 });
+
+  // Historial compras USDT→BITCU
+  async function loadBridgeHistory() {
+    try {
+      const r = await fetch('https://bitcu-server-production.up.railway.app/api/bridge/history');
+      const d = await r.json();
+      const el = document.getElementById('bridge-history');
+      if (!d.ok || d.total === 0) {
+        el.innerHTML = '<div style="color:var(--text-muted);font-size:9px;letter-spacing:2px">SIN COMPRAS AUN</div>';
+        return;
+      }
+      el.innerHTML = d.history.map(h => `
+        <div style="border-bottom:1px solid rgba(184,115,51,0.1);padding:10px 0">
+          <div style="font-size:9px;color:var(--text-muted)">${new Date(h.created_at).toLocaleDateString('es-CL')}</div>
+          <div style="color:var(--copper)">${parseFloat(h.usdt_amount).toFixed(2)} USDT → <span style="color:#fff">${parseFloat(h.bitcu_delivered).toFixed(6)} BITCU</span></div>
+          <div style="font-size:9px;color:var(--text-muted);word-break:break-all">${h.tx_hash?.slice(0,20)}...</div>
+        </div>
+      `).join('');
+    } catch(e) {}
+  }
+
+  // Inventario BITCU
+  async function loadInventory() {
+    try {
+      const r = await fetch('https://bitcu-server-production.up.railway.app/api/wallet/BTCU-ecaf39c6c225e72cab8814b5367fe78cc9304b0669677f8429fd9190bb00a25d/balance');
+      const d = await r.json();
+      const el = document.getElementById('inventory-balance');
+      if (el) el.textContent = parseFloat(d.total_bitcu || 0).toFixed(4);
+    } catch(e) {}
+  }
+
+  loadBridgeHistory();
+  loadInventory();
+  setInterval(loadBridgeHistory, 30000);
+  setInterval(loadInventory, 30000);
 </script>
 <nav id="nav">
   <a href="#" class="nav-logo">
@@ -165,6 +200,19 @@ document.addEventListener('keydown',e=>{
     <div class="hero-cta">
       <a href="#descargar" class="btn-primary">Empezar a Minar</a>
       <a href="#whitepaper" class="btn-secondary">Leer Whitepaper</a>
+    </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:2px">
+    <div style="background:var(--dark2);padding:40px">
+      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">COMPRAS USDT → BITCU</div>
+      <div id="bridge-history" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text)">
+        <div style="color:var(--text-muted);font-size:9px">Cargando...</div>
+      </div>
+    </div>
+    <div style="background:var(--dark2);padding:40px">
+      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">INVENTARIO BITCU</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--copper);line-height:1" id="inventory-balance">---</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:8px">BITCU disponibles para compra</div>
+      <div style="margin-top:24px;font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);word-break:break-all;border-left:2px solid var(--copper);padding-left:12px">BTCU-ecaf39c6c225e72cab8814b5367fe78cc9304b0669677f8429fd9190bb00a25d</div>
     </div>
   </div>
 </section>
