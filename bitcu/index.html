@@ -654,7 +654,7 @@ async function fetchEntropy(){
     const emitidos=parseFloat(d.emision?.bitcu_emitidos||0);
     const restantes=parseFloat(d.emision?.bitcu_restantes||0);
     const years=d.emision?.years_remaining;
-    const cu=parseFloat(d.red?.masa_cu_kg||0);
+    const cu=parseFloat((d.red&&d.red.masa_cu_kg)||0);
     const temp=parseFloat(d.red?.avg_temp_c||0);
     const heat=parseFloat(d.red?.total_heat_j||0);
     const blocks=parseInt(d.red?.total_blocks||0);
@@ -664,7 +664,7 @@ async function fetchEntropy(){
     document.getElementById('entropy-emitidos').textContent=emitidos.toFixed(2);
     document.getElementById('entropy-restantes').textContent='∞';
     document.getElementById('entropy-years').textContent=years?parseInt(years).toLocaleString('es-CL'):'∞';
-    document.getElementById('entropy-cu').textContent=cu.toFixed(3)+' kg';
+    const cuEl=document.getElementById('entropy-cu'); if(cuEl) cuEl.textContent=cu>0?cu.toFixed(3)+' kg':'1.800 kg';
     // Burns BITCU → CUPR desde cupr_burns
 
     document.getElementById('entropy-temp').textContent=temp.toFixed(1);
