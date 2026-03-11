@@ -327,21 +327,41 @@ document.addEventListener('keydown',e=>{
     <div class="step reveal"><div class="step-number">03</div><div class="step-title">IA paga el servicio</div><div class="step-desc">Envia el request con headers x-bitcu-wallet y x-bitcu-payment: paid. El servidor verifica el saldo y debita automaticamente.</div></div>
     <div class="step reveal"><div class="step-number">04</div><div class="step-title">Recurso entregado</div><div class="step-desc">El servidor entrega inferencia, computo o almacenamiento. Fee: 0.5%. Sin intermediarios, sin humanos, sin friccion.</div></div>
   </div>
+  <!-- ── TARIFAS x402 con equivalente USD en vivo ── -->
   <div style="margin-top:48px;background:var(--dark3);border-left:3px solid var(--copper);padding:24px 32px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text);max-width:600px">
     <div style="font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:12px">TARIFAS x402</div>
     <div style="margin-bottom:24px"><a href="https://bitcu-server-production.up.railway.app/x402/manifest" target="_blank" style="font-family:'Space Mono',monospace;font-size:10px;color:var(--copper);letter-spacing:2px;border:1px solid var(--copper);padding:6px 16px;text-decoration:none">VER MANIFEST x402 →</a></div>
-    <div style="font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:12px</div>
-    Inferencia IA &mdash; 0.001 BITCU / request<br>
-    Tiempo de computo &mdash; 0.0005 BITCU / segundo<br>
-    Almacenamiento &mdash; 0.0001 BITCU / MB<br>
-    API Mineria &mdash; 0.00001 BITCU / request
+    <div style="line-height:2.4">
+      Inferencia IA &mdash; 0.001 BITCU / request <span id="x402-inf-usd" style="color:var(--text-muted);font-size:10px"></span><br>
+      Tiempo de computo &mdash; 0.0005 BITCU / segundo <span id="x402-cpu-usd" style="color:var(--text-muted);font-size:10px"></span><br>
+      Almacenamiento &mdash; 0.0001 BITCU / MB <span id="x402-sto-usd" style="color:var(--text-muted);font-size:10px"></span><br>
+      API Mineria &mdash; 0.00001 BITCU / request <span id="x402-api-usd" style="color:var(--text-muted);font-size:10px"></span>
+    </div>
   </div>
 </section>
 
 <section id="puente">
   <div class="section-label">Puente</div>
   <h2 class="section-title reveal">BITCU &harr; USDT</h2>
-  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8;margin-bottom:24px">   Precio indexado al cobre LME. Fórmula general: </p> <div style="background:var(--dark3);border-left:3px solid var(--copper);padding:20px 28px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text);max-width:600px;margin-bottom:12px;line-height:2">   <div style="font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:10px">FÓRMULA — SECCIÓN 2.2</div>   precio_BITCU = P_LME × ρ₀ × 10⁶<br>   precio_BITCU = P_LME × 1.68×10⁻⁸ × 10⁶<br>   precio_BITCU = P_LME × 0.0168 &nbsp;<span style="color:var(--text-muted)">(simplificado)</span><br><br>   <span style="color:var(--text-muted);font-size:10px">Ejemplo referencial (cobre a USD 9,500/ton):</span><br>   precio_BITCU = <span style="color:#7A7065">USD 0.1596</span><br><br>   <span style="color:var(--copper);font-size:10px">Precio actual (cobre LME en vivo):</span><br>   precio_BITCU = <span id="formula-price-live" style="color:var(--copper);font-size:16px">calculando...</span> </div> <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);max-width:600px;margin-bottom:48px">   P_LME = precio cobre LME vigente al momento de consulta &nbsp;·&nbsp; ρ₀ = 1.68×10⁻⁸ Ω·m </div>
+
+  <!-- ── SECCIÓN 2.2: Fórmula variable con P_LME en vivo ── -->
+  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8;margin-bottom:16px">
+    Precio indexado al cobre LME vigente al momento de consulta (P_LME USD/ton).
+  </p>
+  <div style="background:var(--dark3);border-left:3px solid var(--copper);padding:20px 28px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text);max-width:640px;margin-bottom:12px;line-height:2.4">
+    <div style="font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:10px">FÓRMULA — SECCIÓN 2.2 &nbsp;·&nbsp; ρ₀ = 1.68×10⁻⁸ Ω·m</div>
+    precio_BITCU = P_LME × 1.68×10⁻⁸ × 10⁶<br>
+    precio_BITCU = P_LME × 0.0168 <span style="color:var(--text-muted);font-size:10px">(simplificado)</span><br><br>
+    <span style="color:var(--text-muted);font-size:10px">Ejemplo referencial (cobre a USD 9,500/ton):</span><br>
+    precio_BITCU = <span style="color:var(--text-muted)">USD 0.1596</span><br><br>
+    <span style="color:var(--copper);font-size:10px">⚡ Precio actual (P_LME vigente):</span><br>
+    precio_BITCU = <span id="formula-bitcu-live" style="color:var(--copper);font-size:20px;font-family:'Bebas Neue'">—</span>
+    <span id="formula-lme-live" style="font-size:10px;color:var(--text-muted);margin-left:10px"></span>
+  </div>
+  <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);max-width:640px;margin-bottom:48px">
+    P_LME = precio cobre LME USD/ton &nbsp;·&nbsp; ρ₀ = 1.68×10⁻⁸ Ω·m &nbsp;·&nbsp; actualizado cada 30s
+  </div>
+
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:100%">
     <div style="background:var(--dark2);padding:40px">
       <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">COTIZACION EN VIVO</div>
@@ -486,18 +506,15 @@ document.addEventListener('keydown',e=>{
         <div style="font-family:'Bebas Neue';font-size:32px;color:var(--copper)" id="entropy-restantes">---</div>
         <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">∞ · limitado por entropía del universo</div>
       </div>
-
       <div style="background:rgba(184,115,51,0.05);border:1px solid rgba(184,115,51,0.2);padding:12px;margin-top:8px">
         <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">MASA Cu ESTIMADA EN RED</div>
         <div style="font-family:'Bebas Neue';font-size:24px;color:var(--text);white-space:nowrap" id="entropy-cu"></div>
         <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">kg de cobre en placas conectadas</div>
       </div>
-
     </div>
   </div>
   <div style="background:var(--dark2);padding:48px;border-top:2px solid var(--gray)">
     <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--copper);margin-bottom:24px">MAPA DE CALOR GLOBAL · NODOS ACTIVOS</div>
-
     <div id="entropia-mapa" style="width:100%;height:320px;border-radius:8px;border:1px solid rgba(184,115,51,0.2)"></div>
     <div style="display:flex;gap:32px;margin-top:16px;font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">
       <span>🟠 Nodo génesis</span>
@@ -507,7 +524,6 @@ document.addEventListener('keydown',e=>{
       <span>🔥 Calor total: <span id="entropy-heat" style="color:var(--amber)">---</span> J</span>
       <span>⛏ Bloques totales: <span id="entropy-blocks" style="color:var(--text)">---</span></span>
     </div>
-<!-- mapa cargado via window.load -->
   </div>
 </section>
 
@@ -597,7 +613,7 @@ document.addEventListener('keydown',e=>{
         <li><a href="#descargar">Descargar Agente</a></li>
         <li><a href="#puente">Puente</a></li>
         <li><a href="#red">Red en Vivo</a></li>
-      <li><a href="#entropia">Reloj Entropía</a></li>
+        <li><a href="#entropia">Reloj Entropía</a></li>
       </ul>
     </div>
   </div>
@@ -631,15 +647,32 @@ async function fetchBridge(){
   try{
     const r=await fetch('https://bitcu-server-production.up.railway.app/bridge/rate');
     const d=await r.json();
-    const usd = d.bitcu_price?.usd || d.bitcu_usd || 0;
-    const usdt = d.exchange_rates?.USDT?.bitcu_per_unit || d.rates?.USDT?.bitcu_per_1 || 0;
-    const btc  = d.exchange_rates?.BTC?.bitcu_per_unit  || d.rates?.BTC?.bitcu_per_1  || 0;
-    const eth  = d.exchange_rates?.ETH?.bitcu_per_unit  || d.rates?.ETH?.bitcu_per_1  || 0;
-    const clp  = d.exchange_rates?.CLP?.bitcu_per_unit  || d.rates?.CLP?.bitcu_per_1  || 0;
+    const usd    = d.bitcu_price?.usd || d.bitcu_usd || 0;
+    const usdt   = d.exchange_rates?.USDT?.bitcu_per_unit || d.rates?.USDT?.bitcu_per_1 || 0;
     const copper = d.copper_lme?.usd_per_ton || 0;
+
     document.getElementById('bitcu-price').textContent='$'+parseFloat(usd).toFixed(4);
     document.getElementById('rate-usdt').textContent=parseFloat(usdt).toFixed(4);
     document.getElementById('copper-price').textContent=parseFloat(copper).toFixed(2);
+
+    // ── Sección 2.2: fórmula variable con P_LME en vivo ──
+    const _fbl  = document.getElementById('formula-bitcu-live');
+    const _flme = document.getElementById('formula-lme-live');
+    if (_fbl && copper > 0) {
+      _fbl.textContent  = 'USD ' + (copper * 1.68e-8 * 1e6).toFixed(4);
+      if (_flme) _flme.textContent = '(P_LME = ' + parseFloat(copper).toLocaleString('es-CL') + ' USD/ton)';
+    }
+
+    // ── Tarifas x402: equivalente USD en vivo ──
+    const _usdPerBitcu = parseFloat(usd);
+    if (_usdPerBitcu > 0) {
+      const _fmt = (bitcu) => '≈ $' + (bitcu * _usdPerBitcu).toFixed(6) + ' USD';
+      const _inf = document.getElementById('x402-inf-usd'); if(_inf) _inf.textContent = _fmt(0.001);
+      const _cpu = document.getElementById('x402-cpu-usd'); if(_cpu) _cpu.textContent = _fmt(0.0005);
+      const _sto = document.getElementById('x402-sto-usd'); if(_sto) _sto.textContent = _fmt(0.0001);
+      const _api = document.getElementById('x402-api-usd'); if(_api) _api.textContent = _fmt(0.00001);
+    }
+
   }catch(e){console.error('Bridge error:',e);}
 }
 fetchBridge();setInterval(fetchBridge,30000);
@@ -651,8 +684,6 @@ async function fetchEntropy(){
     const pct=parseFloat(d.reloj_entropia?.entropia_pct||0);
     const sjk=parseFloat(d.reloj_entropia?.s_global_jk||0);
     const emitidos=parseFloat(d.emision?.bitcu_emitidos||0);
-    const restantes=parseFloat(d.emision?.bitcu_restantes||0);
-    const years=d.emision?.years_remaining;
     const cu=parseFloat((d.red&&d.red.masa_cu_kg)||0);
     const temp=parseFloat(d.red?.avg_temp_c||0);
     const heat=parseFloat(d.red?.total_heat_j||0);
@@ -662,15 +693,13 @@ async function fetchEntropy(){
     document.getElementById('entropy-sjk').textContent=sjk.toFixed(4);
     document.getElementById('entropy-emitidos').textContent=emitidos.toFixed(2);
     document.getElementById('entropy-restantes').textContent='∞';
-    const yearsEl=document.getElementById('entropy-years'); if(yearsEl) yearsEl.textContent=years?parseInt(years).toLocaleString('es-CL'):'∞';
+    const yearsEl=document.getElementById('entropy-years'); if(yearsEl) yearsEl.textContent='∞';
     const cuEl=document.getElementById('entropy-cu'); if(cuEl) cuEl.textContent=cu>0?cu.toFixed(3)+' kg':'1.800 kg';
-    // Burns BITCU → CUPR desde cupr_burns
 
     document.getElementById('entropy-temp').textContent=temp.toFixed(1);
     document.getElementById('entropy-heat').textContent=heat.toExponential(3);
     document.getElementById('entropy-blocks').textContent=blocks.toLocaleString('es-CL');
 
-    // Actualizar arco SVG
     const arc=document.getElementById('entropy-arc');
     if(arc){const offset=597-(597*(pct/100));arc.setAttribute('stroke-dashoffset',offset);}
   }catch(e){console.error('Entropy error:',e);}
@@ -686,11 +715,10 @@ async function buildCopperChart() {
     for (let i = 29; i >= 0; i--) {
       const dt = new Date(); dt.setDate(dt.getDate() - i);
       labels.push(dt.toLocaleDateString('es-CL', {day:'2-digit', month:'short'}));
-      // Variación realista ±2% alrededor del precio real actual
       const seed = Math.sin(i * 127.1 + base) * 0.5 + 0.5;
       vals.push(+(base * (0.97 + seed * 0.06) + (29 - i) * 3).toFixed(0));
     }
-    vals[29] = +base.toFixed(0); // último punto = precio real
+    vals[29] = +base.toFixed(0);
     new Chart(document.getElementById('copperChart'), {
       type: 'line',
       data: {labels, datasets: [{data: vals, borderColor: '#B87333', backgroundColor: 'rgba(184,115,51,0.1)', borderWidth: 2, pointRadius: 0, fill: true, tension: 0.4}]},
@@ -701,6 +729,7 @@ async function buildCopperChart() {
     });
   } catch(e) { console.error('Chart error:', e); }
 }
+
 function initMapaCalor() {
   const mapaEl = document.getElementById('entropia-mapa');
   if (!mapaEl || typeof L === 'undefined') return;
@@ -722,6 +751,7 @@ function initMapaCalor() {
       });
     }).catch(e => console.error('Map error:', e));
 }
+
 window.addEventListener("load", () => { buildCopperChart(); initMapaCalor(); });
 </script>
 </body>
