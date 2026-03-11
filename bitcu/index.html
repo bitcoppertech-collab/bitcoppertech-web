@@ -659,7 +659,7 @@ async function fetchBridge(){
     const _fbl  = document.getElementById('formula-bitcu-live');
     const _flme = document.getElementById('formula-lme-live');
     if (_fbl && copper > 0) {
-      _fbl.textContent  = 'USD ' + (copper * 1.68e-8 * 1e6).toFixed(4);
+      _fbl.textContent  = 'USD ' + parseFloat(usd).toFixed(4);
       if (_flme) _flme.textContent = '(P_LME = ' + parseFloat(copper).toLocaleString('es-CL') + ' USD/ton)';
     }
 
