@@ -6,13 +6,9 @@
     { "source": "/smartbuild/:path*", "permanent": false, "destination": "https://smartbuild-apu-prod-3d7b.vercel.app/:path*" }
   ],
   "rewrites": [
-    { "source": "/cupr",       "destination": "/cupr/index.html" },
-    { "source": "/cupr/",      "destination": "/cupr/index.html" },
-    { "source": "/CUPR",       "destination": "/cupr/index.html" },
-    { "source": "/CUPR/",      "destination": "/cupr/index.html" },
-    { "source": "/mut",        "destination": "/mut/mut.html" },
-    { "source": "/mut/",       "destination": "/mut/mut.html" },
-    { "source": "/fundacion",  "destination": "/fundacion/fundacion.html" },
-    { "source": "/fundacion/", "destination": "/fundacion/fundacion.html" }
+    { "source": "/cupr",  "destination": "/cupr/index.html" },
+    { "source": "/cupr/", "destination": "/cupr/index.html" },
+    { "source": "/CUPR",  "destination": "/cupr/index.html" },
+    { "source": "/CUPR/", "destination": "/cupr/index.html" }
   ]
 }
