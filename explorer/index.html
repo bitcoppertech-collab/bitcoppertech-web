@@ -484,7 +484,8 @@ async function loadMiners() {
       const score = parseFloat(m.tal_score_avg || 0.75);
       const isCandidate = isMutCandidate(m);
       if (isCandidate) mutCandidates.push(m);
-      const color = isCandidate ? '#bb00ff' : pct < 0.001 ? 'var(--green)' : pct < 0.01 ? 'var(--amber)' : 'var(--red)';
+      const isGenesis = m.is_genesis === true;
+      const color = isGenesis ? 'var(--genesis)' : isCandidate ? '#bb00ff' : pct < 1 ? 'var(--green)' : pct < 10 ? 'var(--amber)' : pct < 50 ? 'var(--heat)' : 'var(--red)';
       const label = pct < 1 ? 'ÓPTIMO' : pct < 10 ? 'ACTIVO' : pct < 50 ? 'ALERTA' : 'CRÍTICO';
       return `
         <div class="obs-bar-container">
