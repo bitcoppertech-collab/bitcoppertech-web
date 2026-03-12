@@ -491,7 +491,7 @@ async function loadMiners() {
           <div class="obs-wallet">${shortWallet(m.wallet)}</div>
           <div class="obs-bar-wrap">
             <div class="obs-bar">
-              <div class="obs-fill" style="width:${Math.max(pct*1000,0.5)}%;background:${color}"></div>
+              <div class="obs-fill" style="width:${Math.max(parseFloat(obs.pct),0.3)}%;background:${color}"></div>
             </div>
             <span class="obs-pct" style="color:${color}">${pct}%</span>
             <span class="obs-level" style="color:${color}">TAL ${score.toFixed(3)}</span>
