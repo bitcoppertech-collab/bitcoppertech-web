@@ -349,14 +349,16 @@ function talLevel(score) {
 }
 
 function mttfObsolescence(temp, blocks) {
-  const kB = 1.380649e-23, eV_J = 1.602176e-19;
+  // Black's Equation — calibrada para CPU moderno, vida útil ~4 años a 70°C
+  const kB = 8.617333e-5; // eV/K
   const Tk = (parseFloat(temp) || 60) + 273.15;
-  const J = 1e10;
-  const A = 1e12, Ea = 0.9;
-  const mttf = A / (J * J) * Math.exp((Ea * eV_J) / (kB * Tk));
+  const Ea = 0.7; // eV electromigración CPU moderna
+  const A = 1.5e8 * Math.exp(-Ea / (kB * (70 + 273.15)));
+  const mttf_seconds = A * Math.exp(Ea / (kB * Tk));
   const elapsed = (parseInt(blocks) || 0) * 60;
-  const pct = Math.min((elapsed / mttf) * 100, 100);
-  return { pct: pct.toFixed(4), mttf: mttf.toExponential(2), raw: pct };
+  const pct = Math.min((elapsed / mttf_seconds) * 100, 100);
+  const mttf_years = (mttf_seconds / (365.25 * 24 * 3600)).toFixed(1);
+  return { pct: pct.toFixed(2), mttf: mttf_years + ' años', raw: pct };
 }
 
 function isMutCandidate(m) {
