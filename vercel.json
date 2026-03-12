@@ -2,13 +2,41 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/smartbuild", "permanent": false, "destination": "https://smartbuild-apu-prod-3d7b.vercel.app" },
-    { "source": "/smartbuild/:path*", "permanent": false, "destination": "https://smartbuild-apu-prod-3d7b.vercel.app/:path*" }
+    {
+      "source": "/smartbuild",
+      "permanent": false,
+      "destination": "https://smartbuild-apu-prod-3d7b.vercel.app"
+    },
+    {
+      "source": "/smartbuild/:path*",
+      "permanent": false,
+      "destination": "https://smartbuild-apu-prod-3d7b.vercel.app/:path*"
+    }
   ],
   "rewrites": [
-    { "source": "/cupr",  "destination": "/cupr/index.html" },
-    { "source": "/cupr/", "destination": "/cupr/index.html" },
-    { "source": "/CUPR",  "destination": "/cupr/index.html" },
-    { "source": "/CUPR/", "destination": "/cupr/index.html" }
+    {
+      "source": "/cupr",
+      "destination": "/cupr/index.html"
+    },
+    {
+      "source": "/cupr/",
+      "destination": "/cupr/index.html"
+    },
+    {
+      "source": "/CUPR",
+      "destination": "/cupr/index.html"
+    },
+    {
+      "source": "/CUPR/",
+      "destination": "/cupr/index.html"
+    },
+    {
+      "source": "/explorer",
+      "destination": "/explorer/index.html"
+    },
+    {
+      "source": "/explorer/",
+      "destination": "/explorer/index.html"
+    }
   ]
 }
