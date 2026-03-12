@@ -300,7 +300,7 @@ footer{border-top:1px solid var(--gray);padding:40px 60px;display:flex;justify-c
 </div>
 
 <!-- MUT CANDIDATOS -->
-<div class="mut-candidate" id="mutPanel">
+<div class="mut-candidate" id="mutPanel" style="display:none!important">
   <div class="mut-header">
     <span class="mut-icon mut-pulse">⚡ MUT</span>
     <span class="mut-title">Candidatos a Burn 2 — Material Utility Token</span>
@@ -483,7 +483,7 @@ async function loadMiners() {
       const isCandidate = isMutCandidate(m);
       if (isCandidate) mutCandidates.push(m);
       const color = isCandidate ? '#bb00ff' : pct < 0.001 ? 'var(--green)' : pct < 0.01 ? 'var(--amber)' : 'var(--red)';
-      const label = isCandidate ? 'CANDIDATO MUT' : pct < 0.001 ? 'ÓPTIMO' : pct < 0.01 ? 'ACTIVO' : 'CRÍTICO';
+      const label = pct < 1 ? 'ÓPTIMO' : pct < 10 ? 'ACTIVO' : pct < 50 ? 'ALERTA' : 'CRÍTICO';
       return `
         <div class="obs-bar-container">
           <div class="obs-wallet">${shortWallet(m.wallet)}</div>
@@ -492,11 +492,11 @@ async function loadMiners() {
               <div class="obs-fill" style="width:${Math.max(pct*1000,0.5)}%;background:${color}"></div>
             </div>
             <span class="obs-pct" style="color:${color}">${pct}%</span>
-            <span class="obs-level" style="color:${color}">${label}</span>
+            <span class="obs-level" style="color:${color}">TAL ${score.toFixed(3)}</span>
           </div>
           <div class="obs-status-row">
             <span class="obs-mttf">MTTF estimado: ${obs.mttf}s · TAL: ${score.toFixed(3)}</span>
-            ${isCandidate ? `<span class="obs-candidate-badge">⚡ BURN 2 READY</span>` : ''}
+
           </div>
         </div>
       `;
