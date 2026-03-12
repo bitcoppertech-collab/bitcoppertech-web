@@ -355,7 +355,7 @@ function mttfObsolescence(temp, blocks) {
   const A = 1e12, Ea = 0.9;
   const mttf = A / (J * J) * Math.exp((Ea * eV_J) / (kB * Tk));
   const elapsed = (parseInt(blocks) || 0) * 60;
-  const pct = Math.min((elapsed / mttf) * 1e12 * 100, 100);
+  const pct = Math.min((elapsed / mttf) * 100, 100);
   return { pct: pct.toFixed(4), mttf: mttf.toExponential(2), raw: pct };
 }
 
@@ -363,7 +363,7 @@ function isMutCandidate(m) {
   const score = parseFloat(m.tal_score_avg || 0.75);
   const obs = mttfObsolescence(m.avg_temp || 60, m.total_blocks);
   // Candidato si: score TAL < 0.5 O obsolescencia > 0.01%
-  return score < 0.5 || obs.raw > 0.01;
+  return score < 0.5;
 }
 
 function mutReason(m) {
