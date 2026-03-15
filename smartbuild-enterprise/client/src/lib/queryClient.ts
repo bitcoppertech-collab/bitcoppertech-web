@@ -5,9 +5,9 @@ export const queryClient = new QueryClient({
     queries: { retry: 1, staleTime: 30_000 },
   },
 });
-
+const API_BASE = import.meta.env.VITE_API_URL ?? "";
 export async function apiRequest(method: string, path: string, body?: unknown) {
-  const res = await fetch(`/api${path}`, {
+  const res = await fetch(`${API_BASE}/api${path}`, {
     method,
     headers: { "Content-Type": "application/json" },
     credentials: "include",
