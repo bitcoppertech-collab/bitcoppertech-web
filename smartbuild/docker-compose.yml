@@ -1,0 +1,94 @@
+version: "3.9"
+
+# ══════════════════════════════════════════════════════════════════
+# SMARTBUILD — ORQUESTADOR MULTI-TENANT
+# Desplegado en Hetzner CX21
+# Cada cliente obtiene su propio contenedor + BD aislada
+# URL: obra.{cliente}.cl → proxy → container interno
+# ══════════════════════════════════════════════════════════════════
+
+networks:
+  smartbuild-net:
+    driver: bridge
+
+volumes:
+  nginx-certs:
+  nginx-html:
+  nginx-vhost:
+  provisioner-data:
+
+services:
+
+  # ── GATEWAY — nginx-proxy automático ─────────────────────────────
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy:1.4
+    container_name: sb-gateway
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - nginx-certs:/etc/nginx/certs
+      - nginx-html:/usr/share/nginx/html
+      - nginx-vhost:/etc/nginx/vhost.d
+    networks:
+      - smartbuild-net
+
+  # ── SSL AUTOMÁTICO — Let's Encrypt ───────────────────────────────
+  acme-companion:
+    image: nginxproxy/acme-companion:2.2
+    container_name: sb-acme
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - nginx-certs:/etc/nginx/certs
+      - nginx-html:/usr/share/nginx/html
+      - nginx-vhost:/etc/nginx/vhost.d
+    environment:
+      - NGINX_PROXY_CONTAINER=sb-gateway
+      - DEFAULT_EMAIL=bitcoppertech@gmail.com
+    networks:
+      - smartbuild-net
+
+  # ── API PROVISIONER — crea/elimina contenedores de clientes ──────
+  sb-provisioner:
+    build:
+      context: ./provisioner
+      dockerfile: Dockerfile
+    container_name: sb-provisioner
+    restart: always
+    environment:
+      - PROVISIONER_SECRET=${PROVISIONER_SECRET}
+      - HETZNER_SERVER_IP=${HETZNER_SERVER_IP}
+      - BASE_DOMAIN=smartbuild.cl
+      - POSTGRES_ROOT_PASSWORD=${POSTGRES_ROOT_PASSWORD}
+      - NETWORK_NAME=smartbuild-net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - provisioner-data:/data
+    ports:
+      - "3099:3099"
+    networks:
+      - smartbuild-net
+    labels:
+      - "VIRTUAL_HOST=api.smartbuild.cl"
+      - "VIRTUAL_PORT=3099"
+      - "LETSENCRYPT_HOST=api.smartbuild.cl"
+
+  # ── DASHBOARD ADMIN — panel de control Bitcopper/SmartBuild ──────
+  sb-admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    container_name: sb-admin
+    restart: always
+    environment:
+      - PROVISIONER_URL=http://sb-provisioner:3099
+      - ADMIN_SECRET=${PROVISIONER_SECRET}
+    networks:
+      - smartbuild-net
+    labels:
+      - "VIRTUAL_HOST=admin.smartbuild.cl"
+      - "VIRTUAL_PORT=4000"
+      - "LETSENCRYPT_HOST=admin.smartbuild.cl"

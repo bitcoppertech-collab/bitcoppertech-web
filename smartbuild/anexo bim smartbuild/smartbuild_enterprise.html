@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SmartBuild Suite — Bitcopper Tech</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ore: #C17F3A;
+    --ore-light: #E8A855;
+    --steel: #1C2B3A;
+    --steel-dark: #0D1820;
+    --concrete: #F0EBE3;
+    --dust: #8A8070;
+    --white: #FAFAF8;
+    --danger: #E84545;
+    --green: #2ECC71;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--steel-dark);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(13,24,32,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(193,127,58,0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--ore);
+  }
+
+  .nav-logo span { color: var(--white); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--dust);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--ore-light); }
+
+  .nav-cta {
+    background: var(--ore);
+    color: var(--steel-dark) !important;
+    padding: 10px 24px;
+    border-radius: 2px;
+    font-weight: 700 !important;
+    color: var(--steel-dark);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(193,127,58,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(193,127,58,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(193,127,58,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ore);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--ore);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 7vw, 100px);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-title .accent { color: var(--ore); }
+
+  .hero-title .line2 {
+    display: block;
+    color: var(--dust);
+    font-size: 0.6em;
+    letter-spacing: 4px;
+  }
+
+  .hero-desc {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #A0A8B0;
+    max-width: 480px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    background: var(--ore);
+    color: var(--steel-dark);
+    padding: 16px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--ore-light);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--ore-light); }
+
+  /* ── HERO RIGHT — FLOW DIAGRAM ── */
+  .hero-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    opacity: 0;
+    animation: fadeIn 1s 1s forwards;
+    position: relative;
+    z-index: 1;
+  }
+
+  .flow-node {
+    background: var(--steel);
+    border: 1px solid rgba(193,127,58,0.3);
+    border-radius: 4px;
+    padding: 18px 28px;
+    width: 280px;
+    text-align: center;
+    position: relative;
+  }
+
+  .flow-node.active {
+    border-color: var(--ore);
+    box-shadow: 0 0 24px rgba(193,127,58,0.2);
+  }
+
+  .flow-node.new {
+    border-color: var(--green);
+    box-shadow: 0 0 20px rgba(46,204,113,0.15);
+  }
+
+  .flow-node-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .flow-node.active .flow-node-label { color: var(--ore); }
+  .flow-node.new .flow-node-label { color: var(--green); }
+  .flow-node .flow-node-label { color: var(--dust); }
+
+  .flow-node-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .flow-arrow {
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(to bottom, var(--ore), rgba(193,127,58,0.2));
+    position: relative;
+  }
+
+  .flow-arrow::after {
+    content: '▼';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--ore);
+    font-size: 10px;
+  }
+
+  .flow-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--green);
+    color: var(--steel-dark);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--steel);
+    border-top: 1px solid rgba(193,127,58,0.15);
+    border-bottom: 1px solid rgba(193,127,58,0.15);
+    padding: 32px 48px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 0 24px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    opacity: 0;
+    animation: fadeUp 0.6s forwards;
+  }
+
+  .stat-item:last-child { border-right: none; }
+  .stat-item:nth-child(1) { animation-delay: 0.1s; }
+  .stat-item:nth-child(2) { animation-delay: 0.2s; }
+  .stat-item:nth-child(3) { animation-delay: 0.3s; }
+  .stat-item:nth-child(4) { animation-delay: 0.4s; }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: var(--ore);
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--dust);
+    margin-top: 6px;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 100px 48px;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ore);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--ore);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 4vw, 60px);
+    letter-spacing: 2px;
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+
+  .section-sub {
+    font-size: 16px;
+    color: #7A8898;
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 60px;
+  }
+
+  /* ── MODULES ── */
+  .modules {
+    background: var(--steel-dark);
+  }
+
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(193,127,58,0.1);
+    border: 1px solid rgba(193,127,58,0.1);
+  }
+
+  .module-card {
+    background: var(--steel-dark);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .module-card:hover {
+    background: var(--steel);
+  }
+
+  .module-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--ore);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .module-card:hover::before { transform: scaleX(1); }
+
+  .module-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    color: rgba(193,127,58,0.08);
+    line-height: 1;
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    letter-spacing: 2px;
+  }
+
+  .module-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .module-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+    display: inline-block;
+  }
+
+  .tag-live { background: rgba(46,204,113,0.15); color: var(--green); }
+  .tag-build { background: rgba(193,127,58,0.15); color: var(--ore); }
+  .tag-soon { background: rgba(255,255,255,0.06); color: var(--dust); }
+
+  .module-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .module-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #6A7A8A;
+    margin-bottom: 24px;
+  }
+
+  .module-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .module-features li {
+    font-size: 13px;
+    color: #8A9AAA;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .module-features li::before {
+    content: '→';
+    color: var(--ore);
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  /* ── IFC FLOW ── */
+  .ifc-section {
+    background: var(--steel);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ifc-section::before {
+    content: 'IFC';
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 280px;
+    color: rgba(193,127,58,0.04);
+    letter-spacing: 10px;
+    pointer-events: none;
+  }
+
+  .ifc-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 16px;
+  }
+
+  .ifc-step {
+    flex-shrink: 0;
+    background: var(--steel-dark);
+    border: 1px solid rgba(193,127,58,0.2);
+    border-radius: 4px;
+    padding: 24px 28px;
+    min-width: 180px;
+    text-align: center;
+  }
+
+  .ifc-step-icon { font-size: 24px; margin-bottom: 12px; }
+
+  .ifc-step-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .ifc-step-sub {
+    font-size: 11px;
+    color: var(--dust);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .ifc-connector {
+    flex-shrink: 0;
+    width: 48px;
+    height: 1px;
+    background: linear-gradient(to right, var(--ore), rgba(193,127,58,0.3));
+    position: relative;
+  }
+
+  .ifc-connector::after {
+    content: '▶';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ore);
+    font-size: 10px;
+  }
+
+  /* ── VS TABLE ── */
+  .vs-section { background: var(--steel-dark); }
+
+  .vs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+  }
+
+  .vs-table th {
+    padding: 16px 24px;
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+    border-bottom: 1px solid rgba(193,127,58,0.2);
+  }
+
+  .vs-table th:first-child { color: var(--dust); }
+  .vs-table th:nth-child(2) { color: var(--dust); text-align: center; }
+  .vs-table th:nth-child(3) { color: var(--ore); text-align: center; }
+
+  .vs-table td {
+    padding: 16px 24px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .vs-table tr:hover td { background: rgba(193,127,58,0.03); }
+
+  .vs-table td:first-child { color: #8A9AAA; }
+  .vs-table td:nth-child(2) { text-align: center; }
+  .vs-table td:nth-child(3) { text-align: center; }
+
+  .check { color: var(--green); font-size: 18px; }
+  .cross { color: #3A4A5A; font-size: 18px; }
+  .partial { color: var(--ore); font-size: 14px; }
+
+  /* ── PRICING ── */
+  .pricing-section { background: var(--steel); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(193,127,58,0.08);
+    margin-top: 40px;
+  }
+
+  .price-card {
+    background: var(--steel-dark);
+    padding: 40px 32px;
+    position: relative;
+  }
+
+  .price-card.featured {
+    background: var(--steel);
+    border-top: 3px solid var(--ore);
+  }
+
+  .price-featured-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ore);
+    color: var(--steel-dark);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .price-plan {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ore);
+    margin-bottom: 16px;
+  }
+
+  .price-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    letter-spacing: 2px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .price-period {
+    font-size: 13px;
+    color: var(--dust);
+    margin-bottom: 32px;
+  }
+
+  .price-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+
+  .price-features li {
+    font-size: 14px;
+    color: #8A9AAA;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .price-features li .check { font-size: 14px; }
+
+  /* ── MARKET ── */
+  .market-section { background: var(--steel-dark); }
+
+  .market-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .market-card {
+    background: var(--steel);
+    border-left: 3px solid var(--ore);
+    padding: 28px 32px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .market-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--ore);
+    margin-bottom: 8px;
+  }
+
+  .market-card-desc {
+    font-size: 14px;
+    color: #6A7A8A;
+    line-height: 1.6;
+  }
+
+  /* ── CTA FINAL ── */
+  .cta-section {
+    background: var(--steel);
+    text-align: center;
+    padding: 120px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(193,127,58,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 80px);
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+  }
+
+  .cta-title .accent { color: var(--ore); }
+
+  .cta-sub {
+    font-size: 17px;
+    color: #7A8898;
+    max-width: 500px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+  }
+
+  .cta-contact {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--dust);
+    margin-top: 32px;
+    letter-spacing: 1px;
+  }
+
+  .cta-contact a {
+    color: var(--ore);
+    text-decoration: none;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--steel-dark);
+    border-top: 1px solid rgba(193,127,58,0.15);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: var(--ore);
+  }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--dust);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+    .hero-visual { display: none; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 32px 24px; }
+    section { padding: 60px 24px; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .market-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+
+  /* ══════════════════════════════════════════
+     ENTERPRISE — CONTROL DE OBRA + BIM 4D
+  ══════════════════════════════════════════ */
+  .enterprise-section {
+    background: var(--steel-dark);
+    border-top: 1px solid rgba(193,127,58,0.2);
+    padding: 100px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .enterprise-section::before {
+    content:'ENTERPRISE';
+    position:absolute; right:-60px; top:40px;
+    font-family:'Bebas Neue',sans-serif; font-size:180px;
+    color:rgba(193,127,58,0.03); letter-spacing:8px;
+    pointer-events:none; white-space:nowrap;
+  }
+  .ent-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(193,127,58,0.1); border:1px solid rgba(193,127,58,0.3);
+    border-radius:2px; padding:5px 14px;
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:2.5px; text-transform:uppercase; color:var(--ore-light);
+    margin-bottom:20px;
+  }
+  .ent-badge::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--ore); animation:pulseOre 2s infinite; }
+  @keyframes pulseOre { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(193,127,58,.5)} 50%{opacity:.8;box-shadow:0 0 0 5px rgba(193,127,58,0)} }
+
+  /* Tabs */
+  .ent-tabs { display:flex; gap:2px; background:rgba(255,255,255,.03); border:1px solid rgba(193,127,58,.15); border-radius:4px; padding:4px; margin-bottom:32px; width:fit-content; }
+  .ent-tab { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; padding:10px 24px; border-radius:2px; cursor:pointer; color:var(--dust); border:none; background:transparent; transition:all .2s; }
+  .ent-tab:hover { color:var(--white); }
+  .ent-tab.active { background:var(--ore); color:var(--steel-dark); font-weight:700; }
+  .ent-panel { display:none; }
+  .ent-panel.active { display:block; }
+
+  /* KPIs */
+  .ent-kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:rgba(193,127,58,.08); border:1px solid rgba(193,127,58,.12); margin-bottom:28px; }
+  .ent-kpi { background:var(--steel-dark); padding:22px 20px; }
+  .ent-kpi-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--dust); margin-bottom:6px; }
+  .ent-kpi-val { font-family:'Bebas Neue',sans-serif; font-size:34px; letter-spacing:1px; line-height:1; color:var(--white); }
+  .ent-kpi-sub { font-size:11px; margin-top:4px; }
+  .ent-kpi-sub.ok { color:var(--green); }
+  .ent-kpi-sub.warn { color:var(--ore-light); }
+  .ent-kpi-sub.danger { color:var(--danger); }
+  .ent-kpi-sub.muted { color:var(--dust); }
+
+  /* Table */
+  .ent-table-wrap { border:1px solid rgba(193,127,58,.12); border-radius:4px; overflow:hidden; margin-bottom:24px; }
+  .ent-table-hdr { display:flex; align-items:center; justify-content:space-between; padding:12px 18px; background:rgba(193,127,58,.06); border-bottom:1px solid rgba(193,127,58,.1); }
+  .ent-table-ttl { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--ore); }
+  .ent-filter { font-family:'DM Mono',monospace; font-size:10px; background:rgba(255,255,255,.04); border:1px solid rgba(193,127,58,.2); color:var(--dust); padding:4px 10px; border-radius:2px; cursor:pointer; }
+  .ent-table { width:100%; border-collapse:collapse; table-layout:fixed; }
+  .ent-table thead th { padding:10px 14px; text-align:left; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dust); border-bottom:1px solid rgba(255,255,255,.05); background:rgba(255,255,255,.02); }
+  .ent-table tbody tr { border-bottom:1px solid rgba(255,255,255,.04); cursor:pointer; transition:background .15s; }
+  .ent-table tbody tr:last-child { border:none; }
+  .ent-table tbody tr:hover { background:rgba(193,127,58,.05); }
+  .ent-table tbody tr.row-sel { background:rgba(193,127,58,.08); border-left:2px solid var(--ore); }
+  .ent-table td { padding:11px 14px; font-size:13px; color:var(--white); vertical-align:middle; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .ent-bar-wrap { display:flex; align-items:center; gap:8px; }
+  .ent-bar-bg { flex:1; height:4px; background:rgba(255,255,255,.06); border-radius:2px; overflow:hidden; }
+  .ent-bar-fill { height:100%; border-radius:2px; transition:width .4s; }
+  .ent-bar-pct { font-family:'DM Mono',monospace; font-size:11px; min-width:30px; text-align:right; }
+  .ent-chip { display:inline-flex; align-items:center; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; padding:3px 8px; border-radius:2px; font-weight:700; }
+  .ent-chip.ok { background:rgba(46,204,113,.12); color:var(--green); border:1px solid rgba(46,204,113,.25); }
+  .ent-chip.warn { background:rgba(193,127,58,.15); color:var(--ore-light); border:1px solid rgba(193,127,58,.3); }
+  .ent-chip.danger { background:rgba(232,69,69,.12); color:var(--danger); border:1px solid rgba(232,69,69,.25); }
+  .ent-chip.pend { background:rgba(255,255,255,.04); color:var(--dust); border:1px solid rgba(255,255,255,.08); }
+
+  /* Detail */
+  .ent-detail { display:none; background:var(--steel); border:1px solid rgba(193,127,58,.2); border-radius:4px; padding:22px; margin-bottom:24px; position:relative; }
+  .ent-detail.open { display:block; }
+  .ent-detail-close { position:absolute; top:14px; right:14px; background:none; border:none; cursor:pointer; color:var(--dust); font-size:18px; transition:color .2s; }
+  .ent-detail-close:hover { color:var(--white); }
+  .ent-detail-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin:14px 0; }
+  .ent-dm { border-left:1px solid rgba(193,127,58,.3); padding-left:12px; }
+  .ent-dm-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dust); margin-bottom:4px; }
+  .ent-dm-val { font-family:'Bebas Neue',monospace; font-size:22px; letter-spacing:1px; color:var(--white); }
+
+  /* Chart */
+  .ent-chart-wrap { position:relative; width:100%; height:210px; margin-bottom:24px; }
+
+  /* Pagos */
+  .ent-pagos-list { display:flex; flex-direction:column; gap:5px; margin-bottom:20px; }
+  .ent-pago-row { display:flex; align-items:center; gap:12px; padding:9px 14px; background:var(--steel); border:1px solid rgba(255,255,255,.04); border-radius:3px; font-size:13px; transition:border-color .2s; }
+  .ent-pago-row:hover { border-color:rgba(193,127,58,.2); }
+  .ent-pago-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .ent-pago-name { flex:1; font-weight:500; color:var(--white); }
+  .ent-pago-date { font-family:'DM Mono',monospace; font-size:11px; color:var(--dust); min-width:80px; }
+  .ent-pago-monto { font-family:'DM Mono',monospace; font-size:12px; color:var(--ore-light); min-width:100px; text-align:right; }
+  .ent-pago-status { min-width:70px; text-align:right; }
+  .ent-form-row { display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:10px; align-items:end; padding:18px 20px; background:rgba(193,127,58,.04); border:1px solid rgba(193,127,58,.12); border-radius:4px; }
+  .ent-form-group { display:flex; flex-direction:column; gap:5px; }
+  .ent-form-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dust); }
+  .ent-input { background:rgba(255,255,255,.04); border:1px solid rgba(193,127,58,.2); color:var(--white); padding:8px 12px; font-family:'DM Sans',sans-serif; font-size:13px; border-radius:2px; width:100%; transition:border-color .2s; }
+  .ent-input:focus { outline:none; border-color:var(--ore); }
+  .ent-btn-add { background:var(--ore); color:var(--steel-dark); border:none; padding:9px 18px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; font-weight:700; border-radius:2px; cursor:pointer; white-space:nowrap; height:37px; transition:background .2s; }
+  .ent-btn-add:hover { background:var(--ore-light); }
+
+  /* Alertas */
+  .ent-alerta { display:flex; gap:14px; padding:14px 18px; border-radius:3px; margin-bottom:7px; border-left:3px solid; }
+  .ent-alerta.danger { background:rgba(232,69,69,.08); border-color:var(--danger); }
+  .ent-alerta.warn { background:rgba(193,127,58,.08); border-color:var(--ore); }
+  .ent-alerta-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+  .ent-alerta-title { font-size:13px; font-weight:700; color:var(--white); margin-bottom:3px; }
+  .ent-alerta-desc { font-size:12px; color:var(--dust); line-height:1.5; }
+
+  /* BIM 3D */
+  .bim-container { display:grid; grid-template-columns:1fr 200px; border:1px solid rgba(193,127,58,.15); border-radius:4px; overflow:hidden; margin-bottom:20px; }
+  .bim-toolbar { display:flex; align-items:center; gap:8px; padding:10px 14px; background:rgba(193,127,58,.06); border-bottom:1px solid rgba(193,127,58,.12); flex-wrap:wrap; }
+  .bim-toolbar-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--ore); margin-right:6px; }
+  .bim-btn { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; padding:5px 11px; border:1px solid rgba(193,127,58,.25); border-radius:2px; background:transparent; color:var(--dust); cursor:pointer; transition:all .15s; }
+  .bim-btn:hover { color:var(--white); border-color:rgba(193,127,58,.5); }
+  .bim-btn.active { background:var(--ore); color:var(--steel-dark); border-color:var(--ore); font-weight:700; }
+  #bim-canvas3d { display:block; width:100%; height:340px; cursor:grab; background:transparent; }
+  #bim-canvas3d:active { cursor:grabbing; }
+  .bim-legend { display:flex; align-items:center; gap:18px; flex-wrap:wrap; padding:9px 14px; background:rgba(193,127,58,.04); border-top:1px solid rgba(193,127,58,.1); font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--dust); }
+  .bim-leg-item { display:flex; align-items:center; gap:5px; }
+  .bim-leg-dot { width:9px; height:9px; border-radius:2px; flex-shrink:0; }
+  .bim-side { border-left:1px solid rgba(193,127,58,.12); background:rgba(255,255,255,.01); padding:12px; overflow-y:auto; max-height:380px; }
+  .bim-side-title { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--ore); margin-bottom:10px; }
+  .bim-part-item { padding:7px 8px; border-radius:2px; cursor:pointer; margin-bottom:3px; border:1px solid transparent; transition:all .15s; }
+  .bim-part-item:hover { background:rgba(193,127,58,.07); border-color:rgba(193,127,58,.2); }
+  .bim-part-item.sel { background:rgba(193,127,58,.1); border-color:var(--ore); }
+  .bim-part-name { font-size:11px; font-weight:700; color:var(--white); margin-bottom:2px; }
+  .bim-part-pct { font-family:'DM Mono',monospace; font-size:10px; color:var(--dust); margin-bottom:3px; }
+  .bim-mini-bar { height:3px; background:rgba(255,255,255,.06); border-radius:1px; }
+  .bim-mini-fill { height:100%; border-radius:1px; }
+  .bim-dpop { display:none; border-top:1px solid rgba(193,127,58,.15); margin-top:10px; padding-top:10px; }
+  .bim-dpop.open { display:block; }
+  .bim-drow { display:flex; justify-content:space-between; font-family:'DM Mono',monospace; font-size:10px; padding:3px 0; border-bottom:1px solid rgba(255,255,255,.04); color:var(--dust); }
+  .bim-drow:last-child { border:none; }
+  .bim-dval { color:var(--white); font-weight:700; }
+
+  /* Gantt */
+  .gantt-wrap { border:1px solid rgba(193,127,58,.15); border-radius:4px; overflow:hidden; }
+  .gantt-head { display:flex; align-items:center; justify-content:space-between; padding:11px 18px; background:rgba(193,127,58,.06); border-bottom:1px solid rgba(193,127,58,.12); flex-wrap:wrap; gap:8px; }
+  .gantt-head-title { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--ore); }
+  .gantt-time-ctrl { display:flex; align-items:center; gap:10px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--dust); }
+  #ent-time-slider { width:150px; accent-color:var(--ore); }
+  #ent-time-label { font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:1px; color:var(--ore); min-width:65px; }
+  .gantt-body-inner { padding:10px 14px; overflow-x:auto; }
+  .gantt-months-row { display:flex; min-width:580px; padding-left:165px; margin-bottom:5px; }
+  .gantt-month-cell { flex:1; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--dust); text-align:center; padding-bottom:5px; border-right:1px solid rgba(255,255,255,.04); }
+  .gantt-row-item { display:flex; align-items:center; min-width:580px; margin-bottom:4px; cursor:pointer; }
+  .gantt-row-label { width:165px; flex-shrink:0; font-size:11px; color:#8A9AAA; padding-right:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .gantt-track { flex:1; height:16px; background:rgba(255,255,255,.03); border-radius:2px; position:relative; overflow:hidden; }
+  .gantt-planned-bar { position:absolute; top:2px; height:12px; border-radius:1px; background:rgba(193,127,58,.15); border:1px solid rgba(193,127,58,.3); }
+  .gantt-actual-bar { position:absolute; top:2px; height:12px; border-radius:1px; transition:width .4s; opacity:.9; }
+  .gantt-today-line { position:absolute; top:0; bottom:0; width:1px; background:rgba(232,69,69,.7); pointer-events:none; }
+  .gantt-alert-dot { width:12px; height:12px; border-radius:50%; margin-left:7px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:8px; font-weight:900; color:var(--steel-dark); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Smart<span>Build</span></div>
+  <ul class="nav-links">
+    <li><a href="#modulos">Módulos</a></li>
+    <li><a href="#flujo">Flujo BIM</a></li>
+    <li><a href="#comparacion">vs Competencia</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#enterprise" style="color:var(--ore)">Enterprise</a></li>
+    <li><a href="#contacto" class="nav-cta">Solicitar Demo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Bitcopper Tech SpA — Calama, Chile</div>
+    <h1 class="hero-title">
+      GESTIÓN<br/>
+      <span class="accent">DE OBRA</span><br/>
+      <span class="line2">Sin puntos ciegos</span>
+    </h1>
+    <p class="hero-desc">
+      Del modelo BIM al pago por hito — SmartBuild Suite conecta el presupuesto, el control de avance y la gestión financiera de tu proyecto en una sola plataforma.
+    </p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn-primary">Solicitar Demo</a>
+      <a href="#modulos" class="btn-ghost">Ver módulos →</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="flow-node active">
+      <div class="flow-node-label">✅ Disponible</div>
+      <div class="flow-node-title">Modelo BIM / IFC</div>
+    </div>
+    <div class="flow-arrow"></div>
+    <div class="flow-node active">
+      <div class="flow-node-label">✅ Disponible</div>
+      <div class="flow-node-title">Presupuesto + Utilidad</div>
+    </div>
+    <div class="flow-arrow"></div>
+    <div class="flow-node new">
+      <div class="flow-badge">ENTERPRISE</div>
+      <div class="flow-node-label">🏗️ Control de Obra</div>
+      <div class="flow-node-title">Avance + Pagos</div>
+    </div>
+    <div class="flow-arrow"></div>
+    <div class="flow-node new">
+      <div class="flow-badge">ENTERPRISE</div>
+      <div class="flow-node-label">📐 Modelamiento</div>
+      <div class="flow-node-title">BIM 4D</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Compatible IFC</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">2</div>
+    <div class="stat-label">Módulos integrados</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">0</div>
+    <div class="stat-label">Dependencia de consultoría</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">Norte</div>
+    <div class="stat-label">Chile — Foco minero</div>
+  </div>
+</div>
+
+<!-- MÓDULOS -->
+<section class="modules" id="modulos">
+  <div class="section-label">Plataforma modular</div>
+  <h2 class="section-title">DOS MÓDULOS.<br/>UN ECOSISTEMA.</h2>
+  <p class="section-sub">Presupuesto disponible hoy. Control de Obra + BIM 4D en el plan Enterprise — sin depender de consultoras.</p>
+
+  <div class="modules-grid" style="grid-template-columns: repeat(2,1fr)">
+    <div class="module-card">
+      <div class="module-number">01</div>
+      <div class="module-icon">📐</div>
+      <span class="module-tag tag-live">Disponible ahora</span>
+      <div class="module-title">SmartBuild Presupuesto</div>
+      <p class="module-desc">Genera presupuestos de obra con cálculo automático de utilidad, análisis de precios unitarios y exportación a formatos estándar.</p>
+      <ul class="module-features">
+        <li>APU — Análisis de Precios Unitarios</li>
+        <li>Cálculo de utilidad por partida</li>
+        <li>Exportación Excel / PDF</li>
+        <li>Plantillas por tipo de obra</li>
+      </ul>
+    </div>
+
+    <div class="module-card" style="border-top:3px solid var(--ore)">
+      <div class="module-number">02</div>
+      <div class="module-icon">🏗️</div>
+      <span class="module-tag tag-build">Plan Enterprise</span>
+      <div class="module-title">Control de Obra + BIM 4D</div>
+      <p class="module-desc">Monitoreo de avance por partidas vinculado al presupuesto. Alertas de desviación, registro de pagos y visualización BIM 4D con timeline interactivo.</p>
+      <ul class="module-features">
+        <li>Avance por partida vs presupuestado</li>
+        <li>Alertas automáticas de desviación</li>
+        <li>Registro y control de pagos</li>
+        <li>Visor 3D + Timeline 4D vinculado</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FLUJO IFC -->
+<section class="ifc-section" id="flujo">
+  <div class="section-label">Integración universal</div>
+  <h2 class="section-title">FUNCIONA CON<br/>TU SOFTWARE BIM</h2>
+  <p class="section-sub">SmartBuild lee archivos IFC — el estándar abierto exportado por Revit, ArchiCAD, Civil 3D y cualquier software BIM del mercado.</p>
+
+  <div class="ifc-flow">
+    <div class="ifc-step">
+      <div class="ifc-step-icon">🏛️</div>
+      <div class="ifc-step-name">Revit</div>
+      <div class="ifc-step-sub">Autodesk</div>
+    </div>
+    <div class="ifc-connector"></div>
+    <div class="ifc-step">
+      <div class="ifc-step-icon">📦</div>
+      <div class="ifc-step-name">Exporta IFC</div>
+      <div class="ifc-step-sub">Estándar abierto</div>
+    </div>
+    <div class="ifc-connector"></div>
+    <div class="ifc-step" style="border-color: rgba(193,127,58,0.5);">
+      <div class="ifc-step-icon">⚙️</div>
+      <div class="ifc-step-name">SmartBuild</div>
+      <div class="ifc-step-sub" style="color: var(--ore);">Lee el modelo</div>
+    </div>
+    <div class="ifc-connector"></div>
+    <div class="ifc-step">
+      <div class="ifc-step-icon">📊</div>
+      <div class="ifc-step-name">Presupuesto</div>
+      <div class="ifc-step-sub">Automático</div>
+    </div>
+    <div class="ifc-connector"></div>
+    <div class="ifc-step">
+      <div class="ifc-step-icon">📈</div>
+      <div class="ifc-step-name">Control Obra</div>
+      <div class="ifc-step-sub">Por partidas</div>
+    </div>
+    <div class="ifc-connector"></div>
+    <div class="ifc-step" style="border-color: rgba(193,127,58,0.5);">
+      <div class="ifc-step-icon">🧊</div>
+      <div class="ifc-step-name">BIM 4D</div>
+      <div class="ifc-step-sub" style="color: var(--ore);">Visor + Timeline</div>
+    </div>
+  </div>
+</section>
+
+<!-- VS COMPETENCIA -->
+<section class="vs-section" id="comparacion">
+  <div class="section-label">Análisis competitivo</div>
+  <h2 class="section-title">SmartBuild<br/><span style="color:var(--ore)">vs</span> HOLO</h2>
+  <p class="section-sub">HOLO vende servicios profesionales. SmartBuild vende software que tu equipo opera — sin depender de una consultora.</p>
+
+  <table class="vs-table">
+    <thead>
+      <tr>
+        <th>Capacidad</th>
+        <th>HOLO</th>
+        <th>SmartBuild Suite</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Generación de presupuestos</td>
+        <td><span class="partial">Servicio externo</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Control de avance de obra</td>
+        <td><span class="partial">Consultoría</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Integración IFC nativa</td>
+        <td><span class="partial">Manual</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Control de Obra + alertas desviación</td>
+        <td><span class="partial">Consultoría</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Visor BIM 3D + Timeline 4D</td>
+        <td><span class="partial">Servicio externo</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Software propio del cliente</td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Precio fijo mensual SaaS</td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Foco en minería norte Chile</td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="precios">
+  <div class="section-label">Planes</div>
+  <h2 class="section-title">PRECIOS<br/>TRANSPARENTES</h2>
+  <p class="section-sub">Sin cobros por hora de consultoría. Sin sorpresas. Paga por el software, no por nuestro tiempo.</p>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-plan">Starter</div>
+      <div class="price-amount">UF 3</div>
+      <div class="price-period">por mes / proyecto</div>
+      <ul class="price-features">
+        <li><span class="check">✓</span> Módulo Presupuesto</li>
+        <li><span class="check">✓</span> Exportación Excel/PDF</li>
+        <li><span class="check">✓</span> 3 proyectos activos</li>
+        <li><span class="check">✓</span> Soporte por email</li>
+      </ul>
+      <a href="#contacto" class="btn-ghost">Comenzar →</a>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-featured-badge">Más vendido</div>
+      <div class="price-plan">Suite</div>
+      <div class="price-amount">UF 8</div>
+      <div class="price-period">por mes / empresa</div>
+      <ul class="price-features">
+        <li><span class="check">✓</span> Módulo Presupuesto completo</li>
+        <li><span class="check">✓</span> Integración IFC</li>
+        <li><span class="check">✓</span> Proyectos ilimitados</li>
+        <li><span class="check">✓</span> Soporte prioritario</li>
+      </ul>
+      <a href="#contacto" class="btn-primary">Solicitar Demo</a>
+    </div>
+
+    <div class="price-card" style="border:1px solid rgba(193,127,58,0.4)">
+      <div class="price-plan" style="color:var(--ore)">Enterprise</div>
+      <div class="price-amount">A MEDIDA</div>
+      <div class="price-period">contrato anual</div>
+      <ul class="price-features">
+        <li><span class="check">✓</span> Módulo Presupuesto</li>
+        <li><span class="check">✓</span> Control de Obra completo</li>
+        <li><span class="check">✓</span> Avance, alertas y pagos</li>
+        <li><span class="check">✓</span> Visor BIM 3D + Timeline 4D</li>
+        <li><span class="check">✓</span> Capacitación on-site + SLA</li>
+      </ul>
+      <a href="#enterprise" class="btn-primary">Ver panel →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ENTERPRISE — CONTROL DE OBRA + BIM 4D -->
+<section class="enterprise-section" id="enterprise">
+  <div class="section-label">Para constructoras · Plan Enterprise</div>
+  <h2 class="section-title">CONTROL DE OBRA<br/><span style="color:var(--ore)">+ MODELAMIENTO BIM</span></h2>
+  <p class="section-sub">Partiendo del presupuesto SmartBuild, el plan Enterprise agrega avance por partidas, alertas de desviación, registro de pagos y visualización BIM 4D — todo vinculado y operado por tu propio equipo.</p>
+
+  <div class="ent-badge">Panel Enterprise — Activo</div>
+
+  <!-- Flujo del plan Enterprise -->
+  <div style="display:flex;align-items:center;gap:0;margin-bottom:32px;flex-wrap:wrap;gap:8px">
+    <div style="background:var(--steel);border:1px solid rgba(46,204,113,0.4);border-radius:3px;padding:10px 20px;text-align:center">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--green);margin-bottom:3px">✅ DISPONIBLE</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px">Presupuesto APU</div>
+    </div>
+    <div style="width:32px;height:1px;background:linear-gradient(to right,var(--ore),rgba(193,127,58,0.3));position:relative;flex-shrink:0">
+      <span style="position:absolute;right:-5px;top:50%;transform:translateY(-50%);color:var(--ore);font-size:10px">▶</span>
+    </div>
+    <div style="background:var(--steel);border:1px solid rgba(193,127,58,0.5);border-radius:3px;padding:10px 20px;text-align:center">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--ore);margin-bottom:3px">★ ENTERPRISE</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px">Control de Obra</div>
+    </div>
+    <div style="width:32px;height:1px;background:linear-gradient(to right,var(--ore),rgba(193,127,58,0.3));position:relative;flex-shrink:0">
+      <span style="position:absolute;right:-5px;top:50%;transform:translateY(-50%);color:var(--ore);font-size:10px">▶</span>
+    </div>
+    <div style="background:var(--steel);border:1px solid rgba(193,127,58,0.5);border-radius:3px;padding:10px 20px;text-align:center">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--ore);margin-bottom:3px">★ ENTERPRISE</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px">Modelamiento BIM 4D</div>
+    </div>
+  </div>
+    <button class="ent-tab active" onclick="entTab('obra')">Control de Obra</button>
+    <button class="ent-tab" onclick="entTab('bim')">Modelamiento BIM 4D</button>
+  </div>
+
+  <!-- ═══ PANEL CONTROL DE OBRA ═══ -->
+  <div class="ent-panel active" id="epanel-obra">
+
+    <div class="ent-kpis" id="ent-kpis"></div>
+
+    <div class="ent-table-wrap">
+      <div class="ent-table-hdr">
+        <span class="ent-table-ttl">Avance por partida</span>
+        <select class="ent-filter" id="ent-filter" onchange="entRenderTabla()">
+          <option value="">Todas</option>
+          <option value="ok">Al día</option>
+          <option value="warn">En riesgo</option>
+          <option value="danger">Desviada</option>
+        </select>
+      </div>
+      <table class="ent-table">
+        <thead>
+          <tr>
+            <th style="width:28%">Partida</th>
+            <th style="width:16%">Presupuesto</th>
+            <th style="width:16%">Ejecutado</th>
+            <th style="width:24%">% Avance</th>
+            <th style="width:16%">Estado</th>
+          </tr>
+        </thead>
+        <tbody id="ent-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- Detalle partida -->
+    <div class="ent-detail" id="ent-detail">
+      <button class="ent-detail-close" onclick="entCloseDetail()">✕</button>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ore);margin-bottom:4px">Detalle de partida</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;margin-bottom:2px" id="ent-det-title">—</div>
+      <div style="font-size:12px;color:var(--dust);margin-bottom:12px" id="ent-det-sub">—</div>
+      <div class="ent-detail-grid" id="ent-det-grid"></div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dust);margin-bottom:8px">Últimos pagos</div>
+      <div id="ent-det-pagos"></div>
+    </div>
+
+    <!-- Chart ejecutado vs presupuesto -->
+    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ore);margin-bottom:12px">Ejecutado vs Presupuesto por partida</div>
+    <div class="ent-chart-wrap"><canvas id="ent-chart-bar"></canvas></div>
+
+    <!-- Separador pagos -->
+    <div style="border-top:1px solid rgba(193,127,58,.12);padding-top:28px;margin-top:4px">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ore);margin-bottom:16px">Registro de Pagos</div>
+
+      <div class="ent-kpis" id="ent-kpis-pagos" style="margin-bottom:20px"></div>
+
+      <div class="ent-pagos-list" id="ent-pagos-list"></div>
+
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dust);margin:16px 0 10px">Registrar nuevo pago</div>
+      <div class="ent-form-row">
+        <div class="ent-form-group">
+          <span class="ent-form-label">Partida</span>
+          <select class="ent-input" id="ent-pago-partida"></select>
+        </div>
+        <div class="ent-form-group">
+          <span class="ent-form-label">Monto (UF)</span>
+          <input type="number" class="ent-input" id="ent-pago-monto" placeholder="0" min="0" step="0.01">
+        </div>
+        <div class="ent-form-group">
+          <span class="ent-form-label">Fecha</span>
+          <input type="date" class="ent-input" id="ent-pago-fecha">
+        </div>
+        <button class="ent-btn-add" onclick="entRegistrarPago()">+ Agregar</button>
+      </div>
+    </div>
+
+    <!-- Alertas -->
+    <div style="border-top:1px solid rgba(193,127,58,.12);padding-top:28px;margin-top:28px">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ore);margin-bottom:16px">Alertas de Desviación</div>
+      <div id="ent-alertas"></div>
+    </div>
+  </div>
+
+  <!-- ═══ PANEL BIM 4D ═══ -->
+  <div class="ent-panel" id="epanel-bim">
+
+    <!-- Visor 3D -->
+    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ore);margin-bottom:12px">Visualización 3D — Vinculada al presupuesto</div>
+
+    <div class="bim-container">
+      <div>
+        <div class="bim-toolbar">
+          <span class="bim-toolbar-label">Visor 3D</span>
+          <button class="bim-btn active" id="bim-btn-avance" onclick="setBimColor('avance')">Por avance</button>
+          <button class="bim-btn" id="bim-btn-alerta" onclick="setBimColor('alerta')">Alertas</button>
+          <button class="bim-btn" id="bim-btn-partida" onclick="setBimColor('partida')">Por partida</button>
+          <span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;color:var(--dust)">Arrastrar · rotar · scroll · zoom</span>
+        </div>
+        <canvas id="bim-canvas3d"></canvas>
+        <div class="bim-legend">
+          <div class="bim-leg-item"><div class="bim-leg-dot" style="background:#2ECC71"></div>Completado</div>
+          <div class="bim-leg-item"><div class="bim-leg-dot" style="background:#C17F3A"></div>En ejecución</div>
+          <div class="bim-leg-item"><div class="bim-leg-dot" style="background:#E84545"></div>Desviada</div>
+          <div class="bim-leg-item"><div class="bim-leg-dot" style="background:#3A5060"></div>Pendiente</div>
+        </div>
+      </div>
+      <div class="bim-side">
+        <div class="bim-side-title">Partidas</div>
+        <div id="bim-partidas-list"></div>
+        <div class="bim-dpop" id="bim-dpop">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ore);margin-bottom:6px">Detalle</div>
+          <div id="bim-dpop-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gantt 4D -->
+    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ore);margin-bottom:12px">Timeline 4D — Cronograma</div>
+
+    <div class="gantt-wrap">
+      <div class="gantt-head">
+        <span class="gantt-head-title">Simulación de avance en el tiempo</span>
+        <div class="gantt-time-ctrl">
+          <span>Simular tiempo</span>
+          <input type="range" id="ent-time-slider" min="0" max="100" value="58" oninput="entUpdateTime(this.value)">
+          <span id="ent-time-label">Jul 2025</span>
+        </div>
+      </div>
+      <div class="gantt-body-inner">
+        <div class="gantt-months-row" id="ent-gantt-months"></div>
+        <div id="ent-gantt-rows"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MERCADO -->
+<section class="market-section">
+  <div class="section-label">Mercado objetivo</div>
+  <h2 class="section-title">CONSTRUIDO<br/>PARA EL NORTE</h2>
+  <p class="section-sub">El sector construcción minera en Antofagasta y Atacama mueve miles de millones de pesos anuales. SmartBuild nació en Calama para servir este mercado.</p>
+
+  <div class="market-grid">
+    <div class="market-card">
+      <div class="market-card-title">Constructoras mineras</div>
+      <div class="market-card-desc">Empresas que ejecutan obras civiles, plantas y infraestructura para Codelco, BHP, SQM y operadoras de la región.</div>
+    </div>
+    <div class="market-card">
+      <div class="market-card-title">Empresas de ingeniería</div>
+      <div class="market-card-desc">Estudios de ingeniería y arquitectura que necesitan vincular sus modelos BIM directamente al control financiero de los proyectos.</div>
+    </div>
+    <div class="market-card">
+      <div class="market-card-title">Subcontratistas</div>
+      <div class="market-card-desc">Empresas especialistas en instalaciones, montaje y obras civiles que necesitan presupuestar y controlar múltiples frentes simultáneos.</div>
+    </div>
+    <div class="market-card">
+      <div class="market-card-title">Municipios y obras públicas</div>
+      <div class="market-card-desc">Organismos públicos de la región que ejecutan licitaciones y necesitan trazabilidad completa del presupuesto a la ejecución.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contacto">
+  <h2 class="cta-title">SOLICITA TU<br/><span class="accent">DEMO GRATIS</span></h2>
+  <p class="cta-sub">30 minutos. Te mostramos SmartBuild corriendo con tus propios datos. Sin compromiso.</p>
+
+  <!-- Contenedor propio highlight -->
+  <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(193,127,58,0.08);border:1px solid rgba(193,127,58,0.35);border-radius:3px;padding:14px 24px;margin-bottom:40px">
+    <div style="width:10px;height:10px;border-radius:50%;background:var(--ore);box-shadow:0 0 8px rgba(193,127,58,0.6);flex-shrink:0"></div>
+    <div style="text-align:left">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ore);margin-bottom:2px">Infraestructura dedicada</div>
+      <div style="font-size:14px;color:var(--white);font-weight:500">Cada cliente opera en su propio contenedor de proyectos — tus datos nunca se mezclan con los de otra empresa.</div>
+    </div>
+  </div>
+
+  <!-- Demo form -->
+  <form onsubmit="submitDemo(event)" style="max-width:480px;margin:0 auto 32px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <input type="text" placeholder="Nombre" required
+        style="background:rgba(255,255,255,0.05);border:1px solid rgba(193,127,58,0.25);color:var(--white);padding:13px 16px;font-family:'DM Sans',sans-serif;font-size:14px;border-radius:2px;outline:none;transition:border-color .2s"
+        onfocus="this.style.borderColor='var(--ore)'" onblur="this.style.borderColor='rgba(193,127,58,0.25)'" id="demo-nombre">
+      <input type="text" placeholder="Empresa" required
+        style="background:rgba(255,255,255,0.05);border:1px solid rgba(193,127,58,0.25);color:var(--white);padding:13px 16px;font-family:'DM Sans',sans-serif;font-size:14px;border-radius:2px;outline:none;transition:border-color .2s"
+        onfocus="this.style.borderColor='var(--ore)'" onblur="this.style.borderColor='rgba(193,127,58,0.25)'" id="demo-empresa">
+    </div>
+    <input type="email" placeholder="Correo electrónico" required
+      style="background:rgba(255,255,255,0.05);border:1px solid rgba(193,127,58,0.25);color:var(--white);padding:13px 16px;font-family:'DM Sans',sans-serif;font-size:14px;border-radius:2px;outline:none;transition:border-color .2s;width:100%"
+      onfocus="this.style.borderColor='var(--ore)'" onblur="this.style.borderColor='rgba(193,127,58,0.25)'" id="demo-email">
+    <select id="demo-plan"
+      style="background:var(--steel-dark);border:1px solid rgba(193,127,58,0.25);color:var(--white);padding:13px 16px;font-family:'DM Sans',sans-serif;font-size:14px;border-radius:2px;outline:none;cursor:pointer">
+      <option value="">¿Qué plan te interesa?</option>
+      <option value="starter">Starter — UF 3/mes</option>
+      <option value="suite">Suite — UF 8/mes</option>
+      <option value="enterprise">Enterprise — Presupuesto + Control de Obra + BIM 4D</option>
+    </select>
+    <button type="submit" class="btn-primary" style="width:100%;padding:16px;font-size:15px;letter-spacing:2px" id="demo-btn">
+      Solicitar Demo →
+    </button>
+    <div id="demo-msg" style="display:none;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--green);text-align:center;padding:8px">
+      ✓ Solicitud enviada — te contactamos en menos de 24 horas.
+    </div>
+  </form>
+
+  <div class="cta-contact">
+    O escríbenos directo: <a href="mailto:bitcoppertech@gmail.com">bitcoppertech@gmail.com</a>
+    &nbsp;·&nbsp; <a href="https://bitcoppertech.cl" target="_blank">bitcoppertech.cl</a>
+  </div>
+</section>
+
+<script>
+function submitDemo(e) {
+  e.preventDefault();
+  const btn = document.getElementById('demo-btn');
+  btn.textContent = 'Enviando...';
+  btn.style.opacity = '0.7';
+  setTimeout(() => {
+    btn.style.display = 'none';
+    document.getElementById('demo-msg').style.display = 'block';
+  }, 900);
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════
+   SMARTBUILD ENTERPRISE — Control de Obra + BIM 4D
+═══════════════════════════════════════════════════ */
+const ENT_PARTIDAS = [
+  { id:0, nombre:'Obras preliminares', cat:'Terreno',       presupuesto:850,  ejecutado:870,  avance:100, inicio:0,  fin:10, color_cat:0x8B6914 },
+  { id:1, nombre:'Fundaciones',        cat:'Estructura',     presupuesto:2200, ejecutado:2380, avance:100, inicio:5,  fin:22, color_cat:0x5A4A2A },
+  { id:2, nombre:'Estructura H.A.',    cat:'Estructura',     presupuesto:4500, ejecutado:3100, avance:68,  inicio:18, fin:75, color_cat:0x3A5060 },
+  { id:3, nombre:'Albañilería',        cat:'Terminaciones',  presupuesto:1800, ejecutado:820,  avance:45,  inicio:35, fin:80, color_cat:0x6A4E2A },
+  { id:4, nombre:'Inst. eléctrica',    cat:'Instalaciones',  presupuesto:980,  ejecutado:520,  avance:50,  inicio:40, fin:85, color_cat:0x6A5A10 },
+  { id:5, nombre:'Inst. sanitaria',    cat:'Instalaciones',  presupuesto:760,  ejecutado:190,  avance:24,  inicio:45, fin:88, color_cat:0x1A4A6A },
+  { id:6, nombre:'Techumbre',          cat:'Terminaciones',  presupuesto:620,  ejecutado:0,    avance:0,   inicio:70, fin:90, color_cat:0x2A3A2A },
+  { id:7, nombre:'Revestimientos',     cat:'Terminaciones',  presupuesto:1100, ejecutado:0,    avance:0,   inicio:75, fin:100,color_cat:0x3A2A1A },
+];
+
+let ENT_PAGOS = [
+  { partida:0, nombre:'Obras preliminares', monto:420,  fecha:'2024-08-15', estado:'pagado' },
+  { partida:0, nombre:'Obras preliminares', monto:450,  fecha:'2024-09-01', estado:'pagado' },
+  { partida:1, nombre:'Fundaciones',        monto:1100, fecha:'2024-09-20', estado:'pagado' },
+  { partida:1, nombre:'Fundaciones',        monto:1280, fecha:'2024-10-10', estado:'pagado' },
+  { partida:2, nombre:'Estructura H.A.',    monto:1800, fecha:'2024-10-25', estado:'pagado' },
+  { partida:2, nombre:'Estructura H.A.',    monto:1300, fecha:'2024-11-15', estado:'pagado' },
+  { partida:3, nombre:'Albañilería',        monto:820,  fecha:'2024-11-28', estado:'pagado' },
+  { partida:4, nombre:'Inst. eléctrica',    monto:520,  fecha:'2024-12-05', estado:'pendiente' },
+  { partida:5, nombre:'Inst. sanitaria',    monto:190,  fecha:'2024-12-10', estado:'pagado' },
+];
+
+const MESES = ['Ago 24','Sep 24','Oct 24','Nov 24','Dic 24','Ene 25','Feb 25','Mar 25','Abr 25','May 25','Jun 25','Jul 25','Ago 25','Sep 25','Oct 25'];
+
+let entSelRow = null;
+let entChartBar = null;
+let bimScene, bimCamera, bimRenderer, bimRaycaster, bimMouse;
+let bimMeshes = [], bimColorMode = 'avance', bimSelId = null;
+let bimIsDrag = false, bimPrev = {x:0,y:0}, bimRotY = 0.4, bimRotX = 0.22, bimDist = 13;
+let bimInitDone = false;
+
+function getEst(p) {
+  const d = p.ejecutado > 0 ? ((p.ejecutado - p.presupuesto) / p.presupuesto * 100) : 0;
+  const pg = p.presupuesto > 0 ? (p.ejecutado / p.presupuesto * 100) : 0;
+  if (p.avance === 0 && p.ejecutado === 0) return 'pend';
+  if (d > 8 || (pg > 90 && p.avance < 80)) return 'danger';
+  if (d > 3 || (pg > 80 && p.avance < 60)) return 'warn';
+  return 'ok';
+}
+
+function fUF(n) { return 'UF ' + n.toLocaleString('es-CL'); }
+
+/* ── TAB SWITCHING ── */
+function entTab(tab) {
+  document.querySelectorAll('.ent-tab').forEach((t, i) => {
+    t.classList.toggle('active', ['obra','bim'][i] === tab);
+  });
+  document.querySelectorAll('.ent-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('epanel-' + tab).classList.add('active');
+  if (tab === 'bim' && !bimInitDone) { setTimeout(initBIM, 60); bimInitDone = true; }
+  if (tab === 'bim') { setTimeout(entRenderGantt, 50); }
+}
+
+/* ── KPIs ── */
+function entRenderKPIs() {
+  const tot = ENT_PARTIDAS.reduce((s,p)=>s+p.presupuesto,0);
+  const ej  = ENT_PARTIDAS.reduce((s,p)=>s+p.ejecutado,0);
+  const dev = ((ej-tot)/tot*100);
+  const avg = Math.round(ENT_PARTIDAS.reduce((s,p)=>s+p.avance,0)/ENT_PARTIDAS.length);
+  const alerts = ENT_PARTIDAS.filter(p=>getEst(p)==='danger').length;
+  document.getElementById('ent-kpis').innerHTML = `
+    <div class="ent-kpi"><div class="ent-kpi-label">Presupuesto total</div><div class="ent-kpi-val">${fUF(tot)}</div><div class="ent-kpi-sub muted">Contrato original</div></div>
+    <div class="ent-kpi"><div class="ent-kpi-label">Ejecutado</div><div class="ent-kpi-val">${fUF(ej)}</div><div class="ent-kpi-sub ${dev>0?'danger':'ok'}">${dev>0?'+':''}${dev.toFixed(1)}% vs presupuesto</div></div>
+    <div class="ent-kpi"><div class="ent-kpi-label">Avance global</div><div class="ent-kpi-val">${avg}%</div><div class="ent-kpi-sub muted">Promedio partidas</div></div>
+    <div class="ent-kpi"><div class="ent-kpi-label">Alertas activas</div><div class="ent-kpi-val" style="${alerts>0?'color:var(--danger)':''}">${alerts}</div><div class="ent-kpi-sub ${alerts>0?'danger':'ok'}">${alerts>0?'Requieren atención':'Sin alertas críticas'}</div></div>`;
+}
+
+function entRenderKPIsPagos() {
+  const tot = ENT_PAGOS.reduce((s,p)=>s+p.monto,0);
+  const pend = ENT_PAGOS.filter(p=>p.estado==='pendiente').reduce((s,p)=>s+p.monto,0);
+  document.getElementById('ent-kpis-pagos').innerHTML = `
+    <div class="ent-kpi"><div class="ent-kpi-label">Total pagado</div><div class="ent-kpi-val">${fUF(tot-pend)}</div></div>
+    <div class="ent-kpi"><div class="ent-kpi-label">Pendiente</div><div class="ent-kpi-val" style="color:var(--ore-light)">${fUF(pend)}</div></div>
+    <div class="ent-kpi"><div class="ent-kpi-label">N° pagos</div><div class="ent-kpi-val">${ENT_PAGOS.length}</div></div>
+    <div class="ent-kpi"><div class="ent-kpi-label">Último pago</div><div class="ent-kpi-val" style="font-size:20px">${ENT_PAGOS[ENT_PAGOS.length-1]?.fecha||'—'}</div></div>`;
+}
+
+/* ── TABLA ── */
+function entRenderTabla() {
+  const f = document.getElementById('ent-filter').value;
+  const rows = ENT_PARTIDAS.filter(p => {
+    if (!f) return true;
+    const e = getEst(p);
+    if (f==='ok') return e==='ok'||e==='pend';
+    return e===f;
+  });
+  document.getElementById('ent-tbody').innerHTML = rows.map(p => {
+    const e = getEst(p);
+    const dev = p.ejecutado>0?((p.ejecutado-p.presupuesto)/p.presupuesto*100):0;
+    const barCol = e==='danger'?'#E84545':e==='warn'?'#C17F3A':p.avance===100?'#2ECC71':'#3A8ABB';
+    const chipL = {ok:'Al día',warn:'Riesgo',danger:'Desviada',pend:'Pendiente'}[e];
+    return `<tr onclick="entSelRow_fn(${p.id})" class="${entSelRow===p.id?'row-sel':''}">
+      <td title="${p.nombre}">${p.nombre}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--dust)">${fUF(p.presupuesto)}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ore-light)">${p.ejecutado>0?fUF(p.ejecutado):'—'}</td>
+      <td>
+        <div class="ent-bar-wrap">
+          <div class="ent-bar-bg"><div class="ent-bar-fill" style="width:${p.avance}%;background:${barCol}"></div></div>
+          <span class="ent-bar-pct" style="color:${barCol}">${p.avance}%</span>
+        </div>
+      </td>
+      <td><span class="ent-chip ${e}">${chipL}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function entSelRow_fn(id) {
+  entSelRow = id;
+  entRenderTabla();
+  const p = ENT_PARTIDAS.find(x=>x.id===id);
+  const e = getEst(p);
+  const dev = p.ejecutado>0?((p.ejecutado-p.presupuesto)/p.presupuesto*100):0;
+  const saldo = p.presupuesto-p.ejecutado;
+  const det = document.getElementById('ent-detail');
+  det.classList.add('open');
+  document.getElementById('ent-det-title').textContent = p.nombre;
+  document.getElementById('ent-det-sub').textContent = p.cat+' · '+(e==='pend'?'Sin iniciar':e==='ok'?'En marcha':e==='warn'?'En riesgo':'Desviación significativa');
+  document.getElementById('ent-det-grid').innerHTML = `
+    <div class="ent-dm"><div class="ent-dm-label">Presupuesto</div><div class="ent-dm-val">${fUF(p.presupuesto)}</div></div>
+    <div class="ent-dm"><div class="ent-dm-label">Ejecutado</div><div class="ent-dm-val">${p.ejecutado>0?fUF(p.ejecutado):'—'}</div></div>
+    <div class="ent-dm"><div class="ent-dm-label">Desviación</div><div class="ent-dm-val" style="color:${dev>5?'var(--danger)':dev>2?'var(--ore-light)':'var(--green)'}">${dev!==0?(dev>0?'+':'')+dev.toFixed(1)+'%':'—'}</div></div>
+    <div class="ent-dm"><div class="ent-dm-label">Saldo</div><div class="ent-dm-val" style="color:${saldo<0?'var(--danger)':''}">${fUF(Math.abs(saldo))}${saldo<0?' (exc.)':''}</div></div>
+    <div class="ent-dm"><div class="ent-dm-label">Avance</div><div class="ent-dm-val">${p.avance}%</div></div>
+    <div class="ent-dm"><div class="ent-dm-label">Estado</div><div class="ent-dm-val">${e==='danger'?'DESVIADA':e==='warn'?'EN RIESGO':e==='pend'?'PENDIENTE':'AL DÍA'}</div></div>`;
+  const pagosP = ENT_PAGOS.filter(x=>x.partida===id).slice(-3).reverse();
+  document.getElementById('ent-det-pagos').innerHTML = pagosP.length===0
+    ? '<div style="font-size:11px;color:var(--dust)">Sin pagos registrados</div>'
+    : pagosP.map(pg=>`<div class="ent-pago-row" style="margin-bottom:4px">
+        <div class="ent-pago-dot" style="background:${pg.estado==='pagado'?'#2ECC71':'#C17F3A'}"></div>
+        <div class="ent-pago-date">${pg.fecha}</div>
+        <div class="ent-pago-monto">${fUF(pg.monto)}</div>
+        <div class="ent-pago-status"><span class="ent-chip ${pg.estado==='pagado'?'ok':'warn'}">${pg.estado}</span></div>
+      </div>`).join('');
+}
+
+function entCloseDetail() {
+  entSelRow = null;
+  document.getElementById('ent-detail').classList.remove('open');
+  entRenderTabla();
+}
+
+/* ── CHART ── */
+function entBuildChart() {
+  if (entChartBar) entChartBar.destroy();
+  const ctx = document.getElementById('ent-chart-bar').getContext('2d');
+  entChartBar = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ENT_PARTIDAS.map(p=>p.nombre.length>14?p.nombre.substring(0,13)+'…':p.nombre),
+      datasets: [
+        { label:'Presupuesto', data:ENT_PARTIDAS.map(p=>p.presupuesto), backgroundColor:'rgba(193,127,58,0.18)', borderColor:'rgba(193,127,58,0.5)', borderWidth:1 },
+        { label:'Ejecutado',   data:ENT_PARTIDAS.map(p=>p.ejecutado),   backgroundColor:ENT_PARTIDAS.map(p=>getEst(p)==='danger'?'rgba(232,69,69,0.7)':getEst(p)==='warn'?'rgba(193,127,58,0.7)':'rgba(46,204,113,0.65)'), borderWidth:0 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false } },
+      scales:{
+        x:{ grid:{ color:'rgba(255,255,255,0.04)' }, ticks:{ color:'#6A7A8A', font:{size:10,family:"'DM Mono',monospace"}, autoSkip:false, maxRotation:35 } },
+        y:{ grid:{ color:'rgba(255,255,255,0.05)' }, ticks:{ color:'#6A7A8A', font:{size:10}, callback:v=>'UF '+v.toLocaleString('es-CL') } }
+      }
+    }
+  });
+}
+
+/* ── PAGOS ── */
+function entRenderPagos() {
+  document.getElementById('ent-pagos-list').innerHTML = [...ENT_PAGOS].reverse().map(p=>
+    `<div class="ent-pago-row">
+      <div class="ent-pago-dot" style="background:${p.estado==='pagado'?'#2ECC71':'#C17F3A'}"></div>
+      <div class="ent-pago-name">${p.nombre}</div>
+      <div class="ent-pago-date">${p.fecha}</div>
+      <div class="ent-pago-monto">${fUF(p.monto)}</div>
+      <div class="ent-pago-status"><span class="ent-chip ${p.estado==='pagado'?'ok':'warn'}">${p.estado}</span></div>
+    </div>`).join('');
+  const sel = document.getElementById('ent-pago-partida');
+  sel.innerHTML = ENT_PARTIDAS.map(p=>`<option value="${p.id}">${p.nombre}</option>`).join('');
+  document.getElementById('ent-pago-fecha').value = new Date().toISOString().split('T')[0];
+}
+
+function entRegistrarPago() {
+  const pid = parseInt(document.getElementById('ent-pago-partida').value);
+  const monto = parseFloat(document.getElementById('ent-pago-monto').value);
+  const fecha = document.getElementById('ent-pago-fecha').value;
+  if (!monto || monto<=0 || !fecha) return;
+  const p = ENT_PARTIDAS.find(x=>x.id===pid);
+  ENT_PAGOS.push({ partida:pid, nombre:p.nombre, monto, fecha, estado:'pendiente' });
+  p.ejecutado += monto;
+  document.getElementById('ent-pago-monto').value = '';
+  entRenderAll();
+}
+
+/* ── ALERTAS ── */
+function entRenderAlertas() {
+  const des = ENT_PARTIDAS.filter(p=>getEst(p)==='danger');
+  const rie = ENT_PARTIDAS.filter(p=>getEst(p)==='warn');
+  let html = '';
+  des.forEach(p=>{
+    const d=((p.ejecutado-p.presupuesto)/p.presupuesto*100).toFixed(1);
+    html+=`<div class="ent-alerta danger"><div class="ent-alerta-icon">⚠</div><div><div class="ent-alerta-title">${p.nombre} — desviación +${d}%</div><div class="ent-alerta-desc">Ejecutado UF ${p.ejecutado.toLocaleString()} vs presupuesto UF ${p.presupuesto.toLocaleString()}. Revisar órdenes de cambio.</div></div></div>`;
+  });
+  rie.forEach(p=>{
+    const pg=Math.round(p.ejecutado/p.presupuesto*100);
+    html+=`<div class="ent-alerta warn"><div class="ent-alerta-icon">!</div><div><div class="ent-alerta-title">${p.nombre} — ritmo de gasto elevado</div><div class="ent-alerta-desc">Gastado ${pg}% del presupuesto con ${p.avance}% de avance. Proyección podría exceder contrato.</div></div></div>`;
+  });
+  if (!html) html=`<div class="ent-alerta" style="border-color:var(--green);background:rgba(46,204,113,.06)"><div class="ent-alerta-icon">✓</div><div><div class="ent-alerta-title">Sin alertas activas</div><div class="ent-alerta-desc">Todas las partidas dentro de parámetros normales.</div></div></div>`;
+  document.getElementById('ent-alertas').innerHTML = html;
+}
+
+function entRenderAll() {
+  entRenderKPIs(); entRenderTabla(); entRenderKPIsPagos(); entRenderPagos(); entRenderAlertas(); entBuildChart();
+}
+
+/* ═══════ BIM 3D (Three.js) ═══════ */
+function getBimColor(p, mode) {
+  if (mode==='avance') {
+    if (p.avance===0) return 0x2A3A2A;
+    if (p.avance===100) return 0x1A7A40;
+    return p.avance>60?0x1A5A80:0x2A6A30;
+  }
+  if (mode==='alerta') {
+    const e=getEst(p);
+    if (e==='danger') return 0xA02020;
+    if (e==='warn') return 0x8A5010;
+    if (e==='pend') return 0x2A3A4A;
+    return 0x1A7A40;
+  }
+  return p.color_cat;
+}
+
+function getBimColorHex(p, mode) {
+  const c = getBimColor(p, mode);
+  return '#'+c.toString(16).padStart(6,'0');
+}
+
+function initBIM() {
+  const canvas = document.getElementById('bim-canvas3d');
+  const W = canvas.offsetWidth || 560, H = 340;
+  bimScene = new THREE.Scene();
+  bimCamera = new THREE.PerspectiveCamera(45, W/H, 0.1, 200);
+  bimRenderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+  bimRenderer.setSize(W, H);
+  bimRenderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  bimRenderer.setClearColor(0x000000, 0);
+
+  const amb = new THREE.AmbientLight(0xffffff, 0.5);
+  bimScene.add(amb);
+  const dir = new THREE.DirectionalLight(0xffd090, 0.9);
+  dir.position.set(8, 16, 10);
+  bimScene.add(dir);
+  const fill = new THREE.DirectionalLight(0x3060a0, 0.3);
+  fill.position.set(-8, 4, -6);
+  bimScene.add(fill);
+
+  const grid = new THREE.GridHelper(20, 20, 0x334455, 0x223344);
+  grid.material.opacity = 0.2; grid.material.transparent = true;
+  bimScene.add(grid);
+
+  buildBimBuilding();
+
+  bimRaycaster = new THREE.Raycaster();
+  bimMouse = new THREE.Vector2();
+
+  canvas.addEventListener('mousedown', e=>{ bimIsDrag=false; bimPrev={x:e.clientX,y:e.clientY}; canvas.addEventListener('mousemove',bimOnMove); });
+  canvas.addEventListener('mouseup', e=>{ canvas.removeEventListener('mousemove',bimOnMove); if(!bimIsDrag) bimOnClick(e); });
+  canvas.addEventListener('wheel', e=>{ bimDist=Math.max(5,Math.min(24,bimDist+e.deltaY*0.02)); bimUpdateCam(); },{passive:true});
+  canvas.addEventListener('touchstart', e=>{ bimPrev={x:e.touches[0].clientX,y:e.touches[0].clientY}; },{passive:true});
+  canvas.addEventListener('touchmove', e=>{
+    const dx=(e.touches[0].clientX-bimPrev.x)*0.008, dy=(e.touches[0].clientY-bimPrev.y)*0.008;
+    bimRotY+=dx; bimRotX=Math.max(-0.4,Math.min(0.8,bimRotX+dy));
+    bimPrev={x:e.touches[0].clientX,y:e.touches[0].clientY};
+    bimUpdateCam();
+  },{passive:true});
+
+  bimRenderSideList();
+  bimUpdateCam();
+  bimAnimate();
+}
+
+function bimOnMove(e) {
+  bimIsDrag=true;
+  const dx=(e.clientX-bimPrev.x)*0.008, dy=(e.clientY-bimPrev.y)*0.008;
+  bimRotY+=dx; bimRotX=Math.max(-0.4,Math.min(0.8,bimRotX+dy));
+  bimPrev={x:e.clientX,y:e.clientY};
+  bimUpdateCam();
+}
+
+function bimOnClick(e) {
+  const canvas=document.getElementById('bim-canvas3d');
+  const rect=canvas.getBoundingClientRect();
+  bimMouse.x=((e.clientX-rect.left)/rect.width)*2-1;
+  bimMouse.y=-((e.clientY-rect.top)/rect.height)*2+1;
+  bimRaycaster.setFromCamera(bimMouse,bimCamera);
+  const hits=bimRaycaster.intersectObjects(bimMeshes.map(m=>m.mesh));
+  if (hits.length>0) bimSelectPartida(hits[0].object.userData.pidx);
+}
+
+function buildBimBuilding() {
+  bimMeshes.forEach(m=>{ bimScene.remove(m.mesh); m.mesh.geometry.dispose(); m.mesh.material.dispose(); });
+  bimMeshes=[];
+  const floors=[
+    {pidx:0,x:0,y:-0.15,z:0,w:6,  h:0.3, d:5  },
+    {pidx:1,x:0,y:0.4,  z:0,w:5.6,h:0.8, d:4.6},
+    {pidx:2,x:0,y:1.25, z:0,w:5.4,h:1.5, d:4.4},
+    {pidx:3,x:0,y:1.3,  z:0,w:5.0,h:1.4, d:4.0},
+    {pidx:2,x:0,y:3.0,  z:0,w:5.4,h:1.5, d:4.4},
+    {pidx:4,x:0,y:3.0,  z:0,w:4.8,h:1.3, d:3.8},
+    {pidx:2,x:0,y:4.75, z:0,w:5.4,h:1.5, d:4.4},
+    {pidx:5,x:0,y:4.8,  z:0,w:4.6,h:1.2, d:3.6},
+    {pidx:6,x:0,y:6.4,  z:0,w:5.8,h:0.4, d:4.8},
+    {pidx:7,x:0,y:6.3,  z:0,w:5.4,h:0.25,d:4.4},
+  ];
+  floors.forEach(f=>{
+    const p=ENT_PARTIDAS[f.pidx];
+    const geo=new THREE.BoxGeometry(f.w,f.h,f.d);
+    const mat=new THREE.MeshPhongMaterial({ color:getBimColor(p,bimColorMode), transparent:true, opacity:0.85, shininess:25 });
+    const mesh=new THREE.Mesh(geo,mat);
+    mesh.position.set(f.x,f.y,f.z);
+    mesh.userData={pidx:f.pidx};
+    bimScene.add(mesh);
+    const edges=new THREE.EdgesGeometry(geo);
+    const eLine=new THREE.LineSegments(edges,new THREE.LineBasicMaterial({color:0xC17F3A,transparent:true,opacity:0.2}));
+    mesh.add(eLine);
+    bimMeshes.push({mesh,pidx:f.pidx});
+  });
+}
+
+function bimUpdateCam() {
+  const x=bimDist*Math.sin(bimRotY)*Math.cos(bimRotX);
+  const y=bimDist*Math.sin(bimRotX)+4;
+  const z=bimDist*Math.cos(bimRotY)*Math.cos(bimRotX);
+  bimCamera.position.set(x,y,z);
+  bimCamera.lookAt(0,3,0);
+}
+
+function bimAnimate() {
+  requestAnimationFrame(bimAnimate);
+  if (bimRenderer) bimRenderer.render(bimScene,bimCamera);
+}
+
+function setBimColor(mode) {
+  bimColorMode=mode;
+  ['avance','alerta','partida'].forEach(m=>{
+    document.getElementById('bim-btn-'+m).classList.toggle('active',m===mode);
+  });
+  bimMeshes.forEach(({mesh,pidx})=>{
+    mesh.material.color.setHex(getBimColor(ENT_PARTIDAS[pidx],mode));
+  });
+}
+
+function bimSelectPartida(idx) {
+  bimSelId=idx;
+  bimMeshes.forEach(({mesh,pidx})=>{
+    mesh.material.emissive=new THREE.Color(pidx===idx?0x6A4010:0x000000);
+    mesh.material.emissiveIntensity=pidx===idx?0.3:0;
+  });
+  const p=ENT_PARTIDAS[idx];
+  const e=getEst(p);
+  const dev=p.ejecutado>0?((p.ejecutado-p.presupuesto)/p.presupuesto*100):0;
+  const pop=document.getElementById('bim-dpop');
+  pop.classList.add('open');
+  document.getElementById('bim-dpop-content').innerHTML=`
+    <div class="bim-drow"><span>Avance</span><span class="bim-dval">${p.avance}%</span></div>
+    <div class="bim-drow"><span>Presup.</span><span class="bim-dval">${fUF(p.presupuesto)}</span></div>
+    <div class="bim-drow"><span>Ejecut.</span><span class="bim-dval">${p.ejecutado>0?fUF(p.ejecutado):'—'}</span></div>
+    <div class="bim-drow"><span>Desvio</span><span class="bim-dval" style="color:${dev>5?'var(--danger)':dev>2?'var(--ore-light)':'var(--green)'}">${dev!==0?(dev>0?'+':'')+dev.toFixed(1)+'%':'—'}</span></div>
+    <div class="bim-drow"><span>Estado</span><span class="bim-dval">${e==='danger'?'DESVIADA':e==='warn'?'RIESGO':e==='pend'?'PENDIENTE':'OK'}</span></div>`;
+  bimRenderSideList();
+}
+
+function bimRenderSideList() {
+  document.getElementById('bim-partidas-list').innerHTML = ENT_PARTIDAS.map((p,i)=>{
+    const col=getBimColorHex(p,bimColorMode);
+    return `<div class="bim-part-item ${bimSelId===i?'sel':''}" onclick="bimSelectPartida(${i})">
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:2px">
+        <div style="width:7px;height:7px;border-radius:1px;background:${col};flex-shrink:0"></div>
+        <div class="bim-part-name">${p.nombre}</div>
+      </div>
+      <div class="bim-part-pct">${p.avance}%</div>
+      <div class="bim-mini-bar"><div class="bim-mini-fill" style="width:${p.avance}%;background:${col}"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function bimUpdateForTime(t) {
+  bimMeshes.forEach(({mesh,pidx})=>{
+    const p=ENT_PARTIDAS[pidx];
+    const vis=t>=p.inicio;
+    const prog=vis?Math.min(1,(t-p.inicio)/(p.fin-p.inicio)):0;
+    mesh.material.opacity=vis?0.4+prog*0.5:0.06;
+    if (bimColorMode==='avance') {
+      let col=0x2A3A2A;
+      if (prog>=1) col=0x1A7A40;
+      else if (prog>0.6) col=0x1A5A80;
+      else if (prog>0) col=0x2A6A30;
+      mesh.material.color.setHex(col);
+    }
+  });
+}
+
+/* ── GANTT ── */
+function entRenderGantt() {
+  document.getElementById('ent-gantt-months').innerHTML = MESES.map(m=>`<div class="gantt-month-cell">${m}</div>`).join('');
+  entUpdateTime(58);
+}
+
+function entUpdateTime(val) {
+  const t=parseInt(val);
+  document.getElementById('ent-time-slider').value=t;
+  const idx=Math.round(t/100*(MESES.length-1));
+  document.getElementById('ent-time-label').textContent=MESES[Math.min(idx,MESES.length-1)];
+  document.getElementById('ent-gantt-rows').innerHTML=ENT_PARTIDAS.map((p,i)=>{
+    const e=getEst(p);
+    const pL=(p.inicio).toFixed(1)+'%';
+    const pW=((p.fin-p.inicio)).toFixed(1)+'%';
+    const started=t>=p.inicio;
+    const aEnd=started?Math.min(t,p.fin):p.inicio;
+    const aW=started?((aEnd-p.inicio)).toFixed(1)+'%':'0%';
+    const barCol=e==='danger'?'#E84545':e==='warn'?'#C17F3A':p.avance===100?'#2ECC71':'#3A8ABB';
+    const todayL=t.toFixed(1)+'%';
+    const alertBg=e==='danger'?'#E84545':e==='warn'?'#C17F3A':'transparent';
+    return `<div class="gantt-row-item" onclick="bimSelectPartida(${i})">
+      <div class="gantt-row-label">${p.nombre}</div>
+      <div class="gantt-track">
+        <div class="gantt-planned-bar" style="left:${pL};width:${pW}"></div>
+        <div class="gantt-actual-bar"  style="left:${pL};width:${aW};background:${barCol}"></div>
+        <div class="gantt-today-line" style="left:${todayL}"></div>
+      </div>
+      <div class="gantt-alert-dot" style="background:${alertBg}">${e==='danger'?'!':e==='warn'?'~':''}</div>
+    </div>`;
+  }).join('');
+  if (bimInitDone) bimUpdateForTime(t);
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', ()=>{
+  entRenderAll();
+  setTimeout(entRenderGantt, 100);
+});
+</script>
+</body>
+</html>

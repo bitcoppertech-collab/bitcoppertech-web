@@ -1,0 +1,52 @@
+version: "3.9"
+
+# ══════════════════════════════════════════════════════════════════
+# SmartBuild PRO — Docker Compose LOCAL
+# Para probar el contenedor antes de subir a producción
+# Uso: docker compose up --build
+# App: http://localhost:5000
+# ══════════════════════════════════════════════════════════════════
+
+services:
+
+  # ── Base de datos ─────────────────────────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: sb-local-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: smartbuild_dev
+      POSTGRES_USER: smartbuild
+      POSTGRES_PASSWORD: smartbuild2026
+    ports:
+      - "5433:5432"   # 5433 para no chocar con PostgreSQL local
+    volumes:
+      - sb-local-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U smartbuild -d smartbuild_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── SmartBuild App ────────────────────────────────────────────
+  app:
+    build:
+      context: ../../smartbuild   # apunta al directorio del proyecto
+      dockerfile: ../../smartbuild-orchestrator/smartbuild-app/Dockerfile
+    container_name: sb-local-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DATABASE_URL: postgresql://smartbuild:smartbuild2026@postgres:5432/smartbuild_dev
+      SESSION_SECRET: local-dev-secret-2026
+      # Copiar las demás variables de tu .env actual:
+      # OPENAI_API_KEY: ${OPENAI_API_KEY}
+    ports:
+      - "5000:5000"
+
+volumes:
+  sb-local-pgdata:

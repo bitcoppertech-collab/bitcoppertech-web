@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUPR — La Reserva Soberana · Bitcopper Tech SpA</title>
+<meta name="description" content="CUPR es el token de reserva soberana del ecosistema Bitcopper. 29 millones de tokens en Polygon, respaldados por BITCU minado con Proof of Heat.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+:root {
+  --bg:      #04070a;
+  --panel:   #080e14;
+  --panel2:  #0c1520;
+  --border:  #14253a;
+  --copper:  #b87333;
+  --copper2: #d4924a;
+  --gold:    #c8903a;
+  --gold2:   #e8b060;
+  --green:   #00e87a;
+  --red:     #ff3355;
+  --poly:    #8247e5;
+  --white:   #e8d8c0;
+  --dim:     #2e4560;
+  --mono:    'Share Tech Mono', monospace;
+  --disp:    'Bebas Neue', cursive;
+  --serif:   'Crimson Pro', Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse at 10% 20%, rgba(184,115,51,0.09) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 80%, rgba(130,71,229,0.06) 0%, transparent 45%),
+    radial-gradient(ellipse at 55% 50%, rgba(200,144,58,0.04) 0%, transparent 40%);
+  pointer-events: none; z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(184,115,51,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,115,51,0.02) 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events: none; z-index: 0;
+}
+
+.wrap { position: relative; z-index: 1; }
+
+/* ── NAV ─────────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 62px;
+  background: rgba(4,7,10,0.94);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+}
+.nav-logo {
+  font-family: var(--disp);
+  font-size: 1.25rem; letter-spacing: 5px;
+  background: linear-gradient(90deg, var(--copper), var(--gold2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.nav-links a {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 2px; color: var(--dim);
+  text-decoration: none; transition: color 0.2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--gold2); }
+.nav-poly {
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 2px; color: var(--poly);
+  border: 1px solid rgba(130,71,229,0.4);
+  padding: 5px 13px; border-radius: 20px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.nav-poly:hover { background: rgba(130,71,229,0.1); }
+.poly-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--poly); box-shadow: 0 0 6px var(--poly); }
+
+/* ── HERO ────────────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 100px 80px 60px;
+  gap: 60px;
+  position: relative; overflow: hidden;
+}
+
+.hero::before {
+  content: 'CUPR';
+  position: absolute;
+  font-family: var(--disp);
+  font-size: 38vw; line-height: 1;
+  color: rgba(184,115,51,0.025);
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  letter-spacing: -10px;
+  white-space: nowrap;
+}
+
+.hero-left {}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.62rem; letter-spacing: 5px;
+  color: var(--gold); text-transform: uppercase;
+  margin-bottom: 18px;
+  display: flex; align-items: center; gap: 12px;
+}
+.eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+
+.hero h1 {
+  font-family: var(--disp);
+  font-size: clamp(5rem, 10vw, 8.5rem);
+  line-height: 0.88; letter-spacing: 8px;
+  background: linear-gradient(150deg, var(--copper) 0%, var(--gold2) 45%, var(--copper2) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 6px;
+  animation: fadeUp 0.8s ease both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+
+.hero-tagline {
+  font-family: var(--disp);
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  letter-spacing: 5px; color: var(--dim);
+  margin-bottom: 26px;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+
+.hero-desc {
+  font-size: 1.1rem;
+  color: rgba(232,216,192,0.72);
+  line-height: 1.8; max-width: 520px;
+  margin-bottom: 38px;
+  font-style: italic;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.hero-btns {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+
+.btn-primary {
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: 3px; padding: 13px 30px;
+  background: linear-gradient(135deg, var(--copper), var(--gold2));
+  color: #060200; border: none; border-radius: 4px;
+  cursor: pointer; text-decoration: none; display: inline-block;
+  transition: all 0.25s;
+  box-shadow: 0 0 28px rgba(200,144,58,0.4);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 44px rgba(200,144,58,0.6); }
+
+.btn-secondary {
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: 3px; padding: 12px 30px;
+  background: transparent; color: var(--gold2);
+  border: 1px solid rgba(200,144,58,0.5);
+  border-radius: 4px; cursor: pointer;
+  text-decoration: none; display: inline-block;
+  transition: all 0.25s;
+}
+.btn-secondary:hover { background: rgba(200,144,58,0.07); border-color: var(--gold2); }
+
+.btn-poly {
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: 3px; padding: 12px 30px;
+  background: rgba(130,71,229,0.12); color: #aa88ff;
+  border: 1px solid rgba(130,71,229,0.4);
+  border-radius: 4px; cursor: pointer;
+  text-decoration: none; display: inline-block;
+  transition: all 0.25s;
+}
+.btn-poly:hover { background: rgba(130,71,229,0.2); }
+
+.hero-right {
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  animation: fadeUp 0.8s 0.15s ease both;
+}
+
+.coin-wrap {
+  position: relative;
+  width: 420px; height: 420px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.orbit {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(184,115,51,0.15);
+  animation: spin linear infinite;
+}
+.orbit-1 { width: 500px; height: 500px; animation-duration: 30s; }
+.orbit-2 { width: 560px; height: 560px; animation-duration: 50s; animation-direction: reverse; border-color: rgba(130,71,229,0.1); }
+.orbit-3 { width: 440px; height: 440px; animation-duration: 20s; border-color: rgba(200,144,58,0.08); }
+@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+.orbit-dot {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  top: -3px; left: 50%; transform: translateX(-50%);
+  background: var(--copper2);
+  box-shadow: 0 0 8px var(--copper2);
+}
+.orbit-2 .orbit-dot { background: var(--poly); box-shadow: 0 0 8px var(--poly); }
+
+.coin-img {
+  width: 340px; height: 340px;
+  border-radius: 50%;
+  object-fit: cover;
+  animation: coinFloat 5s ease-in-out infinite;
+  filter: drop-shadow(0 0 40px rgba(184,115,51,0.5)) drop-shadow(0 0 80px rgba(184,115,51,0.25));
+  position: relative; z-index: 2;
+}
+@keyframes coinFloat {
+  0%,100% { transform: translateY(0) rotate(-1deg); }
+  50%      { transform: translateY(-14px) rotate(1deg); }
+}
+
+.coin-glow {
+  position: absolute;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184,115,51,0.25) 0%, transparent 70%);
+  animation: glowPulse 3s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes glowPulse { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.12)} }
+
+.data-chip {
+  position: absolute;
+  background: rgba(8,14,20,0.95);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+  animation: chipFloat ease-in-out infinite;
+}
+.chip-1 { top: 40px; right: -20px; animation-duration: 4.5s; animation-delay: 0s; }
+.chip-2 { bottom: 60px; left: -30px; animation-duration: 5.5s; animation-delay: 1s; }
+.chip-3 { top: 160px; left: -50px; animation-duration: 6s; animation-delay: 0.5s; }
+@keyframes chipFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.chip-val { color: var(--gold2); font-size: 0.85rem; margin-bottom: 2px; }
+.chip-lbl { color: var(--dim); font-size: 0.55rem; letter-spacing: 2px; }
+
+/* ── SECTION SHARED ──────────────────────────────────────── */
+section { padding: 90px 80px; }
+section:nth-child(even) { background: rgba(8,14,20,0.5); }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.6rem; letter-spacing: 5px;
+  color: var(--dim); text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-label::before { content: ''; width: 24px; height: 1px; background: var(--copper); }
+
+.section-title {
+  font-family: var(--disp);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, var(--copper), var(--gold2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 16px; line-height: 1;
+}
+
+.section-desc {
+  font-size: 1.05rem;
+  color: rgba(232,216,192,0.65);
+  max-width: 640px; line-height: 1.8;
+  margin-bottom: 48px;
+}
+
+/* ── STATS BAR ───────────────────────────────────────────── */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+  margin: 0 80px 0;
+}
+.sbar-item {
+  background: var(--panel);
+  padding: 28px 24px;
+  border-right: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.sbar-item:last-child { border-right: none; }
+.sbar-item::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.sbar-item:nth-child(1)::before { background: linear-gradient(90deg, var(--copper), transparent); }
+.sbar-item:nth-child(2)::before { background: linear-gradient(90deg, var(--gold), transparent); }
+.sbar-item:nth-child(3)::before { background: linear-gradient(90deg, var(--poly), transparent); }
+.sbar-item:nth-child(4)::before { background: linear-gradient(90deg, var(--green), transparent); }
+
+.sbar-val {
+  font-family: var(--disp);
+  font-size: 2.4rem; letter-spacing: 2px; line-height: 1;
+}
+.sbar-item:nth-child(1) .sbar-val { color: var(--copper2); }
+.sbar-item:nth-child(2) .sbar-val { color: var(--gold2); }
+.sbar-item:nth-child(3) .sbar-val { color: #aa88ff; }
+.sbar-item:nth-child(4) .sbar-val { color: var(--green); }
+.sbar-label { font-family: var(--mono); font-size: 0.58rem; color: var(--dim); letter-spacing: 2px; margin-top: 6px; }
+
+/* ── QUÉ ES CUPR ─────────────────────────────────────────── */
+.what-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px; align-items: start;
+}
+.what-text p {
+  font-size: 1.05rem;
+  color: rgba(232,216,192,0.72);
+  line-height: 1.85;
+  margin-bottom: 18px;
+}
+.what-text p strong { color: var(--gold2); font-weight: 600; }
+.what-text p em { color: var(--copper2); font-style: italic; }
+
+.formula-box {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 8px;
+  padding: 20px 22px;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  line-height: 1.9;
+  color: var(--copper2);
+  margin-top: 24px;
+}
+.formula-box .f-title { color: var(--dim); font-size: 0.58rem; letter-spacing: 3px; margin-bottom: 8px; }
+
+.what-cards { display: flex; flex-direction: column; gap: 12px; }
+.wcard {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex; gap: 16px; align-items: flex-start;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.wcard:hover { border-color: var(--copper); transform: translateX(4px); }
+.wcard-icon {
+  font-size: 1.4rem;
+  width: 42px; height: 42px;
+  background: rgba(184,115,51,0.1);
+  border: 1px solid rgba(184,115,51,0.2);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.wcard-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 2px; color: var(--gold2); margin-bottom: 4px; }
+.wcard-body { font-size: 0.92rem; color: rgba(232,216,192,0.65); line-height: 1.55; }
+
+/* ── TOKENOMICS ──────────────────────────────────────────── */
+.tokenomics-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px; align-items: center;
+}
+
+.donut-wrap { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.donut-svg { width: 280px; height: 280px; }
+
+.donut-legend { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.legend-item {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 1px;
+}
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.legend-pct { color: var(--gold2); margin-left: auto; }
+
+.token-details { display: flex; flex-direction: column; gap: 14px; }
+.tdetail {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.tdetail-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 2px; color: var(--dim); }
+.tdetail-val { font-family: var(--disp); font-size: 1.3rem; letter-spacing: 2px; color: var(--gold2); }
+
+/* ── CÓMO FUNCIONA ───────────────────────────────────────── */
+.flow-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+}
+.flow-steps::before {
+  content: '';
+  position: absolute;
+  top: 36px; left: calc(12.5% + 18px); right: calc(12.5% + 18px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--copper), var(--gold), var(--poly), var(--green));
+}
+.fstep { text-align: center; padding: 0 16px; }
+.fstep-num {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  font-family: var(--disp); font-size: 1.4rem;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  position: relative; z-index: 1;
+}
+.fstep:nth-child(1) .fstep-num { background: rgba(184,115,51,0.15); border: 1px solid var(--copper); color: var(--copper2); }
+.fstep:nth-child(2) .fstep-num { background: rgba(212,168,67,0.15); border: 1px solid var(--gold);   color: var(--gold2); }
+.fstep:nth-child(3) .fstep-num { background: rgba(130,71,229,0.15); border: 1px solid var(--poly);   color: #aa88ff; }
+.fstep:nth-child(4) .fstep-num { background: rgba(0,232,122,0.12);  border: 1px solid var(--green);  color: var(--green); }
+
+.fstep-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 2px; color: var(--white); margin-bottom: 8px; }
+.fstep-body  { font-size: 0.88rem; color: rgba(232,216,192,0.6); line-height: 1.6; }
+
+/* ── POLYGON SECTION ─────────────────────────────────────── */
+.poly-section {
+  background: linear-gradient(135deg, rgba(130,71,229,0.06) 0%, rgba(8,14,20,0.8) 60%) !important;
+  border-top: 1px solid rgba(130,71,229,0.15);
+  border-bottom: 1px solid rgba(130,71,229,0.15);
+}
+
+.poly-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px; align-items: center;
+}
+
+.poly-info { display: flex; flex-direction: column; gap: 12px; }
+.poly-badge-lg {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(130,71,229,0.12);
+  border: 1px solid rgba(130,71,229,0.3);
+  border-radius: 8px; padding: 12px 18px;
+  font-family: var(--mono); font-size: 0.7rem;
+  letter-spacing: 2px; color: #aa88ff;
+  width: fit-content; margin-bottom: 8px;
+}
+.poly-hex-icon {
+  width: 22px; height: 22px;
+  background: var(--poly); border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; color: white; font-weight: bold;
+}
+
+.contract-box {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+.contract-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 3px; color: var(--dim); margin-bottom: 8px; }
+.contract-addr {
+  font-family: var(--mono); font-size: 0.72rem;
+  color: var(--copper2); word-break: break-all;
+  line-height: 1.5;
+}
+.contract-addr a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(184,115,51,0.3); padding-bottom: 1px; }
+.contract-addr a:hover { color: var(--gold2); }
+
+.poly-features { display: flex; flex-direction: column; gap: 10px; }
+.pfeat {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  display: flex; align-items: center; gap: 14px;
+  font-family: var(--mono); font-size: 0.65rem;
+}
+.pfeat-icon { font-size: 1.1rem; }
+.pfeat-title { color: var(--white); letter-spacing: 1px; margin-bottom: 2px; }
+.pfeat-sub { color: var(--dim); font-size: 0.58rem; letter-spacing: 1px; }
+
+/* ── RESPALDO BITCU ──────────────────────────────────────── */
+.respaldo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 8px;
+}
+.rcard {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 22px;
+  position: relative; overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.rcard:hover { border-color: var(--copper); transform: translateY(-4px); }
+.rcard::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--copper), var(--gold2));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s;
+}
+.rcard:hover::after { transform: scaleX(1); }
+.rcard-num {
+  font-family: var(--mono); font-size: 0.55rem;
+  letter-spacing: 3px; color: var(--dim);
+  margin-bottom: 12px;
+}
+.rcard-title {
+  font-family: var(--disp); font-size: 1.3rem;
+  letter-spacing: 3px; color: var(--gold2);
+  margin-bottom: 10px;
+}
+.rcard-body { font-size: 0.9rem; color: rgba(232,216,192,0.62); line-height: 1.65; }
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+footer {
+  padding: 48px 80px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px;
+}
+.footer-brand { font-family: var(--disp); font-size: 1.6rem; letter-spacing: 5px; color: var(--copper2); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-family: var(--mono); font-size: 0.6rem; color: var(--dim); text-decoration: none; letter-spacing: 2px; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold2); }
+.footer-copy { font-family: var(--mono); font-size: 0.58rem; color: var(--dim); letter-spacing: 1px; }
+.footer-motto { font-family: var(--serif); font-style: italic; color: rgba(184,115,51,0.5); font-size: 0.9rem; }
+
+/* ── UTILITIES ───────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 0 80px;
+}
+
+@media (max-width: 960px) {
+  .hero           { grid-template-columns: 1fr; padding: 100px 28px 48px; }
+  .hero-right     { display: none; }
+  .stats-bar      { grid-template-columns: repeat(2,1fr); margin: 0 28px; }
+  section         { padding: 60px 28px; }
+  .what-grid,
+  .tokenomics-wrap,
+  .poly-grid      { grid-template-columns: 1fr; }
+  .flow-steps     { grid-template-columns: repeat(2,1fr); gap: 24px; }
+  .flow-steps::before { display: none; }
+  .respaldo-grid  { grid-template-columns: 1fr; }
+  footer          { padding: 32px 28px; flex-direction: column; align-items: flex-start; }
+  nav             { padding: 0 20px; }
+  .nav-links      { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- NAV -->
+<nav>
+  <a href="/bitcu" class="nav-logo">BITCOPPER</a>
+  <div class="nav-links">
+    <a href="/bitcu">BITCU</a>
+    <a href="#que-es">¿QUÉ ES?</a>
+    <a href="#tokenomics">TOKENOMICS</a>
+    <a href="#como-funciona">CÓMO FUNCIONA</a>
+    <a href="#polygon">POLYGON</a>
+    <a href="#respaldo">RESPALDO</a>
+    <a href="#calculadora">CALCULADORA</a>
+    <a href="/bitcu#whitepaper">WHITEPAPER</a>
+    <a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank" class="nav-poly">
+      <span class="poly-dot"></span>POLYGONSCAN
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">CAPA 2 · SISTEMA BICAPA BITCOPPER</div>
+    <h1>CUPR</h1>
+    <div class="hero-tagline">LA RESERVA SOBERANA</div>
+    <p class="hero-desc">
+      El token de reserva del ecosistema Bitcopper. 29 millones de CUPR en Polygon,
+      respaldados por BITCU minado con calor físico real.
+      <em>Cuprum in Veritas.</em>
+    </p>
+    <div class="hero-btns">
+      <a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank" class="btn-primary">VER EN POLYGONSCAN</a>
+      <a href="#tokenomics" class="btn-secondary">TOKENOMICS</a>
+      <a href="/bitcu#whitepaper" class="btn-poly">WHITEPAPER</a>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:48px;border:1px solid var(--border);border-radius:10px;overflow:hidden;max-width:520px">
+      <div style="background:var(--panel);padding:18px 20px;border-right:1px solid var(--border)">
+        <div style="font-family:var(--disp);font-size:1.8rem;color:var(--gold2);letter-spacing:2px">29M</div>
+        <div style="font-family:var(--mono);font-size:0.55rem;color:var(--dim);letter-spacing:2px;margin-top:4px">SUMINISTRO TOTAL</div>
+      </div>
+      <div style="background:var(--panel);padding:18px 20px;border-right:1px solid var(--border)">
+        <div style="font-family:var(--disp);font-size:1.8rem;color:#aa88ff;letter-spacing:2px">POL</div>
+        <div style="font-family:var(--mono);font-size:0.55rem;color:var(--dim);letter-spacing:2px;margin-top:4px">RED POLYGON</div>
+      </div>
+      <div style="background:var(--panel);padding:18px 20px">
+        <div style="font-family:var(--disp);font-size:1.8rem;color:var(--copper2);letter-spacing:2px">ERC-20</div>
+        <div style="font-family:var(--mono);font-size:0.55rem;color:var(--dim);letter-spacing:2px;margin-top:4px">ESTÁNDAR TOKEN</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="coin-wrap">
+      <div class="orbit orbit-1"><div class="orbit-dot"></div></div>
+      <div class="orbit orbit-2"><div class="orbit-dot"></div></div>
+      <div class="orbit orbit-3"></div>
+      <div class="coin-glow"></div>
+      <img src="/assets/cupr-logo.png" alt="CUPR Token" class="coin-img"
+           onerror="this.style.display='none';document.getElementById('coin-fallback').style.display='flex'">
+      <div id="coin-fallback" style="display:none;width:320px;height:320px;border-radius:50%;background:conic-gradient(from 0deg,#6b3a1a,#b87333,#d4924a,#c8903a,#8b4513,#b87333,#6b3a1a);align-items:center;justify-content:center;flex-direction:column;position:relative;z-index:2;box-shadow:0 0 60px rgba(184,115,51,0.5)">
+        <div style="font-family:var(--disp);font-size:3.5rem;letter-spacing:6px;color:#e8b060">CUPR</div>
+        <div style="font-family:var(--mono);font-size:0.6rem;color:rgba(232,176,96,0.6);letter-spacing:3px;margin-top:4px">CUPRUM IN VERITAS</div>
+      </div>
+      <div class="data-chip chip-1">
+        <div class="chip-val">29,000,000</div>
+        <div class="chip-lbl">CUPR SUPPLY</div>
+      </div>
+      <div class="data-chip chip-2">
+        <div class="chip-val">POLYGON</div>
+        <div class="chip-lbl">BLOCKCHAIN</div>
+      </div>
+      <div class="data-chip chip-3">
+        <div class="chip-val">BITCU</div>
+        <div class="chip-lbl">RESPALDO</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="sbar-item">
+    <div class="sbar-val">29,000,000</div>
+    <div class="sbar-label">SUMINISTRO FIJO CUPR</div>
+  </div>
+  <div class="sbar-item">
+    <div class="sbar-val">∞</div>
+    <div class="sbar-label">BITCU RESPALDO</div>
+  </div>
+  <div class="sbar-item">
+    <div class="sbar-val">POLYGON</div>
+    <div class="sbar-label">RED BLOCKCHAIN</div>
+  </div>
+  <div class="sbar-item">
+    <div class="sbar-val">FASE 1</div>
+    <div class="sbar-label">ETAPA ACTUAL</div>
+  </div>
+</div>
+
+<div style="height:80px"></div>
+<div class="divider"></div>
+<div style="height:80px"></div>
+
+<!-- QUÉ ES CUPR -->
+<section id="que-es">
+  <div class="section-label">// 01 · DESCRIPCIÓN</div>
+  <div class="section-title">¿QUÉ ES CUPR?</div>
+  <p class="section-desc">
+    CUPR es el token de reserva soberana del sistema bicapa Bitcopper. Opera en Polygon como capa de liquidez y gobernanza, mientras BITCU opera como la moneda base minada con calor físico.
+  </p>
+
+  <div class="what-grid">
+    <div class="what-text">
+      <p>El sistema Bitcopper es <strong>bicapa</strong>: BITCU es el mineral digital que se mina con calor real, y CUPR es la reserva soberana que lo representa en el ecosistema DeFi de Polygon.</p>
+      <p>Con un suministro <strong>fijo e irrepetible de 29 millones de tokens</strong>, CUPR actúa como el patrón cobre del ecosistema — análogo al papel que el oro jugó en el sistema Bretton Woods, pero respaldado por <em>entropía termodinámica real</em> en vez de metal físico.</p>
+      <p>El valor de CUPR emerge del mercado — su <strong>piso está respaldado por el costo de quemar BITCU</strong>. A mayor red, más costoso emitir CUPR, más escaso, más valioso. No especulación: termodinámica.</p>
+    </div>
+
+    <div class="what-cards">
+      <div class="wcard">
+        <div class="wcard-icon">🔥</div>
+        <div>
+          <div class="wcard-title">RESPALDO FÍSICO REAL</div>
+          <div class="wcard-body">Cada CUPR está respaldado por BITCU minado con calor físico irreversible. La Segunda Ley de la Termodinámica garantiza el respaldo.</div>
+        </div>
+      </div>
+      <div class="wcard">
+        <div class="wcard-icon">⬡</div>
+        <div>
+          <div class="wcard-title">ERC-20 EN POLYGON</div>
+          <div class="wcard-body">Token estándar ERC-20 en la red Polygon. Transacciones rápidas, comisiones mínimas, compatible con el ecosistema DeFi.</div>
+        </div>
+      </div>
+      <div class="wcard">
+        <div class="wcard-icon">◎</div>
+        <div>
+          <div class="wcard-title">SUMINISTRO SOBERANO</div>
+          <div class="wcard-body">29,000,000 CUPR fijos desde el génesis. Ninguna emisión adicional es posible. La escasez está grabada en el contrato.</div>
+        </div>
+      </div>
+      <div class="wcard">
+        <div class="wcard-icon">📐</div>
+        <div>
+          <div class="wcard-title">VALOR EMERGENTE</div>
+          <div class="wcard-body">El precio de CUPR lo determina el mercado. El piso es el costo de quemar BITCU — a mayor red, mayor piso. Primeros holders más recompensados.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TOKENOMICS -->
+<section id="tokenomics">
+  <div class="section-label">// 02 · DISTRIBUCIÓN</div>
+  <div class="section-title">TOKENOMICS</div>
+  <p class="section-desc">29 millones de CUPR distribuidos con criterio soberano. Sin preventa especulativa, sin VC, sin inflación.</p>
+
+  <div class="tokenomics-wrap">
+    <div class="donut-wrap">
+      <svg class="donut-svg" viewBox="0 0 200 200">
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#122030" stroke-width="28"/>
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#b87333" stroke-width="28"
+                stroke-dasharray="175.9 263.9" stroke-dashoffset="0" filter="url(#glow)"
+                transform="rotate(-90 100 100)"/>
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#d4924a" stroke-width="28"
+                stroke-dasharray="109.9 329.9" stroke-dashoffset="-175.9"
+                transform="rotate(-90 100 100)"/>
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#8247e5" stroke-width="26"
+                stroke-dasharray="87.9 351.9" stroke-dashoffset="-285.8"
+                transform="rotate(-90 100 100)"/>
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#00e87a" stroke-width="24"
+                stroke-dasharray="44.0 395.8" stroke-dashoffset="-373.7"
+                transform="rotate(-90 100 100)"/>
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#304858" stroke-width="22"
+                stroke-dasharray="22.0 417.8" stroke-dashoffset="-417.7"
+                transform="rotate(-90 100 100)"/>
+        <text x="100" y="94" text-anchor="middle" font-family="'Bebas Neue'" font-size="22" fill="#d4924a" letter-spacing="2">29M</text>
+        <text x="100" y="112" text-anchor="middle" font-family="'Share Tech Mono'" font-size="7" fill="#304858" letter-spacing="1">CUPR TOTAL</text>
+      </svg>
+
+      <div class="donut-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#b87333"></div>
+          <span style="color:var(--white)">Reserva Soberana</span>
+          <span class="legend-pct">40% · 11.6M</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#d4924a"></div>
+          <span style="color:var(--white)">Ecosistema & Mineros</span>
+          <span class="legend-pct">25% · 7.25M</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#8247e5"></div>
+          <span style="color:var(--white)">Liquidez DeFi</span>
+          <span class="legend-pct">20% · 5.8M</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#00e87a"></div>
+          <span style="color:var(--white)">Equipo & Desarrollo</span>
+          <span class="legend-pct">10% · 2.9M</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#304858"></div>
+          <span style="color:var(--white)">Marco Legal SpA/LLC</span>
+          <span class="legend-pct">5% · 1.45M</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="token-details">
+      <div class="tdetail">
+        <div><div class="tdetail-label">NOMBRE</div><div class="tdetail-val">CUPR</div></div>
+      </div>
+      <div class="tdetail">
+        <div><div class="tdetail-label">ESTÁNDAR</div><div class="tdetail-val">ERC-20</div></div>
+      </div>
+      <div class="tdetail">
+        <div><div class="tdetail-label">RED</div><div class="tdetail-val" style="color:#aa88ff">POLYGON</div></div>
+      </div>
+      <div class="tdetail">
+        <div><div class="tdetail-label">SUMINISTRO TOTAL</div><div class="tdetail-val">29,000,000</div></div>
+      </div>
+      <div class="tdetail">
+        <div><div class="tdetail-label">EMISIÓN ADICIONAL</div><div class="tdetail-val" style="color:var(--red)">IMPOSIBLE</div></div>
+      </div>
+      <div class="tdetail">
+        <div><div class="tdetail-label">DECIMALES</div><div class="tdetail-val">18</div></div>
+      </div>
+      <div class="tdetail">
+        <div><div class="tdetail-label">RESPALDO</div><div class="tdetail-val" style="color:var(--copper2)">BITCU (burn)</div></div>
+      </div>
+      <div class="tdetail">
+        <div><div class="tdetail-label">CONTRATO</div>
+        <div style="font-family:var(--mono);font-size:0.6rem;color:var(--copper2);word-break:break-all">
+          <a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(184,115,51,0.3)">
+            0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec
+          </a>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CÓMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="section-label">// 03 · MECÁNICA</div>
+  <div class="section-title">CÓMO FUNCIONA</div>
+  <p class="section-desc">El sistema bicapa BITCU/CUPR convierte calor físico en reserva digital en 4 pasos verificables.</p>
+
+  <div class="flow-steps">
+    <div class="fstep">
+      <div class="fstep-num">01</div>
+      <div class="fstep-title">CALOR REAL</div>
+      <div class="fstep-body">Tu procesador genera calor al computar. La temperatura es medida y verificada por el TAL v3.0 mediante la Ley de Matthiessen.</div>
+    </div>
+    <div class="fstep">
+      <div class="fstep-num">02</div>
+      <div class="fstep-title">BITCU MINADO</div>
+      <div class="fstep-body">El calor acumulado supera el umbral de entropía. El bloque es validado y BITCU es acreditado a tu wallet en la red Bitcopper.</div>
+    </div>
+    <div class="fstep">
+      <div class="fstep-num">03</div>
+      <div class="fstep-title">PUENTE BITCU → CUPR</div>
+      <div class="fstep-body">BITCU acumulado puede quemarse para emitir CUPR. El burn ratio crece con la red — los primeros holders obtienen más CUPR por menos BITCU.</div>
+    </div>
+    <div class="fstep">
+      <div class="fstep-num" style="color:var(--green);border-color:var(--green);background:rgba(0,232,122,0.12)">04</div>
+      <div class="fstep-title">RESERVA SOBERANA</div>
+      <div class="fstep-body">CUPR circula en el ecosistema DeFi de Polygon. Intercambiable por USDT, BTC, ETH y CLP en el puente Bitcopper.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- POLYGON -->
+<section id="polygon" class="poly-section">
+  <div class="section-label">// 04 · INFRAESTRUCTURA</div>
+  <div class="section-title">CUPR EN POLYGON</div>
+  <p class="section-desc">Polygon ofrece transacciones de alta velocidad con comisiones mínimas, ideal para la capa de reserva del ecosistema Bitcopper.</p>
+
+  <div class="poly-grid">
+    <div class="poly-info">
+      <div class="poly-badge-lg">
+        <div class="poly-hex-icon">⬡</div>
+        POLYGON MAINNET · ERC-20
+      </div>
+      <div class="contract-box">
+        <div class="contract-label">CONTRATO CUPR EN POLYGON</div>
+        <div class="contract-addr">
+          <a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank">
+            0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec
+          </a>
+        </div>
+      </div>
+      <div class="contract-box" style="margin-top:10px">
+        <div class="contract-label">WALLET DEPÓSITO USDT</div>
+        <div class="contract-addr">0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec</div>
+      </div>
+      <a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec"
+         target="_blank" class="btn-poly" style="width:fit-content;margin-top:10px">
+        VER EN POLYGONSCAN →
+      </a>
+    </div>
+
+    <div class="poly-features">
+      <div class="pfeat">
+        <div class="pfeat-icon">⚡</div>
+        <div>
+          <div class="pfeat-title">TRANSACCIONES RÁPIDAS</div>
+          <div class="pfeat-sub">~2 SEGUNDOS · CONFIRMACIÓN CASI INSTANTÁNEA</div>
+        </div>
+      </div>
+      <div class="pfeat">
+        <div class="pfeat-icon">💎</div>
+        <div>
+          <div class="pfeat-title">COMISIONES MÍNIMAS</div>
+          <div class="pfeat-sub">FRACCIONES DE CENTAVO POR TRANSACCIÓN</div>
+        </div>
+      </div>
+      <div class="pfeat">
+        <div class="pfeat-icon">🔗</div>
+        <div>
+          <div class="pfeat-title">COMPATIBLE CON DEFI</div>
+          <div class="pfeat-sub">UNISWAP · AAVE · QUICKSWAP · CUALQUIER ERC-20</div>
+        </div>
+      </div>
+      <div class="pfeat">
+        <div class="pfeat-icon">🛡</div>
+        <div>
+          <div class="pfeat-title">SEGURIDAD ETHEREUM</div>
+          <div class="pfeat-sub">HEREDADA DE LA CAPA BASE ETHEREUM L1</div>
+        </div>
+      </div>
+      <div class="pfeat">
+        <div class="pfeat-icon">🌐</div>
+        <div>
+          <div class="pfeat-title">DEFI NATIVO</div>
+          <div class="pfeat-sub">UNISWAP · QUICKSWAP · LIQUIDEZ DESCENTRALIZADA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RESPALDO BITCU -->
+<section id="respaldo">
+  <div class="section-label">// 05 · RESPALDO</div>
+  <div class="section-title">RESPALDADO POR BITCU</div>
+  <p class="section-desc">CUPR no es un token vacío. Su valor nace del calor físico irreversible que produce cada procesador que mina BITCU en la red Bitcopper.</p>
+
+  <div class="respaldo-grid">
+    <div class="rcard">
+      <div class="rcard-num">// 01</div>
+      <div class="rcard-title">SEGUNDA LEY</div>
+      <div class="rcard-body">La entropía termodinámica siempre aumenta. El calor disipado por los procesadores es irrecuperable — y por tanto, infalsificable. El respaldo nunca puede ser cero.</div>
+    </div>
+    <div class="rcard">
+      <div class="rcard-num">// 02</div>
+      <div class="rcard-title">LEY MATTHIESSEN</div>
+      <div class="rcard-body">La resistividad del cobre aumenta con la temperatura: ρ(T) = ρ₀(1 + α·ΔT). Esta fórmula calcula la recompensa exacta de cada bloque. Sin falsificación posible.</div>
+    </div>
+    <div class="rcard">
+      <div class="rcard-num">// 03</div>
+      <div class="rcard-title">TAL v3.0</div>
+      <div class="rcard-body">El Thermodynamic Abstraction Layer verifica 8 módulos físicos simultáneamente: disipación, electromigración, multi-sensor y ruido cuántico Johnson-Nyquist.</div>
+    </div>
+    <div class="rcard">
+      <div class="rcard-num">// 04</div>
+      <div class="rcard-title">PATRÓN COBRE</div>
+      <div class="rcard-body">El cobre es el ancla física del protocolo. Su resistividad termodinámica real determina la recompensa de cada bloque BITCU. El metal más conductor de la civilización.</div>
+    </div>
+    <div class="rcard">
+      <div class="rcard-num">// 05</div>
+      <div class="rcard-title">∞ BITCU</div>
+      <div class="rcard-body">BITCU es ilimitado — su emisión la controla el Reloj de Entropía Universal (S_max = 10^123 J/K, Penrose). Cuando S_global → S_max, la emisión se detiene. La física decide.</div>
+    </div>
+  </div>
+</section>
+
+<div style="height:80px"></div>
+
+<!-- CALCULADORA BITCU → CUPR -->
+<section id="calculadora" style="background:rgba(4,7,10,0.95);border-top:1px solid rgba(184,115,51,0.2)">
+  <div class="section-label">// 06 · CALCULADORA</div>
+  <div class="section-title">CONVERTIR BITCU → CUPR</div>
+  <p class="section-desc">Simula cuántos CUPR recibirías quemando tus BITCU hoy. El burn ratio crece con la red — los primeros holders son los más recompensados.</p>
+
+  <div style="max-width:600px;margin:0 auto">
+    <div style="background:rgba(8,14,20,0.9);border:1px solid rgba(184,115,51,0.3);padding:48px">
+      <div style="margin-bottom:32px">
+        <label style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:#b87333;display:block;margin-bottom:12px">BITCU A QUEMAR</label>
+        <input type="number" id="calc-bitcu" value="100" min="0" step="0.001"
+          style="width:100%;background:rgba(4,7,10,0.9);border:1px solid rgba(184,115,51,0.4);color:#e8d8c0;font-family:'Share Tech Mono',monospace;font-size:24px;padding:16px;outline:none">
+      </div>
+      <button onclick="calcularConversion()"
+        style="width:100%;background:rgba(184,115,51,0.15);border:1px solid #b87333;color:#e8b060;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;padding:16px;cursor:pointer;margin-bottom:32px">
+        CALCULAR CONVERSIÓN
+      </button>
+      <div id="calc-resultado" style="display:none">
+        <div style="border-top:1px solid rgba(184,115,51,0.2);padding-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.4);margin-bottom:6px">CUPR EMITIDOS</div>
+            <div style="font-family:'Bebas Neue';font-size:36px;color:#8247e5" id="calc-cupr">—</div>
+          </div>
+          <div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.4);margin-bottom:6px">VALOR PISO HOY</div>
+            <div style="font-family:'Bebas Neue';font-size:36px;color:#b87333" id="calc-valor">—</div>
+          </div>
+          <div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.4);margin-bottom:6px">BURN RATIO ACTUAL</div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:14px;color:#e8d8c0" id="calc-ratio">—</div>
+          </div>
+          <div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.4);margin-bottom:6px">BITCU EN RED</div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:14px;color:#e8d8c0" id="calc-circulacion">—</div>
+          </div>
+        </div>
+        <div style="margin-top:24px;font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(232,216,192,0.3);line-height:2;border-top:1px solid rgba(184,115,51,0.1);padding-top:16px">
+          A mayor red → mayor burn_ratio → más costoso emitir CUPR → tu CUPR vale más<br>
+          <span style="color:#b87333">Los primeros holders son los más recompensados · In cuprum veritas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ✅ SCRIPT CALCULADORA CORREGIDO -->
+<script>
+async function calcularConversion() {
+  const bitcu = parseFloat(document.getElementById('calc-bitcu').value) || 0;
+  if (bitcu <= 0) return;
+  try {
+    const r = await fetch('https://bitcu-server-production.up.railway.app/api/convert?bitcu=' + bitcu);
+    const d = await r.json();
+    if (!d.ok) return;
+    document.getElementById('calc-cupr').textContent = parseFloat(d.simulacion.cupr_emitido).toLocaleString('es-CL', {maximumFractionDigits:6});
+    document.getElementById('calc-valor').textContent = '$' + parseFloat(d.cupr.valor_piso_usd).toLocaleString('es-CL', {maximumFractionDigits:4}) + ' USD';
+    document.getElementById('calc-ratio').textContent = parseFloat(d.cupr.burn_ratio).toExponential(4);
+    document.getElementById('calc-circulacion').textContent = parseFloat(d.red.bitcu_circulacion).toFixed(2) + ' BITCU';
+    document.getElementById('calc-resultado').style.display = 'block';
+  } catch(e) { console.error(e); }
+}
+</script>
+
+<footer>
+  <div>
+    <div class="footer-brand">BITCOPPER</div>
+    <div class="footer-motto">Cuprum in Veritas</div>
+  </div>
+  <div class="footer-links">
+    <a href="/bitcu">BITCU</a>
+    <a href="/cupr" class="active" style="color:var(--gold2)">CUPR</a>
+    <a href="/bitcu#whitepaper">WHITEPAPER</a>
+    <a href="/bitcu#puente">PUENTE</a>
+    <a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank">POLYGONSCAN</a>
+  </div>
+  <div class="footer-copy">
+    © 2026 Bitcopper Tech SpA · Calama, Chile<br>
+    Pedro Ramos Morales · Chuquicamata
+  </div>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+// Lazy animation on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.rcard, .wcard, .pfeat, .fstep, .tdetail').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+
+// Live copper price
+async function fetchRate() {
+  try {
+    const r = await fetch('https://bitcu-server-production.up.railway.app/bridge/rate');
+    const d = await r.json();
+    if (d.copper_usd_ton) {
+      const cuprPrice = (d.copper_usd_ton * 1.68e-8 * 1e6).toFixed(6);
+      document.querySelectorAll('[data-cupr-price]').forEach(el => {
+        el.textContent = '$' + cuprPrice + ' USD';
+      });
+    }
+  } catch(e) {}
+}
+fetchRate();
+setInterval(fetchRate, 30000);
+</script>
+</body>
+</html>

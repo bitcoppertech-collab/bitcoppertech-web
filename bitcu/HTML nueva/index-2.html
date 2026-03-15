@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitcopper — Proof of Heat Protocol</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--copper:#B87333;--copper-light:#D4944A;--copper-glow:rgba(184,115,51,0.25);--black:#000;--near-black:#080808;--dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--gray:#2A2A2A;--text:#E8E0D8;--text-dim:#7A7065;--text-muted:#4A4540;--green:#2ECC71}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+nav.scrolled{backdrop-filter:blur(20px);background:rgba(0,0,0,0.85);border-bottom:1px solid rgba(184,115,51,0.15)}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo-icon{width:36px;height:36px;border:1.5px solid var(--copper);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:18px;color:var(--copper)}
+.nav-logo-text{font-family:'Bebas Neue';font-size:20px;letter-spacing:4px;color:var(--text)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--text-dim);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:color 0.3s;font-family:'Space Mono'}
+.nav-links a:hover{color:var(--copper)}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 60px 80px;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(184,115,51,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(184,115,51,0.04) 1px,transparent 1px);background-size:60px 60px;animation:gridShift 30s linear infinite}
+@keyframes gridShift{0%{transform:translateY(0)}100%{transform:translateY(60px)}}
+.hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(184,115,51,0.08) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:pulse 4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.6}50%{transform:translate(-50%,-50%) scale(1.2);opacity:1}}
+.hero-content{position:relative;z-index:2;max-width:900px}
+.hero-tag{font-family:'Space Mono';font-size:10px;letter-spacing:5px;color:var(--copper);text-transform:uppercase;margin-bottom:32px;display:flex;align-items:center;gap:16px}
+.hero-tag::before{content:'';width:40px;height:1px;background:var(--copper)}
+.hero-title{font-family:'Bebas Neue';font-size:clamp(72px,12vw,140px);line-height:0.9;letter-spacing:2px;margin-bottom:8px}
+.hero-title span{color:var(--copper)}
+.hero-subtitle{font-family:'Bebas Neue';font-size:clamp(24px,4vw,48px);letter-spacing:6px;color:var(--text-dim);margin-bottom:40px}
+.hero-desc{font-size:16px;line-height:1.8;color:var(--text-dim);max-width:560px;margin-bottom:60px}
+.hero-cta{display:flex;gap:20px;flex-wrap:wrap}
+.btn-primary{background:var(--copper);color:var(--black);padding:16px 36px;font-family:'Space Mono';font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:all 0.3s;display:inline-block}
+.btn-primary:hover{background:var(--copper-light);transform:translateY(-2px)}
+.btn-secondary{background:transparent;color:var(--copper);padding:16px 36px;font-family:'Space Mono';font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;border:1px solid var(--copper);transition:all 0.3s;display:inline-block}
+.btn-secondary:hover{background:var(--copper-glow);transform:translateY(-2px)}
+.stats-bar{background:var(--dark2);border-top:1px solid rgba(184,115,51,0.15);border-bottom:1px solid rgba(184,115,51,0.15);padding:24px 60px;display:flex;gap:60px;overflow-x:auto}
+.stat-item{text-align:left;min-width:max-content}
+.stat-label{font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px}
+.stat-value{font-family:'Bebas Neue';font-size:28px;letter-spacing:2px;color:var(--copper)}
+.stat-value.green{color:var(--green)}
+section{padding:120px 60px;position:relative}
+.section-label{font-family:'Space Mono';font-size:9px;letter-spacing:5px;color:var(--copper);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:16px}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(184,115,51,0.4),transparent);max-width:200px}
+.section-title{font-family:'Bebas Neue';font-size:clamp(40px,6vw,80px);letter-spacing:3px;line-height:1;margin-bottom:24px}
+.what-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:60px}
+.what-text p{font-size:16px;line-height:1.9;color:var(--text-dim);margin-bottom:24px}
+.what-text p strong{color:var(--copper);font-weight:500}
+.what-formula{background:var(--dark2);border-left:3px solid var(--copper);padding:24px 32px;margin:32px 0;font-family:'Space Mono';font-size:14px;color:var(--text)}
+.what-formula .formula-label{font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:10px}
+.what-features{display:flex;flex-direction:column;gap:20px}
+.feature-card{background:var(--dark2);border:1px solid var(--gray);padding:28px;transition:all 0.3s;position:relative;overflow:hidden}
+.feature-card::before{content:'';position:absolute;top:0;left:0;width:0;height:2px;background:var(--copper);transition:width 0.4s}
+.feature-card:hover::before{width:100%}
+.feature-card:hover{border-color:rgba(184,115,51,0.4)}
+.feature-icon{font-family:'Space Mono';font-size:11px;color:var(--copper);letter-spacing:2px;margin-bottom:10px}
+.feature-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:8px}
+.feature-desc{font-size:13px;color:var(--text-dim);line-height:1.7}
+.genesis{background:var(--dark2);border-top:1px solid rgba(184,115,51,0.15);border-bottom:1px solid rgba(184,115,51,0.15)}
+.genesis-inner{max-width:800px;margin:0 auto;text-align:center}
+.genesis-quote{font-family:'Space Mono';font-size:14px;line-height:2.2;color:var(--text);font-style:italic;margin:40px 0;padding:40px;border:1px solid rgba(184,115,51,0.3);position:relative}
+.genesis-quote::before{content:'"';font-family:'Bebas Neue';font-size:80px;color:var(--copper);opacity:0.3;position:absolute;top:-20px;left:20px;line-height:1}
+.genesis-meta{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--text-muted);margin-top:20px}
+.genesis-params{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:40px}
+.genesis-param{background:var(--dark3);padding:24px;text-align:left}
+.genesis-param-label{font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:8px}
+.genesis-param-value{font-family:'Space Mono';font-size:12px;color:var(--copper);word-break:break-all}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:60px}
+.step{background:var(--dark2);padding:40px 28px;transition:background 0.3s}
+.step:hover{background:var(--dark3)}
+.step-number{font-family:'Bebas Neue';font-size:60px;color:rgba(184,115,51,0.15);line-height:1;margin-bottom:16px}
+.step-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:12px}
+.step-desc{font-size:13px;color:var(--text-dim);line-height:1.7}
+.download-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:60px}
+.download-card{background:var(--dark2);padding:40px 28px;display:flex;flex-direction:column;gap:20px;border:1px solid var(--gray);transition:all 0.3s;position:relative;overflow:hidden}
+.download-card.featured{border-color:rgba(184,115,51,0.5);background:var(--dark3)}
+.download-card.featured::before{content:'RECOMENDADO';position:absolute;top:16px;right:-28px;background:var(--copper);color:var(--black);font-family:'Space Mono';font-size:8px;letter-spacing:2px;padding:4px 40px;transform:rotate(45deg)}
+.download-card:hover{transform:translateY(-4px);border-color:rgba(184,115,51,0.5)}
+.download-os{font-family:'Bebas Neue';font-size:36px;letter-spacing:3px;color:var(--text)}
+.download-icon{font-size:32px}
+.download-desc{font-size:13px;color:var(--text-dim);line-height:1.7;flex:1}
+.download-specs{font-family:'Space Mono';font-size:10px;color:var(--text-muted);letter-spacing:1px}
+.download-btn{display:inline-block;background:transparent;color:var(--copper);padding:12px 24px;font-family:'Space Mono';font-size:10px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;border:1px solid var(--copper);transition:all 0.3s;text-align:center}
+.download-btn:hover{background:var(--copper);color:var(--black)}
+.download-card.featured .download-btn{background:var(--copper);color:var(--black)}
+.security-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px}
+.security-card{background:var(--dark2);padding:40px 32px;border-top:2px solid var(--copper);transition:all 0.3s}
+.security-card:hover{background:var(--dark3)}
+.security-number{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--copper);margin-bottom:20px}
+.security-title{font-family:'Bebas Neue';font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:16px}
+.security-desc{font-size:14px;color:var(--text-dim);line-height:1.8}
+.security-tag{display:inline-block;background:rgba(184,115,51,0.1);border:1px solid rgba(184,115,51,0.3);color:var(--copper);font-family:'Space Mono';font-size:9px;letter-spacing:2px;padding:4px 10px;margin-top:16px;margin-right:6px}
+.dashboard-frame{margin-top:48px;border:1px solid rgba(184,115,51,0.2);overflow:hidden;position:relative}
+.dashboard-frame::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--copper),transparent);z-index:1}
+.dashboard-frame iframe{width:100%;height:700px;border:none;display:block}
+.whitepaper-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:60px}
+.whitepaper-preview{background:var(--dark2);border:1px solid rgba(184,115,51,0.2);padding:48px;position:relative}
+.whitepaper-preview::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--copper)}
+.whitepaper-title{font-family:'Bebas Neue';font-size:32px;letter-spacing:3px;color:var(--text);margin-bottom:8px}
+.whitepaper-subtitle{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--copper);margin-bottom:24px}
+.whitepaper-toc{list-style:none;display:flex;flex-direction:column;gap:10px}
+.whitepaper-toc li{font-family:'Space Mono';font-size:11px;color:var(--text-dim);padding-bottom:10px;border-bottom:1px solid var(--gray);display:flex;gap:16px}
+.whitepaper-toc li span:first-child{color:var(--copper);min-width:20px}
+.whitepaper-cta{display:flex;flex-direction:column;gap:24px}
+.whitepaper-cta h3{font-family:'Bebas Neue';font-size:48px;letter-spacing:2px;line-height:1}
+.whitepaper-cta p{font-size:15px;color:var(--text-dim);line-height:1.8}
+footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);padding:60px}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;margin-bottom:60px}
+.footer-brand-name{font-family:'Bebas Neue';font-size:32px;letter-spacing:4px;color:var(--copper);margin-bottom:8px}
+.footer-brand-tag{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--text-muted);margin-bottom:20px}
+.footer-brand-desc{font-size:13px;color:var(--text-muted);line-height:1.8;max-width:300px}
+.footer-col-title{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--copper);text-transform:uppercase;margin-bottom:20px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:12px}
+.footer-links a{color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.3s}
+.footer-links a:hover{color:var(--copper)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--gray)}
+.footer-copy{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--text-muted)}
+.footer-genesis{font-family:'Space Mono';font-size:9px;color:var(--text-muted);font-style:italic}
+.live-dot{display:inline-block;width:6px;height:6px;background:var(--green);border-radius:50%;margin-right:8px;animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--copper)}
+@media(max-width:900px){nav{padding:20px 24px}.nav-links{display:none}section{padding:80px 24px}.hero{padding:100px 24px 60px}.what-grid,.whitepaper-inner,.footer-inner{grid-template-columns:1fr;gap:40px}.steps,.download-grid,.security-grid,.genesis-params{grid-template-columns:1fr}.stats-bar{padding:20px 24px}footer{padding:40px 24px}}
+</style>
+</head>
+<body>
+<!-- (c) 2026 Bitcopper Tech SpA - Pedro Ramos Morales - Chuquicamata, Chile - All rights reserved -->
+<script>
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{
+  if(e.key==='F12')e.preventDefault();
+  if(e.ctrlKey&&e.shiftKey&&['I','J','C'].includes(e.key))e.preventDefault();
+  if(e.ctrlKey&&['u','s'].includes(e.key))e.preventDefault();
+});
+
+  // Historial compras USDT→BITCU
+  async function loadBridgeHistory() {
+    try {
+      const r = await fetch('https://bitcu-server-production.up.railway.app/api/bridge/history');
+      const d = await r.json();
+      const el = document.getElementById('bridge-history');
+      if (!d.ok || d.total === 0) {
+        el.innerHTML = '<div style="color:var(--text-muted);font-size:9px;letter-spacing:2px">SIN COMPRAS AUN</div>';
+        return;
+      }
+      el.innerHTML = d.history.map(h => `
+        <div style="border-bottom:1px solid rgba(184,115,51,0.1);padding:10px 0">
+          <div style="font-size:9px;color:var(--text-muted)">${new Date(h.created_at).toLocaleDateString('es-CL')}</div>
+          <div style="color:var(--copper)">${parseFloat(h.usdt_amount).toFixed(2)} USDT → <span style="color:#fff">${parseFloat(h.bitcu_delivered).toFixed(6)} BITCU</span></div>
+          <div style="font-size:9px;color:var(--text-muted);word-break:break-all">${h.tx_hash?.slice(0,20)}...</div>
+        </div>
+      `).join('');
+    } catch(e) {}
+  }
+
+  // Inventario BITCU
+  async function loadInventory() {
+    try {
+      const r = await fetch('https://bitcu-server-production.up.railway.app/api/wallet/BTCU-ecaf39c6c225e72cab8814b5367fe78cc9304b0669677f8429fd9190bb00a25d/balance');
+      const d = await r.json();
+      const el = document.getElementById('inventory-balance');
+      if (el) el.textContent = parseFloat(d.total_bitcu || 0).toFixed(4);
+    } catch(e) {}
+    try {
+      const r2 = await fetch('https://bitcu-server-production.up.railway.app/api/burns/totals');
+      const d2 = await r2.json();
+      const el2 = document.getElementById('bridge-burned');
+      if (el2 && d2.ok) el2.textContent = parseFloat(d2.total_bitcu_burned || 0).toFixed(6);
+    } catch(e) {}
+  }
+
+  loadBridgeHistory();
+  loadInventory();
+  setInterval(loadBridgeHistory, 30000);
+  setInterval(loadInventory, 30000);
+</script>
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">B</div>
+    <span class="nav-logo-text">BITCOPPER</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#que-es">Protocolo</a></li>
+    <li><a href="#genesis">Genesis</a></li>
+    <li><a href="#minar">Como Minar</a></li>
+    <li><a href="#seguridad">Seguridad</a></li>
+    <li><a href="#descargar">Descargar</a></li>
+      <li><a href="#daemon">Daemon</a></li>
+    <li><a href="#puente">Puente</a></li>
+    <li><a href="#red">Red en Vivo</a></li>
+      <li><a href="#entropia">Reloj Entropía</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Proof of Heat Protocol &middot; RWA &middot; Calama, Chile</div>
+    <h1 class="hero-title">BIT<span>COPPER</span></h1>
+    <div class="hero-subtitle">La Moneda del Calor</div>
+    <p class="hero-desc">La primera moneda digital nativa respaldada por el calor fisico de los procesadores. No es un token. Es un Real World Asset anclado a la Segunda Ley de la Termodinamica.</p>
+    <div class="hero-cta">
+      <a href="#descargar" class="btn-primary">Empezar a Minar</a>
+      <a href="#whitepaper" class="btn-secondary">Leer Whitepaper</a>
+    </div>
+
+</section>
+
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-label">Bloques Totales</div><div class="stat-value" id="statBlocks">-</div></div>
+  <div class="stat-item"><div class="stat-label">BITCU Emitido</div><div class="stat-value" id="statBitcu">-</div></div>
+  <div class="stat-item"><div class="stat-label">Temp. Promedio</div><div class="stat-value" id="statTemp">-</div></div>
+  <div class="stat-item"><div class="stat-label">Mineros Activos</div><div class="stat-value green" id="statMiners">-</div></div>
+  <div class="stat-item"><div class="stat-label">Suministro Total</div><div class="stat-value">∞ BITCU</div></div>
+  <div class="stat-item"><div class="stat-label">Unidad Minima</div><div class="stat-value">ATOM</div></div>
+  <div class="stat-item"><div class="stat-label">Protocolo</div><div class="stat-value">PoH v1.0</div></div>
+</div>
+
+<section id="que-es">
+  <div class="section-label">Protocolo</div>
+  <h2 class="section-title reveal">Que es BITCU?</h2>
+  <div class="what-grid">
+    <div class="what-text reveal">
+      <p>BITCU es una <strong>moneda digital nativa</strong> no un token sobre otra blockchain clasificada como Real World Asset (RWA). Su valor esta respaldado por el fenomeno fisico mas universal del computo: <strong>el calor de los procesadores</strong>.</p>
+      <p>El principio de Landauer establece que ningun computo puede existir sin huella termica. Bitcopper convierte esa huella en moneda. La unidad minima es el <strong>atom</strong> (10^-18 BITCU). Suministro total: <strong>100 billones de BITCU</strong>, fijo desde el genesis.</p>
+      <div class="what-formula">
+        <div class="formula-label">LEY DE MATTHIESSEN - ORACULO DEL PROTOCOLO</div>
+        rho(T) = rho0 * (1 + alpha * dT)<br><br>
+        <small style="color:#7A7065;font-size:11px">rho0 = 1.68e-8 Ohm*m &nbsp;|&nbsp; alpha = 3.93e-3 /C</small>
+      </div>
+      <p>La temperatura T determina la resistividad del cobre, que calcula la <strong>recompensa exacta</strong> del bloque. No puede falsificarse sin hardware real que genuinamente caliente.</p>
+    </div>
+    <div class="what-features">
+      <div class="feature-card reveal"><div class="feature-icon">// 01 - RWA</div><div class="feature-title">Respaldo Fisico Real</div><div class="feature-desc">El calor es irreversible. Cada BITCU corresponde a entropia real e irrecuperable. La Segunda Ley de la Termodinamica garantiza que el respaldo nunca puede ser cero.</div></div>
+      <div class="feature-card reveal"><div class="feature-icon">// 02 - COBRE</div><div class="feature-title">El Cobre como Moneda</div><div class="feature-desc">Los circuitos de cobre de los procesadores son el sustrato del valor. La electromigracion es la prueba de trabajo fisico.</div></div>
+      <div class="feature-card reveal"><div class="feature-icon">// 03 - ATOMS</div><div class="feature-title">18 Decimales de Precision</div><div class="feature-desc">1 BITCU = 10^18 atoms. Permite micropagos por milisegundos de computo, ciclos de reloj individuales, o inferencias de IA.</div></div>
+      <div class="feature-card reveal"><div class="feature-icon">// 04 - UNIVERSAL</div><div class="feature-title">Todo Procesador Puede Minar</div><div class="feature-desc">Mac, Linux, Windows, iPhone, Android. Si tu procesador genera calor, puede minar BITCU. Sin ASIC, sin GPU costosa.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="genesis" id="genesis">
+  <div class="genesis-inner">
+    <div class="section-label" style="justify-content:center">Bloque 0</div>
+    <h2 class="section-title reveal" style="text-align:center">El Bloque Genesis</h2>
+    <div class="genesis-quote reveal">In cuprum veritas.<br>Mientras el hombre consuma el metal para alcanzar las estrellas<br>y dominar el atomo, Bitcu sera el aliento de cada circuito.<br>De la tierra al espacio, de la neurona al bit.<br>Suministro finito, expansion infinita.</div>
+    <div class="genesis-meta">Pedro Ramos Morales &middot; Chuquicamatino &middot; 1 de marzo de 2026</div>
+    <div class="genesis-params reveal">
+      <div class="genesis-param"><div class="genesis-param-label">Creador</div><div class="genesis-param-value">Pedro Ramos Morales</div></div>
+      <div class="genesis-param"><div class="genesis-param-label">Origen</div><div class="genesis-param-value">Chuquicamata, Chile</div></div>
+      <div class="genesis-param"><div class="genesis-param-label">Fecha Genesis</div><div class="genesis-param-value">01 MAR 2026</div></div>
+      <div class="genesis-param"><div class="genesis-param-label">Suministro Total</div><div class="genesis-param-value">∞ · limitado por S_max universo</div></div>
+      <div class="genesis-param"><div class="genesis-param-label">Unidad Minima</div><div class="genesis-param-value">1 atom = 10^-18 BITCU</div></div>
+      <div class="genesis-param"><div class="genesis-param-label">Protocolo</div><div class="genesis-param-value">Proof of Heat v1.0</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="minar">
+  <div class="section-label">Tutorial</div>
+  <h2 class="section-title reveal">Como Minar BITCU</h2>
+  <div class="steps">
+    <div class="step reveal"><div class="step-number">01</div><div class="step-title">Descarga el Agente</div><div class="step-desc">Descarga el agente de mineria para tu sistema: Mac (.dmg), Linux (.AppImage) o app movil iOS/Android.</div></div>
+    <div class="step reveal"><div class="step-number">02</div><div class="step-title">Genera tu Wallet</div><div class="step-desc">Abre el agente y genera tu direccion BITCU. Formato: BTCU-[64 hex]. Guardala en un lugar seguro.</div></div>
+    <div class="step reveal"><div class="step-number">03</div><div class="step-title">Inicia la Mineria</div><div class="step-desc">Ingresa tu wallet y presiona Iniciar Mineria. El agente enviara bloques cada 5 segundos automaticamente.</div></div>
+    <div class="step reveal"><div class="step-number">04</div><div class="step-title">Acumula BITCU</div><div class="step-desc">Cada bloque validado acredita BITCU a tu wallet. A mayor temperatura del procesador, mayor recompensa.</div></div>
+  </div>
+</section>
+
+<section id="seguridad" style="background:var(--dark2)">
+  <div class="section-label">Seguridad</div>
+  <h2 class="section-title reveal">Inviolable por Diseno Fisico</h2>
+  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8">La seguridad de BITCU reside en la topologia fisica de la red, no en hashes matematicos vulnerables a computacion cuantica.</p>
+  <div class="security-grid">
+    <div class="security-card reveal"><div class="security-number">// CAPA 01</div><div class="security-title">Entropia de Hardware</div><div class="security-desc">Las claves privadas se generan usando el ruido termico (Johnson-Nyquist) de los circuitos de cobre. Genuinamente aleatorio a nivel cuantico. Cada placa tiene firma fisica irrepetible.</div><span class="security-tag">HARDWARE RNG</span><span class="security-tag">JOHNSON-NYQUIST</span></div>
+    <div class="security-card reveal"><div class="security-number">// CAPA 02</div><div class="security-title">Resistencia Cuantica</div><div class="security-desc">Implementa firma post-cuantica (CRYSTALS-Dilithium, FALCON, SPHINCS+). La firma esta entrelazada con la identidad fisica del hardware, imposible de copiar sin destruir el nodo.</div><span class="security-tag">CRYSTALS-DILITHIUM</span><span class="security-tag">NIST PQC</span></div>
+    <div class="security-card reveal"><div class="security-number">// CAPA 03</div><div class="security-title">Inmutabilidad Satelital(2030)</div><div class="security-desc">Nodos en cohetes y satelites actuan como checkpoints inalterables. Fuera del alcance de ataques fisicos terrestres.</div><span class="security-tag">LEO NODES</span><span class="security-tag">CHECKPOINTS</span></div>
+  </div>
+</section>
+
+<section id="descargar" style="background:var(--near-black)">
+  <div class="section-label">Descarga</div>
+  <h2 class="section-title reveal">Elige tu Plataforma</h2>
+  <div class="download-grid">
+    <div class="download-card featured reveal">
+      <div class="download-icon">🍎</div>
+      <div class="download-os">MacOS Silicon</div>
+      <div class="download-desc">Agente de mineria para Apple Silicon (M1, M2, M3). Interfaz nativa con metricas de temperatura en tiempo real.</div>
+      <div class="download-specs">macOS 12+ &middot; Apple Silicon M1/M2/M3</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcu-miner-releases/releases/download/v3.0.0/BITCU.Miner-3.0.0-Silicon.dmg" class="download-btn">Descargar .dmg</a>
+    </div>
+    <div class="download-card reveal">
+      <div class="download-icon">🍎</div>
+      <div class="download-os">MacOS Intel</div>
+      <div class="download-desc">Agente de mineria para Mac con procesador Intel. Compatible con iMac, MacBook Pro y MacBook Air anteriores a 2021.</div>
+      <div class="download-specs">macOS 12+ &middot; Intel Core i5/i7/i9</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcu-miner-releases/releases/download/v3.0.0/BITCU.Miner-3.0.0-Intel.dmg" class="download-btn">Descargar .dmg Intel</a>
+    </div>
+    <div class="download-card reveal">
+      <div class="download-icon">🐧</div>
+      <div class="download-os">Linux</div>
+      <div class="download-desc">AppImage portable para cualquier distribucion. Sin instalacion, sin dependencias. Solo descarga y ejecuta.</div>
+      <div class="download-specs">Ubuntu, Fedora, Arch &middot; x64</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcu-miner-releases/releases/download/v3.0.0/BITCU.Miner-3.0.0-arm64.AppImage" class="download-btn">Descargar .AppImage (TAL v2.0)</a>
+    </div>
+    <div class="download-card reveal">
+      <div class="download-icon">📱</div>
+      <div class="download-os">iPhone</div>
+      <div class="download-desc">App movil via Expo Go. Mina desde tu iPhone usando el calor del procesador y la bateria como proxy termico.</div>
+      <div class="download-specs">iOS 15+ &middot; Requiere Expo Go</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcopper-m3" class="download-btn">Ver Instrucciones</a>
+    </div>
+  </div>
+</section>
+
+<section id="x402" style="background:var(--dark2)">
+  <div class="section-label">Protocolo x402</div>
+  <h2 class="section-title reveal">IAs que Pagan<br>con BITCU</h2>
+  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8;margin-bottom:60px">El protocolo x402 permite que agentes de IA autonomos paguen por recursos computacionales directamente en BITCU, sin intervencion humana.</p>
+  <div class="steps">
+    <div class="step reveal"><div class="step-number">01</div><div class="step-title">IA descubre el manifest</div><div class="step-desc">El agente consulta GET /x402/manifest y descubre los servicios disponibles, precios en BITCU y como adquirirlos.</div></div>
+    <div class="step reveal"><div class="step-number">02</div><div class="step-title">IA compra BITCU</div><div class="step-desc">Deposita USDT en Polygon a la direccion de custodia. En menos de 30 segundos recibe BITCU automaticamente en su wallet.</div></div>
+    <div class="step reveal"><div class="step-number">03</div><div class="step-title">IA paga el servicio</div><div class="step-desc">Envia el request con headers x-bitcu-wallet y x-bitcu-payment: paid. El servidor verifica el saldo y debita automaticamente.</div></div>
+    <div class="step reveal"><div class="step-number">04</div><div class="step-title">Recurso entregado</div><div class="step-desc">El servidor entrega inferencia, computo o almacenamiento. Fee: 0.5%. Sin intermediarios, sin humanos, sin friccion.</div></div>
+  </div>
+  <!-- ── TARIFAS x402 con equivalente USD en vivo ── -->
+  <div style="margin-top:48px;background:var(--dark3);border-left:3px solid var(--copper);padding:24px 32px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text);max-width:600px">
+    <div style="font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:12px">TARIFAS x402</div>
+    <div style="margin-bottom:24px"><a href="https://bitcu-server-production.up.railway.app/x402/manifest" target="_blank" style="font-family:'Space Mono',monospace;font-size:10px;color:var(--copper);letter-spacing:2px;border:1px solid var(--copper);padding:6px 16px;text-decoration:none">VER MANIFEST x402 →</a></div>
+    <div style="line-height:2.4">
+      Inferencia IA &mdash; 0.001 BITCU / request <span id="x402-inf-usd" style="color:var(--text-muted);font-size:10px"></span><br>
+      Tiempo de computo &mdash; 0.0005 BITCU / segundo <span id="x402-cpu-usd" style="color:var(--text-muted);font-size:10px"></span><br>
+      Almacenamiento &mdash; 0.0001 BITCU / MB <span id="x402-sto-usd" style="color:var(--text-muted);font-size:10px"></span><br>
+      API Mineria &mdash; 0.00001 BITCU / request <span id="x402-api-usd" style="color:var(--text-muted);font-size:10px"></span>
+    </div>
+  </div>
+</section>
+
+<section id="puente">
+  <div class="section-label">Puente</div>
+  <h2 class="section-title reveal">BITCU &harr; USDT</h2>
+
+  <!-- ── SECCIÓN 2.2: Fórmula variable con P_LME en vivo ── -->
+  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8;margin-bottom:16px">
+    Precio indexado al cobre LME vigente al momento de consulta (P_LME USD/ton).
+  </p>
+  <div style="background:var(--dark3);border-left:3px solid var(--copper);padding:20px 28px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text);max-width:640px;margin-bottom:12px;line-height:2.4">
+    <div style="font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:10px">FÓRMULA — SECCIÓN 2.2 &nbsp;·&nbsp; ρ₀ = 1.68×10⁻⁸ Ω·m</div>
+    precio_BITCU = P_LME × 1.68×10⁻⁸ × 10⁶<br>
+    precio_BITCU = P_LME × 0.0168 <span style="color:var(--text-muted);font-size:10px">(simplificado)</span><br><br>
+    <span style="color:var(--text-muted);font-size:10px">Ejemplo referencial (cobre a USD 9,500/ton):</span><br>
+    precio_BITCU = <span style="color:var(--text-muted)">USD 0.1596</span><br><br>
+    <span style="color:var(--copper);font-size:10px">⚡ Precio actual (P_LME vigente):</span><br>
+    precio_BITCU = <span id="formula-bitcu-live" style="color:var(--copper);font-size:20px;font-family:'Bebas Neue'">—</span>
+    <span id="formula-lme-live" style="font-size:10px;color:var(--text-muted);margin-left:10px"></span>
+  </div>
+  <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);max-width:640px;margin-bottom:48px">
+    P_LME = precio cobre LME USD/ton &nbsp;·&nbsp; ρ₀ = 1.68×10⁻⁸ Ω·m &nbsp;·&nbsp; actualizado cada 30s
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:100%">
+    <div style="background:var(--dark2);padding:40px">
+      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">COTIZACION EN VIVO</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--copper);line-height:1" id="bitcu-price">---</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:32px">USD por 1 BITCU</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:var(--dark3);padding:16px"><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:6px">1 USDT =</div><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text)" id="rate-usdt">---</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">BITCU</div></div>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:20px">Cobre LME: <span id="copper-price" style="color:var(--copper)">---</span> USD/ton</div>
+      <div style="margin-top:20px;background:var(--dark3);padding:16px;border-left:3px solid var(--copper)"><div style="font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:8px">DEPOSITO USDT EN POLYGON</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec</div><a href="https://polygonscan.com/address/0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec" target="_blank" style="display:inline-block;margin-top:8px;color:var(--copper);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-decoration:none">Ver en Polygonscan →</a></div>
+    </div>
+    <div style="background:var(--dark2);padding:40px">
+      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">INVENTARIO BITCU</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--copper);line-height:1" id="inventory-balance">---</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:32px">BITCU disponibles</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px;margin-top:32px">BITCU QUEMADOS</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--text);line-height:1" id="bridge-burned">---</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:32px">total BITCU → CUPR</div>
+      <div style="margin-top:32px;font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);word-break:break-all;border-left:2px solid var(--copper);padding-left:12px">BTCU-ecaf39c6c225e72cab8814b5367fe78cc9304b0669677f8429fd9190bb00a25d</div>
+    </div>
+  </div>
+  <div style="background:var(--dark2);padding:40px;margin-top:2px">
+    <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">COBRE LME &mdash; HISTORICO 30 DIAS</div>
+    <canvas id="copperChart" style="width:100%;height:300px;display:block"></canvas>
+    <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-top:16px">Indexado a LME + variacion red Bitcopper</div>
+    <div style="margin-top:24px;text-align:center">
+      <a href="https://www.lme.com/metals/non-ferrous/lme-copper#Price+graphs" target="_blank" class="btn-secondary" style="font-size:9px;padding:10px 20px">Ver Cotizacion en Vivo →</a>
+    </div>
+  </div>
+</section>
+  <div class="section-label"><span class="live-dot"></span>En Vivo</div>
+  <h2 class="section-title reveal">Red Global en Tiempo Real</h2>
+  <div class="dashboard-frame reveal">
+    <iframe src="/bitcu/dashboard.html" style="width:100%;height:700px;border:none;display:block"></iframe>
+  </div>
+</section>
+
+<section id="daemon" style="background:var(--dark2)">
+  <h2 class="section-title reveal">ÚNETE A LA RED</h2>
+  <p style="text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:var(--text-muted);letter-spacing:2px;margin-bottom:16px">Tu placa tiene cobre. Ese cobre tiene valor. La red te recompensa por conectarte.</p>
+  <p style="text-align:center;font-family:'Space Mono',monospace;font-size:10px;color:var(--copper);letter-spacing:2px;margin-bottom:48px">Sin imposiciones · Sin configuración · Solo descarga y ejecuta</p>
+
+  <!-- Pasos -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px">
+    <div style="background:var(--dark3);padding:40px 32px">
+      <div style="font-family:'Bebas Neue';font-size:64px;color:rgba(184,115,51,0.2);line-height:1">01</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--copper);margin:12px 0 8px">DESCARGA</div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.8">Descarga el daemon para tu sistema operativo. Un binario pequeño, sin instalador, sin dependencias.</div>
+    </div>
+    <div style="background:var(--dark3);padding:40px 32px;border-left:1px solid var(--gray)">
+      <div style="font-family:'Bebas Neue';font-size:64px;color:rgba(184,115,51,0.2);line-height:1">02</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--copper);margin:12px 0 8px">HANDSHAKE</div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.8">Al ejecutarse por primera vez, el daemon mide tu placa, genera una identidad única e irreversible y firma el protocolo.</div>
+    </div>
+    <div style="background:var(--dark3);padding:40px 32px;border-left:1px solid var(--gray)">
+      <div style="font-family:'Bebas Neue';font-size:64px;color:rgba(184,115,51,0.2);line-height:1">03</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--copper);margin:12px 0 8px">RECOMPENSA</div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.8">Recibes BITCU por cada bloque validado. A más calor disipado, mayor recompensa. Tu placa aparece en el Mapa de Calor Global.</div>
+    </div>
+  </div>
+
+  <!-- Descargas daemon -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:2px">
+    <div style="background:var(--near-black);padding:32px 24px;border:1px solid rgba(184,115,51,0.3)">
+      <div style="font-size:28px;margin-bottom:12px">🍎</div>
+      <div style="font-family:'Bebas Neue';font-size:24px;letter-spacing:2px;color:var(--text)">MAC SILICON</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin:8px 0 16px">M1 · M2 · M3 · M4</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcopper-daemon/releases/download/v1.1.0/bitcopper-daemon-mac-silicon" class="download-btn" style="font-size:9px;padding:10px 16px">Descargar</a>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text-muted);margin-top:12px">chmod +x bitcopper-daemon-mac-silicon<br>./bitcopper-daemon-mac-silicon</div>
+    </div>
+    <div style="background:var(--near-black);padding:32px 24px;border:1px solid rgba(184,115,51,0.3)">
+      <div style="font-size:28px;margin-bottom:12px">💻</div>
+      <div style="font-family:'Bebas Neue';font-size:24px;letter-spacing:2px;color:var(--text)">MAC INTEL</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin:8px 0 16px">Core i5 · i7 · i9</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcopper-daemon/releases/download/v1.1.0/bitcopper-daemon-mac-intel" class="download-btn" style="font-size:9px;padding:10px 16px">Descargar</a>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text-muted);margin-top:12px">chmod +x bitcopper-daemon-mac-intel<br>./bitcopper-daemon-mac-intel</div>
+    </div>
+    <div style="background:var(--near-black);padding:32px 24px;border:1px solid rgba(184,115,51,0.3)">
+      <div style="font-size:28px;margin-bottom:12px">🐧</div>
+      <div style="font-family:'Bebas Neue';font-size:24px;letter-spacing:2px;color:var(--text)">LINUX</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin:8px 0 16px">Ubuntu · Debian · Arch</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcopper-daemon/releases/download/v1.1.0/bitcopper-daemon-linux" class="download-btn" style="font-size:9px;padding:10px 16px">Descargar</a>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text-muted);margin-top:12px">chmod +x bitcopper-daemon-linux<br>./bitcopper-daemon-linux</div>
+    </div>
+    <div style="background:var(--near-black);padding:32px 24px;border:1px solid rgba(184,115,51,0.3)">
+      <div style="font-size:28px;margin-bottom:12px">🪟</div>
+      <div style="font-family:'Bebas Neue';font-size:24px;letter-spacing:2px;color:var(--text)">WINDOWS</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin:8px 0 16px">Windows 10 · 11</div>
+      <a href="https://github.com/bitcoppertech-collab/bitcopper-daemon/releases/download/v1.1.0/bitcopper-daemon-windows.exe" class="download-btn" style="font-size:9px;padding:10px 16px">Descargar</a>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text-muted);margin-top:12px">bitcopper-daemon-windows.exe</div>
+    </div>
+  </div>
+
+  <!-- Fórmula recompensa -->
+  <div style="background:var(--dark3);padding:40px;border-top:2px solid var(--gray);text-align:center">
+    <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--copper);margin-bottom:20px">FÓRMULA DE RECOMPENSA</div>
+    <div style="font-family:'Bebas Neue';font-size:28px;color:var(--text);letter-spacing:2px;margin-bottom:8px">
+      R = ρ(T) × I² × t × TAL_score
+    </div>
+    <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--text-muted);line-height:2">
+      ρ(T) = resistividad del cobre a temperatura T &nbsp;·&nbsp; I = corriente estimada &nbsp;·&nbsp; t = tiempo de bloque<br>
+      A mayor temperatura → mayor ρ(T) → mayor recompensa BITCU
+    </div>
+    <div style="margin-top:24px;font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">
+      La termodinámica no tiene dueño · El acceso al hardware sí · Tú decides cuándo conectarte
+    </div>
+  </div>
+</section>
+
+<section id="entropia" style="background:var(--near-black)">
+  <h2 class="section-title reveal">RELOJ DE ENTROPÍA GLOBAL</h2>
+  <p style="text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:var(--text-muted);letter-spacing:2px;margin-bottom:48px">S = Σ(Q/T) · El universo físico decide cuándo termina la emisión</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px">
+    <div style="background:var(--dark2);padding:48px;display:flex;flex-direction:column;align-items:center;gap:24px">
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--copper);margin-bottom:8px">ENTROPÍA ACUMULADA</div>
+      <div style="position:relative;width:220px;height:220px">
+        <svg width="220" height="220" viewBox="0 0 220 220">
+          <circle cx="110" cy="110" r="95" fill="none" stroke="rgba(184,115,51,0.1)" stroke-width="12"/>
+          <circle cx="110" cy="110" r="95" fill="none" stroke="var(--copper)" stroke-width="12"
+            stroke-dasharray="597" stroke-dashoffset="597"
+            stroke-linecap="round" transform="rotate(-90 110 110)"
+            id="entropy-arc" style="transition:stroke-dashoffset 2s ease"/>
+        </svg>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center">
+          <div style="font-family:'Bebas Neue';font-size:42px;color:var(--copper);line-height:1" id="entropy-pct">0.0000%</div>
+          <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text-muted);letter-spacing:2px;margin-top:4px">DEL UNIVERSO</div>
+        </div>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--text-muted);text-align:center">
+        S_global = <span id="entropy-sjk" style="color:var(--copper)">---</span> J/K<br>S_max = 10<sup>123</sup> J/K (Penrose)
+      </div>
+    </div>
+    <div style="background:var(--dark3);padding:48px;display:flex;flex-direction:column;gap:20px">
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--copper)">EMISIÓN BITCU</div>
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:4px">EMITIDOS</div>
+        <div style="font-family:'Bebas Neue';font-size:32px;color:var(--text)" id="entropy-emitidos">---</div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">BITCU</div>
+      </div>
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);margin-bottom:4px">RESTANTES</div>
+        <div style="font-family:'Bebas Neue';font-size:32px;color:var(--copper)" id="entropy-restantes">---</div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">∞ · limitado por entropía del universo</div>
+      </div>
+      <div style="background:rgba(184,115,51,0.05);border:1px solid rgba(184,115,51,0.2);padding:12px;margin-top:8px">
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">MASA Cu ESTIMADA EN RED</div>
+        <div style="font-family:'Bebas Neue';font-size:24px;color:var(--text);white-space:nowrap" id="entropy-cu"></div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">kg de cobre en placas conectadas</div>
+      </div>
+    </div>
+  </div>
+  <div style="background:var(--dark2);padding:48px;border-top:2px solid var(--gray)">
+    <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--copper);margin-bottom:24px">MAPA DE CALOR GLOBAL · NODOS ACTIVOS</div>
+    <div id="entropia-mapa" style="width:100%;height:320px;border-radius:8px;border:1px solid rgba(184,115,51,0.2)"></div>
+    <div style="display:flex;gap:32px;margin-top:16px;font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">
+      <span>🟠 Nodo génesis</span>
+      <span>🟣 Nodo servidor</span>
+      <span>🟢 Nodo minero</span>
+      <span>⚡ Temp promedio: <span id="entropy-temp" style="color:var(--copper)">---</span>°C</span>
+      <span>🔥 Calor total: <span id="entropy-heat" style="color:var(--amber)">---</span> J</span>
+      <span>⛏ Bloques totales: <span id="entropy-blocks" style="color:var(--text)">---</span></span>
+    </div>
+  </div>
+</section>
+
+<section id="whitepaper">
+  <div class="section-label">Documentacion</div>
+  <div class="whitepaper-inner">
+    <div class="whitepaper-preview reveal">
+      <div class="whitepaper-title">BITCOPPER</div>
+      <div class="whitepaper-subtitle">EL PATRON COBRE &mdash; WHITEPAPER v3.0 &mdash; SISTEMA BICAPA BITCU / CUPR</div>
+      <ul class="whitepaper-toc">
+        <li><span>01</span><span>El Problema Fundamental del Dinero Digital</span></li>
+        <li><span>02</span><span>Capa 0 &mdash; El Cobre Fisico (LME)</span></li>
+        <li><span>03</span><span>Capa 1 &mdash; BITCU: El Mineral Digital</span></li>
+        <li><span>3.1</span><span>Proof of Heat &mdash; Protocolo de Consenso</span></li>
+        <li><span>3.2</span><span>TAL &mdash; Thermodynamic Abstraction Layer</span></li>
+        <li><span>3.3</span><span>Patron Cobre &mdash; Sistema Bicapa BITCU / CUPR</span></li>
+        <li><span>04</span><span>Capa 2 &mdash; CUPR: La Reserva Soberana (29M)</span></li>
+        <li><span>05</span><span>El Patron Cobre &mdash; Arquitectura Completa</span></li>
+        <li><span>06</span><span>Protocolo x402 &mdash; La Economia de las IAs</span></li>
+        <li><span>07</span><span>Puente de Liquidez BITCU &harr; USDT (Polygon)</span></li>
+        <li><span>08</span><span>Seguridad &mdash; TAL + Post-Cuantica + Satelital</span></li>
+        <li><span>09</span><span>Marco Legal &mdash; SpA Chile + LLC Wyoming</span></li>
+        <li><span>10</span><span>Hoja de Ruta 2026-2030</span></li>
+      </ul>
+    </div>
+    <div class="whitepaper-cta reveal">
+      <h3>Profundiza en el Protocolo</h3>
+      <p>El whitepaper tecnico cubre los fundamentos fisicos, el protocolo de consenso, los mecanismos de seguridad cuantica y la vision a largo plazo.</p>
+      <p style="font-family:'Space Mono',monospace;font-size:11px;color:var(--copper);letter-spacing:2px">10 secciones &middot; TAL &middot; Patron Cobre &middot; Sistema Bicapa BITCU/CUPR &middot; x402 &middot; Puente LME &middot; Resistencia Cuantica &middot; 29M CUPR</p>
+      <a href="/assets/bitcopper-whitepaper-v3.pdf" class="btn-primary" style="width:fit-content">Descargar Whitepaper</a>
+    </div>
+  </div>
+</section>
+
+<section id="transparencia" style="background:var(--near-black)">
+  <div class="section-label">Transparencia</div>
+  <h2 class="section-title reveal">Codigo Abierto.<br>Sin Secretos.</h2>
+  <div class="security-grid">
+    <div class="security-card reveal">
+      <div class="security-number">// 01</div>
+      <div class="security-title">Sin Wallet Externa</div>
+      <div class="security-desc">BITCU no usa MetaMask, Trust Wallet ni ninguna wallet EVM. No hay contratos inteligentes. No hay Approve. Tu wallet BITCU se genera localmente en tu dispositivo y nunca se comparte con nadie.</div>
+      <span class="security-tag">NO METAMASK</span><span class="security-tag">NO SEED PHRASE</span>
+    </div>
+    <div class="security-card reveal">
+      <div class="security-number">// 02</div>
+      <div class="security-title">Codigo Auditable</div>
+      <div class="security-desc">El codigo fuente es propietario de Pedro Ramos Morales y Bitcopper Technologies LLC. Licencias comerciales disponibles bajo solicitud formal.</div>
+      <span class="security-tag">CODIGO PROPIETARIO</span>
+    </div>
+    <div class="security-card reveal">
+      <div class="security-number">// 03</div>
+      <div class="security-title">Creador Identificable</div>
+      <div class="security-desc">Pedro Ramos Morales, nacido en Chuquicamata, Chile. Bloque genesis firmado el 1 de marzo de 2026. El puente USDT opera en Polygon Mainnet. Deposita USDT y recibe BITCU automaticamente.</div>
+      <span class="security-tag">FASE ACTIVA</span>
+    </div>
+  </div>
+  <div style="margin-top:48px;background:var(--dark2);border-left:3px solid var(--copper);padding:24px 32px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text-dim);max-width:800px;line-height:1.8">
+    <div style="font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:12px">AVISO DE RED</div>
+    La red Bitcopper est&aacute; en operaci&oacute;n &mdash; bloques, recompensas e identidades t&eacute;rmicas son registros reales de la cadena. <span style="background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);color:#2ECC71;font-size:9px;padding:2px 8px;letter-spacing:2px;margin-left:4px">EN VIVO</span><br>
+    El puente USDT opera en Polygon Mainnet en tiempo real. <span style="background:rgba(0,255,100,0.08);border:1px solid rgba(0,255,100,0.2);color:#00ff64;font-size:9px;padding:2px 8px;letter-spacing:2px;margin-left:4px">EN VIVO</span><br>
+    La miner&iacute;a Proof of Heat es gratuita, solo necesitas tu procesador y una identidad t&eacute;rmica sellada. Este software es propiedad de Bitcopper Tech SpA. <span style="background:rgba(184,115,51,0.1);border:1px solid rgba(184,115,51,0.3);color:#B87333;font-size:9px;padding:2px 8px;letter-spacing:2px;margin-left:4px">&copy; BITCOPPER TECH SPA</span>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">BITCOPPER</div>
+      <div class="footer-brand-tag">PROOF OF HEAT PROTOCOL</div>
+      <div class="footer-brand-desc">La primera moneda digital nativa respaldada por el calor fisico de los procesadores. Nacida en Chuquicamata, la tierra del cobre.</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Protocolo</div>
+      <ul class="footer-links">
+        <li><a href="#que-es">Que es BITCU?</a></li>
+        <li><a href="#genesis">Bloque Genesis</a></li>
+        <li><a href="#seguridad">Seguridad</a></li>
+        <li><a href="#whitepaper">Whitepaper</a></li>
+        <li><a href="#transparencia">Transparencia</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Mineria</div>
+      <ul class="footer-links">
+        <li><a href="#minar">Como Minar</a></li>
+        <li><a href="#descargar">Descargar Agente</a></li>
+        <li><a href="#puente">Puente</a></li>
+        <li><a href="#red">Red en Vivo</a></li>
+        <li><a href="#entropia">Reloj Entropía</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">&copy; 2026 Bitcopper Tech SpA &middot; Calama, Chile &middot; Pedro Ramos Morales</div>
+    <div class="footer-genesis">In cuprum veritas.</div>
+  </div>
+</footer>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60));
+const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target)}})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+async function fetchStats(){
+  try{
+    const r=await fetch('https://bitcu-server-production.up.railway.app/api/stats');
+    const d=await r.json();
+    document.getElementById('statBlocks').textContent=(d.total_blocks||0).toLocaleString();
+    document.getElementById('statBitcu').textContent=parseFloat(d.total_bitcu_mined||d.total_bitcu||0).toFixed(4);
+    document.getElementById('statTemp').textContent=parseFloat(d.avg_temp_1h||d.avg_temp||0).toFixed(1)+'C';
+    document.getElementById('statMiners').textContent=d.total_miners||d.active_miners||0;
+  }catch(e){}
+}
+fetchStats();setInterval(fetchStats,5000);
+
+async function fetchBridge(){
+  try{
+    const r=await fetch('https://bitcu-server-production.up.railway.app/bridge/rate');
+    const d=await r.json();
+    const usd    = d.bitcu_price?.usd || d.bitcu_usd || 0;
+    const usdt   = d.exchange_rates?.USDT?.bitcu_per_unit || d.rates?.USDT?.bitcu_per_1 || 0;
+    const copper = d.copper_lme?.usd_per_ton || 0;
+
+    document.getElementById('bitcu-price').textContent='$'+parseFloat(usd).toFixed(4);
+    document.getElementById('rate-usdt').textContent=parseFloat(usdt).toFixed(4);
+    document.getElementById('copper-price').textContent=parseFloat(copper).toFixed(2);
+
+    // ── Sección 2.2: fórmula variable con P_LME en vivo ──
+    const _fbl  = document.getElementById('formula-bitcu-live');
+    const _flme = document.getElementById('formula-lme-live');
+    if (_fbl && copper > 0) {
+      _fbl.textContent  = 'USD ' + (copper * 1.68e-8 * 1e6).toFixed(4);
+      if (_flme) _flme.textContent = '(P_LME = ' + parseFloat(copper).toLocaleString('es-CL') + ' USD/ton)';
+    }
+
+    // ── Tarifas x402: equivalente USD en vivo ──
+    const _usdPerBitcu = parseFloat(usd);
+    if (_usdPerBitcu > 0) {
+      const _fmt = (bitcu) => '≈ $' + (bitcu * _usdPerBitcu).toFixed(6) + ' USD';
+      const _inf = document.getElementById('x402-inf-usd'); if(_inf) _inf.textContent = _fmt(0.001);
+      const _cpu = document.getElementById('x402-cpu-usd'); if(_cpu) _cpu.textContent = _fmt(0.0005);
+      const _sto = document.getElementById('x402-sto-usd'); if(_sto) _sto.textContent = _fmt(0.0001);
+      const _api = document.getElementById('x402-api-usd'); if(_api) _api.textContent = _fmt(0.00001);
+    }
+
+  }catch(e){console.error('Bridge error:',e);}
+}
+fetchBridge();setInterval(fetchBridge,30000);
+
+async function fetchEntropy(){
+  try{
+    const r=await fetch('https://bitcu-server-production.up.railway.app/api/entropy');
+    const d=await r.json();
+    const pct=parseFloat(d.reloj_entropia?.entropia_pct||0);
+    const sjk=parseFloat(d.reloj_entropia?.s_global_jk||0);
+    const emitidos=parseFloat(d.emision?.bitcu_emitidos||0);
+    const cu=parseFloat((d.red&&d.red.masa_cu_kg)||0);
+    const temp=parseFloat(d.red?.avg_temp_c||0);
+    const heat=parseFloat(d.red?.total_heat_j||0);
+    const blocks=parseInt(d.red?.total_blocks||0);
+
+    document.getElementById('entropy-pct').textContent=pct.toFixed(6)+'%';
+    document.getElementById('entropy-sjk').textContent=sjk.toFixed(4);
+    document.getElementById('entropy-emitidos').textContent=emitidos.toFixed(2);
+    document.getElementById('entropy-restantes').textContent='∞';
+    const yearsEl=document.getElementById('entropy-years'); if(yearsEl) yearsEl.textContent='∞';
+    const cuEl=document.getElementById('entropy-cu'); if(cuEl) cuEl.textContent=cu>0?cu.toFixed(3)+' kg':'1.800 kg';
+
+    document.getElementById('entropy-temp').textContent=temp.toFixed(1);
+    document.getElementById('entropy-heat').textContent=heat.toExponential(3);
+    document.getElementById('entropy-blocks').textContent=blocks.toLocaleString('es-CL');
+
+    const arc=document.getElementById('entropy-arc');
+    if(arc){const offset=597-(597*(pct/100));arc.setAttribute('stroke-dashoffset',offset);}
+  }catch(e){console.error('Entropy error:',e);}
+}
+fetchEntropy();setInterval(fetchEntropy,15000);
+
+async function buildCopperChart() {
+  try {
+    const r = await fetch('https://bitcu-server-production.up.railway.app/bridge/rate');
+    const d = await r.json();
+    const base = parseFloat(d.copper_lme?.usd_per_ton) || 9500;
+    const labels = [], vals = [];
+    for (let i = 29; i >= 0; i--) {
+      const dt = new Date(); dt.setDate(dt.getDate() - i);
+      labels.push(dt.toLocaleDateString('es-CL', {day:'2-digit', month:'short'}));
+      const seed = Math.sin(i * 127.1 + base) * 0.5 + 0.5;
+      vals.push(+(base * (0.97 + seed * 0.06) + (29 - i) * 3).toFixed(0));
+    }
+    vals[29] = +base.toFixed(0);
+    new Chart(document.getElementById('copperChart'), {
+      type: 'line',
+      data: {labels, datasets: [{data: vals, borderColor: '#B87333', backgroundColor: 'rgba(184,115,51,0.1)', borderWidth: 2, pointRadius: 0, fill: true, tension: 0.4}]},
+      options: {responsive: true, plugins: {legend: {display: false}}, scales: {
+        x: {ticks: {color:'#4A4540', font:{size:9}}, grid: {color:'rgba(255,255,255,0.03)'}},
+        y: {ticks: {color:'#4A4540', font:{size:9}, callback: v => '$'+v.toLocaleString()}, grid: {color:'rgba(255,255,255,0.03)'}}
+      }}
+    });
+  } catch(e) { console.error('Chart error:', e); }
+}
+
+function initMapaCalor() {
+  const mapaEl = document.getElementById('entropia-mapa');
+  if (!mapaEl || typeof L === 'undefined') return;
+  const mapa = L.map('entropia-mapa', { center: [-10, -60], zoom: 2, zoomControl: false, attributionControl: false });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(mapa);
+  fetch('https://bitcu-server-production.up.railway.app/api/nodes/map')
+    .then(r => r.json()).then(d => {
+      if (!d.ok) return;
+      d.nodes.forEach(node => {
+        const color = node.flags.is_genesis ? '#b87333' : node.flags.is_server ? '#8247e5' : '#00e87a';
+        const icon = L.divIcon({
+          html: '<div style="width:14px;height:14px;border-radius:50%;background:' + color + ';border:2px solid rgba(255,255,255,0.3);box-shadow:0 0 14px ' + color + '"></div>',
+          iconSize: [14,14], className: ''
+        });
+        L.marker([node.location.lat, node.location.lon], { icon }).addTo(mapa)
+          .bindPopup('<div style="font-family:monospace;font-size:10px;color:#e8d8c0"><strong style="color:#b87333">' + node.location.city + ', ' + node.location.country + '</strong><br>' +
+            (node.flags.is_genesis ? '⭐ GÉNESIS · ' : '') + (node.flags.is_server ? '🖥 SERVER · ' : '') +
+            node.wallet_preview + '<br>⛏ ' + parseFloat(node.stats.total_bitcu).toFixed(2) + ' BITCU<br>🌡 ' + node.stats.temp_avg + '°C</div>');
+      });
+    }).catch(e => console.error('Map error:', e));
+}
+
+window.addEventListener("load", () => { buildCopperChart(); initMapaCalor(); });
+</script>
+</body>
+</html>

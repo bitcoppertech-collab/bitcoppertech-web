@@ -174,7 +174,7 @@ export default function LandingPage() {
               </>
             )}
           </div>
-          <a href="/api/login">
+          <a href="/login">
             <Button className="shadow-lg shadow-primary/20" data-testid="button-login-nav">
               Iniciar Sesión
             </Button>
@@ -238,7 +238,7 @@ export default function LandingPage() {
               Sube tu Excel, compara precios de mercado Sodimac y Easy automáticamente, y genera análisis financiero profesional con márgenes reales para PYMEs constructoras en Chile.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href="/api/login">
+              <a href="/login">
                 <Button size="lg" className="shadow-lg shadow-primary/25 text-base px-8" data-testid="button-login-hero">
                   Comenzar Gratis <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
@@ -565,7 +565,7 @@ export default function LandingPage() {
                         </li>
                       ))}
                     </ul>
-                    <a href="/api/login">
+                    <a href="/login">
                       <Button
                         className={cn("w-full mt-4",
                           isPrimary ? "shadow-lg shadow-primary/20" : ""
@@ -652,7 +652,7 @@ export default function LandingPage() {
           </Accordion>
 
           <div className="text-center mt-12">
-            <a href="/api/login">
+            <a href="/login">
               <Button size="lg" className="bg-[#c77b3f] text-white border-0 text-base px-10 py-6 shadow-lg shadow-[#c77b3f]/20" data-testid="button-faq-cta">
                 <Zap className="w-5 h-5 mr-2" />
                 ¡Empieza Gratis Ahora!

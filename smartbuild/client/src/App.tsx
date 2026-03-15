@@ -28,6 +28,7 @@ import CapturaLanding from "@/pages/CapturaLanding";
 import ValidarCupon from "@/pages/ValidarCupon";
 import ChatWidget from "@/components/ChatWidget";
 import { ReferralCodePrompt, captureReferralFromUrl } from "@/components/ReferralCodePrompt";
+import LoginPage from "@/pages/LoginPage";
 import { useEffect } from "react";
 
 captureReferralFromUrl();
@@ -78,6 +79,7 @@ function AppContent() {
         <Route path="/validar-cupon" component={ValidarCupon} />
         <Route path="/registro" component={CapturaLanding} />
         <Route path="/partners" component={Partners} />
+        <Route path="/login" component={LoginPage} />
         <Route path="/demo" component={Demo} />
         <Route path="/info" component={LandingPage} />
         <Route><CommercialLanding /></Route>
@@ -95,6 +97,7 @@ function AppContent() {
         <Route path="/validar-cupon" component={ValidarCupon} />
         <Route path="/registro" component={CapturaLanding} />
         <Route path="/partners" component={Partners} />
+        <Route path="/login" component={LoginPage} />
         <Route path="/demo" component={Demo} />
         <Route><AuthenticatedRouter /></Route>
       </Switch>

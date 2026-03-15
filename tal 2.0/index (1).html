@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAL v2.0 — Thermodynamic Abstraction Layer · Bitcopper</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--copper:#B87333;--copper-light:#D4944A;--copper-glow:rgba(184,115,51,0.25);--black:#000;--near-black:#080808;--dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--gray:#2A2A2A;--text:#E8E0D8;--text-dim:#7A7065;--text-muted:#4A4540;--green:#2ECC71;--blue:#00ccff;--violet:#bb88ff;--amber:#ffc040;--red:#ff2244}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+nav.scrolled{backdrop-filter:blur(20px);background:rgba(0,0,0,0.85);border-bottom:1px solid rgba(184,115,51,0.15)}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo-icon{width:36px;height:36px;border:1.5px solid var(--copper);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:18px;color:var(--copper)}
+.nav-logo-text{font-family:'Bebas Neue';font-size:20px;letter-spacing:4px;color:var(--text)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--text-dim);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:color 0.3s;font-family:'Space Mono'}
+.nav-links a:hover{color:var(--copper)}
+.nav-links a.active{color:var(--copper)}
+
+/* ── HERO ── */
+.hero{min-height:60vh;display:flex;flex-direction:column;justify-content:center;padding:120px 60px 60px;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(184,115,51,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(184,115,51,0.03) 1px,transparent 1px);background-size:60px 60px}
+.hero-glow{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(184,115,51,0.07) 0%,transparent 70%);top:50%;left:30%;transform:translate(-50%,-50%);animation:pulse 5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}}
+.hero-content{position:relative;z-index:2;max-width:900px}
+.hero-tag{font-family:'Space Mono';font-size:10px;letter-spacing:5px;color:var(--copper);text-transform:uppercase;margin-bottom:28px;display:flex;align-items:center;gap:16px}
+.hero-tag::before{content:'';width:40px;height:1px;background:var(--copper)}
+.hero-title{font-family:'Bebas Neue';font-size:clamp(56px,9vw,110px);line-height:0.9;letter-spacing:2px;margin-bottom:12px}
+.hero-title span{color:var(--copper)}
+.hero-subtitle{font-family:'Bebas Neue';font-size:clamp(18px,3vw,32px);letter-spacing:6px;color:var(--text-dim);margin-bottom:32px}
+.hero-desc{font-size:15px;line-height:1.9;color:var(--text-dim);max-width:600px}
+
+/* ── STATS BAR ── */
+.stats-bar{background:var(--dark2);border-top:1px solid rgba(184,115,51,0.15);border-bottom:1px solid rgba(184,115,51,0.15);padding:20px 60px;display:flex;gap:48px;overflow-x:auto;align-items:center}
+.stat-item{text-align:left;min-width:max-content}
+.stat-label{font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted);text-transform:uppercase;margin-bottom:5px}
+.stat-value{font-family:'Bebas Neue';font-size:26px;letter-spacing:2px;color:var(--copper)}
+.stat-value.green{color:var(--green)}
+.stat-value.blue{color:var(--blue)}
+.live-dot{display:inline-block;width:6px;height:6px;background:var(--green);border-radius:50%;margin-right:8px;animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* ── SECTIONS ── */
+section{padding:80px 60px;position:relative}
+.section-label{font-family:'Space Mono';font-size:9px;letter-spacing:5px;color:var(--copper);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:16px}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(184,115,51,0.4),transparent);max-width:200px}
+.section-title{font-family:'Bebas Neue';font-size:clamp(36px,5vw,64px);letter-spacing:3px;line-height:1;margin-bottom:20px}
+
+/* ── MÓDULOS GRID ── */
+.modules-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:48px}
+.module-card{background:var(--dark2);padding:32px 24px;border-top:2px solid var(--copper);transition:all 0.3s;position:relative;overflow:hidden}
+.module-card:hover{background:var(--dark3)}
+.module-id{font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:8px}
+.module-name{font-family:'Bebas Neue';font-size:22px;letter-spacing:2px;margin-bottom:6px}
+.module-formula{font-family:'Space Mono';font-size:10px;color:var(--text-muted);margin-bottom:16px;line-height:1.6}
+.module-score{font-family:'Bebas Neue';font-size:48px;line-height:1;margin-bottom:10px}
+.module-bar-bg{height:3px;background:var(--gray);border-radius:2px}
+.module-bar-fill{height:100%;border-radius:2px;transition:width 0.8s ease}
+.module-weight{font-family:'Space Mono';font-size:9px;color:var(--text-muted);margin-top:8px}
+
+/* ── SIMULADOR ── */
+.sim-grid{display:grid;grid-template-columns:320px 1fr;gap:2px;margin-top:48px}
+.sim-params{background:var(--dark2);padding:36px}
+.sim-results{background:var(--dark3);padding:36px;display:flex;flex-direction:column;gap:20px}
+.param-group{margin-bottom:20px}
+.param-label{font-family:'Space Mono';font-size:9px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px}
+.param-input{width:100%;background:var(--black);border:1px solid var(--gray);color:var(--text);font-family:'Space Mono';font-size:12px;padding:8px 12px;outline:none;transition:border-color 0.3s}
+.param-input:focus{border-color:var(--copper)}
+.btn-run{width:100%;background:var(--copper);color:var(--black);border:none;padding:14px;font-family:'Space Mono';font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;margin-top:8px}
+.btn-run:hover{background:var(--copper-light)}
+.btn-run:disabled{background:var(--gray);cursor:not-allowed}
+.result-card{background:var(--dark2);padding:20px 24px;border-left:3px solid var(--copper)}
+.result-label{font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:8px}
+.result-value{font-family:'Bebas Neue';font-size:36px;letter-spacing:2px;color:var(--copper)}
+.result-sub{font-family:'Space Mono';font-size:10px;color:var(--text-muted);margin-top:4px}
+
+/* ── SCORE TAL PRINCIPAL ── */
+.tal-score-hero{background:var(--dark2);border:1px solid rgba(184,115,51,0.3);padding:48px;text-align:center;position:relative;overflow:hidden;margin-top:48px}
+.tal-score-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--copper),var(--amber),var(--copper))}
+.tal-score-label{font-family:'Space Mono';font-size:10px;letter-spacing:5px;color:var(--text-muted);margin-bottom:16px}
+.tal-score-number{font-family:'Bebas Neue';font-size:clamp(80px,15vw,160px);line-height:1;color:var(--copper);text-shadow:0 0 40px rgba(184,115,51,0.4)}
+.tal-score-pct{font-family:'Space Mono';font-size:24px;color:var(--copper-light);margin-left:8px;vertical-align:super;font-size:36px}
+.tal-nivel{font-family:'Bebas Neue';font-size:32px;letter-spacing:6px;margin-top:8px}
+.tal-bitcu{font-family:'Space Mono';font-size:13px;color:var(--text-dim);margin-top:12px}
+
+/* ── CHART ── */
+.chart-container{background:var(--dark2);border:1px solid var(--gray);padding:32px;margin-top:2px}
+.chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.chart-title{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--copper)}
+.chart-meta{font-family:'Space Mono';font-size:9px;color:var(--text-muted)}
+
+/* ── CONSENSUS ── */
+.consensus-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-top:48px}
+.consensus-card{background:var(--dark2);padding:28px 20px;text-align:center;border-bottom:2px solid var(--gray);transition:all 0.3s}
+.consensus-card:hover{background:var(--dark3)}
+.consensus-mod{font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:8px}
+.consensus-score{font-family:'Bebas Neue';font-size:42px;line-height:1;margin-bottom:6px}
+.consensus-weight{font-family:'Space Mono';font-size:10px;color:var(--text-muted)}
+.consensus-bar-bg{height:4px;background:var(--gray);border-radius:2px;margin-top:10px}
+.consensus-bar-fill{height:100%;border-radius:2px;transition:width 0.8s ease}
+
+/* ── FORMULA BOXES ── */
+.formula-box{background:var(--dark2);border-left:3px solid var(--copper);padding:24px 32px;font-family:'Space Mono';font-size:13px;color:var(--text);line-height:2}
+.formula-box .fl{font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:10px}
+.formula-box small{color:var(--text-muted);font-size:11px}
+
+/* ── REWARD TABLE ── */
+.reward-table{width:100%;border-collapse:collapse;margin-top:32px;font-family:'Space Mono';font-size:11px}
+.reward-table th{background:var(--dark3);color:var(--copper);letter-spacing:2px;padding:12px 16px;text-align:left;font-size:9px;font-weight:400}
+.reward-table td{padding:12px 16px;border-bottom:1px solid var(--gray);color:var(--text-dim);transition:background 0.2s}
+.reward-table tr:hover td{background:var(--dark2)}
+.reward-table td:first-child{color:var(--copper)}
+
+/* ── FOOTER ── */
+footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);padding:60px}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;margin-bottom:60px}
+.footer-brand-name{font-family:'Bebas Neue';font-size:32px;letter-spacing:4px;color:var(--copper);margin-bottom:8px}
+.footer-brand-tag{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--text-muted);margin-bottom:20px}
+.footer-brand-desc{font-size:13px;color:var(--text-muted);line-height:1.8;max-width:300px}
+.footer-col-title{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--copper);text-transform:uppercase;margin-bottom:20px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:12px}
+.footer-links a{color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.3s}
+.footer-links a:hover{color:var(--copper)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--gray)}
+.footer-copy{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--text-muted)}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--copper)}
+input[type=number]::-webkit-inner-spin-button{opacity:0.3}
+input[type=number]{-moz-appearance:textfield}
+
+@media(max-width:900px){
+  nav{padding:20px 24px}.nav-links{display:none}
+  section{padding:60px 24px}.hero{padding:100px 24px 40px}
+  .modules-grid{grid-template-columns:1fr 1fr}
+  .sim-grid{grid-template-columns:1fr}
+  .consensus-grid{grid-template-columns:1fr 1fr}
+  .stats-bar{padding:16px 24px;gap:28px}
+  footer{padding:40px 24px}.footer-inner{grid-template-columns:1fr;gap:40px}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">B</div>
+    <span class="nav-logo-text">BITCOPPER</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/bitcu">BITCU</a></li>
+    <li><a href="#modulos">Módulos</a></li>
+    <li><a href="#simulador">Simulador</a></li>
+    <li><a href="#consensus">Consensus</a></li>
+    <li><a href="#recompensa">Recompensa</a></li>
+    <li><a href="/bitcu" style="color:var(--copper)">← Red Global</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Thermodynamic Abstraction Layer &middot; v2.0 &middot; Motor Físico BITCU</div>
+    <h1 class="hero-title">TAL<span> v2.0</span></h1>
+    <div class="hero-subtitle">El Motor del Proof of Heat</div>
+    <p class="hero-desc">El TAL traduce fenómenos físicos reales — disipación térmica, electromigración, ruido Johnson-Nyquist — en un score de consenso que determina la recompensa exacta de cada bloque BITCU. No hay matemáticas arbitrarias: cada cálculo está anclado a la Segunda Ley de la Termodinámica.</p>
+  </div>
+</section>
+
+<!-- STATS BAR EN VIVO -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-label"><span class="live-dot"></span>Score TAL</div><div class="stat-value" id="liveTal">—</div></div>
+  <div class="stat-item"><div class="stat-label">Nivel Actual</div><div class="stat-value" id="liveNivel">—</div></div>
+  <div class="stat-item"><div class="stat-label">Recompensa/Bloque</div><div class="stat-value" id="liveBitcu">—</div></div>
+  <div class="stat-item"><div class="stat-label">Motor</div><div class="stat-value blue" id="liveMotor">—</div></div>
+  <div class="stat-item"><div class="stat-label">Bloques Red</div><div class="stat-value" id="liveBlocks">—</div></div>
+  <div class="stat-item"><div class="stat-label">Pesos M2+M3+M4+M5+M6</div><div class="stat-value">20·20·25·25·10</div></div>
+</div>
+
+<!-- SCORE TAL PRINCIPAL -->
+<section style="background:var(--dark2)" id="score">
+  <div class="section-label">Score en Vivo</div>
+  <h2 class="section-title reveal">Consensus TAL Activo</h2>
+  <div class="tal-score-hero reveal">
+    <div class="tal-score-label">THERMODYNAMIC ABSTRACTION LAYER · SCORE M7</div>
+    <div>
+      <span class="tal-score-number" id="talScoreBig">0</span>
+      <span style="font-family:'Bebas Neue';font-size:48px;color:var(--copper-light)">%</span>
+    </div>
+    <div class="tal-nivel" id="talNivelBig" style="color:var(--copper)">— CALCULANDO —</div>
+    <div class="tal-bitcu" id="talBitcuBig">Recompensa estimada: — BITCU · — atoms</div>
+  </div>
+
+  <!-- Gráfica evolución -->
+  <div class="chart-container reveal">
+    <div class="chart-header">
+      <span class="chart-title">EVOLUCIÓN TAL · ÚLTIMOS 60 BLOQUES</span>
+      <span class="chart-meta" id="chartMeta">actualizando cada 5s</span>
+    </div>
+    <canvas id="talChart" height="100"></canvas>
+  </div>
+</section>
+
+<!-- MÓDULOS M1-M8 -->
+<section id="modulos">
+  <div class="section-label">Física</div>
+  <h2 class="section-title reveal">Los 8 Módulos TAL</h2>
+  <p class="reveal" style="font-size:14px;color:var(--text-dim);max-width:700px;line-height:1.9">Cada módulo captura un fenómeno termodinámico distinto. El Consensus M7 los pondera para producir un score único e irreplicable sin hardware real.</p>
+
+  <div class="modules-grid reveal">
+    <!-- M1 -->
+    <div class="module-card" style="border-top-color:#4488ff">
+      <div class="module-id">M1 · ENTROPÍA</div>
+      <div class="module-name" style="color:#4488ff">CLAUSIUS</div>
+      <div class="module-formula">S = Q / T<br>dS = P·dt / T</div>
+      <div class="module-score" style="color:#4488ff" id="m1score">—</div>
+      <div class="module-bar-bg"><div class="module-bar-fill" id="m1bar" style="background:#4488ff;width:0%"></div></div>
+      <div class="module-weight">Base termodinámica · referencia</div>
+    </div>
+    <!-- M2 -->
+    <div class="module-card" style="border-top-color:var(--copper)">
+      <div class="module-id">M2 · DISIPACIÓN · 20%</div>
+      <div class="module-name" style="color:var(--copper)">CARNOT</div>
+      <div class="module-formula">dS = P·(1/T₀ − 1/Tc)·t<br>η = 1 − T_amb/T_chip</div>
+      <div class="module-score" style="color:var(--copper)" id="m2score">—</div>
+      <div class="module-bar-bg"><div class="module-bar-fill" id="m2bar" style="background:var(--copper);width:0%"></div></div>
+      <div class="module-weight">Peso consensus: 20%</div>
+    </div>
+    <!-- M3 -->
+    <div class="module-card" style="border-top-color:var(--amber)">
+      <div class="module-id">M3 · ELECTROMIGRACIÓN · 20%</div>
+      <div class="module-name" style="color:var(--amber)">BLACK'S EQ.</div>
+      <div class="module-formula">MTTF = A/J²·exp(Ea/kB·T)<br>Ea = 0.9 eV</div>
+      <div class="module-score" style="color:var(--amber)" id="m3score">—</div>
+      <div class="module-bar-bg"><div class="module-bar-fill" id="m3bar" style="background:var(--amber);width:0%"></div></div>
+      <div class="module-weight">Peso consensus: 20%</div>
+    </div>
+    <!-- M4 -->
+    <div class="module-card" style="border-top-color:var(--green)">
+      <div class="module-id">M4 · MATTHIESSEN · 25%</div>
+      <div class="module-name" style="color:var(--green)">RESISTIVIDAD</div>
+      <div class="module-formula">ρ(T) = ρ₀·(1 + α·ΔT)<br>ρ₀=1.68e-8 · α=3.93e-3</div>
+      <div class="module-score" style="color:var(--green)" id="m4score">—</div>
+      <div class="module-bar-bg"><div class="module-bar-fill" id="m4bar" style="background:var(--green);width:0%"></div></div>
+      <div class="module-weight">Peso consensus: 25% · El oráculo del cobre</div>
+    </div>
+    <!-- M5 -->
+    <div class="module-card" style="border-top-color:var(--violet)">
+      <div class="module-id">M5 · MULTI-SENSOR · 25%</div>
+      <div class="module-name" style="color:var(--violet)">ENTROPÍA TOTAL</div>
+      <div class="module-formula">0.50·S_cpu + 0.35·S_gpu<br>+ 0.15·S_bat</div>
+      <div class="module-score" style="color:var(--violet)" id="m5score">—</div>
+      <div class="module-bar-bg"><div class="module-bar-fill" id="m5bar" style="background:var(--violet);width:0%"></div></div>
+      <div class="module-weight">Peso consensus: 25% · CPU+GPU+BAT</div>
+    </div>
+    <!-- M6 -->
+    <div class="module-card" style="border-top-color:var(--blue)">
+      <div class="module-id">M6 · JOHNSON-NYQUIST · 10%</div>
+      <div class="module-name" style="color:var(--blue)">RUIDO TÉRMICO</div>
+      <div class="module-formula">V²rms = 4·kB·T·R·B<br>Semilla wallet · RNG cuántico</div>
+      <div class="module-score" style="color:var(--blue)" id="m6score">—</div>
+      <div class="module-bar-bg"><div class="module-bar-fill" id="m6bar" style="background:var(--blue);width:0%"></div></div>
+      <div class="module-weight">Peso consensus: 10% · Hardware RNG</div>
+    </div>
+    <!-- M7 -->
+    <div class="module-card" style="border-top-color:var(--red)">
+      <div class="module-id">M7 · CONSENSUS</div>
+      <div class="module-name" style="color:var(--red)">TAL SCORE</div>
+      <div class="module-formula">Σ(w_i · S_i)<br>w: 20+20+25+25+10 = 100%</div>
+      <div class="module-score" style="color:var(--red)" id="m7score">—</div>
+      <div class="module-bar-bg"><div class="module-bar-fill" id="m7bar" style="background:var(--red);width:0%"></div></div>
+      <div class="module-weight">Score final del bloque</div>
+    </div>
+    <!-- M8 -->
+    <div class="module-card" style="border-top-color:var(--amber)">
+      <div class="module-id">M8 · RECOMPENSA</div>
+      <div class="module-name" style="color:var(--amber)">BITCU</div>
+      <div class="module-formula">ρ(T)·I²·t·score·1e-8<br>atoms = bitcu × 10¹⁸</div>
+      <div class="module-score" style="color:var(--amber)" id="m8score">—</div>
+      <div class="module-bar-bg"><div class="module-bar-fill" id="m8bar" style="background:var(--amber);width:100%"></div></div>
+      <div class="module-weight">Output final → wallet minero</div>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULADOR -->
+<section id="simulador" style="background:var(--dark2)">
+  <div class="section-label">Simulador</div>
+  <h2 class="section-title reveal">Calcula tu Score TAL</h2>
+  <p class="reveal" style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.9">Ingresa los parámetros térmicos de tu hardware. El motor TAL calcula el score exacto y la recompensa BITCU estimada para ese bloque.</p>
+
+  <div class="sim-grid reveal">
+    <div class="sim-params">
+      <div style="font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:24px">PARÁMETROS DE ENTRADA</div>
+
+      <div class="param-group">
+        <div class="param-label">Temp. Chip (°C)</div>
+        <input type="number" class="param-input" id="p_chip" value="85" min="20" max="110">
+      </div>
+      <div class="param-group">
+        <div class="param-label">Temp. Ambiente (°C)</div>
+        <input type="number" class="param-input" id="p_amb" value="25" min="10" max="45">
+      </div>
+      <div class="param-group">
+        <div class="param-label">Temp. GPU (°C)</div>
+        <input type="number" class="param-input" id="p_gpu" value="75" min="20" max="95">
+      </div>
+      <div class="param-group">
+        <div class="param-label">Potencia CPU (W)</div>
+        <input type="number" class="param-input" id="p_cpuw" value="65" min="5" max="300">
+      </div>
+      <div class="param-group">
+        <div class="param-label">Potencia GPU (W)</div>
+        <input type="number" class="param-input" id="p_gpuw" value="120" min="0" max="500">
+      </div>
+      <div class="param-group">
+        <div class="param-label">Corriente (A)</div>
+        <input type="number" class="param-input" id="p_curr" value="0.5" min="0.01" max="10" step="0.01">
+      </div>
+      <div class="param-group">
+        <div class="param-label">Duración bloque (s)</div>
+        <input type="number" class="param-input" id="p_dur" value="600" min="1" max="3600">
+      </div>
+
+      <button class="btn-run" id="btnCalc" onclick="calcularTAL()">▶ CALCULAR TAL</button>
+    </div>
+
+    <div class="sim-results" id="simResults">
+      <div style="font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted);margin-bottom:8px">RESULTADO DEL BLOQUE</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
+        <div class="result-card">
+          <div class="result-label">SCORE TAL · M7</div>
+          <div class="result-value" id="res_tal">—</div>
+          <div class="result-sub" id="res_nivel">Nivel: —</div>
+        </div>
+        <div class="result-card" style="border-left-color:var(--amber)">
+          <div class="result-label">RECOMPENSA BITCU · M8</div>
+          <div class="result-value" style="color:var(--amber)" id="res_bitcu">—</div>
+          <div class="result-sub" id="res_atoms">atoms: —</div>
+        </div>
+        <div class="result-card" style="border-left-color:var(--green)">
+          <div class="result-label">RESISTIVIDAD ρ(T) · M4</div>
+          <div class="result-value" style="color:var(--green);font-size:24px" id="res_rho">—</div>
+          <div class="result-sub">Ω·m · Oráculo del cobre</div>
+        </div>
+        <div class="result-card" style="border-left-color:var(--blue)">
+          <div class="result-label">V_RMS JOHNSON-NYQUIST · M6</div>
+          <div class="result-value" style="color:var(--blue);font-size:24px" id="res_vrms">—</div>
+          <div class="result-sub">Semilla wallet térmica</div>
+        </div>
+      </div>
+
+      <div style="background:var(--dark2);padding:20px;margin-top:4px">
+        <div style="font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:16px">DESGLOSE MÓDULOS</div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px" id="res_modulos">
+          <div style="text-align:center"><div style="font-family:'Space Mono';font-size:9px;color:var(--text-muted)">M2</div><div style="font-family:'Bebas Neue';font-size:28px;color:var(--copper)" id="res_s2">—</div></div>
+          <div style="text-align:center"><div style="font-family:'Space Mono';font-size:9px;color:var(--text-muted)">M3</div><div style="font-family:'Bebas Neue';font-size:28px;color:var(--amber)" id="res_s3">—</div></div>
+          <div style="text-align:center"><div style="font-family:'Space Mono';font-size:9px;color:var(--text-muted)">M4</div><div style="font-family:'Bebas Neue';font-size:28px;color:var(--green)" id="res_s4">—</div></div>
+          <div style="text-align:center"><div style="font-family:'Space Mono';font-size:9px;color:var(--text-muted)">M5</div><div style="font-family:'Bebas Neue';font-size:28px;color:var(--violet)" id="res_s5">—</div></div>
+          <div style="text-align:center"><div style="font-family:'Space Mono';font-size:9px;color:var(--text-muted)">M6</div><div style="font-family:'Bebas Neue';font-size:28px;color:var(--blue)" id="res_s6">—</div></div>
+        </div>
+      </div>
+
+      <div style="background:var(--dark2);padding:16px;font-family:'Space Mono';font-size:10px;color:var(--text-muted);line-height:1.8" id="res_formula">
+        Ingresa parámetros y presiona CALCULAR TAL para ver el desglose completo del bloque.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONSENSUS -->
+<section id="consensus">
+  <div class="section-label">Ponderación</div>
+  <h2 class="section-title reveal">Consensus M7</h2>
+  <p class="reveal" style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.9">El score final es la suma ponderada de los 5 módulos activos. Los pesos reflejan la importancia física de cada fenómeno en el Proof of Heat.</p>
+
+  <div class="consensus-grid reveal">
+    <div class="consensus-card" style="border-bottom-color:var(--copper)">
+      <div class="consensus-mod">M2 · DISIPACIÓN</div>
+      <div class="consensus-score" style="color:var(--copper)" id="c_m2">—</div>
+      <div class="consensus-weight">peso: 20%</div>
+      <div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m2" style="background:var(--copper);width:0%"></div></div>
+    </div>
+    <div class="consensus-card" style="border-bottom-color:var(--amber)">
+      <div class="consensus-mod">M3 · ELECTROMIG.</div>
+      <div class="consensus-score" style="color:var(--amber)" id="c_m3">—</div>
+      <div class="consensus-weight">peso: 20%</div>
+      <div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m3" style="background:var(--amber);width:0%"></div></div>
+    </div>
+    <div class="consensus-card" style="border-bottom-color:var(--green)">
+      <div class="consensus-mod">M4 · MATTHIESSEN</div>
+      <div class="consensus-score" style="color:var(--green)" id="c_m4">—</div>
+      <div class="consensus-weight">peso: 25%</div>
+      <div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m4" style="background:var(--green);width:0%"></div></div>
+    </div>
+    <div class="consensus-card" style="border-bottom-color:var(--violet)">
+      <div class="consensus-mod">M5 · MULTI-SENSOR</div>
+      <div class="consensus-score" style="color:var(--violet)" id="c_m5">—</div>
+      <div class="consensus-weight">peso: 25%</div>
+      <div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m5" style="background:var(--violet);width:0%"></div></div>
+    </div>
+    <div class="consensus-card" style="border-bottom-color:var(--blue)">
+      <div class="consensus-mod">M6 · JOHNSON-N.</div>
+      <div class="consensus-score" style="color:var(--blue)" id="c_m6">—</div>
+      <div class="consensus-weight">peso: 10%</div>
+      <div class="consensus-bar-bg"><div class="consensus-bar-fill" id="cb_m6" style="background:var(--blue);width:0%"></div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:2px;background:var(--dark2);padding:32px;border-left:3px solid var(--copper)">
+    <div style="font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:16px">FÓRMULA CONSENSUS M7</div>
+    <div style="font-family:'Space Mono';font-size:14px;color:var(--text);line-height:2">
+      TAL = 0.20·<span style="color:var(--copper)">S2</span> + 0.20·<span style="color:var(--amber)">S3</span> + 0.25·<span style="color:var(--green)">S4</span> + 0.25·<span style="color:var(--violet)">S5</span> + 0.10·<span style="color:var(--blue)">S6</span>
+      <br><small style="color:var(--text-muted);font-size:11px">TAL ∈ [0, 1] · Sin TAL mínimo → bloque rechazado por el nodo</small>
+    </div>
+  </div>
+</section>
+
+<!-- TABLA DE NIVELES Y RECOMPENSA -->
+<section id="recompensa" style="background:var(--dark2)">
+  <div class="section-label">Niveles</div>
+  <h2 class="section-title reveal">Tabla de Recompensas TAL</h2>
+  <p class="reveal" style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.9">El nivel depende del score. A mayor temperatura y trabajo físico real del procesador, mayor recompensa. No hay forma de simular calor sin hardware real.</p>
+
+  <table class="reward-table reveal">
+    <thead>
+      <tr>
+        <th>NIVEL TAL</th>
+        <th>RANGO SCORE</th>
+        <th>RECOMPENSA RELATIVA</th>
+        <th>CONDICIÓN FÍSICA</th>
+        <th>MÓDULO DOMINANTE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ATOM</td>
+        <td>0% — 25%</td>
+        <td style="color:var(--text-muted)">Mínima · idle térmico</td>
+        <td>Procesador en reposo, temperatura baja</td>
+        <td style="color:var(--blue)">M6 Johnson-Nyquist</td>
+      </tr>
+      <tr>
+        <td style="color:var(--copper)">COPPER</td>
+        <td>25% — 50%</td>
+        <td style="color:var(--copper)">Base · operación normal</td>
+        <td>Carga moderada, T_chip &gt; 60°C</td>
+        <td style="color:var(--copper)">M2 Disipación</td>
+      </tr>
+      <tr>
+        <td style="color:var(--amber)">HEAT</td>
+        <td>50% — 75%</td>
+        <td style="color:var(--amber)">Alta · carga sostenida</td>
+        <td>Alta carga CPU+GPU, T_chip &gt; 80°C</td>
+        <td style="color:var(--green)">M4 Matthiessen</td>
+      </tr>
+      <tr>
+        <td style="color:var(--green)">GENESIS</td>
+        <td>75% — 100%</td>
+        <td style="color:var(--green)">Máxima · stress físico total</td>
+        <td>Máxima carga, multi-sensor activo, T &gt; 90°C</td>
+        <td style="color:var(--violet)">M5 Multi-Sensor</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:2px" class="reveal">
+    <div class="formula-box">
+      <div class="fl">FÓRMULA RECOMPENSA M8</div>
+      BITCU = ρ(T) · I² · t · TAL · 10⁻⁸<br>
+      atoms = BITCU × 10¹⁸<br>
+      <small>ρ(T) = oráculo Matthiessen · I = corriente real del chip</small>
+    </div>
+    <div class="formula-box" style="border-left-color:var(--blue)">
+      <div class="fl">WALLET TÉRMICA · M6</div>
+      V_rms = √(4·kB·T·R·B)<br>
+      kB = 1.38×10⁻²³ J/K · R = 50Ω · B = 1GHz<br>
+      <small>Cada wallet es única: generada del ruido cuántico del hardware</small>
+    </div>
+  </div>
+</section>
+
+<!-- LINK A RED GLOBAL -->
+<section style="text-align:center;padding:80px 60px">
+  <div class="section-label" style="justify-content:center">Explorar</div>
+  <h2 class="section-title reveal" style="text-align:center">Ver la Red Global</h2>
+  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:500px;margin:0 auto 40px;line-height:1.9">El TAL opera en tiempo real sobre la red Bitcopper. Cada bloque minado en el mundo pasa por estos 8 módulos físicos.</p>
+  <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap" class="reveal">
+    <a href="/bitcu#red" style="background:var(--copper);color:var(--black);padding:16px 36px;font-family:'Space Mono';font-size:11px;letter-spacing:3px;text-decoration:none;display:inline-block;transition:all 0.3s" onmouseover="this.style.background='#D4944A'" onmouseout="this.style.background='var(--copper)'">Ver Red en Vivo →</a>
+    <a href="/bitcu" style="background:transparent;color:var(--copper);padding:16px 36px;font-family:'Space Mono';font-size:11px;letter-spacing:3px;text-decoration:none;border:1px solid var(--copper);display:inline-block;transition:all 0.3s">← Protocolo BITCU</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">BITCOPPER</div>
+      <div class="footer-brand-tag">THERMODYNAMIC ABSTRACTION LAYER v2.0</div>
+      <div class="footer-brand-desc">El motor físico que convierte calor real en moneda real. Ocho módulos termodinámicos. Un score. Una recompensa.</div>
+    </div>
+    <div>
+      <div class="footer-col-title">TAL</div>
+      <ul class="footer-links">
+        <li><a href="#score">Score en Vivo</a></li>
+        <li><a href="#modulos">Módulos M1–M8</a></li>
+        <li><a href="#simulador">Simulador</a></li>
+        <li><a href="#consensus">Consensus M7</a></li>
+        <li><a href="#recompensa">Recompensa M8</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Protocolo</div>
+      <ul class="footer-links">
+        <li><a href="/bitcu">BITCU Network</a></li>
+        <li><a href="/bitcu#whitepaper">Whitepaper v3.0</a></li>
+        <li><a href="/bitcu#descargar">Descargar Miner</a></li>
+        <li><a href="/">Bitcopper Tech</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">&copy; 2026 Bitcopper Tech SpA &middot; Calama, Chile &middot; Pedro Ramos Morales</div>
+    <div style="font-family:'Space Mono';font-size:9px;color:var(--text-muted);font-style:italic">In cuprum veritas.</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+// ── Constantes físicas ────────────────────────────────────────
+const kB=1.380649e-23, eV_J=1.602176e-19, rho0=1.68e-8, alpha=3.93e-3;
+
+// ── Cálculo TAL local ─────────────────────────────────────────
+function calcTAL(p) {
+  const Tk=p.chip+273.15, Ta=p.amb+273.15, Tg=p.gpu+273.15, Tb=(p.bat||40)+273.15;
+  const dur=p.dur, I=p.curr, J=p.dens||1e10;
+  const dS=p.cpuw*(1/Ta-1/Tk)*dur;
+  const s2=Math.min(Math.abs(dS)/Math.max(Math.abs(dS),1e-10),1);
+  const mttf=1e12/J**2*Math.exp((0.9*eV_J)/(kB*Tk));
+  const s3=Math.min((dur/mttf)/1e-12,1);
+  const rho=rho0*(1+alpha*p.chip);
+  const rew=I**2*rho*1e-3/1e-12*dur*1e6;
+  const s4=Math.min(rew/1000,1);
+  const Sc=p.cpuw*(1/Ta-1/Tk)*dur;
+  const Sg=(p.gpuw||0)*(1/Ta-1/Tg)*dur;
+  const Sb=(p.batw||0)*(1/Ta-1/Tb)*dur;
+  const ms=0.5*Sc+0.35*Sg+0.15*Sb;
+  const s5=Math.min(Math.abs(ms)/Math.max(Math.abs(ms),1e-10),1);
+  const R=50,B=1e9;
+  const vrms=Math.sqrt(4*kB*Tk*R*B);
+  const s6=Math.min((kB*Tk*1e9/Tk*dur)/1e-10,1);
+  const tal=0.20*s2+0.20*s3+0.25*s4+0.25*s5+0.10*s6;
+  const talFinal=Math.min(tal,1);
+  const bitcu=rho*I**2*dur*talFinal*1e-8;
+  const atoms=bitcu*1e18;
+  return {tal:talFinal,bitcu,atoms,rho,vrms,s1:talFinal,s2,s3,s4,s5,s6};
+}
+
+function nivel(t){return t<0.25?'ATOM':t<0.5?'COPPER':t<0.75?'HEAT':'GENESIS'}
+function nivelColor(t){return t<0.25?'var(--text-dim)':t<0.5?'var(--copper)':t<0.75?'var(--amber)':'var(--green)'}
+
+// ── Params por defecto para live ──────────────────────────────
+const liveParams={chip:85,amb:25,gpu:75,bat:40,cpuw:65,gpuw:120,batw:15,curr:0.5,dens:1e10,dur:600};
+let liveResult=calcTAL(liveParams);
+
+// ── Gráfica ───────────────────────────────────────────────────
+const chartLabels=[], chartData=[];
+const talChartCtx=document.getElementById('talChart').getContext('2d');
+const talChart=new Chart(talChartCtx,{
+  type:'line',
+  data:{
+    labels:chartLabels,
+    datasets:[{
+      label:'Score TAL %',
+      data:chartData,
+      borderColor:'#B87333',
+      backgroundColor:'rgba(184,115,51,0.08)',
+      borderWidth:2,pointRadius:0,fill:true,tension:0.4
+    }]
+  },
+  options:{
+    responsive:true,animation:{duration:300},
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{color:'#4A4540',font:{size:9,family:'Space Mono'}},grid:{color:'rgba(255,255,255,0.03)'}},
+      y:{min:0,max:100,ticks:{color:'#4A4540',font:{size:9,family:'Space Mono'}},grid:{color:'rgba(255,255,255,0.03)'}}
+    }
+  }
+});
+
+function pushChart(val){
+  const t=new Date().toLocaleTimeString('es',{hour12:false});
+  chartLabels.push(t); chartData.push(+(val*100).toFixed(2));
+  if(chartLabels.length>60){chartLabels.shift();chartData.shift();}
+  talChart.update();
+  document.getElementById('chartMeta').textContent=`último: ${t} · ${chartLabels.length} bloques`;
+}
+
+// ── Actualizar UI live ────────────────────────────────────────
+function updateLiveUI(r){
+  const pct=(r.tal*100).toFixed(1);
+  const nv=nivel(r.tal);
+  const nc=nivelColor(r.tal);
+
+  // Stats bar
+  document.getElementById('liveTal').textContent=pct+'%';
+  document.getElementById('liveTal').style.color=nc;
+  document.getElementById('liveNivel').textContent=nv;
+  document.getElementById('liveNivel').style.color=nc;
+  document.getElementById('liveBitcu').textContent=r.bitcu.toExponential(3);
+  document.getElementById('liveMotor').textContent='FORTRAN/PY';
+  document.getElementById('liveBlocks').textContent='—';
+
+  // Score hero
+  document.getElementById('talScoreBig').textContent=pct;
+  document.getElementById('talScoreBig').style.color=nc;
+  document.getElementById('talNivelBig').textContent=nv;
+  document.getElementById('talNivelBig').style.color=nc;
+  document.getElementById('talBitcuBig').textContent=
+    `Recompensa estimada: ${r.bitcu.toExponential(6)} BITCU · ${r.atoms.toExponential(4)} atoms`;
+
+  // Módulos
+  const mods=[
+    ['m1',r.s1,'#4488ff'],['m2',r.s2,'var(--copper)'],['m3',r.s3,'var(--amber)'],
+    ['m4',r.s4,'var(--green)'],['m5',r.s5,'var(--violet)'],['m6',r.s6,'var(--blue)'],
+    ['m7',r.tal,'var(--red)'],['m8',r.tal,'var(--amber)']
+  ];
+  mods.forEach(([id,val])=>{
+    const el=document.getElementById(id+'score');
+    const bar=document.getElementById(id+'bar');
+    if(el) el.textContent=(val*100).toFixed(0)+'%';
+    if(bar) bar.style.width=(val*100)+'%';
+  });
+
+  // Consensus
+  [['m2',r.s2,'var(--copper)'],['m3',r.s3,'var(--amber)'],
+   ['m4',r.s4,'var(--green)'],['m5',r.s5,'var(--violet)'],['m6',r.s6,'var(--blue)']
+  ].forEach(([id,val,color])=>{
+    const el=document.getElementById('c_'+id);
+    const bar=document.getElementById('cb_'+id);
+    if(el){el.textContent=(val*100).toFixed(0)+'%';el.style.color=color;}
+    if(bar) bar.style.width=(val*100)+'%';
+  });
+
+  pushChart(r.tal);
+}
+
+// ── Fetch stats de la red ──────────────────────────────────────
+async function fetchNetStats(){
+  try{
+    const r=await fetch('https://bitcu-server-production.up.railway.app/api/stats');
+    const d=await r.json();
+    document.getElementById('liveBlocks').textContent=(d.total_blocks||0).toLocaleString('es-CL');
+  }catch(e){}
+}
+
+// ── Live loop ─────────────────────────────────────────────────
+function liveTick(){
+  // Simular variación realista de temperatura
+  liveParams.chip = 80 + Math.random()*15;
+  liveParams.gpuw = 100 + Math.random()*40;
+  liveResult = calcTAL(liveParams);
+  updateLiveUI(liveResult);
+}
+
+// Init
+liveTick();
+fetchNetStats();
+setInterval(liveTick, 5000);
+setInterval(fetchNetStats, 15000);
+
+// ── Simulador ─────────────────────────────────────────────────
+function calcularTAL(){
+  const btn=document.getElementById('btnCalc');
+  btn.disabled=true; btn.textContent='CALCULANDO...';
+  setTimeout(()=>{
+    const p={
+      chip: parseFloat(document.getElementById('p_chip').value)||85,
+      amb:  parseFloat(document.getElementById('p_amb').value)||25,
+      gpu:  parseFloat(document.getElementById('p_gpu').value)||75,
+      bat:  40,
+      cpuw: parseFloat(document.getElementById('p_cpuw').value)||65,
+      gpuw: parseFloat(document.getElementById('p_gpuw').value)||120,
+      batw: 15,
+      curr: parseFloat(document.getElementById('p_curr').value)||0.5,
+      dens: 1e10,
+      dur:  parseFloat(document.getElementById('p_dur').value)||600
+    };
+    const r=calcTAL(p);
+    const nv=nivel(r.tal);
+    const nc=nivelColor(r.tal);
+
+    document.getElementById('res_tal').textContent=(r.tal*100).toFixed(2)+'%';
+    document.getElementById('res_tal').style.color=nc;
+    document.getElementById('res_nivel').textContent='Nivel: '+nv;
+    document.getElementById('res_bitcu').textContent=r.bitcu.toExponential(6);
+    document.getElementById('res_atoms').textContent='atoms: '+r.atoms.toExponential(4);
+    document.getElementById('res_rho').textContent=r.rho.toExponential(4);
+    document.getElementById('res_vrms').textContent=r.vrms.toExponential(4)+' V';
+    document.getElementById('res_s2').textContent=(r.s2*100).toFixed(0)+'%';
+    document.getElementById('res_s3').textContent=(r.s3*100).toFixed(0)+'%';
+    document.getElementById('res_s4').textContent=(r.s4*100).toFixed(0)+'%';
+    document.getElementById('res_s5').textContent=(r.s5*100).toFixed(0)+'%';
+    document.getElementById('res_s6').textContent=(r.s6*100).toFixed(0)+'%';
+    document.getElementById('res_formula').innerHTML=
+      `TAL = 0.20×<span style="color:var(--copper)">${(r.s2*100).toFixed(0)}%</span> + 0.20×<span style="color:var(--amber)">${(r.s3*100).toFixed(0)}%</span> + 0.25×<span style="color:var(--green)">${(r.s4*100).toFixed(0)}%</span> + 0.25×<span style="color:var(--violet)">${(r.s5*100).toFixed(0)}%</span> + 0.10×<span style="color:var(--blue)">${(r.s6*100).toFixed(0)}%</span> = <span style="color:${nc};font-size:13px">${(r.tal*100).toFixed(2)}%</span><br>
+      ρ(${p.chip}°C) = ${r.rho.toExponential(4)} Ω·m · BITCU = ${r.bitcu.toExponential(6)} · atoms = ${r.atoms.toExponential(4)}`;
+
+    btn.disabled=false; btn.textContent='▶ CALCULAR TAL';
+  }, 300);
+}
+
+// ── Nav scroll ────────────────────────────────────────────────
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60));
+const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target)}})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

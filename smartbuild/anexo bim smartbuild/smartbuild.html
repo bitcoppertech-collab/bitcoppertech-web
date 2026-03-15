@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SmartBuild Suite — Bitcopper Tech</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ore: #C17F3A;
+    --ore-light: #E8A855;
+    --steel: #1C2B3A;
+    --steel-dark: #0D1820;
+    --concrete: #F0EBE3;
+    --dust: #8A8070;
+    --white: #FAFAF8;
+    --danger: #E84545;
+    --green: #2ECC71;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--steel-dark);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(13,24,32,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(193,127,58,0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--ore);
+  }
+
+  .nav-logo span { color: var(--white); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--dust);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--ore-light); }
+
+  .nav-cta {
+    background: var(--ore);
+    color: var(--steel-dark) !important;
+    padding: 10px 24px;
+    border-radius: 2px;
+    font-weight: 700 !important;
+    color: var(--steel-dark);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(193,127,58,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(193,127,58,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(193,127,58,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ore);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--ore);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 7vw, 100px);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-title .accent { color: var(--ore); }
+
+  .hero-title .line2 {
+    display: block;
+    color: var(--dust);
+    font-size: 0.6em;
+    letter-spacing: 4px;
+  }
+
+  .hero-desc {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #A0A8B0;
+    max-width: 480px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    background: var(--ore);
+    color: var(--steel-dark);
+    padding: 16px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--ore-light);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--ore-light); }
+
+  /* ── HERO RIGHT — FLOW DIAGRAM ── */
+  .hero-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    opacity: 0;
+    animation: fadeIn 1s 1s forwards;
+    position: relative;
+    z-index: 1;
+  }
+
+  .flow-node {
+    background: var(--steel);
+    border: 1px solid rgba(193,127,58,0.3);
+    border-radius: 4px;
+    padding: 18px 28px;
+    width: 280px;
+    text-align: center;
+    position: relative;
+  }
+
+  .flow-node.active {
+    border-color: var(--ore);
+    box-shadow: 0 0 24px rgba(193,127,58,0.2);
+  }
+
+  .flow-node.new {
+    border-color: var(--green);
+    box-shadow: 0 0 20px rgba(46,204,113,0.15);
+  }
+
+  .flow-node-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .flow-node.active .flow-node-label { color: var(--ore); }
+  .flow-node.new .flow-node-label { color: var(--green); }
+  .flow-node .flow-node-label { color: var(--dust); }
+
+  .flow-node-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .flow-arrow {
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(to bottom, var(--ore), rgba(193,127,58,0.2));
+    position: relative;
+  }
+
+  .flow-arrow::after {
+    content: '▼';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--ore);
+    font-size: 10px;
+  }
+
+  .flow-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--green);
+    color: var(--steel-dark);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--steel);
+    border-top: 1px solid rgba(193,127,58,0.15);
+    border-bottom: 1px solid rgba(193,127,58,0.15);
+    padding: 32px 48px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 0 24px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    opacity: 0;
+    animation: fadeUp 0.6s forwards;
+  }
+
+  .stat-item:last-child { border-right: none; }
+  .stat-item:nth-child(1) { animation-delay: 0.1s; }
+  .stat-item:nth-child(2) { animation-delay: 0.2s; }
+  .stat-item:nth-child(3) { animation-delay: 0.3s; }
+  .stat-item:nth-child(4) { animation-delay: 0.4s; }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: var(--ore);
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--dust);
+    margin-top: 6px;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 100px 48px;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ore);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--ore);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 4vw, 60px);
+    letter-spacing: 2px;
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+
+  .section-sub {
+    font-size: 16px;
+    color: #7A8898;
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 60px;
+  }
+
+  /* ── MODULES ── */
+  .modules {
+    background: var(--steel-dark);
+  }
+
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(193,127,58,0.1);
+    border: 1px solid rgba(193,127,58,0.1);
+  }
+
+  .module-card {
+    background: var(--steel-dark);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .module-card:hover {
+    background: var(--steel);
+  }
+
+  .module-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--ore);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .module-card:hover::before { transform: scaleX(1); }
+
+  .module-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    color: rgba(193,127,58,0.08);
+    line-height: 1;
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    letter-spacing: 2px;
+  }
+
+  .module-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .module-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+    display: inline-block;
+  }
+
+  .tag-live { background: rgba(46,204,113,0.15); color: var(--green); }
+  .tag-build { background: rgba(193,127,58,0.15); color: var(--ore); }
+  .tag-soon { background: rgba(255,255,255,0.06); color: var(--dust); }
+
+  .module-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .module-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #6A7A8A;
+    margin-bottom: 24px;
+  }
+
+  .module-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .module-features li {
+    font-size: 13px;
+    color: #8A9AAA;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .module-features li::before {
+    content: '→';
+    color: var(--ore);
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  /* ── IFC FLOW ── */
+  .ifc-section {
+    background: var(--steel);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ifc-section::before {
+    content: 'IFC';
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 280px;
+    color: rgba(193,127,58,0.04);
+    letter-spacing: 10px;
+    pointer-events: none;
+  }
+
+  .ifc-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 16px;
+  }
+
+  .ifc-step {
+    flex-shrink: 0;
+    background: var(--steel-dark);
+    border: 1px solid rgba(193,127,58,0.2);
+    border-radius: 4px;
+    padding: 24px 28px;
+    min-width: 180px;
+    text-align: center;
+  }
+
+  .ifc-step-icon { font-size: 24px; margin-bottom: 12px; }
+
+  .ifc-step-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .ifc-step-sub {
+    font-size: 11px;
+    color: var(--dust);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .ifc-connector {
+    flex-shrink: 0;
+    width: 48px;
+    height: 1px;
+    background: linear-gradient(to right, var(--ore), rgba(193,127,58,0.3));
+    position: relative;
+  }
+
+  .ifc-connector::after {
+    content: '▶';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ore);
+    font-size: 10px;
+  }
+
+  /* ── VS TABLE ── */
+  .vs-section { background: var(--steel-dark); }
+
+  .vs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+  }
+
+  .vs-table th {
+    padding: 16px 24px;
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+    border-bottom: 1px solid rgba(193,127,58,0.2);
+  }
+
+  .vs-table th:first-child { color: var(--dust); }
+  .vs-table th:nth-child(2) { color: var(--dust); text-align: center; }
+  .vs-table th:nth-child(3) { color: var(--ore); text-align: center; }
+
+  .vs-table td {
+    padding: 16px 24px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .vs-table tr:hover td { background: rgba(193,127,58,0.03); }
+
+  .vs-table td:first-child { color: #8A9AAA; }
+  .vs-table td:nth-child(2) { text-align: center; }
+  .vs-table td:nth-child(3) { text-align: center; }
+
+  .check { color: var(--green); font-size: 18px; }
+  .cross { color: #3A4A5A; font-size: 18px; }
+  .partial { color: var(--ore); font-size: 14px; }
+
+  /* ── PRICING ── */
+  .pricing-section { background: var(--steel); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(193,127,58,0.08);
+    margin-top: 40px;
+  }
+
+  .price-card {
+    background: var(--steel-dark);
+    padding: 40px 32px;
+    position: relative;
+  }
+
+  .price-card.featured {
+    background: var(--steel);
+    border-top: 3px solid var(--ore);
+  }
+
+  .price-featured-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ore);
+    color: var(--steel-dark);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .price-plan {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ore);
+    margin-bottom: 16px;
+  }
+
+  .price-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    letter-spacing: 2px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .price-period {
+    font-size: 13px;
+    color: var(--dust);
+    margin-bottom: 32px;
+  }
+
+  .price-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+
+  .price-features li {
+    font-size: 14px;
+    color: #8A9AAA;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .price-features li .check { font-size: 14px; }
+
+  /* ── MARKET ── */
+  .market-section { background: var(--steel-dark); }
+
+  .market-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .market-card {
+    background: var(--steel);
+    border-left: 3px solid var(--ore);
+    padding: 28px 32px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .market-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--ore);
+    margin-bottom: 8px;
+  }
+
+  .market-card-desc {
+    font-size: 14px;
+    color: #6A7A8A;
+    line-height: 1.6;
+  }
+
+  /* ── CTA FINAL ── */
+  .cta-section {
+    background: var(--steel);
+    text-align: center;
+    padding: 120px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(193,127,58,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 80px);
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+  }
+
+  .cta-title .accent { color: var(--ore); }
+
+  .cta-sub {
+    font-size: 17px;
+    color: #7A8898;
+    max-width: 500px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+  }
+
+  .cta-contact {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--dust);
+    margin-top: 32px;
+    letter-spacing: 1px;
+  }
+
+  .cta-contact a {
+    color: var(--ore);
+    text-decoration: none;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--steel-dark);
+    border-top: 1px solid rgba(193,127,58,0.15);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: var(--ore);
+  }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--dust);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+    .hero-visual { display: none; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 32px 24px; }
+    section { padding: 60px 24px; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .market-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Smart<span>Build</span></div>
+  <ul class="nav-links">
+    <li><a href="#modulos">Módulos</a></li>
+    <li><a href="#flujo">Flujo BIM</a></li>
+    <li><a href="#comparacion">vs Competencia</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#contacto" class="nav-cta">Solicitar Demo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Bitcopper Tech SpA — Calama, Chile</div>
+    <h1 class="hero-title">
+      GESTIÓN<br/>
+      <span class="accent">DE OBRA</span><br/>
+      <span class="line2">Sin puntos ciegos</span>
+    </h1>
+    <p class="hero-desc">
+      Del modelo BIM al pago por hito — SmartBuild Suite conecta el presupuesto, el control de avance y la gestión financiera de tu proyecto en una sola plataforma.
+    </p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn-primary">Solicitar Demo</a>
+      <a href="#modulos" class="btn-ghost">Ver módulos →</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="flow-node active">
+      <div class="flow-node-label">✅ Disponible</div>
+      <div class="flow-node-title">Modelo BIM / IFC</div>
+    </div>
+    <div class="flow-arrow"></div>
+    <div class="flow-node active">
+      <div class="flow-node-label">✅ Disponible</div>
+      <div class="flow-node-title">Presupuesto + Utilidad</div>
+    </div>
+    <div class="flow-arrow"></div>
+    <div class="flow-node new">
+      <div class="flow-badge">PRÓXIMO</div>
+      <div class="flow-node-label">🔨 En desarrollo</div>
+      <div class="flow-node-title">Control de Obra</div>
+    </div>
+    <div class="flow-arrow"></div>
+    <div class="flow-node new">
+      <div class="flow-badge">PRÓXIMO</div>
+      <div class="flow-node-label">🔨 En desarrollo</div>
+      <div class="flow-node-title">BIM-Pay OS</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Compatible IFC</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">3</div>
+    <div class="stat-label">Módulos integrados</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">0</div>
+    <div class="stat-label">Dependencia de consultoría</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">Norte</div>
+    <div class="stat-label">Chile — Foco minero</div>
+  </div>
+</div>
+
+<!-- MÓDULOS -->
+<section class="modules" id="modulos">
+  <div class="section-label">Plataforma modular</div>
+  <h2 class="section-title">TRES MÓDULOS.<br/>UN ECOSISTEMA.</h2>
+  <p class="section-sub">Cada módulo funciona de forma independiente o como suite completa. Paga solo lo que necesitas.</p>
+
+  <div class="modules-grid">
+    <div class="module-card">
+      <div class="module-number">01</div>
+      <div class="module-icon">📐</div>
+      <span class="module-tag tag-live">Disponible</span>
+      <div class="module-title">SmartBuild Presupuesto</div>
+      <p class="module-desc">Genera presupuestos de obra con cálculo automático de utilidad, análisis de precios unitarios y exportación a formatos estándar.</p>
+      <ul class="module-features">
+        <li>APU — Análisis de Precios Unitarios</li>
+        <li>Cálculo de utilidad por partida</li>
+        <li>Exportación Excel / PDF</li>
+        <li>Plantillas por tipo de obra</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-number">02</div>
+      <div class="module-icon">🏗️</div>
+      <span class="module-tag tag-build">En desarrollo</span>
+      <div class="module-title">Control de Obra</div>
+      <p class="module-desc">Monitoreo de avance por partidas vinculadas al modelo BIM. Alertas de desviación en tiempo real. Estados de pago automáticos.</p>
+      <ul class="module-features">
+        <li>Lectura de archivos IFC</li>
+        <li>Avance por partida vs presupuesto</li>
+        <li>Alertas de desviación de costo</li>
+        <li>Aprobación de estados de pago</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-number">03</div>
+      <div class="module-icon">💳</div>
+      <span class="module-tag tag-build">En desarrollo</span>
+      <div class="module-title">BIM-Pay OS</div>
+      <p class="module-desc">Gestión financiera de obra vinculada al avance real en BIM. Pagos por hito verificado, facturación automática y gestión de subcontratos.</p>
+      <ul class="module-features">
+        <li>Pago por hito verificado en modelo</li>
+        <li>Facturación automática al avance</li>
+        <li>Gestión de subcontratos</li>
+        <li>Integración contable</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FLUJO IFC -->
+<section class="ifc-section" id="flujo">
+  <div class="section-label">Integración universal</div>
+  <h2 class="section-title">FUNCIONA CON<br/>TU SOFTWARE BIM</h2>
+  <p class="section-sub">SmartBuild lee archivos IFC — el estándar abierto exportado por Revit, ArchiCAD, Civil 3D y cualquier software BIM del mercado.</p>
+
+  <div class="ifc-flow">
+    <div class="ifc-step">
+      <div class="ifc-step-icon">🏛️</div>
+      <div class="ifc-step-name">Revit</div>
+      <div class="ifc-step-sub">Autodesk</div>
+    </div>
+    <div class="ifc-connector"></div>
+    <div class="ifc-step">
+      <div class="ifc-step-icon">📦</div>
+      <div class="ifc-step-name">Exporta IFC</div>
+      <div class="ifc-step-sub">Estándar abierto</div>
+    </div>
+    <div class="ifc-connector"></div>
+    <div class="ifc-step" style="border-color: rgba(193,127,58,0.5);">
+      <div class="ifc-step-icon">⚙️</div>
+      <div class="ifc-step-name">SmartBuild</div>
+      <div class="ifc-step-sub" style="color: var(--ore);">Lee el modelo</div>
+    </div>
+    <div class="ifc-connector"></div>
+    <div class="ifc-step">
+      <div class="ifc-step-icon">📊</div>
+      <div class="ifc-step-name">Presupuesto</div>
+      <div class="ifc-step-sub">Automático</div>
+    </div>
+    <div class="ifc-connector"></div>
+    <div class="ifc-step">
+      <div class="ifc-step-icon">📈</div>
+      <div class="ifc-step-name">Control Obra</div>
+      <div class="ifc-step-sub">Por partidas</div>
+    </div>
+    <div class="ifc-connector"></div>
+    <div class="ifc-step" style="border-color: rgba(46,204,113,0.4);">
+      <div class="ifc-step-icon">💰</div>
+      <div class="ifc-step-name">BIM-Pay OS</div>
+      <div class="ifc-step-sub" style="color: var(--green);">Pago por hito</div>
+    </div>
+  </div>
+</section>
+
+<!-- VS COMPETENCIA -->
+<section class="vs-section" id="comparacion">
+  <div class="section-label">Análisis competitivo</div>
+  <h2 class="section-title">SmartBuild<br/><span style="color:var(--ore)">vs</span> HOLO</h2>
+  <p class="section-sub">HOLO vende servicios profesionales. SmartBuild vende software que tu equipo opera — sin depender de una consultora.</p>
+
+  <table class="vs-table">
+    <thead>
+      <tr>
+        <th>Capacidad</th>
+        <th>HOLO</th>
+        <th>SmartBuild Suite</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Generación de presupuestos</td>
+        <td><span class="partial">Servicio externo</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Control de avance de obra</td>
+        <td><span class="partial">Consultoría</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Integración IFC nativa</td>
+        <td><span class="partial">Manual</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Gestión de pagos por hito</td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Software propio del cliente</td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Precio fijo mensual SaaS</td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>Foco en minería norte Chile</td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="precios">
+  <div class="section-label">Planes</div>
+  <h2 class="section-title">PRECIOS<br/>TRANSPARENTES</h2>
+  <p class="section-sub">Sin cobros por hora de consultoría. Sin sorpresas. Paga por el software, no por nuestro tiempo.</p>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-plan">Starter</div>
+      <div class="price-amount">UF 3</div>
+      <div class="price-period">por mes / proyecto</div>
+      <ul class="price-features">
+        <li><span class="check">✓</span> Módulo Presupuesto</li>
+        <li><span class="check">✓</span> Exportación Excel/PDF</li>
+        <li><span class="check">✓</span> 3 proyectos activos</li>
+        <li><span class="check">✓</span> Soporte por email</li>
+      </ul>
+      <a href="#contacto" class="btn-ghost">Comenzar →</a>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-featured-badge">Más vendido</div>
+      <div class="price-plan">Suite</div>
+      <div class="price-amount">UF 8</div>
+      <div class="price-period">por mes / empresa</div>
+      <ul class="price-features">
+        <li><span class="check">✓</span> Presupuesto + Control de Obra</li>
+        <li><span class="check">✓</span> Integración IFC</li>
+        <li><span class="check">✓</span> Proyectos ilimitados</li>
+        <li><span class="check">✓</span> BIM-Pay OS (acceso anticipado)</li>
+        <li><span class="check">✓</span> Soporte prioritario</li>
+      </ul>
+      <a href="#contacto" class="btn-primary">Solicitar Demo</a>
+    </div>
+
+    <div class="price-card">
+      <div class="price-plan">Enterprise</div>
+      <div class="price-amount">A MEDIDA</div>
+      <div class="price-period">contrato anual</div>
+      <ul class="price-features">
+        <li><span class="check">✓</span> Suite completa</li>
+        <li><span class="check">✓</span> Integración con ERP</li>
+        <li><span class="check">✓</span> Capacitación on-site</li>
+        <li><span class="check">✓</span> SLA garantizado</li>
+        <li><span class="check">✓</span> Desarrollo a medida</li>
+      </ul>
+      <a href="#contacto" class="btn-ghost">Conversar →</a>
+    </div>
+  </div>
+</section>
+
+<!-- MERCADO -->
+<section class="market-section">
+  <div class="section-label">Mercado objetivo</div>
+  <h2 class="section-title">CONSTRUIDO<br/>PARA EL NORTE</h2>
+  <p class="section-sub">El sector construcción minera en Antofagasta y Atacama mueve miles de millones de pesos anuales. SmartBuild nació en Calama para servir este mercado.</p>
+
+  <div class="market-grid">
+    <div class="market-card">
+      <div class="market-card-title">Constructoras mineras</div>
+      <div class="market-card-desc">Empresas que ejecutan obras civiles, plantas y infraestructura para Codelco, BHP, SQM y operadoras de la región.</div>
+    </div>
+    <div class="market-card">
+      <div class="market-card-title">Empresas de ingeniería</div>
+      <div class="market-card-desc">Estudios de ingeniería y arquitectura que necesitan vincular sus modelos BIM directamente al control financiero de los proyectos.</div>
+    </div>
+    <div class="market-card">
+      <div class="market-card-title">Subcontratistas</div>
+      <div class="market-card-desc">Empresas especialistas en instalaciones, montaje y obras civiles que necesitan presupuestar y controlar múltiples frentes simultáneos.</div>
+    </div>
+    <div class="market-card">
+      <div class="market-card-title">Municipios y obras públicas</div>
+      <div class="market-card-desc">Organismos públicos de la región que ejecutan licitaciones y necesitan trazabilidad completa del presupuesto a la ejecución.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contacto">
+  <h2 class="cta-title">AGENDA TU<br/><span class="accent">DEMO HOY</span></h2>
+  <p class="cta-sub">30 minutos. Te mostramos cómo SmartBuild transforma tu flujo de obra. Sin compromiso.</p>
+  <a href="mailto:bitcoppertech@gmail.com?subject=Demo SmartBuild Suite" class="btn-primary">Escribir a Pedro →</a>
+  <div class="cta-contact">
+    O escríbenos directo: <a href="mailto:bitcoppertech@gmail.com">bitcoppertech@gmail.com</a>
+    &nbsp;·&nbsp; <a href="https://bitcoppertech.cl" target="_blank">bitcoppertech.cl</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">BITCOPPER TECH SpA</div>
+  <div class="footer-copy">Calama, Región de Antofagasta, Chile · 2026</div>
+</footer>
+
+</body>
+</html>

@@ -31,6 +31,7 @@ export const users = pgTable("users", {
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
+  password: varchar("password"),
   referredByCode: varchar("referred_by_code"),
   role: varchar("role").notNull().default("USER"),
   createdAt: timestamp("created_at").defaultNow(),
