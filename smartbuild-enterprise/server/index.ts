@@ -4,7 +4,6 @@ if (process.env.NODE_ENV !== "production") {
 }
 import express from "express";
 import session from "express-session";
-import connectPgSimple from "connect-pg-simple";
 import cors from "cors";
 import { drizzle } from "drizzle-orm/node-postgres";
 import multer from "multer";
@@ -20,7 +19,6 @@ import {
 const app = express();
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const db = drizzle(pool);
-const PgSession = connectPgSimple(session);
 app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(session({
