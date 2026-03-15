@@ -24,7 +24,6 @@ const PgSession = connectPgSimple(session);
 app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(session({
-  store: new PgSession({ pool, tableName: "session" }),
   secret: process.env.SESSION_SECRET || "smartbuild-enterprise-secret-2026",
   resave: false,
   saveUninitialized: false,
