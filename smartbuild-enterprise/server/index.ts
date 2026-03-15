@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
 import express from "express";
 import session from "express-session";
+import connectPgSimple from "connect-pg-simple";
 import cors from "cors";
 import { drizzle } from "drizzle-orm/node-postgres";
 import multer from "multer";
@@ -17,14 +18,20 @@ import {
 const app = express();
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const db = drizzle(pool);
-
+const PgSession = connectPgSimple(session);
 app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(session({
+  store: new PgSession({ pool, tableName: "session" }),
   secret: process.env.SESSION_SECRET || "smartbuild-enterprise-secret-2026",
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: process.env.NODE_ENV === "production", httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 }
+  cookie: {
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  }
 }));
 
 // ── AUTH MIDDLEWARE ────────────────────────────────────────────────
@@ -334,28 +341,6 @@ app.get("/api/projects/:id/lps/semanas", requireAuth, async (req: any, res: any)
   res.json(result.rows);
 });
 
-app.post("/api/projects/:id/lps/semanas", requireAuth, async (req: any, res: any) => {
-  const { semana, fechaInicio, fechaFin } = req.body;
-  const result = await pool.query(
-    `INSERT INTO ent_lps_semanas (project_id, semana, fecha_inicio, fecha_fin) VALUES ($1, $2, $3, $4) RETURNING *`,
-    [parseInt(req.params.id), semana, fechaInicio, fechaFin]
-  );
-  res.status(201).json(result.rows[0]);
-});
-
-app.get("/api/projects/:id/lps/semanas", requireAuth, async (req: any, res: any) => {
-  const result = await pool.query(
-    `SELECT s.*, COUNT(c.id) as total_compromisos,
-     SUM(CASE WHEN c.cumplido = true THEN 1 ELSE 0 END) as cumplidos
-     FROM ent_lps_semanas s
-     LEFT JOIN ent_lps_compromisos c ON c.semana_id = s.id
-     WHERE s.project_id = $1
-     GROUP BY s.id
-     ORDER BY s.fecha_inicio DESC`,
-    [parseInt(req.params.id)]
-  );
-  res.json(result.rows);
-});
 
 app.post("/api/projects/:id/lps/semanas", requireAuth, async (req: any, res: any) => {
   const { semana, fechaInicio, fechaFin } = req.body;
