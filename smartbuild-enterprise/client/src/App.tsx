@@ -15,6 +15,7 @@ import PresupuestoPage from "./pages/PresupuestoPage";
 import Layout from "./components/Layout";
 import AnaliticasPage from "./pages/AnaliticasPage";
 import LastPlannerPage from "./pages/LastPlannerPage";
+import IFCViewer from "./pages/IFCViewer";
 
 function ProtectedRoute({ component: Component, adminOnly = false }: { component: React.ComponentType<any>, adminOnly?: boolean }) {
   const { user, loading } = useAuth();
@@ -41,6 +42,7 @@ function AppRoutes() {
       <Route path="/">{user ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}</Route>
       <Route path="/projects/:id/analiticas" component={() => <ProtectedRoute component={AnaliticasPage} />} />
       <Route path="/projects/:id/lps" component={() => <ProtectedRoute component={LastPlannerPage} />} />
+      <Route path="/projects/:id/ifc" component={() => <ProtectedRoute component={IFCViewer} />} />
     </Switch>
   );
 }

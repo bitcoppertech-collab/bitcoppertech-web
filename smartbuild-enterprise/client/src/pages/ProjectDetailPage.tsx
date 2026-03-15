@@ -22,7 +22,7 @@ export default function ProjectDetailPage() {
       </div>
 
       {/* Module cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-6 gap-px bg-[rgba(193,127,58,0.08)] border border-[rgba(193,127,58,0.08)] mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[rgba(193,127,58,0.08)] border border-[rgba(193,127,58,0.08)] mb-8">
       {[
           { href: `/projects/${id}/presupuesto`, icon: "📐", label: "Presupuesto APU", desc: `${fUF(totalBudget)} presupuestado` },
           { href: `/projects/${id}/obra`, icon: "🏗️", label: "Control de Obra", desc: `${partidas.length} partidas · ${fUF(totalExec)} ejecutado` },
@@ -30,6 +30,7 @@ export default function ProjectDetailPage() {
           { href: `/projects/${id}/import`, icon: "📥", label: "Importar presupuesto", desc: "Subir archivo .smartbuild" },
           { href: `/projects/${id}/analiticas`, icon: "📊", label: "Analíticas", desc: "Subcontratos · desviaciones · velocidad" },
           { href: `/projects/${id}/lps`, icon: "📋", label: "Last Planner", desc: "Compromisos · PPC semanal" },
+          { href: `/projects/${id}/ifc`, icon: "🏛️", label: "Visor IFC", desc: "Importar modelo BIM real" },
         ].map(({ href, icon, label, desc }) => (
           <Link key={href} href={href}>
             <a className="block bg-[#1C2B3A] p-6 hover:bg-[#152230] transition-colors">
