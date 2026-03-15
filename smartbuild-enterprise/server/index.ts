@@ -62,8 +62,9 @@ app.post("/api/auth/login", async (req, res) => {
     (req.session as any).userId = user.id;
     (req.session as any).userRole = user.role;
     res.json({ id: user.id, email: user.email, name: user.name, role: user.role, companyName: user.companyName });
-  } catch (e) {
-    res.status(500).json({ error: "Error del servidor" });
+  } catch (e: any) {
+    console.error("LOGIN ERROR:", e.message, e.stack);
+    res.status(500).json({ error: e.message ?? "Error del servidor" });
   }
 });
 
