@@ -335,7 +335,7 @@ export default function CommercialLanding() {
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[120px]" style={{ background: "radial-gradient(circle, rgba(249,115,22,0.04) 0%, transparent 70%)" }} />
         </div>
-        <div className="max-w-6xl mx-auto relative z-10">
+        <div className="max-w-5xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-pricing-title">Planes y Tarifas</h2>
             <p className="text-neutral-400 max-w-xl mx-auto text-lg">
@@ -343,8 +343,7 @@ export default function CommercialLanding() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Plan PYME */}
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="rounded-xl p-8 relative" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }} data-testid="card-plan-pyme">
               <div className="mb-6">
                 <div className="flex items-center gap-3 mb-2">
@@ -357,7 +356,7 @@ export default function CommercialLanding() {
               </div>
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold">$59.990</span>
+                  <span className="text-4xl font-bold">$29.990</span>
                   <span className="text-neutral-500 text-sm">/mes</span>
                 </div>
                 <p className="text-xs text-neutral-500 mt-1">CLP + IVA | Suscripción mensual</p>
@@ -379,7 +378,6 @@ export default function CommercialLanding() {
               </Button>
             </div>
 
-            {/* Plan Empresa */}
             <div className="rounded-xl p-8 relative" style={{ background: "rgba(249,115,22,0.03)", border: "1px solid rgba(249,115,22,0.15)" }} data-testid="card-plan-empresa">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                 <span className="inline-flex items-center gap-1 px-4 py-1 rounded-full text-xs font-semibold text-white shadow-lg" style={{ background: "linear-gradient(135deg, #f97316, #ea580c)", boxShadow: "0 4px 12px rgba(249,115,22,0.3)" }}>
@@ -397,13 +395,13 @@ export default function CommercialLanding() {
               </div>
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold">$590.000</span>
+                  <span className="text-4xl font-bold">$249.990</span>
                   <span className="text-neutral-500 text-sm">/año</span>
                 </div>
-                <p className="text-xs text-neutral-500 mt-1">CLP + IVA | Suscripción anual · Contenedor Docker dedicado</p>
+                <p className="text-xs text-neutral-500 mt-1">CLP + IVA | Suscripción anual (ahorra 30%)</p>
               </div>
               <ul className="space-y-3 mb-8">
-                {["Hasta 5 usuarios", "Proyectos ilimitados", "Presupuesto APU con desglose por capítulos", "Importación .smartbuild desde SmartBuild APU", "Control de Obra con avance y pagos", "BIM 4D — Visor 3D + Gantt timeline", "Visor IFC — modelos Revit/ArchiCAD", "Analíticas de subcontratos y desviaciones", "Last Planner System — PPC semanal", "Soporte prioritario telefónico", "Onboarding personalizado"].map((f) => (
+              {["Hasta 5 usuarios", "Proyectos ilimitados", "Presupuesto APU con desglose por capítulos", "Importación .smartbuild desde SmartBuild APU", "Control de Obra con avance y pagos", "BIM 4D — Visor 3D + Gantt timeline", "Visor IFC — modelos Revit/ArchiCAD", "Analíticas de subcontratos y desviaciones", "Last Planner System — PPC semanal", "Soporte prioritario telefónico", "Onboarding personalizado"].map((f) => (
                   <li key={f} className="flex items-start gap-2 text-sm text-neutral-300">
                     <Check className="w-4 h-4 mt-0.5 shrink-0" style={{ color: "#f97316" }} />{f}
                   </li>
@@ -417,41 +415,6 @@ export default function CommercialLanding() {
               >
                 Comprar Ahora <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
-            </div>
-
-            {/* Plan Corporativo */}
-            <div className="rounded-xl p-8 relative md:col-span-2" style={{ background: "rgba(59,130,246,0.03)", border: "1px solid rgba(59,130,246,0.15)" }} data-testid="card-plan-corporativo">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-                <div className="md:w-1/3">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-md flex items-center justify-center" style={{ background: "rgba(59,130,246,0.15)" }}>
-                      <Building2 className="w-5 h-5 text-blue-400" />
-                    </div>
-                    <h3 className="text-2xl font-bold">Plan Corporativo</h3>
-                  </div>
-                  <p className="text-sm text-neutral-400 mb-4">Para constructoras con múltiples obras simultáneas</p>
-                  <div className="flex items-baseline gap-1 mb-1">
-                    <span className="text-3xl font-bold">Cotización</span>
-                    <span className="text-neutral-500 text-sm ml-1">personalizada</span>
-                  </div>
-                  <p className="text-xs text-neutral-500 mt-1 mb-6">Infraestructura Docker dedicada por cliente</p>
-                  <Button
-                    className="rounded-md text-white border-0 px-8"
-                    style={{ background: "linear-gradient(135deg, #3b82f6, #2563eb)", boxShadow: "0 4px 16px rgba(59,130,246,0.25)" }}
-                    onClick={() => window.location.href = "mailto:contacto@bitcoppertech.com?subject=Plan Corporativo SmartBuild"}
-                    data-testid="button-buy-corporativo"
-                  >
-                    Contactar Ventas <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </div>
-                <ul className="grid md:grid-cols-2 gap-2 md:w-2/3">
-                  {["Contenedor Docker dedicado por cliente", "Usuarios ilimitados", "Proyectos ilimitados", "Multi-obra simultánea", "SLA garantizado 99.9%", "Integración ERP/contabilidad", "Soporte 24/7 prioritario", "Onboarding y capacitación in-site", "Backups automáticos diarios", "Panel de administración multi-proyecto"].map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-sm text-neutral-300">
-                      <Check className="w-4 h-4 mt-0.5 shrink-0 text-blue-400" />{f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
           </div>
         </div>
