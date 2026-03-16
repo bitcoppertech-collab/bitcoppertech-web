@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv";
+import { signToken, requireAuth as jwtAuth } from "./auth";
 if (process.env.NODE_ENV !== "production") {
   dotenv.config({ path: ".env.local" });
 }
@@ -22,30 +23,18 @@ const db = drizzle(pool);
 const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173').split(',');
 app.use(cors({ origin: (origin, cb) => { if (!origin || allowedOrigins.some(o => origin.startsWith(o.trim()))) cb(null,true); else cb(new Error('CORS')); }, credentials: true }));
 app.use(express.json());
-app.use(session({
-  secret: process.env.SESSION_SECRET || "smartbuild-enterprise-secret-2026",
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === "production",
-    httpOnly: true,
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  }
-}));
+// Sessions replaced by JWT
 
 // ── AUTH MIDDLEWARE ────────────────────────────────────────────────
-const requireAuth = (req: any, res: any, next: any) => {
-  if (!req.session?.userId) return res.status(401).json({ error: "No autenticado" });
-  next();
-};
+const requireAuth = jwtAuth;
 
 const requireAdmin = async (req: any, res: any, next: any) => {
-  if (!req.session?.userId) return res.status(401).json({ error: "No autenticado" });
-  const [user] = await db.select().from(users).where(eq(users.id, req.session.userId));
-  if (!user || user.role !== "admin") return res.status(403).json({ error: "Sin permisos" });
-  req.user = user;
-  next();
+  jwtAuth(req, res, async () => {
+    const [user] = await db.select().from(users).where(eq(users.id, req.userId));
+    if (!user || user.role !== "admin") return res.status(403).json({ error: "Sin permisos" });
+    req.user = user;
+    next();
+  });
 };
 
 // ── AUTH ROUTES ───────────────────────────────────────────────────
@@ -57,9 +46,8 @@ app.post("/api/auth/login", async (req, res) => {
     if (!user || !user.isActive) return res.status(401).json({ error: "Usuario no encontrado" });
     // Simple compare — in production use bcrypt
     if (user.password !== password) return res.status(401).json({ error: "Contraseña incorrecta" });
-    (req.session as any).userId = user.id;
-    (req.session as any).userRole = user.role;
-    res.json({ id: user.id, email: user.email, name: user.name, role: user.role, companyName: user.companyName });
+    const token = signToken({ userId: user.id, userRole: user.role });
+    res.json({ id: user.id, email: user.email, name: user.name, role: user.role, companyName: user.companyName, token });
   } catch (e: any) {
     console.error("LOGIN ERROR:", e.message, e.stack);
     res.status(500).json({ error: e.message ?? "Error del servidor" });
@@ -67,21 +55,19 @@ app.post("/api/auth/login", async (req, res) => {
 });
 
 app.post("/api/auth/logout", (req, res) => {
-  req.session.destroy(() => res.json({ ok: true }));
+  res.json({ ok: true });
 });
 
-app.get("/api/auth/me", async (req, res) => {
-  const userId = (req.session as any)?.userId;
-  if (!userId) return res.status(401).json({ error: "No autenticado" });
-  const [user] = await db.select().from(users).where(eq(users.id, userId));
+app.get("/api/auth/me", jwtAuth, async (req: any, res) => {
+  const [user] = await db.select().from(users).where(eq(users.id, req.userId));
   if (!user) return res.status(401).json({ error: "Usuario no encontrado" });
   res.json({ id: user.id, email: user.email, name: user.name, role: user.role, companyName: user.companyName });
 });
 
 // ── PROJECTS ──────────────────────────────────────────────────────
 app.get("/api/projects", requireAuth, async (req, res) => {
-  const userId = (req.session as any).userId;
-  const userRole = (req.session as any).userRole;
+  const userId = req.userId;
+  const userRole = req.userRole;
   const list = userRole === "admin"
     ? await db.select().from(projects).orderBy(desc(projects.createdAt))
     : await db.select().from(projects).where(eq(projects.ownerId, userId)).orderBy(desc(projects.createdAt));
@@ -95,7 +81,7 @@ app.get("/api/projects/:id", requireAuth, async (req, res) => {
 });
 
 app.post("/api/projects", requireAuth, async (req, res) => {
-  const parsed = insertProjectSchema.safeParse({ ...req.body, ownerId: (req.session as any).userId });
+  const parsed = insertProjectSchema.safeParse({ ...req.body, ownerId: req.userId });
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
   const [created] = await db.insert(projects).values(parsed.data).returning();
   res.status(201).json(created);
@@ -202,8 +188,8 @@ app.put("/api/alertas/:id/leer", requireAuth, async (req, res) => {
 
 // ── DASHBOARD STATS ───────────────────────────────────────────────
 app.get("/api/dashboard/stats", requireAuth, async (req, res) => {
-  const userId = (req.session as any).userId;
-  const userRole = (req.session as any).userRole;
+  const userId = req.userId;
+  const userRole = req.userRole;
   const allProjects = userRole === "admin"
     ? await db.select().from(projects)
     : await db.select().from(projects).where(eq(projects.ownerId, userId));

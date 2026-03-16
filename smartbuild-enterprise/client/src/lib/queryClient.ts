@@ -5,12 +5,29 @@ export const queryClient = new QueryClient({
     queries: { retry: 1, staleTime: 30_000 },
   },
 });
+
 const API_BASE = import.meta.env.VITE_API_URL ?? "";
+
+export function getToken() {
+  return localStorage.getItem("sb_token");
+}
+
+export function setToken(token: string) {
+  localStorage.setItem("sb_token", token);
+}
+
+export function clearToken() {
+  localStorage.removeItem("sb_token");
+}
+
 export async function apiRequest(method: string, path: string, body?: unknown) {
+  const token = getToken();
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+
   const res = await fetch(`${API_BASE}/api${path}`, {
     method,
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
+    headers,
     body: body ? JSON.stringify(body) : undefined,
   });
   if (!res.ok) {

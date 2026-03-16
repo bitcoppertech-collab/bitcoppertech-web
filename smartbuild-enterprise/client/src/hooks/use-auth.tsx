@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { apiRequest } from "../lib/queryClient";
+import { apiRequest, setToken, clearToken, getToken } from "../lib/queryClient";
 
 interface AuthUser {
   id: number;
@@ -23,19 +23,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!getToken()) { setLoading(false); return; }
     apiRequest("GET", "/auth/me")
       .then(setUser)
-      .catch(() => setUser(null))
+      .catch(() => { clearToken(); setUser(null); })
       .finally(() => setLoading(false));
   }, []);
 
   const login = async (email: string, password: string) => {
-    const u = await apiRequest("POST", "/auth/login", { email, password });
-    setUser(u);
+    const data = await apiRequest("POST", "/auth/login", { email, password });
+    if (data.token) setToken(data.token);
+    setUser(data);
   };
 
   const logout = async () => {
     await apiRequest("POST", "/auth/logout");
+    clearToken();
     setUser(null);
   };
 
