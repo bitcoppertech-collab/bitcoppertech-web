@@ -3,12 +3,13 @@ import { Link, useLocation } from "wouter";
 import { useAuth } from "../hooks/use-auth";
 import {
   LayoutDashboard, FolderOpen, HardHat, Box, ShieldAlert,
-  LogOut, Menu, X, ChevronRight, Settings, Users, BookOpen
+  LogOut, Menu, X, ChevronRight, Settings, Users, BookOpen, Mountain
 } from "lucide-react";
 
 const NAV = [
-  { href: "/dashboard",   label: "Dashboard",      icon: LayoutDashboard },
-  { href: "/projects",    label: "Proyectos",       icon: FolderOpen },
+  { href: "/dashboard", label: "Dashboard",  icon: LayoutDashboard },
+  { href: "/projects",  label: "Proyectos",  icon: FolderOpen },
+  { href: "/mineria",   label: "Minería",    icon: Mountain },
 ];
 
 const PROJECT_NAV = [

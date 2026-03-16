@@ -17,6 +17,9 @@ import AnaliticasPage from "./pages/AnaliticasPage";
 import LastPlannerPage from "./pages/LastPlannerPage";
 import IFCViewer from "./pages/IFCViewer";
 import LibroObraPage from "./pages/LibroObraPage";
+import MineriaPage from "./pages/MineriaPage";
+import CodelcoPage from "./pages/CodelcoPage";
+import BHPPage from "./pages/BHPPage";
 
 function ProtectedRoute({ component: Component, adminOnly = false }: { component: React.ComponentType<any>, adminOnly?: boolean }) {
   const { user, loading } = useAuth();
@@ -45,6 +48,9 @@ function AppRoutes() {
       <Route path="/projects/:id/lps" component={() => <ProtectedRoute component={LastPlannerPage} />} />
       <Route path="/projects/:id/ifc" component={() => <ProtectedRoute component={IFCViewer} />} />
       <Route path="/projects/:id/libro-obra" component={() => <ProtectedRoute component={LibroObraPage} />} />
+      <Route path="/mineria" component={() => <ProtectedRoute component={MineriaPage} />} />
+      <Route path="/mineria/codelco" component={() => <ProtectedRoute component={CodelcoPage} />} />
+      <Route path="/mineria/bhp" component={() => <ProtectedRoute component={BHPPage} />} />
     </Switch>
   );
 }

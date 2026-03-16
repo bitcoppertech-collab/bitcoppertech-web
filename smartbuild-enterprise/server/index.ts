@@ -432,5 +432,181 @@ app.delete("/api/libro-obra/:id", requireAuth, async (req: any, res: any) => {
     res.status(500).json({ error: e.message });
   }
 });
+// ── MINERÍA: CODELCO ──────────────────────────────────────────────
+
+// Contratos Codelco
+app.get("/api/mineria/codelco/contratos", requireAuth, async (req: any, res: any) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM min_codelco_contratos WHERE owner_id = $1 ORDER BY created_at DESC`,
+      [req.userId]
+    );
+    res.json(result.rows);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+app.post("/api/mineria/codelco/contratos", requireAuth, async (req: any, res: any) => {
+  try {
+    const { numeroContrato, nombre, division, clasificacion, estado, fechaInicio, fechaFin, montoUf, administradorEecc, administradorCodelco } = req.body;
+    const result = await pool.query(
+      `INSERT INTO min_codelco_contratos (owner_id, numero_contrato, nombre, division, clasificacion, estado, fecha_inicio, fecha_fin, monto_uf, administrador_eecc, administrador_codelco)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`,
+      [req.userId, numeroContrato, nombre, division, clasificacion, estado, fechaInicio, fechaFin, montoUf, administradorEecc, administradorCodelco]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+// Incidentes Codelco
+app.get("/api/mineria/codelco/contratos/:id/incidentes", requireAuth, async (req: any, res: any) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM min_codelco_incidentes WHERE contrato_id = $1 ORDER BY fecha DESC`,
+      [parseInt(req.params.id)]
+    );
+    res.json(result.rows);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+app.post("/api/mineria/codelco/contratos/:id/incidentes", requireAuth, async (req: any, res: any) => {
+  try {
+    const { tipo, ecf, fecha, lugar, descripcion, lesionados, diasPerdidos, causaRaiz, medidaCorrectiva, reportadoPor } = req.body;
+    const result = await pool.query(
+      `INSERT INTO min_codelco_incidentes (contrato_id, tipo, ecf, fecha, lugar, descripcion, lesionados, dias_perdidos, causa_raiz, medida_correctiva, reportado_por)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`,
+      [parseInt(req.params.id), tipo, ecf, fecha, lugar, descripcion, lesionados||0, diasPerdidos||0, causaRaiz, medidaCorrectiva, reportadoPor]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+app.put("/api/mineria/codelco/incidentes/:id", requireAuth, async (req: any, res: any) => {
+  try {
+    const { estado, medidaCorrectiva } = req.body;
+    const result = await pool.query(
+      `UPDATE min_codelco_incidentes SET estado=$1, medida_correctiva=$2 WHERE id=$3 RETURNING *`,
+      [estado, medidaCorrectiva, parseInt(req.params.id)]
+    );
+    res.json(result.rows[0]);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+// KPIs Codelco
+app.get("/api/mineria/codelco/contratos/:id/kpis", requireAuth, async (req: any, res: any) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM min_codelco_kpis WHERE contrato_id = $1 ORDER BY periodo DESC`,
+      [parseInt(req.params.id)]
+    );
+    res.json(result.rows);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+app.post("/api/mineria/codelco/contratos/:id/kpis", requireAuth, async (req: any, res: any) => {
+  try {
+    const { periodo, avanceFisico, cumplimientoSeguridad, cumplimientoAmbiental, hhTrabajadas, hhCapacitacion, nTrabajadores, observaciones } = req.body;
+    const result = await pool.query(
+      `INSERT INTO min_codelco_kpis (contrato_id, periodo, avance_fisico, cumplimiento_seguridad, cumplimiento_ambiental, hh_trabajadas, hh_capacitacion, n_trabajadores, observaciones)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
+      [parseInt(req.params.id), periodo, avanceFisico||0, cumplimientoSeguridad||0, cumplimientoAmbiental||0, hhTrabajadas||0, hhCapacitacion||0, nTrabajadores||0, observaciones]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+// EDP Codelco
+app.get("/api/mineria/codelco/contratos/:id/edp", requireAuth, async (req: any, res: any) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM min_codelco_edp WHERE contrato_id = $1 ORDER BY numero_edp DESC`,
+      [parseInt(req.params.id)]
+    );
+    res.json(result.rows);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+app.post("/api/mineria/codelco/contratos/:id/edp", requireAuth, async (req: any, res: any) => {
+  try {
+    const { numeroEdp, periodo, montoUf, estado, observaciones } = req.body;
+    const result = await pool.query(
+      `INSERT INTO min_codelco_edp (contrato_id, numero_edp, periodo, monto_uf, estado, observaciones)
+       VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`,
+      [parseInt(req.params.id), numeroEdp, periodo, montoUf||0, estado||'borrador', observaciones]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+// ── MINERÍA: BHP ──────────────────────────────────────────────────
+
+// Contratos BHP
+app.get("/api/mineria/bhp/contratos", requireAuth, async (req: any, res: any) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM min_bhp_contratos WHERE owner_id = $1 ORDER BY created_at DESC`,
+      [req.userId]
+    );
+    res.json(result.rows);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+app.post("/api/mineria/bhp/contratos", requireAuth, async (req: any, res: any) => {
+  try {
+    const { numeroContrato, nombre, operacion, estado, fechaInicio, fechaFin, montoUsd, contactoSupply } = req.body;
+    const result = await pool.query(
+      `INSERT INTO min_bhp_contratos (owner_id, numero_contrato, nombre, operacion, estado, fecha_inicio, fecha_fin, monto_usd, contacto_supply)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
+      [req.userId, numeroContrato, nombre, operacion, estado||'activo', fechaInicio, fechaFin, montoUsd||0, contactoSupply]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+// RFX BHP
+app.get("/api/mineria/bhp/contratos/:id/rfx", requireAuth, async (req: any, res: any) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM min_bhp_rfx WHERE contrato_id = $1 ORDER BY created_at DESC`,
+      [parseInt(req.params.id)]
+    );
+    res.json(result.rows);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+app.post("/api/mineria/bhp/contratos/:id/rfx", requireAuth, async (req: any, res: any) => {
+  try {
+    const { tipo, numero, titulo, fechaCierre, estado, respuesta, observaciones } = req.body;
+    const result = await pool.query(
+      `INSERT INTO min_bhp_rfx (contrato_id, owner_id, tipo, numero, titulo, fecha_cierre, estado, respuesta, observaciones)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
+      [parseInt(req.params.id), req.userId, tipo, numero, titulo, fechaCierre, estado||'pendiente', respuesta, observaciones]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+// Scorecard BHP
+app.get("/api/mineria/bhp/contratos/:id/scorecard", requireAuth, async (req: any, res: any) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM min_bhp_scorecard WHERE contrato_id = $1 ORDER BY periodo DESC`,
+      [parseInt(req.params.id)]
+    );
+    res.json(result.rows);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+app.post("/api/mineria/bhp/contratos/:id/scorecard", requireAuth, async (req: any, res: any) => {
+  try {
+    const { periodo, seguridad, calidad, plazo, costo, sustentabilidad, comentarios } = req.body;
+    const total = Math.round(((seguridad||0)+(calidad||0)+(plazo||0)+(costo||0)+(sustentabilidad||0))/5);
+    const result = await pool.query(
+      `INSERT INTO min_bhp_scorecard (contrato_id, periodo, seguridad, calidad, plazo, costo, sustentabilidad, puntaje_total, comentarios)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
+      [parseInt(req.params.id), periodo, seguridad||0, calidad||0, plazo||0, costo||0, sustentabilidad||0, total, comentarios]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`SmartBuild Enterprise API → http://localhost:${PORT}`));
