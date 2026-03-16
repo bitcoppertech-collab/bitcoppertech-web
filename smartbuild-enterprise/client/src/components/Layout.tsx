@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { useAuth } from "../hooks/use-auth";
 import {
   LayoutDashboard, FolderOpen, HardHat, Box, ShieldAlert,
-  LogOut, Menu, X, ChevronRight, Settings, Users
+  LogOut, Menu, X, ChevronRight, Settings, Users, BookOpen
 } from "lucide-react";
 
 const NAV = [
@@ -12,9 +12,10 @@ const NAV = [
 ];
 
 const PROJECT_NAV = [
-  { suffix: "",       label: "Presupuesto",     icon: FolderOpen },
-  { suffix: "/obra",  label: "Control de Obra", icon: HardHat },
-  { suffix: "/bim",   label: "BIM 4D",          icon: Box },
+  { suffix: "",              label: "Presupuesto",     icon: FolderOpen },
+  { suffix: "/obra",         label: "Control de Obra", icon: HardHat },
+  { suffix: "/libro-obra",   label: "Libro de Obra",   icon: BookOpen },
+  { suffix: "/bim",          label: "BIM 4D",          icon: Box },
 ];
 
 export default function Layout({ children }: { children: ReactNode }) {

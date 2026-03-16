@@ -136,3 +136,28 @@ export const subcontratos = pgTable("ent_subcontratos", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 export type Subcontrato = typeof subcontratos.$inferSelect;
+// ── LIBRO DE OBRA ─────────────────────────────────────────────────
+export const libroObra = pgTable("ent_libro_obra", {
+  id: serial("id").primaryKey(),
+  projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
+  autorId: integer("autor_id").notNull().references(() => users.id),
+  autorNombre: varchar("autor_nombre", { length: 255 }),
+  fecha: timestamp("fecha").notNull().defaultNow(),
+  clima: varchar("clima", { length: 100 }),
+  temperatura: integer("temperatura"),
+  personalPresente: integer("personal_presente").default(0),
+  equiposPresentes: text("equipos_presentes"),
+  avances: text("avances"),
+  incidentes: text("incidentes"),
+  observaciones: text("observaciones"),
+  fotos: jsonb("fotos").default([]),
+  firmado: boolean("firmado").notNull().default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type LibroObra = typeof libroObra.$inferSelect;
+export type InsertLibroObra = typeof libroObra.$inferInsert;
+export const insertLibroObraSchema = createInsertSchema(libroObra).omit({
+  id: true, createdAt: true, updatedAt: true
+});

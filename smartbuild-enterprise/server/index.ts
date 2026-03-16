@@ -12,9 +12,8 @@ import { apuItems, subcontratos } from "../shared/schema";
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
 import { Pool } from "pg";
 import { eq, desc, and } from "drizzle-orm";
-import {
-  users, projects, partidas, pagos, alertas, demoRequests,
-  insertProjectSchema, insertPartidaSchema, insertPagoSchema, insertDemoRequestSchema
+import { users, projects, partidas, pagos, alertas, demoRequests, libroObra,
+  insertProjectSchema, insertPartidaSchema, insertPagoSchema, insertDemoRequestSchema, insertLibroObraSchema
 } from "../shared/schema";
 
 const app = express();
@@ -369,6 +368,69 @@ app.put("/api/lps/compromisos/:id", requireAuth, async (req: any, res: any) => {
 app.delete("/api/lps/compromisos/:id", requireAuth, async (req: any, res: any) => {
   await pool.query(`DELETE FROM ent_lps_compromisos WHERE id = $1`, [parseInt(req.params.id)]);
   res.json({ ok: true });
+});
+// ── LIBRO DE OBRA ─────────────────────────────────────────────────
+app.get("/api/projects/:id/libro-obra", requireAuth, async (req: any, res: any) => {
+  try {
+    const projectId = parseInt(req.params.id);
+    const entradas = await db.select().from(libroObra)
+      .where(eq(libroObra.projectId, projectId))
+      .orderBy(desc(libroObra.fecha));
+    res.json(entradas);
+  } catch (e: any) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.post("/api/projects/:id/libro-obra", requireAuth, async (req: any, res: any) => {
+  try {
+    const projectId = parseInt(req.params.id);
+    const [user] = await db.select().from(users).where(eq(users.id, req.userId));
+    if (!user) return res.status(401).json({ error: "Usuario no encontrado" });
+    const [nueva] = await db.insert(libroObra).values({
+      ...req.body,
+      projectId,
+      autorId: req.userId,
+      autorNombre: user.name,
+      firmado: false,
+    }).returning();
+    res.json(nueva);
+  } catch (e: any) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.put("/api/libro-obra/:id", requireAuth, async (req: any, res: any) => {
+  try {
+    const [updated] = await db.update(libroObra)
+      .set({ ...req.body, updatedAt: new Date() })
+      .where(eq(libroObra.id, parseInt(req.params.id)))
+      .returning();
+    res.json(updated);
+  } catch (e: any) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.put("/api/libro-obra/:id/firmar", requireAuth, async (req: any, res: any) => {
+  try {
+    const [entrada] = await db.update(libroObra)
+      .set({ firmado: true, updatedAt: new Date() })
+      .where(eq(libroObra.id, parseInt(req.params.id)))
+      .returning();
+    res.json(entrada);
+  } catch (e: any) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.delete("/api/libro-obra/:id", requireAuth, async (req: any, res: any) => {
+  try {
+    await db.delete(libroObra).where(eq(libroObra.id, parseInt(req.params.id)));
+    res.json({ ok: true });
+  } catch (e: any) {
+    res.status(500).json({ error: e.message });
+  }
 });
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`SmartBuild Enterprise API → http://localhost:${PORT}`));
