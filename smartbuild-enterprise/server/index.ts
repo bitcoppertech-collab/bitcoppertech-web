@@ -19,7 +19,8 @@ import {
 const app = express();
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const db = drizzle(pool);
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173", credentials: true }));
+const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173').split(',');
+app.use(cors({ origin: (origin, cb) => { if (!origin || allowedOrigins.some(o => origin.startsWith(o.trim()))) cb(null,true); else cb(new Error('CORS')); }, credentials: true }));
 app.use(express.json());
 app.use(session({
   secret: process.env.SESSION_SECRET || "smartbuild-enterprise-secret-2026",

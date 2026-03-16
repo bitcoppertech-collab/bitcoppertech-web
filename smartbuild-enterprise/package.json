@@ -6,8 +6,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "client": "vite --config vite.config.ts",
     "server": "tsx watch server/index.ts",
-    "build": "vite build",
-    "start": "node dist/server/index.js"
+    "start": "node -e \"require('tsx/cjs')\" server/index.ts",
+    "build:client": "vite build --emptyOutDir"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.1",
