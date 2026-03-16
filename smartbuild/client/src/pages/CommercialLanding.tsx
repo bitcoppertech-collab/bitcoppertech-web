@@ -410,7 +410,7 @@ export default function CommercialLanding() {
               <Button
                 className="w-full rounded-md text-white border-0"
                 style={{ background: "linear-gradient(135deg, #f97316, #ea580c)", boxShadow: "0 4px 16px rgba(249,115,22,0.25)" }}
-                onClick={() => setRegisterPlan("Plan Empresa")}
+                onClick={() => window.open("https://smartbuild-enterprise.vercel.app", "_blank")}
                 data-testid="button-buy-empresa"
               >
                 Comprar Ahora <ArrowRight className="w-4 h-4 ml-2" />
