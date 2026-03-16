@@ -401,7 +401,7 @@ export default function CommercialLanding() {
                 <p className="text-xs text-neutral-500 mt-1">CLP + IVA | Suscripción anual (ahorra 30%)</p>
               </div>
               <ul className="space-y-3 mb-8">
-                {["Hasta 5 usuarios", "Proyectos ilimitados", "Importación Excel ilimitada", "Sincronización Sodimac y Easy", "Cascada financiera completa", "Exportación PDF con logo y firma", "Carta Gantt y programación", "Soporte prioritario telefónico", "Onboarding personalizado"].map((f) => (
+              {["Hasta 5 usuarios", "Proyectos ilimitados", "Presupuesto APU con desglose por capítulos", "Importación .smartbuild desde SmartBuild APU", "Control de Obra con avance y pagos", "BIM 4D — Visor 3D + Gantt timeline", "Visor IFC — modelos Revit/ArchiCAD", "Analíticas de subcontratos y desviaciones", "Last Planner System — PPC semanal", "Soporte prioritario telefónico", "Onboarding personalizado"].map((f) => (
                   <li key={f} className="flex items-start gap-2 text-sm text-neutral-300">
                     <Check className="w-4 h-4 mt-0.5 shrink-0" style={{ color: "#f97316" }} />{f}
                   </li>
