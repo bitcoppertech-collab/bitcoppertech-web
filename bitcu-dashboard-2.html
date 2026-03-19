@@ -471,8 +471,26 @@
           ? `<span class="identity-sealed" title="${m.device_id}">SELLADA · ${shortId}</span>`
           : `<span class="identity-null">— SIN SELLAR</span>`;
 
+        // Badge por node_type
+        const nodeTypeBadge = () => {
+          if (m.is_genesis || m.is_server) return '';
+          const t = m.node_type || 'NODE';
+          const badges = {
+            'NODE':        ['#b87333', 'NODE'],
+            'NODE_TV':     ['#6c3483', 'NODE TV'],
+            'NODE_IOT':    ['#1a7a4a', 'NODE IOT'],
+            'NODE_MOBILE': ['#1a5276', 'MOBILE'],
+            'NODE_SERVER': ['#7d6608', 'SERVER'],
+            'NODE_WIN':    ['#0078d4', 'WINDOWS'],
+            'NODE_SAT':    ['#1a6b8a', 'SATELITE'],
+            'GHOST':       ['#555', 'GHOST'],
+          };
+          const [color, label] = badges[t] || ['#555', t];
+          return `<span class="badge" style="background:${color}22;border-color:${color};color:${color};font-size:0.35rem;padding:2px 6px;margin-left:4px">${label}</span>`;
+        };
+
         return `<div class="miner-row ${rankClass}">
-          <span class="td wallet" title="${m.wallet}">${shortWallet}${m.is_genesis ? '<span class="badge badge-genesis">GÉNESIS</span>' : ''}${m.is_server ? '<span class="badge badge-server">SERVER</span>' : ''}</span>
+          <span class="td wallet" title="${m.wallet}">${shortWallet}${m.is_genesis ? '<span class="badge badge-genesis">GÉNESIS</span>' : ''}${m.is_server ? '<span class="badge badge-server">SERVER</span>' : ''}${nodeTypeBadge()}</span>
           <span class="td balance">${parseFloat(m.total_bitcu).toFixed(8)}</span>
           <span class="td blocks">${m.total_blocks}</span>
           <span class="td">${timeAgo}</span>
