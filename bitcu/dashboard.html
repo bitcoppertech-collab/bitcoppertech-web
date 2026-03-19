@@ -492,15 +492,15 @@
           return `<span class="badge" style="background:${color}22;border-color:${color};color:${color};font-size:0.35rem;padding:2px 6px;margin-left:4px">${label}</span>`;
         };
         return `<div class="miner-row ${rankClass}">
-          <span class="td wallet" title="${m.wallet}">${shortWallet}${m.is_genesis ? '<span class="badge badge-genesis">GÉNESIS</span>' : ''}${m.is_server ? '<span class="badge badge-server">SERVER</span>' : ''}${nodeTypeBadge()}</span>
+          <span class="td wallet" title="${m.wallet}">${shortWallet}${m.is_genesis ? '<span class="badge badge-genesis">GÉNESIS</span>' : ''}${m.is_server ? '<span class="badge badge-server">SERVER</span>' : ''}${m.is_ghost ? '<span class="badge" style="background:#55555522;border:1px solid #555;color:#aaa;font-size:0.35rem;padding:2px 6px;margin-left:4px">👻 GHOST</span>' : ''}${nodeTypeBadge()}</span>
           <span class="td balance">${parseFloat(m.total_bitcu).toFixed(8)}</span>
           <span class="td blocks">${m.total_blocks}</span>
           <span class="td">${timeAgo}</span>
           <span class="td identity">${identityHtml}</span>
           <span class="td">
-            <span class="status-dot-small ${isOnline ? 'online' : 'offline'}"></span>
-            <span style="font-size:0.4rem; color:${isOnline ? 'var(--green)' : 'var(--text-dim)'}">
-              ${isOnline ? 'ACTIVO' : 'INACTIVO'}
+            <span class="status-dot-small ${m.is_ghost ? 'offline' : (isOnline ? 'online' : 'offline')}"></span>
+            <span style="font-size:0.4rem; color:${m.is_ghost ? '#555' : (isOnline ? 'var(--green)' : 'var(--text-dim)')}">
+              ${m.is_ghost ? '👻 GHOST' : (isOnline ? 'ACTIVO' : 'INACTIVO')}
             </span>
           </span>
         </div>`;
