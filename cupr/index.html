@@ -588,13 +588,13 @@ footer {
     <a href="/bitcu">BITCU</a>
     <a href="#que-es">¿QUÉ ES?</a>
     <a href="#generacion">GEN1</a>
-        <a href="#tokenomics">TOKENOMICS</a>
+    <a href="#tokenomics">TOKENOMICS</a>
     <a href="#como-funciona">CÓMO FUNCIONA</a>
     <a href="#polygon">POLYGON</a>
     <a href="#respaldo">RESPALDO</a>
     <a href="#calculadora">CALCULADORA</a>
     <a href="/bitcu#whitepaper">WHITEPAPER</a>
-    <a href="https://polygonscan.com/address/0xc0739F050b68ee99b419afFcE26341360D03D967" target="_blank" class="nav-poly">
+    <a href="https://polygonscan.com/token/0x6c2CC1E6EB37c6fa3f008f74D5DA5bc9Fa84Ada1" target="_blank" class="nav-poly">
       <span class="poly-dot"></span>POLYGONSCAN
     </a>
   </div>
@@ -612,7 +612,7 @@ footer {
       <em>Cuprum in Veritas.</em>
     </p>
     <div class="hero-btns">
-      <a href="https://polygonscan.com/address/0xc0739F050b68ee99b419afFcE26341360D03D967" target="_blank" class="btn-primary">VER EN POLYGONSCAN</a>
+      <a href="https://polygonscan.com/token/0x6c2CC1E6EB37c6fa3f008f74D5DA5bc9Fa84Ada1" target="_blank" class="btn-primary">VER EN POLYGONSCAN</a>
       <a href="#tokenomics" class="btn-secondary">TOKENOMICS</a>
       <a href="/bitcu#whitepaper" class="btn-poly">WHITEPAPER</a>
     </div>
@@ -931,8 +931,8 @@ fetchGen1();
       <div class="tdetail">
         <div><div class="tdetail-label">CONTRATO</div>
         <div style="font-family:var(--mono);font-size:0.6rem;color:var(--copper2);word-break:break-all">
-          <a href="https://polygonscan.com/address/0xc0739F050b68ee99b419afFcE26341360D03D967" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(184,115,51,0.3)">
-            0xc0739F050b68ee99b419afFcE26341360D03D967
+          <a href="https://polygonscan.com/token/0x6c2CC1E6EB37c6fa3f008f74D5DA5bc9Fa84Ada1" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(184,115,51,0.3)">
+            0x6c2CC1E6EB37c6fa3f008f74D5DA5bc9Fa84Ada1
           </a>
         </div></div>
       </div>
@@ -987,10 +987,10 @@ fetchGen1();
         POLYGON MAINNET · ERC-20
       </div>
       <div class="contract-box">
-        <div class="contract-label">CONTRATO CUPR EN POLYGON</div>
+        <div class="contract-label">CONTRATO CUPR V2 EN POLYGON</div>
         <div class="contract-addr">
-          <a href="https://polygonscan.com/address/0xc0739F050b68ee99b419afFcE26341360D03D967" target="_blank">
-            0xc0739F050b68ee99b419afFcE26341360D03D967
+          <a href="https://polygonscan.com/token/0x6c2CC1E6EB37c6fa3f008f74D5DA5bc9Fa84Ada1" target="_blank">
+            0x6c2CC1E6EB37c6fa3f008f74D5DA5bc9Fa84Ada1
           </a>
         </div>
       </div>
@@ -998,7 +998,7 @@ fetchGen1();
         <div class="contract-label">WALLET DEPÓSITO USDT</div>
         <div class="contract-addr">0xc06Dd75B2b09f9E25f98BE27789c258B9d487Bec</div>
       </div>
-      <a href="https://polygonscan.com/address/0xc0739F050b68ee99b419afFcE26341360D03D967"
+      <a href="https://polygonscan.com/token/0x6c2CC1E6EB37c6fa3f008f74D5DA5bc9Fa84Ada1"
          target="_blank" class="btn-poly" style="width:fit-content;margin-top:10px">
         VER EN POLYGONSCAN →
       </a>
@@ -1148,7 +1148,6 @@ fetchGen1();
   </div>
 </section>
 
-<!-- ✅ SCRIPT CALCULADORA CORREGIDO -->
 <script>
 function limpiarCalc() {
   document.getElementById('calc-bitcu').value = '';
@@ -1166,8 +1165,6 @@ async function calcularConversion() {
     const r = await fetch('https://bitcu-server-production.up.railway.app/api/convert?bitcu=' + bitcu);
     const d = await r.json();
     if (!d.ok) return;
-
-    // Reset estado
     const alerta = document.getElementById('calc-alerta');
     alerta.style.display = 'none';
     alerta.style.borderColor = 'rgba(255,80,80,0.4)';
@@ -1175,16 +1172,11 @@ async function calcularConversion() {
     alerta.textContent = '';
     document.getElementById('calc-resultado').style.display = 'none';
     const minBitcu = parseFloat(d.umbral.min_bitcu);
-
     if (bitcu < minBitcu) {
       alerta.style.display = 'block';
       alerta.textContent = '⚠ BITCU bajo umbral termodinámico mínimo: ' + minBitcu.toFixed(6) + ' BITCU (' + d.umbral.formula + ')';
-      document.getElementById('calc-resultado').style.display = 'none';
       return;
-    } else {
-      alerta.style.display = 'none';
     }
-
     const limitado = d.simulacion.limitado_por_cupo;
     document.getElementById('calc-cupr').textContent = parseFloat(d.simulacion.cupr_emitido).toLocaleString('es-CL', {maximumFractionDigits:2}) + (limitado ? ' ⚠' : '');
     document.getElementById('calc-valor').textContent = '$' + parseFloat(d.simulacion.valor_estimado_usd).toLocaleString('es-CL', {maximumFractionDigits:4}) + ' USD';
@@ -1194,7 +1186,6 @@ async function calcularConversion() {
     document.getElementById('calc-dias').textContent = d.generacion.dias_restantes + ' días · ' + d.generacion.pct_completado + '% completo';
     document.getElementById('calc-umbral').textContent = minBitcu.toFixed(6) + ' BITCU · temp_avg ' + d.red.temp_avg_red + '°C';
     document.getElementById('calc-resultado').style.display = 'block';
-
     if (limitado) {
       alerta.style.display = 'block';
       alerta.style.borderColor = 'rgba(255,165,0,0.4)';
@@ -1215,7 +1206,7 @@ async function calcularConversion() {
     <a href="/cupr" class="active" style="color:var(--gold2)">CUPR</a>
     <a href="/bitcu#whitepaper">WHITEPAPER</a>
     <a href="/bitcu#puente">PUENTE</a>
-    <a href="https://polygonscan.com/address/0xc0739F050b68ee99b419afFcE26341360D03D967" target="_blank">POLYGONSCAN</a>
+    <a href="https://polygonscan.com/token/0x6c2CC1E6EB37c6fa3f008f74D5DA5bc9Fa84Ada1" target="_blank">POLYGONSCAN</a>
   </div>
   <div class="footer-copy">
     © 2026 Bitcopper Tech SpA · Calama, Chile<br>
@@ -1226,7 +1217,6 @@ async function calcularConversion() {
 </div><!-- /wrap -->
 
 <script>
-// Lazy animation on scroll
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
@@ -1243,7 +1233,6 @@ document.querySelectorAll('.rcard, .wcard, .pfeat, .fstep, .tdetail').forEach(el
   observer.observe(el);
 });
 
-// Live copper price
 async function fetchRate() {
   try {
     const r = await fetch('https://bitcu-server-production.up.railway.app/bridge/rate');
