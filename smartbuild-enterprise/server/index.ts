@@ -609,4 +609,55 @@ app.post("/api/mineria/bhp/contratos/:id/scorecard", requireAuth, async (req: an
   } catch (e: any) { res.status(500).json({ error: e.message }); }
 });
 const PORT = process.env.PORT || 3001;
+// ── WEBHOOKS CITY ─────────────────────────────────────────────────
+import { createHmac } from 'crypto'
+
+function verifyWebhookSignature(body: string, sig: string, secret: string) {
+  return sig === `sha256=${createHmac('sha256', secret).update(body).digest('hex')}`
+}
+
+async function sendWebhook(url: string, event: string, payload: unknown, secret: string, attempt = 1): Promise<boolean> {
+  const body = JSON.stringify({ event, payload, timestamp: Date.now() })
+  const sig = `sha256=${createHmac('sha256', secret).update(body).digest('hex')}`
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-SmartBuild-Signature': sig, 'X-SmartBuild-Event': event },
+      body,
+    })
+    if (res.ok) return true
+    if (attempt < 3) { await new Promise(r => setTimeout(r, 1000 * 2 ** attempt)); return sendWebhook(url, event, payload, secret, attempt + 1) }
+    return false
+  } catch {
+    if (attempt < 3) { await new Promise(r => setTimeout(r, 1000 * 2 ** attempt)); return sendWebhook(url, event, payload, secret, attempt + 1) }
+    return false
+  }
+}
+
+// Recibe eventos desde smartbuild-city
+app.post('/api/v1/webhooks/city', express.raw({ type: 'application/json' }), async (req: any, res: any) => {
+  const rawBody = req.body.toString()
+  const sig = req.headers['x-smartbuild-signature'] ?? ''
+  if (!verifyWebhookSignature(rawBody, sig, process.env.CITY_WEBHOOK_SECRET!)) {
+    return res.status(401).json({ error: 'Firma inválida' })
+  }
+  const { event, payload } = JSON.parse(rawBody)
+
+  if (event === 'firma.registrada' || event === 'pago.liberado') {
+    await pool.query(
+      `UPDATE ent_hitos SET ito_estado=$1, ito_at=NOW() WHERE id=$2`,
+      [event === 'pago.liberado' ? 'pago_liberado' : payload.decision, payload.hito_id]
+    ).catch(() => {}) // tabla puede no existir aún
+  }
+
+  res.json({ ok: true })
+})
+
+// Envía evento a smartbuild-city (helper exportable)
+export async function notifyCity(event: string, payload: unknown) {
+  const url = process.env.CITY_WEBHOOK_URL
+  const secret = process.env.ENTERPRISE_WEBHOOK_SECRET
+  if (!url || !secret) return false
+  return sendWebhook(url, event, payload, secret)
+}
 app.listen(PORT, () => console.log(`SmartBuild Enterprise API → http://localhost:${PORT}`));
