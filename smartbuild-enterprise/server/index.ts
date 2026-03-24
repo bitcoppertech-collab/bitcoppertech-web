@@ -378,6 +378,7 @@ app.get("/api/projects/:id/libro-obra", requireAuth, async (req: any, res: any) 
       .orderBy(desc(libroObra.fecha));
     res.json(entradas);
   } catch (e: any) {
+    console.error("LIBRO_OBRA_ERROR:", e.message, e.stack);
     res.status(500).json({ error: e.message });
   }
 });
