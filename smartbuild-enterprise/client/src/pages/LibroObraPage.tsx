@@ -37,7 +37,8 @@ export default function LibroObraPage() {
     setLoading(true);
     try {
       const r = await fetch(`${API}/api/projects/${projectId}/libro-obra`, { headers: headers() });
-      setEntradas(await r.json());
+      const data = await r.json();
+      setEntradas(Array.isArray(data) ? data : []);
     } finally { setLoading(false); }
   }
 
