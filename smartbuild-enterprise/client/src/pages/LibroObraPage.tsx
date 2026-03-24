@@ -8,7 +8,7 @@ const CLIMA_ICON: Record<string, string> = {
 };
 
 function getToken() {
-  try { return JSON.parse(localStorage.getItem("sb_user") || "{}").token || ""; }
+  try { return localStorage.getItem("sb_token") || JSON.parse(localStorage.getItem("sb_user") || "{}").token || ""; }
   catch { return ""; }
 }
 function headers() {
