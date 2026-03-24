@@ -31,7 +31,7 @@ export default function LibroObraPage() {
     observaciones: "",
   });
 
-  useEffect(() => { cargar(); }, [projectId]);
+  useEffect(() => { if (projectId) cargar(); }, [projectId]);
 
   async function cargar() {
     setLoading(true);
