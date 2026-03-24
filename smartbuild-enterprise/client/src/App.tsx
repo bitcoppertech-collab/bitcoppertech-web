@@ -47,7 +47,7 @@ function AppRoutes() {
       <Route path="/projects/:id/analiticas" component={() => <ProtectedRoute component={AnaliticasPage} />} />
       <Route path="/projects/:id/lps" component={() => <ProtectedRoute component={LastPlannerPage} />} />
       <Route path="/projects/:id/ifc" component={() => <ProtectedRoute component={IFCViewer} />} />
-      <Route path="/projects/:id/libro-obra" component={() => <ProtectedRoute component={LibroObraPage} />} />
+      <Route path="/projects/:id/libro-obra">{(params: any) => <ProtectedRoute component={() => <LibroObraPage id={params.id} />} />}</Route>
       <Route path="/mineria" component={() => <ProtectedRoute component={MineriaPage} />} />
       <Route path="/mineria/codelco" component={() => <ProtectedRoute component={CodelcoPage} />} />
       <Route path="/mineria/bhp" component={() => <ProtectedRoute component={BHPPage} />} />

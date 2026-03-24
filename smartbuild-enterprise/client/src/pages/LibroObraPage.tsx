@@ -15,8 +15,9 @@ function headers() {
   return { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` };
 }
 
-export default function LibroObraPage() {
-  const { id: projectId } = useParams();
+export default function LibroObraPage({ id: propId }: { id?: string }) {
+  const { id: paramId } = useParams();
+  const projectId = propId ?? paramId;
   const [entradas, setEntradas] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
