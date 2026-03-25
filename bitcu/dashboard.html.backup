@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BITCU Network — Red Global de Minería</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --copper: #b87333;
+      --copper-light: #cd7f32;
+      --copper-glow: rgba(184,115,51,0.15);
+      --copper-bright: #e8943a;
+      --red: #ff3c3c;
+      --gold: #ffd700;
+      --green: #00ff88;
+      --bg: #000;
+      --bg2: #060606;
+      --bg3: #0d0d0d;
+      --border: #1a1a1a;
+      --text-dim: #444;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--copper-light);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(184,115,51,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(184,115,51,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0 30px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 30px;
+    }
+    .logo-group { display: flex; align-items: center; gap: 16px; }
+    .logo-hex {
+      width: 56px; height: 56px;
+      border: 2px solid var(--copper);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.4rem; font-weight: 900; color: var(--copper);
+      box-shadow: 0 0 20px var(--copper-glow), inset 0 0 20px var(--copper-glow);
+      animation: pulse-logo 3s ease-in-out infinite;
+    }
+    @keyframes pulse-logo {
+      0%, 100% { box-shadow: 0 0 20px var(--copper-glow), inset 0 0 20px var(--copper-glow); }
+      50% { box-shadow: 0 0 40px rgba(184,115,51,0.3), inset 0 0 30px rgba(184,115,51,0.2); }
+    }
+    .logo-text h1 { font-family: 'Orbitron', monospace; font-size: 1.6rem; font-weight: 900; letter-spacing: 6px; color: #fff; }
+    .logo-text p { font-size: 0.5rem; letter-spacing: 4px; color: var(--copper); opacity: 0.8; margin-top: 2px; }
+    .header-right { display: flex; align-items: center; gap: 20px; }
+    .live-badge {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(0,255,136,0.05);
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 4px; padding: 6px 12px;
+    }
+    .live-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 8px var(--green);
+      animation: blink 1.5s ease-in-out infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .live-text { font-size: 0.5rem; letter-spacing: 3px; color: var(--green); }
+    .clock { font-size: 0.6rem; letter-spacing: 2px; color: var(--text-dim); }
+
+    /* AVISO DE RED */
+    .network-notice {
+      background: rgba(184,115,51,0.05);
+      border: 1px solid rgba(184,115,51,0.2);
+      border-left: 3px solid var(--copper);
+      border-radius: 4px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .notice-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .notice-text { font-size: 0.42rem; letter-spacing: 1.5px; color: #888; line-height: 1.8; }
+    .notice-text strong { color: var(--copper-light); }
+    .notice-tag {
+      display: inline-block;
+      font-size: 0.38rem;
+      padding: 1px 6px;
+      letter-spacing: 2px;
+      border-radius: 2px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+    .notice-tag.live { background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.3); color: var(--green); }
+    .notice-tag.sim  { background: rgba(255,200,0,0.08); border: 1px solid rgba(255,200,0,0.2); color: var(--gold); }
+    .notice-tag.lic  { background: rgba(184,115,51,0.1); border: 1px solid rgba(184,115,51,0.3); color: var(--copper); }
+
+    /* STATS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--copper), transparent);
+      opacity: 0.5;
+    }
+    .stat-card:hover { border-color: #2a2a2a; }
+    .stat-label { font-size: 0.45rem; letter-spacing: 3px; color: var(--text-dim); margin-bottom: 8px; }
+    .stat-value { font-family: 'Orbitron', monospace; font-size: 1.6rem; font-weight: 700; color: var(--copper-light); line-height: 1; margin-bottom: 4px; }
+    .stat-sub { font-size: 0.4rem; color: var(--text-dim); letter-spacing: 2px; }
+    .stat-card.highlight .stat-value { color: var(--green); }
+    .stat-card.highlight2 .stat-value { color: var(--gold); }
+
+    /* LAYOUT */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .panel { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(184,115,51,0.03);
+    }
+    .panel-title { font-size: 0.5rem; letter-spacing: 4px; color: var(--copper); }
+    .panel-count { font-size: 0.45rem; color: var(--text-dim); letter-spacing: 2px; }
+
+    /* TABLA MINEROS — ahora 6 columnas con IDENTIDAD */
+    .table-head {
+      display: grid;
+      grid-template-columns: 2fr 1.4fr 0.8fr 0.8fr 1.2fr 0.9fr;
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.3);
+    }
+    .th { font-size: 0.4rem; letter-spacing: 2px; color: var(--text-dim); }
+    .miner-row {
+      display: grid;
+      grid-template-columns: 2fr 1.4fr 0.8fr 0.8fr 1.2fr 0.9fr;
+      padding: 10px 16px;
+      border-bottom: 1px solid #0d0d0d;
+      align-items: center;
+      transition: background 0.2s;
+      animation: row-in 0.4s ease;
+    }
+    @keyframes row-in {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .miner-row:hover { background: rgba(184,115,51,0.03); }
+    .miner-row.top-1 { border-left: 2px solid var(--gold); }
+    .miner-row.top-2 { border-left: 2px solid #c0c0c0; }
+    .miner-row.top-3 { border-left: 2px solid var(--copper); }
+    .td { font-size: 0.5rem; color: var(--copper-light); }
+    .td.wallet { font-size: 0.42rem; color: #888; letter-spacing: 0.5px; }
+    .td.balance { color: var(--green); font-family: 'Orbitron', monospace; font-size: 0.55rem; }
+    .td.blocks { color: var(--gold); }
+    .td.identity { font-size: 0.38rem; }
+
+    .identity-sealed {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--copper);
+      font-size: 0.38rem;
+      letter-spacing: 1px;
+    }
+    .identity-sealed::before {
+      content: '⚛';
+      font-size: 0.5rem;
+    }
+    .identity-null {
+      color: var(--text-dim);
+      font-size: 0.38rem;
+      letter-spacing: 1px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-left: 6px;
+      font-size: 8px;
+      padding: 2px 6px;
+      letter-spacing: 2px;
+      font-weight: bold;
+      vertical-align: middle;
+      line-height: 1.4;
+    }
+    .badge-genesis { background: #B87333; color: #000; }
+    .badge-server  { background: #0a2a3a; color: #00ccff; border: 1px solid #00ccff; }
+
+    .status-dot-small {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 4px;
+    }
+    .status-dot-small.online  { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .status-dot-small.offline { background: var(--text-dim); }
+
+    /* BLOQUES */
+    .blocks-feed { height: 100%; display: flex; flex-direction: column; }
+    .blocks-list { flex: 1; overflow-y: auto; max-height: 420px; }
+    .blocks-list::-webkit-scrollbar { width: 3px; }
+    .blocks-list::-webkit-scrollbar-track { background: transparent; }
+    .blocks-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .block-item {
+      padding: 10px 14px;
+      border-bottom: 1px solid #0a0a0a;
+      animation: block-in 0.5s ease;
+      transition: background 0.2s;
+    }
+    @keyframes block-in {
+      from { opacity: 0; transform: translateY(-8px); background: rgba(184,115,51,0.1); }
+      to   { opacity: 1; transform: translateY(0); background: transparent; }
+    }
+    .block-item:hover { background: rgba(184,115,51,0.03); }
+    .block-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .block-num { font-family: 'Orbitron', monospace; font-size: 0.55rem; color: var(--copper); }
+    .block-reward { font-size: 0.5rem; color: var(--green); }
+    .block-wallet { font-size: 0.38rem; color: #555; margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .block-meta { display: flex; gap: 12px; }
+    .block-meta span { font-size: 0.38rem; color: var(--text-dim); }
+    .block-meta span b { color: #666; }
+    .block-hash { font-size: 0.35rem; color: #2a2a2a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 3px; }
+
+    /* GRÁFICO */
+    .heat-panel { grid-column: 1 / -1; }
+    .heat-chart { padding: 16px; position: relative; }
+    .heat-chart svg { width: 100%; height: 80px; display: block; }
+    .chart-labels { display: flex; justify-content: space-between; margin-top: 6px; }
+    .chart-label { font-size: 0.38rem; color: var(--text-dim); letter-spacing: 1px; }
+
+    .empty { padding: 40px; text-align: center; color: var(--text-dim); font-size: 0.5rem; letter-spacing: 2px; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 16px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+    }
+    footer p { font-size: 0.4rem; color: #222; letter-spacing: 2px; }
+
+    @media (max-width: 900px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .main-grid { grid-template-columns: 1fr; }
+      .table-head, .miner-row { grid-template-columns: 2fr 1.5fr 1fr 1fr; }
+      .th:nth-child(5), .th:nth-child(6), .td:nth-child(5), .td:nth-child(6) { display: none; }
+    }
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-value { font-size: 1.2rem; }
+    }
+  </style>
+
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-group">
+      <div class="logo-hex">₿</div>
+      <div class="logo-text">
+        <h1>BITCU</h1>
+        <p>RED GLOBAL DE MINERÍA · PROOF OF HEAT</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="live-badge">
+        <div class="live-dot"></div>
+        <span class="live-text">EN VIVO</span>
+      </div>
+      <div class="clock" id="clock">--:--:--</div>
+    </div>
+  </header>
+
+  <!-- AVISO DE RED ACTUALIZADO -->
+  <div class="network-notice">
+    <div class="notice-icon">⚛️</div>
+    <div class="notice-text">
+      <strong>RED BITCOPPER EN OPERACIÓN</strong> — La red Proof of Heat está activa y minando en tiempo real.
+      <span class="notice-tag live">EN VIVO</span>
+      Los bloques, recompensas BITCU e identidades térmicas son registros reales de la cadena.
+      El protocolo de puente USDT/BTC/ETH/CLP es una simulación del estándar x402 y no maneja fondos reales en esta etapa.
+      <span class="notice-tag sim">SIMULADO</span>
+      La minería Proof of Heat es gratuita — solo necesitas tu procesador y una identidad térmica sellada.
+      Este software se distribuye bajo licencia propietaria de Bitcopper Tech SpA.
+      <span class="notice-tag lic">© BITCOPPER TECH SPA</span>
+    </div>
+  </div>
+
+  <!-- STATS GLOBALES -->
+  <div class="stats-grid">
+    <div class="stat-card highlight">
+      <div class="stat-label">MINEROS ACTIVOS</div>
+      <div class="stat-value" id="stat-miners">---</div>
+      <div class="stat-sub">EN LA RED</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">BLOQUES TOTALES</div>
+      <div class="stat-value" id="stat-blocks">---</div>
+      <div class="stat-sub">VALIDADOS</div>
+    </div>
+    <div class="stat-card highlight2">
+      <div class="stat-label">BITCU MINADO</div>
+      <div class="stat-value" id="stat-bitcu" style="font-size:1.1rem">---</div>
+      <div class="stat-sub">TOTAL EMITIDO</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">TEMP PROMEDIO · 1H</div>
+      <div class="stat-value" id="stat-temp">---</div>
+      <div class="stat-sub">°C · RED GLOBAL</div>
+    </div>
+  </div>
+
+  <!-- GRID PRINCIPAL -->
+
+
+
+  <div class="main-grid">
+    <!-- TABLA MINEROS -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">MINEROS DE LA RED</span>
+        <span class="panel-count" id="miners-count">0 NODOS</span>
+      </div>
+      <div class="table-head">
+        <span class="th">WALLET</span>
+        <span class="th">BALANCE BITCU</span>
+        <span class="th">BLOQUES</span>
+        <span class="th">ÚLTIMO VISTO</span>
+        <span class="th">IDENTIDAD ÚNICA</span>
+        <span class="th">ESTADO</span>
+      </div>
+      <div id="miners-list">
+        <div class="empty">ESPERANDO MINEROS...</div>
+      </div>
+    </div>
+    <!-- FEED DE BLOQUES -->
+    <div class="panel blocks-feed">
+      <div class="panel-header">
+        <span class="panel-title">BLOQUES RECIENTES</span>
+        <span class="panel-count" id="blocks-count">0 BLOQUES</span>
+      </div>
+      <div class="blocks-list" id="blocks-list">
+        <div class="empty">ESPERANDO BLOQUES...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRÁFICO DE CALOR -->
+  <div class="panel heat-panel">
+    <div class="panel-header">
+      <span class="panel-title">CALOR DE LA RED · TEMPERATURA PROMEDIO</span>
+      <span class="panel-count">ÚLTIMOS 30 BLOQUES</span>
+    </div>
+    <div class="heat-chart">
+      <svg id="heat-svg" viewBox="0 0 600 80" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="heatGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#b87333" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#b87333" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <polyline id="heat-line" points="" fill="none" stroke="#b87333" stroke-width="1.5" opacity="0.9"/>
+        <polygon id="heat-fill" points="" fill="url(#heatGrad)"/>
+      </svg>
+      <div class="chart-labels">
+        <span class="chart-label">← MÁS ANTIGUO</span>
+        <span class="chart-label" id="avg-temp-label">PROMEDIO: ---°C</span>
+        <span class="chart-label">MÁS RECIENTE →</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© BITCOPPER TECH SPA // CALAMA, CHILE</p>
+    <p>PROOF OF HEAT · ρ(T) = ρ₀·(1+α·ΔT) · α=0.00393/°C</p>
+    <p id="last-update">ÚLTIMA ACTUALIZACIÓN: ---</p>
+  </footer>
+</div>
+
+<script>
+  const API = 'https://bitcu-server-production.up.railway.app';
+  let heatHistory = Array(30).fill(0);
+
+  setInterval(() => {
+    document.getElementById('clock').textContent = new Date().toLocaleTimeString('es-CL');
+  }, 1000);
+
+  async function fetchStats() {
+    try {
+      const res = await fetch(`${API}/api/stats`);
+      const data = await res.json();
+      document.getElementById('stat-miners').textContent = data.total_miners ?? '0';
+      document.getElementById('stat-blocks').textContent = data.total_blocks ?? '0';
+      document.getElementById('stat-bitcu').textContent = parseFloat(data.total_bitcu_mined || 0).toFixed(6);
+      document.getElementById('stat-temp').textContent = data.avg_temp_1h ?? '0';
+    } catch(e) { console.error('Stats error:', e); }
+  }
+
+  async function fetchMiners() {
+    try {
+      const res = await fetch(`${API}/api/miners`);
+      const miners = await res.json();
+      document.getElementById('miners-count').textContent = `${miners.length} NODOS`;
+      if (miners.length === 0) {
+        document.getElementById('miners-list').innerHTML = '<div class="empty">ESPERANDO MINEROS...</div>';
+        return;
+      }
+      const now = Date.now();
+      const html = miners.map((m, i) => {
+        const lastSeen = new Date(m.last_seen);
+        const diffMin = Math.floor((now - lastSeen) / 60000);
+        const isOnline = diffMin < 2;
+        const rankClass = i === 0 ? 'top-1' : i === 1 ? 'top-2' : i === 2 ? 'top-3' : '';
+        const shortWallet = m.wallet.length > 20 ? m.wallet.slice(0,10) + '...' + m.wallet.slice(-8) : m.wallet;
+        const timeAgo = diffMin < 1 ? 'AHORA' : diffMin < 60 ? `${diffMin}m` : `${Math.floor(diffMin/60)}h`;
+
+        // Columna identidad
+        const shortId = m.device_id ? m.device_id.slice(0, 18) + '...' : null;
+        const identityHtml = m.device_id
+          ? `<span class="identity-sealed" title="${m.device_id}">SELLADA · ${shortId}</span>`
+          : `<span class="identity-null">— SIN SELLAR</span>`;
+
+        const nodeTypeBadge = () => {
+          if (m.is_genesis || m.is_server) return '';
+          const t = m.node_type || 'NODE';
+          const badges = {
+            'NODE':        ['#b87333', 'NODE'],
+            'NODE_TV':     ['#6c3483', 'NODE TV'],
+            'NODE_IOT':    ['#1a7a4a', 'NODE IOT'],
+            'NODE_MOBILE': ['#1a5276', 'MOBILE'],
+            'NODE_SERVER': ['#7d6608', 'SERVER'],
+            'NODE_WIN':    ['#0078d4', 'WINDOWS'],
+            'NODE_SAT':    ['#1a6b8a', 'SATELITE'],
+            'GHOST':       ['#555', 'GHOST'],
+          };
+          const [color, label] = badges[t] || ['#555', t];
+          return `<span class="badge" style="background:${color}22;border-color:${color};color:${color};font-size:0.35rem;padding:2px 6px;margin-left:4px">${label}</span>`;
+        };
+        return `<div class="miner-row ${rankClass}">
+          <span class="td wallet" title="${m.wallet}">${shortWallet}${m.is_genesis ? '<span class="badge badge-genesis">GÉNESIS</span>' : ''}${m.is_server ? '<span class="badge badge-server">SERVER</span>' : ''}${nodeTypeBadge()}</span>
+          <span class="td balance">${parseFloat(m.total_bitcu).toFixed(8)}</span>
+          <span class="td blocks">${m.total_blocks}</span>
+          <span class="td">${timeAgo}</span>
+          <span class="td identity">${identityHtml}</span>
+          <span class="td">
+            <span class="status-dot-small ${isOnline ? 'online' : 'offline'}"></span>
+            <span style="font-size:0.4rem; color:${isOnline ? 'var(--green)' : 'var(--text-dim)'}">
+              ${isOnline ? 'ACTIVO' : 'INACTIVO'}
+            </span>
+          </span>
+        </div>`;
+      }).join('');
+      document.getElementById('miners-list').innerHTML = html;
+    } catch(e) { console.error('Miners error:', e); }
+  }
+
+  async function fetchBlocks() {
+    try {
+      const res = await fetch(`${API}/api/blocks`);
+      const blocks = await res.json();
+      document.getElementById('blocks-count').textContent = `${blocks.length} BLOQUES`;
+      if (blocks.length === 0) {
+        document.getElementById('blocks-list').innerHTML = '<div class="empty">ESPERANDO BLOQUES...</div>';
+        return;
+      }
+      const temps = blocks.slice(0, 30).reverse().map(b => parseFloat(b.temp) || 0);
+      heatHistory = [...Array(30 - temps.length).fill(0), ...temps];
+      updateHeatChart();
+      const html = blocks.slice(0, 20).map(b => {
+        const shortWallet = b.wallet.length > 20 ? b.wallet.slice(0,10) + '...' + b.wallet.slice(-6) : b.wallet;
+        const time = new Date(b.created_at).toLocaleTimeString('es-CL');
+        return `<div class="block-item">
+          <div class="block-top">
+            <span class="block-num">#${b.block_number}</span>
+            <span class="block-reward">+${parseFloat(b.reward).toFixed(8)} BITCU</span>
+          </div>
+          <div class="block-wallet">${shortWallet}</div>
+          <div class="block-meta">
+            <span><b>CPU</b> ${b.cpu}%</span>
+            <span><b>TEMP</b> ${b.temp}°C</span>
+            <span><b>HORA</b> ${time}</span>
+          </div>
+          <div class="block-hash">${b.hash}</div>
+        </div>`;
+      }).join('');
+      document.getElementById('blocks-list').innerHTML = html;
+      document.getElementById('last-update').textContent = `ÚLTIMA ACTUALIZACIÓN: ${new Date().toLocaleTimeString('es-CL')}`;
+    } catch(e) { console.error('Blocks error:', e); }
+  }
+
+  function updateHeatChart() {
+    const w = 600, h = 80, pad = 4;
+    const max = Math.max(...heatHistory, 1);
+    const points = heatHistory.map((v, i) => {
+      const x = (i / (heatHistory.length - 1)) * w;
+      const y = h - pad - ((v / max) * (h - pad * 2));
+      return `${x},${y}`;
+    }).join(' ');
+    document.getElementById('heat-line').setAttribute('points', points);
+    document.getElementById('heat-fill').setAttribute('points', `0,${h} ${points} ${w},${h}`);
+    const avg = heatHistory.filter(v => v > 0).reduce((a,b) => a+b, 0) / (heatHistory.filter(v => v > 0).length || 1);
+    document.getElementById('avg-temp-label').textContent = `PROMEDIO: ${avg.toFixed(1)}°C`;
+  }
+
+
+
+  async function refresh() {
+    await Promise.all([fetchStats(), fetchMiners(), fetchBlocks()]);
+  }
+  refresh();
+  setInterval(refresh, 5000);
+</script>
+</body>
+</html>
