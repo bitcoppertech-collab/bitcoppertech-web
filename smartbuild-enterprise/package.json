@@ -8,7 +8,7 @@
     "server": "tsx watch server/index.ts",
     "start": "node -e \"require('tsx/cjs')\" server/index.ts",
     "build:client": "vite build --emptyOutDir",
-    "build": "vite build --emptyOutDir",
+    "build": "vite build --emptyOutDir"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.1",
