@@ -15,6 +15,10 @@
   ],
   "rewrites": [
     {
+      "source": "/bitcu-box.png",
+      "destination": "/public/bitcu-box.png"
+    },
+    {
       "source": "/bitcu-stick-app.html",
       "destination": "/public/bitcu-stick-app.html"
     },
