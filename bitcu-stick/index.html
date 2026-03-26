@@ -603,27 +603,12 @@ body { background:#000; overflow-x:hidden; font-family:'Arial',sans-serif; color
     <div class="vc salt"><div class="vc-n salt-n">TEST 11-A</div><div class="vc-t">Firmware Modification via Management Port</div><div class="vc-d">Vector real Salt Typhoon: acceder al router via puerto de gestión HTTP/Telnet y modificar el firmware. En TAL3™: no existe puerto de gestión. El W5500 implementa TCP/IP en silicio — no hay firmware file que modificar.</div><span class="vc-s ok">✓ DEFENDED · no management port · silicon TCP/IP</span></div>
     <div class="vc salt"><div class="vc-n salt-n">TEST 11-B</div><div class="vc-t">Traffic Interception & MITM</div><div class="vc-d">Vector real: interceptar tráfico del router y modificar el destino. En TAL3™: el hash SHA-256 vincula seed + física + wallet. Modificar la wallet cambia el hash — el servidor detecta HASH_INTEGRITY_FAIL recomputando en cada bloque.</div><span class="vc-s ok">✓ DEFENDED · hash integrity check</span></div>
     <div class="vc salt"><div class="vc-n salt-n">TEST 11-C</div><div class="vc-t">Supply Chain Firmware Backdoor</div><div class="vc-d">Vector real: reemplazar firmware en la cadena de suministro. En TAL3™: el firmware_hash está grabado en silicio como constante. El servidor valida ese hash en cada bloque — cualquier modificación es detectada inmediatamente.</div><span class="vc-s ok">✓ DEFENDED · silicon firmware hash</span></div>
-    <div class="vc salt"><div class="vc-n salt-n">TEST 11-D</div><div class="vc-t">Persistence via Routing Table</div><div class="vc-d">Vector real: modificar la tabla de routing del router para persistencia. En TAL3™: el W5500 no expone ninguna API de routing accesible por software. La superficie de ataque simplemente no existe en la arquitectura.</div><span class="vc-s ok">✓ DEFENDED · no routing API · W5500 silicon</span>
-    <div class="sov-hdr">
-      <div class="sov-ttl">&#9649; TEST 12 · Broche de Oro · Soberanía Total · Chuquicamata, 26 Mar 2026</div>
-      <div class="vc-d">Mesh Entropy Out-of-Band Resilience — Valida que TAL3 protege al host incluso cuando el atacante controla el router y corta toda comunicación con Bitcopper. BGP Hijacking + DNS Sinkhole simultáneos. Modo Autónomo de Emergencia — 100% entropía física local.</div>
-    </div>
-    <div class="vc sov" style="grid-column:1/-1">
-      <div class="vc-n" style="color:#c8a84b;">TEST 12 · SOVEREIGN · BGP HIJACKING + DNS SINKHOLE + AUTONOMOUS EDGE</div>
-      <div class="vc-t" style="color:#c8a84b;">Mesh Entropy Out-of-Band (OOB) Resilience</div>
-      <div class="vc-d">
-        <strong style="color:#c8a84b;">Fase 1</strong> Operacion normal — servidor alcanzable, handshake autentico.<br>
-        <strong style="color:#c8a84b;">Fase 2</strong> DNS sinkhole + BGP hijack activados. Servidor: INALCANZABLE.<br>
-        <strong style="color:#c8a84b;">Fase 3</strong> TAL3 detecta SERVER_UNREACHABLE — anomalia confirmada.<br>
-        <strong style="color:#c8a84b;">Fase 4</strong> AUTONOMOUS MODE activado sin intervencion humana.<br>
-        <strong style="color:#c8a84b;">Fase 5</strong> Firma Edge: v_noise=2.90e-04V · ratio=107,599 · Zero cloud.<br>
-        <strong style="color:#c8a84b;">Fase 6</strong> Trafico malicioso bloqueado en el borde. Host protegido.
-      </div>
-      <span class="vc-s gold">&#9649; DEFENDED · Autonomous Edge · No-Cloud · 12/12 SOVEREIGN</span>
-      <div class="sov-note">Resiliencia garantizada mediante entropia fisica local (No-Cloud Dependency)<br>Cu=29 · El cobre no necesita internet para saber que es verdad</div>
-    </div>
+    <div class="vc salt"><div class="vc-n salt-n">TEST 11-D</div><div class="vc-t">Persistence via Routing Table</div><div class="vc-d">Vector real: modificar la tabla de routing del router para persistencia. En TAL3™: el W5500 no expone ninguna API de routing accesible por software. La superficie de ataque simplemente no existe en la arquitectura.</div><span class="vc-s ok">✓ DEFENDED · no routing API · W5500 silicon</span></div>
   </div>
 </div>
+
+
+    
 
 
 <!-- PRUEBA EN VIVO -->
