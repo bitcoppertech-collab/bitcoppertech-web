@@ -1018,5 +1018,18 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var btns = document.querySelectorAll('button');
+  btns.forEach(function(b){
+    if(b.textContent && b.textContent.indexOf('EJECUTAR') !== -1){
+      b.addEventListener('click',function(){
+        if(typeof runTerminal === 'function') runTerminal();
+      });
+    }
+  });
+});
+</script>
 </body>
 </html>
