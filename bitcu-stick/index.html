@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BitCU Stick · TAL3™ v2.0 · 11/11 · Diseño Industrial Patentado</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
@@ -365,7 +365,7 @@ function showTab(id,btn) {
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
-  document.getElementById('tabsNav').scrollIntoView({behavior:'smooth',block:'nearest'});
+  
 }
 
 const bgC=document.getElementById('bg-canvas'),bgX=bgC.getContext('2d');
