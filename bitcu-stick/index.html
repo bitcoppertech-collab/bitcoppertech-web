@@ -359,8 +359,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;justify-content
 
 <script>
 const IMG64='/bitcu-box.png';
+window.showTab=function(id,btn){document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));var p=document.getElementById('tab-'+id);if(p)p.classList.add('active');if(btn)btn.classList.add('active');};
+window.runTerminal=function(){if(typeof runT==='function')runT();};
 
-function showTab(id,btn) {
+function _showTab(id,btn) {
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
@@ -480,7 +482,7 @@ const LINES=[
 ];
 
 let running=false;
-function runTerminal(){
+function runT(){
   if(running)return;running=true;
   const term=document.getElementById('terminal'),btn=document.getElementById('runBtn');
   btn.disabled=true;btn.textContent='⏳  Ejecutando v2.0...';
