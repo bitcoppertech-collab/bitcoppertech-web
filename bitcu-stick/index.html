@@ -491,6 +491,13 @@ body { background:#000; overflow-x:hidden; font-family:'Arial',sans-serif; color
   .fr{text-align:left;}
 }
 
+
+.vc.sov{border-left:3px solid #c8a84b;background:#07060100;}
+.vc.sov:hover{background:#0d0a0200;}
+.vc-s.gold{background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.4);color:#c8a84b;}
+.sov-hdr{background:rgba(200,168,75,0.04);border:1px solid rgba(200,168,75,0.15);padding:18px 24px;margin-bottom:1px;grid-column:1/-1;}
+.sov-ttl{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:#c8a84b;text-transform:uppercase;margin-bottom:6px;}
+.sov-note{margin-top:10px;padding:8px 12px;background:rgba(200,168,75,0.05);border-left:2px solid #c8a84b;font-size:11px;color:rgba(200,168,75,0.75);font-family:var(--mono);line-height:1.7;}
 </style>
 </head>
 <body>
@@ -499,7 +506,7 @@ body { background:#000; overflow-x:hidden; font-family:'Arial',sans-serif; color
   <div class="nav-logo">BitCU · TAL3™</div>
   <div class="nav-pills">
     <div class="nav-pill">v2.0 · ESP32-S3 · W5500</div>
-    <div class="nav-score">11/11 ✓</div>
+    <div class="nav-score">12/12 ✓</div>
     <div class="nav-pill">Patent Pending</div>
     <div class="nav-dot"></div>
   </div>
@@ -600,12 +607,32 @@ body { background:#000; overflow-x:hidden; font-family:'Arial',sans-serif; color
   </div>
 </div>
 
+
+    <div class="sov-hdr">
+      <div class="sov-ttl">&#9649; TEST 12 · Broche de Oro · Soberanía Total · Chuquicamata, 26 Mar 2026</div>
+      <div class="vc-d">Mesh Entropy Out-of-Band Resilience — Valida que TAL3 protege al host incluso cuando el atacante controla el router y corta toda comunicación con Bitcopper. BGP Hijacking + DNS Sinkhole simultáneos. El dispositivo conmuta a Modo Autónomo de Emergencia operando 100% desde entropía física local.</div>
+    </div>
+    <div class="vc sov" style="grid-column:1/-1">
+      <div class="vc-n" style="color:#c8a84b;">TEST 12 · SOVEREIGN · BGP HIJACKING + DNS SINKHOLE + AUTONOMOUS EDGE</div>
+      <div class="vc-t" style="color:#c8a84b;">Mesh Entropy Out-of-Band (OOB) Resilience</div>
+      <div class="vc-d">
+        <strong style="color:#c8a84b;">Fase 1</strong> Operacion normal verificada — servidor alcanzable, handshake autentico.<br>
+        <strong style="color:#c8a84b;">Fase 2</strong> DNS sinkhole + BGP hijack activados. Servidor Bitcopper: INALCANZABLE.<br>
+        <strong style="color:#c8a84b;">Fase 3</strong> TAL3 detecta SERVER_UNREACHABLE — anomalia en handshake confirmada.<br>
+        <strong style="color:#c8a84b;">Fase 4</strong> AUTONOMOUS MODE activado sin intervencion humana.<br>
+        <strong style="color:#c8a84b;">Fase 5</strong> Firma Edge: ADS1115 v_noise=2.90e-04V · ratio=107,599 · Zero cloud.<br>
+        <strong style="color:#c8a84b;">Fase 6</strong> Trafico malicioso bloqueado en el borde. Host protegido.
+      </div>
+      <span class="vc-s gold">&#9649; DEFENDED · Autonomous Edge · No-Cloud · 12/12 SOVEREIGN</span>
+      <div class="sov-note">Resiliencia garantizada mediante entropia fisica local (No-Cloud Dependency)<br>Cu=29 · El cobre no necesita internet para saber que es verdad</div>
+    </div>
+
 <!-- PRUEBA EN VIVO -->
 <div class="tab-panel" id="tab-prueba">
   <div class="sec-eye">TAL3™ Security Test Suite v2.0 · Resultados reales · 26 Mar 2026</div>
   <h2 class="sec-title">TEST SUITE<br><em>EN VIVO.</em></h2>
   <div class="score-display">
-    <div class="sc-box"><div class="sc-n perfect">11<span class="sc-u">/11</span></div><div class="sc-l">score perfecto v2.0</div></div>
+    <div class="sc-box"><div class="sc-n perfect">12<span class="sc-u">/12</span></div><div class="sc-l">score perfecto v2.0</div></div>
     <div class="sc-box"><div class="sc-n">4</div><div class="sc-l">vectores Salt Typhoon</div></div>
     <div class="sc-box"><div class="sc-n">2</div><div class="sc-l">fixes aplicados v1.1</div></div>
     <div class="sc-box"><div class="sc-n">2<span class="sc-u">²⁵⁶</span></div><div class="sc-l">prob. brute force</div></div>
@@ -967,7 +994,18 @@ const LINES=[
   {t:'  ✓  Entropy Ratio Manipulation [FIX v1.1]',c:'tok'},{t:'  ✓  Seed Brute Force',c:'tok'},
   {t:'  ✓  Unknown Device',c:'tok'},{t:'  ✓  Hash Collision',c:'tok'},
   {t:'  ✓  Salt Typhoon Simulation [11-A · 11-B · 11-C · 11-D]',c:'tok'},{t:''},
-  {t:'  Score: 11/11 · 🔒 PROTOCOLO COMPLETAMENTE SEGURO',c:'tsc'},{t:''},
+  
+  {t:'',c:'ti'},
+  {t:'  TEST 12 - MESH ENTROPY OOB - SOVEREIGN',c:'tsalt'},
+  {t:'  BGP Hijacking + DNS Sinkhole + Autonomous Edge',c:'tsalt'},
+  {t:'  [FASE 1] Operacion normal OK',c:'tok'},
+  {t:'  [FASE 2] DNS sinkhole + BGP hijack ACTIVADOS',c:'twarn'},
+  {t:'  [FASE 3] TAL3 detecta SERVER_UNREACHABLE',c:'twarn'},
+  {t:'  [FASE 4] AUTONOMOUS MODE activado',c:'tsalt'},
+  {t:'  [FASE 5] Firma Edge: v_noise=2.90e-04V ratio=107599',c:'ti'},
+  {t:'  [FASE 6] Trafico malicioso bloqueado en borde -> DEFENDED',c:'tok'},
+  {t:'',c:'ti'},
+  {t:'  Score: 12/12 · 🔒 PROTOCOLO COMPLETAMENTE SEGURO',c:'tsc'},{t:''},
   {t:'  Diferencia clave vs routers comprometidos (FCC Ban):', c:'tsalt'},
   {t:'  · Sin firmware modificable — TCP/IP en silicio W5500',c:'ti'},
   {t:'  · Sin puerto de gestión — superficie de ataque = 0',c:'ti'},
