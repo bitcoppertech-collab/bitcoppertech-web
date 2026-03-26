@@ -4,7 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BitCU Stick · TAL3™ v2.0 · 11/11 · Diseño Industrial Patentado</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('[data-tab]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var id=this.getAttribute('data-tab');
+      document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});
+      document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+      var panel=document.getElementById('tab-'+id);
+      if(panel)panel.classList.add('active');
+      this.classList.add('active');
+    });
+  });
+  var rb=document.getElementById('runBtn');
+  if(rb)rb.addEventListener('click',runTerminal);
+});
+</script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
@@ -176,11 +191,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;justify-content
 </section>
 
 <div class="tabs-nav" id="tabsNav">
-  <button class="tab-btn active" onclick="showTab('producto',this)">Producto</button>
-  <button class="tab-btn" onclick="showTab('seguridad',this)">Seguridad TAL3™ v2.0</button>
-  <button class="tab-btn" onclick="showTab('prueba',this)">Prueba en Vivo</button>
-  <button class="tab-btn" onclick="showTab('arquitectura',this)">Arquitectura</button>
-  <button class="tab-btn" onclick="showTab('precios',this)">Disponibilidad</button>
+  <button class="tab-btn active" data-tab="producto">Producto</button>
+  <button class="tab-btn" data-tab="seguridad">Seguridad TAL3™ v2.0</button>
+  <button class="tab-btn" data-tab="prueba">Prueba en Vivo</button>
+  <button class="tab-btn" data-tab="arquitectura">Arquitectura</button>
+  <button class="tab-btn" data-tab="precios">Disponibilidad</button>
 </div>
 
 <!-- PRODUCTO -->
@@ -262,7 +277,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;justify-content
       <span class="t-title">tal3_security_v2.0.py — Bitcopper Technologies LLC · Chuquicamata, Chile</span>
     </div>
     <div class="t-body" id="terminal"><span class="t-cursor" id="tcursor"></span></div>
-    <button class="run-btn" id="runBtn" onclick="runTerminal()">&#9654; &nbsp;EJECUTAR TEST SUITE v2.0</button>
+    <button class="run-btn" id="runBtn" id="runBtn">&#9654; &nbsp;EJECUTAR TEST SUITE v2.0</button>
   </div>
 </div>
 
