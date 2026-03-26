@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BitCU Stick · La Red que no puede morir</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cu: #b87333;
+  --cu-light: #da8a3f;
+  --cu-pale: #f5e6cc;
+  --cu-dark: #5a3010;
+  --ink: #0e0a06;
+  --ink2: #1e1409;
+  --smoke: #f0e8dc;
+  --gray: #8a7060;
+  --red: #c0392b;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--ink);
+  color: var(--smoke);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ─── GRAIN OVERLAY ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.5;
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(184,115,51,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(184,115,51,0.08) 0%, transparent 50%),
+    var(--ink);
+}
+
+/* copper grid lines */
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(184,115,51,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,115,51,0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 60px;
+  border-bottom: 1px solid rgba(184,115,51,0.2);
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.15em;
+  color: var(--cu);
+}
+
+.nav-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--gray);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: center;
+  padding: 0 60px;
+}
+
+.hero-left {
+  padding: 80px 60px 80px 0;
+  border-right: 1px solid rgba(184,115,51,0.15);
+}
+
+.eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--cu);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--cu);
+}
+
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(64px, 7vw, 96px);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  color: var(--smoke);
+  margin-bottom: 12px;
+}
+
+h1 em {
+  color: var(--cu);
+  font-style: normal;
+}
+
+.hero-sub {
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(240,232,220,0.7);
+  margin-top: 28px;
+  max-width: 420px;
+}
+
+.hero-sub strong {
+  color: var(--cu-light);
+  font-weight: 500;
+}
+
+.cta-row {
+  margin-top: 48px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.btn-primary {
+  background: var(--cu);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  transition: background 0.2s, transform 0.15s;
+}
+
+.btn-primary:hover { background: var(--cu-light); transform: translateY(-1px); }
+
+.btn-ghost {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--gray);
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(138,112,96,0.4);
+  padding-bottom: 2px;
+  transition: color 0.2s;
+}
+
+.btn-ghost:hover { color: var(--cu-light); }
+
+/* HERO RIGHT — stick visual */
+.hero-right {
+  padding: 80px 0 80px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.stick-visual {
+  position: relative;
+  width: 260px;
+}
+
+.stick-body {
+  width: 260px;
+  height: 76px;
+  background: linear-gradient(135deg, #2a1a0a 0%, #1a0e06 60%, #2a1a0a 100%);
+  border: 1px solid rgba(184,115,51,0.4);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 40px rgba(184,115,51,0.12),
+    0 0 80px rgba(184,115,51,0.06),
+    inset 0 1px 0 rgba(184,115,51,0.2);
+}
+
+.stick-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(184,115,51,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,115,51,0.05) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+
+.stick-usbc {
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 36px;
+  background: linear-gradient(90deg, #c8a84b, #a07820, #c8a84b);
+  border-radius: 0 4px 4px 0;
+  border: 1px solid rgba(200,168,75,0.5);
+}
+
+.stick-chip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 42px;
+  background: linear-gradient(135deg, #1a1a2a, #0a0a18);
+  border: 1px solid rgba(68,68,170,0.6);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stick-chip-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  color: rgba(136,136,255,0.9);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.stick-led {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00ff88;
+  box-shadow: 0 0 8px #00ff88, 0 0 16px rgba(0,255,136,0.4);
+  animation: pulse-led 2s ease-in-out infinite;
+}
+
+@keyframes pulse-led {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px #00ff88, 0 0 16px rgba(0,255,136,0.4); }
+  50% { opacity: 0.6; box-shadow: 0 0 4px #00ff88; }
+}
+
+.stick-label {
+  position: absolute;
+  left: 38px;
+  bottom: 10px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(184,115,51,0.7);
+}
+
+/* data lines animated */
+.data-lines {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.data-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(68,136,255,0.6), transparent);
+  animation: scan 1.8s ease-in-out infinite;
+}
+
+.data-line:nth-child(1) { width: 28px; animation-delay: 0s; }
+.data-line:nth-child(2) { width: 20px; animation-delay: 0.3s; }
+.data-line:nth-child(3) { width: 24px; animation-delay: 0.6s; }
+
+@keyframes scan {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+.stick-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+}
+
+.spec-pill {
+  background: rgba(184,115,51,0.06);
+  border: 1px solid rgba(184,115,51,0.15);
+  border-radius: 4px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.spec-key {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--gray);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.spec-val {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cu-light);
+}
+
+/* ─── ALERT BAND ─── */
+.alert-band {
+  background: rgba(192,57,43,0.12);
+  border-top: 1px solid rgba(192,57,43,0.3);
+  border-bottom: 1px solid rgba(192,57,43,0.3);
+  padding: 20px 60px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.alert-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    rgba(192,57,43,0.04) 8px,
+    rgba(192,57,43,0.04) 16px
+  );
+}
+
+.alert-icon {
+  font-family: 'DM Mono', monospace;
+  font-size: 20px;
+  color: var(--red);
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.alert-text {
+  z-index: 1;
+}
+
+.alert-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  color: #e74c3c;
+  margin-bottom: 2px;
+}
+
+.alert-body {
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(240,232,220,0.7);
+  line-height: 1.5;
+}
+
+.alert-date {
+  margin-left: auto;
+  z-index: 1;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.alert-date-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--gray);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.alert-date-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: #e74c3c;
+  letter-spacing: 0.05em;
+}
+
+/* ─── ARGUMENT SECTION ─── */
+.section {
+  padding: 100px 60px;
+  position: relative;
+}
+
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--cu);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(184,115,51,0.2);
+}
+
+h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  color: var(--smoke);
+  margin-bottom: 48px;
+}
+
+h2 em { color: var(--cu); font-style: normal; }
+
+/* ─── PROBLEM / SOLUTION SPLIT ─── */
+.split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: rgba(184,115,51,0.1);
+  border: 1px solid rgba(184,115,51,0.15);
+  margin-bottom: 80px;
+}
+
+.split-col {
+  padding: 48px;
+  background: var(--ink2);
+}
+
+.split-col.problem { border-right: 2px solid rgba(192,57,43,0.3); }
+
+.split-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.split-title.red { color: #e74c3c; }
+.split-title.copper { color: var(--cu); }
+
+.split-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.split-dot.red { background: #e74c3c; box-shadow: 0 0 8px rgba(231,76,60,0.6); }
+.split-dot.copper { background: var(--cu); box-shadow: 0 0 8px rgba(184,115,51,0.6); }
+
+.split-item {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.split-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--gray);
+  flex-shrink: 0;
+  margin-top: 3px;
+  letter-spacing: 0.1em;
+}
+
+.split-body {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(240,232,220,0.75);
+}
+
+.split-body strong {
+  color: var(--smoke);
+  font-weight: 500;
+}
+
+/* ─── STATS ROW ─── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: rgba(184,115,51,0.08);
+  border: 1px solid rgba(184,115,51,0.12);
+  margin-bottom: 80px;
+}
+
+.stat-box {
+  padding: 36px 28px;
+  background: var(--ink2);
+  text-align: center;
+  position: relative;
+}
+
+.stat-box::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  background: var(--cu);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+  transform-origin: left;
+}
+
+.stat-box:hover::after { transform: scaleX(1); }
+
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 52px;
+  line-height: 1;
+  color: var(--cu);
+  letter-spacing: 0.02em;
+}
+
+.stat-unit {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--cu-light);
+  margin-left: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--gray);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+/* ─── HOW IT WORKS ─── */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: rgba(184,115,51,0.08);
+  border: 1px solid rgba(184,115,51,0.12);
+}
+
+.step-box {
+  padding: 40px 32px;
+  background: var(--ink2);
+  position: relative;
+}
+
+.step-n {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  line-height: 1;
+  color: rgba(184,115,51,0.12);
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  letter-spacing: -0.02em;
+}
+
+.step-icon {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(184,115,51,0.3);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.step-icon svg { width: 20px; height: 20px; stroke: var(--cu); fill: none; stroke-width: 1.5; }
+
+.step-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.05em;
+  color: var(--smoke);
+  margin-bottom: 12px;
+}
+
+.step-body {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(240,232,220,0.65);
+}
+
+.step-body strong { color: var(--cu-light); font-weight: 500; }
+
+/* ─── QUOTE BLOCK ─── */
+.quote-block {
+  padding: 80px 60px;
+  background: rgba(184,115,51,0.04);
+  border-top: 1px solid rgba(184,115,51,0.1);
+  border-bottom: 1px solid rgba(184,115,51,0.1);
+  text-align: center;
+}
+
+.quote-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.1;
+  letter-spacing: 0.03em;
+  color: var(--smoke);
+  max-width: 800px;
+  margin: 0 auto 24px;
+}
+
+.quote-text em { color: var(--cu); font-style: normal; }
+
+.quote-source {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--gray);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ─── VISION SECTION ─── */
+.vision-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2px;
+  background: rgba(184,115,51,0.08);
+  border: 1px solid rgba(184,115,51,0.12);
+}
+
+.vision-left {
+  padding: 60px 48px;
+  background: var(--ink2);
+  border-right: 1px solid rgba(184,115,51,0.12);
+}
+
+.vision-left-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 40px;
+  line-height: 0.95;
+  letter-spacing: 0.03em;
+  color: var(--cu);
+  margin-bottom: 24px;
+}
+
+.vision-left-body {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(240,232,220,0.65);
+}
+
+.vision-right {
+  padding: 60px 48px;
+  background: var(--ink2);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.vision-item {
+  border-left: 2px solid rgba(184,115,51,0.25);
+  padding-left: 16px;
+}
+
+.vision-item-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 17px;
+  letter-spacing: 0.08em;
+  color: var(--cu-light);
+  margin-bottom: 6px;
+}
+
+.vision-item-body {
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(240,232,220,0.6);
+}
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 48px 60px;
+  border-top: 1px solid rgba(184,115,51,0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.footer-left {}
+
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 0.1em;
+  color: var(--cu);
+  margin-bottom: 4px;
+}
+
+.footer-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--gray);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.footer-right {
+  text-align: right;
+}
+
+.footer-right p {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--gray);
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+}
+
+/* ─── ANIMATIONS ─── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: fadeUp 0.7s ease forwards;
+}
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up:nth-child(1) { animation-delay: 0.1s; }
+.fade-up:nth-child(2) { animation-delay: 0.25s; }
+.fade-up:nth-child(3) { animation-delay: 0.4s; }
+.fade-up:nth-child(4) { animation-delay: 0.55s; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  nav, .alert-band, .section, footer { padding-left: 28px; padding-right: 28px; }
+  .hero-content { grid-template-columns: 1fr; }
+  .hero-left { border-right: none; border-bottom: 1px solid rgba(184,115,51,0.15); padding: 48px 0; }
+  .hero-right { padding: 40px 0; }
+  .split-grid, .vision-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .steps-grid { grid-template-columns: 1fr; }
+  .vision-right { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 24px; }
+  .footer-right { text-align: left; }
+  .alert-date { display: none; }
+  h1 { font-size: 52px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <nav>
+    <div class="nav-logo">BITCOPPER</div>
+    <div class="nav-tag">Bitcopper Tech SpA · Santiago, Chile · 2026</div>
+  </nav>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="eyebrow fade-up">Soberanía de red · Respuesta al FCC Ban</div>
+      <h1 class="fade-up">LA RED<br>QUE <em>NO</em><br>PUEDE<br>MORIR</h1>
+      <p class="hero-sub fade-up">
+        Mientras el mundo debate cómo reemplazar <strong>millones de routers comprometidos</strong>, nosotros ya construimos la solución: un chip que integra TCP/IP soberano directamente en el hardware, sin routers externos, sin vectores de ataque, sin puntos únicos de falla.
+      </p>
+      <div class="cta-row fade-up">
+        <button class="btn-primary">Conocer BitCU Stick</button>
+        <a href="#solucion" class="btn-ghost">Ver la arquitectura →</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <!-- BitCU Stick visual -->
+      <div class="stick-visual">
+        <div class="stick-body">
+          <div class="stick-led"></div>
+          <div class="stick-chip">
+            <div class="stick-chip-label">ESP32<br>S3<br>W5500</div>
+          </div>
+          <div class="data-lines">
+            <div class="data-line"></div>
+            <div class="data-line"></div>
+            <div class="data-line"></div>
+          </div>
+          <div class="stick-label">BITCU STICK v1</div>
+          <div class="stick-usbc"></div>
+        </div>
+      </div>
+
+      <div class="stick-specs">
+        <div class="spec-pill">
+          <span class="spec-key">TCP/IP</span>
+          <span class="spec-val">W5500 · en silicio</span>
+        </div>
+        <div class="spec-pill">
+          <span class="spec-key">Consumo</span>
+          <span class="spec-val">0.5 – 1W</span>
+        </div>
+        <div class="spec-pill">
+          <span class="spec-key">Conectividad</span>
+          <span class="spec-val">WiFi + Ethernet</span>
+        </div>
+        <div class="spec-pill">
+          <span class="spec-key">Formato</span>
+          <span class="spec-val">USB-C · Plug & Play</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERT BAND -->
+  <div class="alert-band">
+    <div class="alert-icon">⚠</div>
+    <div class="alert-text">
+      <div class="alert-title">FCC BAN · Routers extranjeros prohibidos en EEUU</div>
+      <div class="alert-body">La FCC determinó que routers de fabricación extranjera representan "riesgos inaceptables" para la seguridad nacional, implicados en los ciberataques Volt, Flax y Salt Typhoon que afectaron 14+ millones de dispositivos.</div>
+    </div>
+    <div class="alert-date">
+      <div class="alert-date-label">Publicado</div>
+      <div class="alert-date-val">24 MAR 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA VS SOLUCIÓN -->
+<section class="section" id="solucion">
+  <div class="section-label">El problema y la solución</div>
+  <h2>ROUTERS COMPROMETIDOS<br><em>VS COBRE SOBERANO</em></h2>
+
+  <div class="split-grid">
+    <div class="split-col problem">
+      <div class="split-title red">
+        <div class="split-dot red"></div>
+        El problema actual
+      </div>
+      <div class="split-item">
+        <span class="split-num">01</span>
+        <div class="split-body"><strong>14+ millones de dispositivos infectados</strong> a través de routers extranjeros con firmware opaco y actualizaciones remotas no verificables.</div>
+      </div>
+      <div class="split-item">
+        <span class="split-num">02</span>
+        <div class="split-body"><strong>Superficie de ataque enorme:</strong> el router es una caja negra entre tu red y el mundo. Nadie sabe qué hay realmente dentro del firmware.</div>
+      </div>
+      <div class="split-item">
+        <span class="split-num">03</span>
+        <div class="split-body"><strong>Dependencia total de hardware externo:</strong> si el router falla, la red muere. Si el router es atacado, toda la red local queda expuesta.</div>
+      </div>
+      <div class="split-item">
+        <span class="split-num">04</span>
+        <div class="split-body"><strong>Sin soberanía verificable:</strong> imposible auditar el firmware de un router comercial. La confianza es ciega por diseño.</div>
+      </div>
+    </div>
+
+    <div class="split-col">
+      <div class="split-title copper">
+        <div class="split-dot copper"></div>
+        La solución Bitcopper
+      </div>
+      <div class="split-item">
+        <span class="split-num">01</span>
+        <div class="split-body"><strong>TCP/IP grabado en silicio:</strong> el chip W5500 implementa el stack completo en hardware. No hay firmware. No hay superficie de ataque de software.</div>
+      </div>
+      <div class="split-item">
+        <span class="split-num">02</span>
+        <div class="split-body"><strong>Sin router externo necesario:</strong> el BitCU Stick se conecta directamente a cualquier puerto USB-C. La conectividad está integrada en el dispositivo mismo.</div>
+      </div>
+      <div class="split-item">
+        <span class="split-num">03</span>
+        <div class="split-body"><strong>Código 100% auditable:</strong> ESP32-S3 con firmware open source. Cualquier persona puede verificar exactamente qué ejecuta su nodo.</div>
+      </div>
+      <div class="split-item">
+        <span class="split-num">04</span>
+        <div class="split-body"><strong>Resiliencia termodinámica:</strong> el Concentrador Soberano mantiene la red viva 12 horas sin electricidad, usando el calor del propio hardware.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-num">29<span class="stat-unit">M</span></div>
+      <div class="stat-label">nodos soberanos objetivo · Cu = 29</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">12<span class="stat-unit">h</span></div>
+      <div class="stat-label">autonomía sin red eléctrica · PCM Eritritol</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">0<span class="stat-unit">fw</span></div>
+      <div class="stat-label">firmware atacable · TCP/IP en hardware puro</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">Cu<span class="stat-unit"> = 29</span></div>
+      <div class="stat-label">el cobre define la red, la moneda y el límite</div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-label">Arquitectura</div>
+  <h2>TRES CAPAS.<br><em>UN SOLO PROPÓSITO.</em></h2>
+
+  <div class="steps-grid">
+    <div class="step-box">
+      <div class="step-n">1</div>
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none" style="fill:var(--cu)"/></svg>
+      </div>
+      <div class="step-title">BitCU Stick · Hoy</div>
+      <div class="step-body">
+        Dispositivo USB-C independiente. <strong>Conectas, minas, participas.</strong> El ESP32-S3 corre el protocolo Proof of Heat. El ADS1115 captura entropía electromagnética real para generar BITCU. Sin instalación, sin configuración.
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-n">2</div>
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="10" x2="6" y2="14"/><line x1="10" y1="9" x2="10" y2="15"/><line x1="14" y1="11" x2="14" y2="13"/><line x1="18" y1="10" x2="18" y2="14"/></svg>
+      </div>
+      <div class="step-title">TAL Inside · Mañana</div>
+      <div class="step-body">
+        El chip Bitcopper integrado en placa madre. <strong>Como Intel ME, pero soberano y transparente.</strong> Cada motherboard es un nodo por defecto. TCP/IP nativo con W5500: la red corre literalmente sobre cobre, en silicio.
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-n">3</div>
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>
+      </div>
+      <div class="step-title">Concentrador Soberano · Siempre</div>
+      <div class="step-body">
+        Un nodo de infraestructura crítica por cada 29M nodos. <strong>Cámara de Eritritol sellada en cobre C110.</strong> Capta el calor del rack, lo almacena, alimenta la red durante cortes. La red no depende de la electricidad — depende del cobre.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-block">
+  <div class="quote-text">
+    "LA RED ELÉCTRICA PUEDE FALLAR.<br>
+    <em>EL CALOR DEL COBRE, NUNCA."</em>
+  </div>
+  <div class="quote-source">— Principio fundacional · Bitcopper · Protocolo Patrón Cobre</div>
+</div>
+
+<!-- VISIÓN -->
+<section class="section">
+  <div class="section-label">Visión de largo plazo</div>
+  <h2>LA <em>GIA</em> NACE<br>DEL CALOR</h2>
+
+  <div class="vision-grid">
+    <div class="vision-left">
+      <div class="vision-left-title">La inteligencia que emerge de la red física</div>
+      <div class="vision-left-body">
+        Los Concentradores Soberanos no solo mantienen la red viva — cuando su cómputo se suma, alimentan la GIA Bitcopper (General Intelligence Architecture), una inteligencia distribuida que existe mientras exista el cobre.
+        <br><br>
+        No hay centro. No hay empresa que la controle. No hay servidor que apagar. La GIA es tan descentralizada como la red termodinámica que la sostiene.
+      </div>
+    </div>
+
+    <div class="vision-right">
+      <div class="vision-item">
+        <div class="vision-item-title">Cu = 29</div>
+        <div class="vision-item-body">El número atómico del cobre define simultáneamente el supply de CUPR, el número de nodos objetivo, y el umbral de cada Concentrador Soberano.</div>
+      </div>
+      <div class="vision-item">
+        <div class="vision-item-title">Proof of Heat</div>
+        <div class="vision-item-body">El calor térmico del procesador es la prueba de trabajo. No quema energía extra — usa la que ya se disipa. Minado eficiente por diseño.</div>
+      </div>
+      <div class="vision-item">
+        <div class="vision-item-title">CUPR · Reserva Soberana</div>
+        <div class="vision-item-body">29,000,000 CUPR máximo. Cada token representa un nodo potencial de la red. La moneda y la infraestructura son la misma estructura.</div>
+      </div>
+      <div class="vision-item">
+        <div class="vision-item-title">GIA · Inteligencia distribuida</div>
+        <div class="vision-item-body">La suma del cómputo soberano de los Concentradores constituye la primera IA descentralizada cuya energía proviene del calor residual del hardware.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-logo">BITCOPPER TECH</div>
+    <div class="footer-sub">SpA · Santiago & Chuquicamata, Chile · 2026</div>
+  </div>
+  <div class="footer-right">
+    <p>Pedro (bitcu) · Fundador y Arquitecto del Protocolo</p>
+    <p>bitcoppertech.cl · Whitepaper v4.0 disponible</p>
+    <p>Protocolo Patrón Cobre · BITCU + CUPR · Red soberana termodinámica</p>
+  </div>
+</footer>
+
+</body>
+</html>
