@@ -15,6 +15,10 @@
   ],
   "rewrites": [
     {
+      "source": "/bitcu-stick-app.html",
+      "destination": "/public/bitcu-stick-app.html"
+    },
+    {
       "source": "/cupr",
       "destination": "/cupr/index.html"
     },
