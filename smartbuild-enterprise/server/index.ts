@@ -656,9 +656,152 @@ app.post('/api/v1/webhooks/city', express.raw({ type: 'application/json' }), asy
 
 // Envía evento a smartbuild-city (helper exportable)
 export async function notifyCity(event: string, payload: unknown) {
+  console.log("[notifyCity] url:", process.env.CITY_WEBHOOK_URL, "secret:", process.env.CITY_WEBHOOK_SECRET?.slice(0,8))
   const url = process.env.CITY_WEBHOOK_URL
-  const secret = process.env.ENTERPRISE_WEBHOOK_SECRET
+  const secret = process.env.CITY_WEBHOOK_SECRET
   if (!url || !secret) return false
   return sendWebhook(url, event, payload, secret)
 }
+// ── LOD ENDPOINTS ─────────────────────────────────────────────────
+// Agregar en server/index.ts ANTES del app.listen(PORT, ...)
+
+// GET todos los LODs de un proyecto
+app.get('/api/projects/:id/lod', requireAuth, async (req: any, res: any) => {
+  try {
+    const result = await pool.query(
+      `SELECT l.*, 
+              COUNT(d.id) AS total_docs,
+              json_agg(json_build_object('id',d.id,'nombre',d.nombre,'tipo',d.tipo,'storage_key',d.storage_key,'size_bytes',d.size_bytes) ORDER BY d.created_at) FILTER (WHERE d.id IS NOT NULL) AS documentos
+       FROM ent_lod l
+       LEFT JOIN ent_lod_documentos d ON d.lod_id = l.id
+       WHERE l.project_id = $1
+       GROUP BY l.id
+       ORDER BY l.subido_at DESC`,
+      [parseInt(req.params.id)]
+    )
+    res.json(result.rows)
+  } catch (e: any) { res.status(500).json({ error: e.message }) }
+})
+
+// GET LOD activo de un proyecto
+app.get('/api/projects/:id/lod/activo', requireAuth, async (req: any, res: any) => {
+  try {
+    const result = await pool.query(
+      `SELECT l.*,
+              json_agg(json_build_object('id',d.id,'nombre',d.nombre,'tipo',d.tipo,'storage_key',d.storage_key) ORDER BY d.created_at) FILTER (WHERE d.id IS NOT NULL) AS documentos
+       FROM ent_lod l
+       LEFT JOIN ent_lod_documentos d ON d.lod_id = l.id
+       WHERE l.project_id = $1 AND l.activo = true
+       GROUP BY l.id
+       ORDER BY l.subido_at DESC
+       LIMIT 1`,
+      [parseInt(req.params.id)]
+    )
+    res.json(result.rows[0] ?? null)
+  } catch (e: any) { res.status(500).json({ error: e.message }) }
+})
+
+// POST crear nuevo LOD + notificar City
+app.post('/api/projects/:id/lod', requireAuth, async (req: any, res: any) => {
+  try {
+    const projectId = parseInt(req.params.id)
+    const { nivel, software, responsable_bim, modo_premium = false, documentos = [], partida_id } = req.body
+
+    if (!nivel || ![100,200,300,350,400,500].includes(nivel)) {
+      return res.status(400).json({ error: 'nivel LOD inválido (100/200/300/350/400/500)' })
+    }
+    if (!responsable_bim) {
+      return res.status(400).json({ error: 'responsable_bim requerido' })
+    }
+
+    // Verificar que el proyecto pertenece al usuario
+    const [project] = (await pool.query(
+      `SELECT id, name, client, location FROM ent_projects WHERE id = $1 AND owner_id = $2`,
+      [projectId, req.userId]
+    )).rows
+    if (!project) return res.status(404).json({ error: 'Proyecto no encontrado' })
+
+    // Desactivar LODs anteriores
+    await pool.query(`UPDATE ent_lod SET activo=false WHERE project_id=$1`, [projectId])
+
+    // Crear nuevo LOD
+    const [lod] = (await pool.query(
+      `INSERT INTO ent_lod (project_id, partida_id, nivel, software, responsable_bim, modo_premium, activo, estado, subido_at)
+       VALUES ($1,$2,$3,$4,$5,$6,true,'en_analisis',NOW()) RETURNING *`,
+      [projectId, partida_id ?? null, nivel, software ?? null, responsable_bim, modo_premium]
+    )).rows
+
+    // Insertar documentos
+    if (documentos.length > 0) {
+      for (const doc of documentos) {
+        await pool.query(
+          `INSERT INTO ent_lod_documentos (lod_id, nombre, tipo, storage_key, size_bytes)
+           VALUES ($1,$2,$3,$4,$5)`,
+          [lod.id, doc.nombre, doc.tipo, doc.storage_key, doc.size_bytes ?? null]
+        )
+      }
+    }
+
+    // Notificar a City via webhook (async — no bloquear respuesta)
+    notifyCity('lod.subido', {
+      lod_id:      lod.id,
+      project_id:  projectId,
+      obra_nombre: project.name,
+      municipio:   project.client ?? '',
+      nivel,
+      software,
+      responsable_bim,
+      modo_premium,
+      documentos:  documentos.length,
+      subido_at:   lod.subido_at,
+    }).then(ok => {
+      if (!ok) console.error(`[webhook] City no recibió lod.subido para lod_id=${lod.id}`)
+    })
+
+    res.status(201).json({ data: lod })
+  } catch (e: any) {
+    console.error('[LOD] error:', e.message, e.stack)
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// PATCH actualizar estado LOD (llamado por City vía webhook)
+app.patch('/api/lod/:id/estado', requireAuth, async (req: any, res: any) => {
+  try {
+    const { estado } = req.body
+    if (!['pendiente','en_analisis','aprobado','observado','rechazado'].includes(estado)) {
+      return res.status(400).json({ error: 'estado inválido' })
+    }
+    const [updated] = (await pool.query(
+      `UPDATE ent_lod SET estado=$1, updated_at=NOW() WHERE id=$2 RETURNING *`,
+      [estado, parseInt(req.params.id)]
+    )).rows
+    res.json({ data: updated })
+  } catch (e: any) { res.status(500).json({ error: e.message }) }
+})
+
+// POST subir foto geoposicionada
+app.post('/api/projects/:id/fotos', requireAuth, async (req: any, res: any) => {
+  try {
+    const { url, storage_key, lat, lng, descripcion, lod_id, tomada_at } = req.body
+    const [user] = (await pool.query(`SELECT name FROM users WHERE id=$1`, [req.userId])).rows
+    const [foto] = (await pool.query(
+      `INSERT INTO ent_lod_fotos (project_id, lod_id, autor_id, autor_nombre, url, storage_key, lat, lng, descripcion, tomada_at)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
+      [parseInt(req.params.id), lod_id ?? null, req.userId, user?.name ?? '', url, storage_key ?? null, lat ?? null, lng ?? null, descripcion ?? null, tomada_at ?? new Date()]
+    )).rows
+    res.status(201).json({ data: foto })
+  } catch (e: any) { res.status(500).json({ error: e.message }) }
+})
+
+// GET fotos de un proyecto
+app.get('/api/projects/:id/fotos', requireAuth, async (req: any, res: any) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM ent_lod_fotos WHERE project_id=$1 ORDER BY tomada_at DESC`,
+      [parseInt(req.params.id)]
+    )
+    res.json(result.rows)
+  } catch (e: any) { res.status(500).json({ error: e.message }) }
+})
 app.listen(PORT, () => console.log(`SmartBuild Enterprise API → http://localhost:${PORT}`));

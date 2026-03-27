@@ -9,6 +9,7 @@ import ProjectsPage from "./pages/ProjectsPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import ControlObraPage from "./pages/ControlObraPage";
 import BIMPage from "./pages/BIMPage";
+import LODPage from "./pages/LODPage";
 import AdminPage from "./pages/AdminPage";
 import ImportPresupuesto from "./pages/ImportPresupuesto";
 import PresupuestoPage from "./pages/PresupuestoPage";
@@ -41,6 +42,7 @@ function AppRoutes() {
       <Route path="/projects/:id/presupuesto" component={() => <ProtectedRoute component={PresupuestoPage} />} />
       <Route path="/projects/:id/obra" component={() => <ProtectedRoute component={ControlObraPage} />} />
       <Route path="/projects/:id/bim" component={() => <ProtectedRoute component={BIMPage} />} />
+      <Route path="/projects/:id/lod" component={() => <ProtectedRoute component={LODPage} />} />
       <Route path="/projects/:id/import" component={() => <ProtectedRoute component={ImportPresupuesto} />} />
       <Route path="/admin" component={() => <ProtectedRoute component={AdminPage} adminOnly />} />
       <Route path="/">{user ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}</Route>
