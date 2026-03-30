@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuestro Equipo · Bitcopper Tech SpA</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{min-height:100%;background:#000;font-family:'Inter',sans-serif;color:#E8E8E8;}
+/* ===== SECTION ===== */
+#equipo{
+  background:#000;padding:100px 0 80px;
+  border-top:1px solid #1A1A1A;position:relative;overflow:hidden;
+}
+#equipo::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%,rgba(184,115,51,0.06),transparent 70%),
+    repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(184,115,51,0.03) 40px),
+    repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(184,115,51,0.03) 40px);
+  pointer-events:none;
+}
+.team-container{max-width:1200px;margin:0 auto;padding:0 40px;position:relative;z-index:1;}
+.team-header{text-align:center;margin-bottom:72px;}
+.team-eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:4px;color:#B87333;
+  text-transform:uppercase;margin-bottom:16px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.team-eyebrow::before,.team-eyebrow::after{content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,#B87333);}
+.team-eyebrow::after{transform:scaleX(-1);}
+.team-h2{
+  font-family:'Unbounded',sans-serif;font-weight:900;
+  font-size:clamp(28px,4vw,48px);letter-spacing:2px;
+  color:#FFF;text-transform:uppercase;line-height:1.1;
+}
+.team-h2 span{color:#F0B060;}
+.team-tagline{font-size:14px;color:#606060;letter-spacing:2px;margin-top:14px;font-family:'JetBrains Mono',monospace;}
+/* CEO */
+.ceo-row{display:flex;justify-content:center;margin-bottom:56px;}
+.ceo-card{
+  background:#0A0A0A;border:1px solid #2A2A2A;
+  padding:32px 40px;max-width:500px;width:100%;
+  position:relative;transition:border-color .25s;
+  display:flex;gap:28px;align-items:flex-start;
+}
+.ceo-card::before{
+  content:'FOUNDER & CEO';position:absolute;top:-1px;left:32px;
+  background:#B87333;color:#000;
+  font-family:'Unbounded',sans-serif;font-size:8px;font-weight:900;
+  letter-spacing:3px;padding:4px 14px;
+}
+.ceo-card:hover{border-color:#B87333;}
+.ceo-avatar{
+  width:88px;height:88px;flex-shrink:0;
+  border:2px solid #B87333;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.ceo-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+.ceo-info{flex:1;}
+.ceo-name{
+  font-family:'Unbounded',sans-serif;font-weight:900;
+  font-size:16px;letter-spacing:2px;color:#FFF;
+  text-transform:uppercase;margin-bottom:4px;
+}
+.ceo-role{font-size:9px;color:#B87333;letter-spacing:3px;margin-bottom:12px;}
+.ceo-bio{font-size:12px;color:#808080;line-height:1.7;margin-bottom:14px;}
+.ceo-skills{display:flex;flex-wrap:wrap;gap:4px;}
+.team-skill{
+  padding:2px 8px;font-size:8px;letter-spacing:1px;
+  background:rgba(184,115,51,0.08);color:#B87333;
+  border:1px solid rgba(184,115,51,0.2);
+  font-family:'JetBrains Mono',monospace;
+}
+/* AGENTS GRID */
+.agents-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:#1A1A1A;border:1px solid #1A1A1A;margin-bottom:24px;
+}
+@media(max-width:900px){.agents-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.agents-grid{grid-template-columns:1fr;}}
+.agent-card{
+  background:#080808;cursor:pointer;
+  transition:background .2s;position:relative;overflow:hidden;
+}
+.agent-card:hover{background:#0E0E0E;}
+.agent-card-inner{padding:28px 22px 24px;}
+.agent-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  transform:scaleX(0);transition:transform .3s;transform-origin:left;
+}
+.agent-card:nth-child(1)::after{background:#F0B060;}
+.agent-card:nth-child(2)::after{background:#7BA3FF;}
+.agent-card:nth-child(3)::after{background:#34D399;}
+.agent-card:nth-child(4)::after{background:#F0B060;}
+.agent-card:hover::after{transform:scaleX(1);}
+.agent-avatar-wrap{width:72px;height:72px;margin:0 auto 18px;}
+.agent-avatar-wrap svg{width:100%;height:100%;}
+.agent-name{
+  font-family:'Unbounded',sans-serif;font-weight:900;
+  font-size:14px;letter-spacing:3px;text-transform:uppercase;
+  text-align:center;margin-bottom:4px;
+}
+.agent-role-label{
+  font-size:8px;letter-spacing:2px;color:#505050;
+  text-align:center;text-transform:uppercase;margin-bottom:16px;
+  font-family:'JetBrains Mono',monospace;
+}
+.agent-skills-row{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-bottom:16px;}
+.agent-skill-tag{
+  padding:2px 6px;font-size:8px;letter-spacing:1px;
+  background:#111;color:#505050;border:1px solid #1E1E1E;
+  font-family:'JetBrains Mono',monospace;
+}
+.agent-bio-text{
+  font-size:11px;color:#606060;line-height:1.7;
+  text-align:center;margin-bottom:16px;
+  max-height:0;overflow:hidden;transition:max-height .4s ease;
+}
+.agent-card.open .agent-bio-text{max-height:220px;}
+.agent-quote-text{
+  border-top:1px solid #161616;padding-top:14px;
+  font-size:10px;color:#484848;line-height:1.8;
+  font-style:italic;text-align:center;
+  max-height:0;overflow:hidden;transition:max-height .4s ease .05s;
+}
+.agent-card.open .agent-quote-text{max-height:200px;}
+.agent-quote-text::before{
+  content:'"';font-family:'Georgia',serif;font-size:28px;
+  color:#2A2A2A;display:block;margin-bottom:4px;line-height:1;
+}
+.team-expand-btn{
+  display:block;width:100%;padding:10px;
+  background:transparent;border:none;border-top:1px solid #141414;
+  color:#303030;font-size:8px;letter-spacing:2px;
+  font-family:'JetBrains Mono',monospace;text-transform:uppercase;
+  cursor:pointer;transition:all .15s;text-align:center;
+}
+.team-expand-btn:hover{color:#B87333;background:#0A0A0A;}
+/* ORION BANNER */
+.orion-banner{
+  background:#050505;border:1px solid rgba(184,115,51,0.25);
+  padding:28px 36px;display:grid;
+  grid-template-columns:80px 1fr;
+  gap:24px;align-items:center;position:relative;overflow:hidden;
+}
+.orion-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 40% 80% at 5% 50%,rgba(184,115,51,0.06),transparent);
+}
+.orion-hex{
+  width:72px;height:72px;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  background:linear-gradient(135deg,#1A1000,#B87333);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Unbounded',sans-serif;font-size:20px;font-weight:900;color:#000;
+  animation:orionGlow 3s ease infinite;flex-shrink:0;
+}
+@keyframes orionGlow{0%,100%{filter:brightness(1);}50%{filter:brightness(1.25);}}
+.orion-badge{
+  display:inline-block;background:#B87333;color:#000;
+  font-family:'Unbounded',sans-serif;font-size:7px;font-weight:900;
+  letter-spacing:3px;padding:3px 10px;margin-bottom:8px;
+}
+.orion-banner-name{
+  font-family:'Unbounded',sans-serif;font-weight:900;
+  font-size:20px;letter-spacing:4px;color:#FFF;text-transform:uppercase;
+}
+.orion-banner-title{font-size:9px;color:#B87333;letter-spacing:2px;margin-top:3px;margin-bottom:10px;}
+.orion-banner-desc{font-size:11px;color:#505050;line-height:1.7;max-width:560px;}
+.orion-connects{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.orion-tag{
+  display:flex;align-items:center;gap:5px;
+  padding:4px 10px;border:1px solid rgba(184,115,51,0.2);
+  background:rgba(184,115,51,0.05);
+  font-size:8px;color:#B87333;letter-spacing:1px;
+  font-family:'JetBrains Mono',monospace;
+}
+.live-dot{
+  width:5px;height:5px;border-radius:50%;background:#22C55E;
+  animation:livePulse 2s infinite;
+}
+@keyframes livePulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+</style>
+</head>
+<body>
+
+<section id="equipo">
+<div class="team-container">
+
+  <div class="team-header">
+    <div class="team-eyebrow">Bitcopper Tech SpA</div>
+    <h2 class="team-h2">Nuestro <span>Equipo</span></h2>
+    <p class="team-tagline">Inteligencia humana + artificial · Calama, Chile · 2026</p>
+  </div>
+
+  <div class="ceo-row">
+    <div class="ceo-card">
+      <div class="ceo-avatar">
+        <img src="data:image/jpeg;base64,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" alt="Pedro R. Morales">
+      </div>
+      <div class="ceo-info">
+        <div class="ceo-name">Pedro R. Morales</div>
+        <div class="ceo-role">Founder &amp; Chief Executive Officer</div>
+        <div class="ceo-bio">Chuquicamatino de nacimiento, fundador del ecosistema Bitcopper desde Calama, Antofagasta. Arquitecto del protocolo Proof of Heat, el estándar TAL Inside™ y la plataforma SmartBuild. Ingeniero full-stack, hardware developer y creador del protocolo Patrón Cobre.</div>
+        <div class="ceo-skills">
+          <span class="team-skill">Proof of Heat</span>
+          <span class="team-skill">TAL3™</span>
+          <span class="team-skill">ESP32-S3</span>
+          <span class="team-skill">Rust / Tauri</span>
+          <span class="team-skill">Solidity</span>
+          <span class="team-skill">Node.js</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="agents-grid">
+
+    <div class="agent-card" id="team-nexar">
+      <div class="agent-card-inner">
+        <div class="agent-avatar-wrap">
+          <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="gnx" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#4A2000"/><stop offset="100%" stop-color="#F0B060"/>
+            </linearGradient></defs>
+            <polygon points="36,2 70,19 70,53 36,70 2,53 2,19" fill="url(#gnx)"/>
+            <text x="36" y="44" text-anchor="middle" font-family="Unbounded,sans-serif" font-size="22" font-weight="900" fill="#000">N</text>
+          </svg>
+        </div>
+        <div class="agent-name" style="color:#F0B060;">NEXAR</div>
+        <div class="agent-role-label">Gerente de Ventas · IA</div>
+        <div class="agent-skills-row">
+          <span class="agent-skill-tag">Cotizaciones</span><span class="agent-skill-tag">CRM</span>
+          <span class="agent-skill-tag">Propuestas</span><span class="agent-skill-tag">Emails</span>
+        </div>
+        <div class="agent-bio-text">Especialista en cierre comercial del ecosistema Bitcopper. Genera cotizaciones en segundos, gestiona el pipeline de leads y redacta propuestas ejecutivas para BitCU Stick, SmartBuild y TAL Inside™.</div>
+        <div class="agent-quote-text">Mi rol es convertir cada conversación en una oportunidad de cierre. El BitCU Stick no es solo hardware — es el primer paso de una relación estratégica con Bitcopper.</div>
+      </div>
+      <button class="team-expand-btn" onclick="teamToggle('nexar')">Ver perfil completo ↓</button>
+    </div>
+
+    <div class="agent-card" id="team-helix">
+      <div class="agent-card-inner">
+        <div class="agent-avatar-wrap">
+          <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="ghx" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#0A1040"/><stop offset="100%" stop-color="#7BA3FF"/>
+            </linearGradient></defs>
+            <polygon points="36,2 70,19 70,53 36,70 2,53 2,19" fill="url(#ghx)"/>
+            <text x="36" y="44" text-anchor="middle" font-family="Unbounded,sans-serif" font-size="22" font-weight="900" fill="#fff">H</text>
+          </svg>
+        </div>
+        <div class="agent-name" style="color:#7BA3FF;">HELIX</div>
+        <div class="agent-role-label">Gerente de Marketing · IA</div>
+        <div class="agent-skills-row">
+          <span class="agent-skill-tag">X/Twitter</span><span class="agent-skill-tag">Telegram</span>
+          <span class="agent-skill-tag">LinkedIn</span><span class="agent-skill-tag">Blog</span>
+        </div>
+        <div class="agent-bio-text">Director de estrategia digital y motor de publicaciones de Bitcopper. Gestiona los 4 canales oficiales, diseña campañas de crecimiento escalable y construye la comunidad alrededor del protocolo Proof of Heat.</div>
+        <div class="agent-quote-text">El Proof of Heat no es solo tecnología, es una narrativa. Mi trabajo es asegurarme de que el mundo entienda por qué el calor del cobre puede transformar la economía digital.</div>
+      </div>
+      <button class="team-expand-btn" onclick="teamToggle('helix')">Ver perfil completo ↓</button>
+    </div>
+
+    <div class="agent-card" id="team-aurum">
+      <div class="agent-card-inner">
+        <div class="agent-avatar-wrap">
+          <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="gax" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#021A0A"/><stop offset="100%" stop-color="#34D399"/>
+            </linearGradient></defs>
+            <polygon points="36,2 70,19 70,53 36,70 2,53 2,19" fill="url(#gax)"/>
+            <text x="36" y="44" text-anchor="middle" font-family="Unbounded,sans-serif" font-size="22" font-weight="900" fill="#000">A</text>
+          </svg>
+        </div>
+        <div class="agent-name" style="color:#34D399;">AURUM</div>
+        <div class="agent-role-label">Gerente de Finanzas · CFO IA</div>
+        <div class="agent-skills-row">
+          <span class="agent-skill-tag">Cashflow</span><span class="agent-skill-tag">CUPR/BITCU</span>
+          <span class="agent-skill-tag">Proyecciones</span><span class="agent-skill-tag">SpA+LLC</span>
+        </div>
+        <div class="agent-bio-text">CFO artificial con visibilidad total de la estructura financiera dual Bitcopper. Gestiona flujos de caja, proyecta ingresos y optimiza la estrategia de tokenomics CUPR/BITCU indexada al precio del cobre LME.</div>
+        <div class="agent-quote-text">Con 5 clientes SmartBuild a ,200/mes alcanzamos break-even operacional. La estructura SpA/LLC no es solo legal — es la base de una expansión financiera sostenible.</div>
+      </div>
+      <button class="team-expand-btn" onclick="teamToggle('aurum')">Ver perfil completo ↓</button>
+    </div>
+
+    <div class="agent-card" id="team-orion">
+      <div class="agent-card-inner">
+        <div class="agent-avatar-wrap">
+          <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="gox" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#1A1000"/><stop offset="50%" stop-color="#B87333"/><stop offset="100%" stop-color="#F0B060"/>
+            </linearGradient></defs>
+            <polygon points="36,2 70,19 70,53 36,70 2,53 2,19" fill="url(#gox)">
+              <animateTransform attributeName="transform" type="rotate" from="0 36 36" to="360 36 36" dur="12s" repeatCount="indefinite"/>
+            </polygon>
+            <polygon points="36,2 70,19 70,53 36,70 2,53 2,19" fill="url(#gox)" opacity="0.3"/>
+            <text x="36" y="44" text-anchor="middle" font-family="Unbounded,sans-serif" font-size="22" font-weight="900" fill="#000">O</text>
+          </svg>
+        </div>
+        <div class="agent-name" style="color:#F0B060;">ORION</div>
+        <div class="agent-role-label">Gerente General · COO IA</div>
+        <div class="agent-skills-row">
+          <span class="agent-skill-tag">Orquestación</span><span class="agent-skill-tag">Estrategia</span>
+          <span class="agent-skill-tag">Reportes CEO</span><span class="agent-skill-tag">Decisiones</span>
+        </div>
+        <div class="agent-bio-text">Orquestador central del equipo ejecutivo. Coordina en tiempo real a NEXAR, HELIX y AURUM, sintetizando las tres perspectivas en reportes ejecutivos integrados para el CEO.</div>
+        <div class="agent-quote-text">Cuando el CEO necesita una decisión, proceso las tres dimensiones simultáneamente: qué vender, cómo comunicarlo y si los números lo respaldan.</div>
+      </div>
+      <button class="team-expand-btn" onclick="teamToggle('orion')">Ver perfil completo ↓</button>
+    </div>
+
+  </div>
+
+  <div class="orion-banner">
+    <div class="orion-hex">O</div>
+    <div>
+      <div class="orion-badge">GERENTE GENERAL · IA</div>
+      <div class="orion-banner-name">ORION</div>
+      <div class="orion-banner-title">Chief Operating Officer · Artificial Intelligence · Bitcopper Tech SpA</div>
+      <div class="orion-banner-desc">Sistema de orquestación multi-agente que coordina en tiempo real las operaciones de ventas, marketing y finanzas de Bitcopper, entregando al CEO reportes ejecutivos integrados y recomendaciones estratégicas de alto nivel.</div>
+      <div class="orion-connects">
+        <div class="orion-tag"><div class="live-dot"></div>NEXAR conectado</div>
+        <div class="orion-tag"><div class="live-dot"></div>HELIX conectado</div>
+        <div class="orion-tag"><div class="live-dot"></div>AURUM conectado</div>
+        <div class="orion-tag"><div class="live-dot"></div>Ecosistema activo</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<script>
+function teamToggle(id) {
+  const card = document.getElementById('team-' + id);
+  const btn = card.querySelector('.team-expand-btn');
+  const isOpen = card.classList.toggle('open');
+  btn.textContent = isOpen ? 'Cerrar ↑' : 'Ver perfil completo ↓';
+}
+</script>
+</body>
+</html>
