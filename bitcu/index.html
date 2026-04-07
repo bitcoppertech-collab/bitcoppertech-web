@@ -795,21 +795,37 @@ fetchEntropy();setInterval(fetchEntropy,15000);
 
 async function buildCopperChart() {
   try {
-    const r = await fetch('https://bitcu-server-production.up.railway.app/bridge/rate');
-    const d = await r.json();
-    const base = parseFloat(d.copper_lme?.usd_per_ton) || 9500;
-    const labels = [], vals = [];
-    for (let i = 29; i >= 0; i--) {
-      const dt = new Date(); dt.setDate(dt.getDate() - i);
-      labels.push(dt.toLocaleDateString('es-CL', {day:'2-digit', month:'short'}));
-      const seed = Math.sin(i * 127.1 + base) * 0.5 + 0.5;
-      vals.push(+(base * (0.97 + seed * 0.06) + (29 - i) * 3).toFixed(0));
+    // Obtener histórico real + precio actual
+    const [histRes, rateRes] = await Promise.all([
+      fetch('https://bitcu-server-production.up.railway.app/api/copper/history'),
+      fetch('https://bitcu-server-production.up.railway.app/bridge/rate')
+    ]);
+    const hist = await histRes.json();
+    const rate = await rateRes.json();
+    const base = parseFloat(rate.copper_lme?.usd_per_ton) || 12000;
+
+    let labels = [], vals = [];
+
+    if (hist.ok && hist.data.length > 1) {
+      // Datos reales
+      hist.data.forEach(row => {
+        const dt = new Date(row.hour);
+        labels.push(dt.toLocaleDateString('es-CL', {day:'2-digit', month:'short'}));
+        vals.push(+parseFloat(row.price_usd_ton).toFixed(0));
+      });
+    } else {
+      // Fallback: precio actual repetido con variación mínima
+      for (let i = 29; i >= 0; i--) {
+        const dt = new Date(); dt.setDate(dt.getDate() - i);
+        labels.push(dt.toLocaleDateString('es-CL', {day:'2-digit', month:'short'}));
+        vals.push(base);
+      }
     }
-    vals[29] = +base.toFixed(0);
+
     new Chart(document.getElementById('copperChart'), {
       type: 'line',
       data: {labels, datasets: [{data: vals, borderColor: '#B87333', backgroundColor: 'rgba(184,115,51,0.1)', borderWidth: 2, pointRadius: 0, fill: true, tension: 0.4}]},
-      options: {responsive: true, plugins: {legend: {display: false}}, scales: {
+      options: {responsive: true, plugins: {legend: {display: false}, tooltip: {callbacks: {label: ctx => '$' + ctx.parsed.y.toLocaleString('es-CL') + ' USD/ton'}}}, scales: {
         x: {ticks: {color:'#4A4540', font:{size:9}}, grid: {color:'rgba(255,255,255,0.03)'}},
         y: {ticks: {color:'#4A4540', font:{size:9}, callback: v => '$'+v.toLocaleString()}, grid: {color:'rgba(255,255,255,0.03)'}}
       }}
