@@ -521,6 +521,7 @@ document.addEventListener('keydown',e=>{
         <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">MASA Cu ESTIMADA EN RED</div>
         <div style="font-family:'Bebas Neue';font-size:24px;color:var(--text);white-space:nowrap" id="entropy-cu"></div>
         <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted)">kg de cobre en placas conectadas</div>
+        <div id="copper-desglose" style="margin-top:8px;max-height:120px;overflow-y:auto"></div>
       </div>
     </div>
   </div>
@@ -707,6 +708,21 @@ async function fetchEntropy(){
     document.getElementById('entropy-restantes').textContent='∞';
     const yearsEl=document.getElementById('entropy-years'); if(yearsEl) yearsEl.textContent='∞';
     const cuEl=document.getElementById('entropy-cu'); if(cuEl) cuEl.textContent=cu>0?cu.toFixed(3)+' kg':'1.800 kg';
+    // Desglose por nodo
+    try {
+      const mr = await fetch('https://bitcu-server-production.up.railway.app/api/miners');
+      const miners = await mr.json();
+      const desglose = document.getElementById('copper-desglose');
+      if (desglose) {
+        const activos = miners.filter(m => m.copper_mass_kg > 0);
+        desglose.innerHTML = activos.map(m => `
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(184,115,51,0.1);font-family:'Space Mono',monospace;font-size:9px">
+            <span style="color:var(--text-muted)">${m.wallet.slice(0,18)}...</span>
+            <span style="color:var(--copper)">${parseFloat(m.copper_mass_kg).toFixed(3)} kg</span>
+          </div>
+        `).join('') || '<div style="color:var(--text-muted);font-size:9px">Sin datos por nodo</div>';
+      }
+    } catch(e) {}
 
     document.getElementById('entropy-temp').textContent=temp.toFixed(1);
     document.getElementById('entropy-heat').textContent=heat.toExponential(3);
