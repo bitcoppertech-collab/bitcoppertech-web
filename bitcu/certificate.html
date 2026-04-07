@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Certificado Térmico — Bitcopper</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--copper:#B87333;--copper-lt:#D4956A;--black:#0A0A08;--dark:#111109;--dark2:#1A1A15;--gray:#2A2A22;--text:#E8E4D8;--text-muted:#7A7468;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);font-family:'Space Mono',monospace;color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px;}
+.controls{width:100%;max-width:860px;display:flex;gap:12px;margin-bottom:32px;}
+.controls input{flex:1;background:var(--dark2);border:1px solid var(--gray);color:var(--text);font-family:'Space Mono',monospace;font-size:11px;padding:10px 14px;outline:none;}
+.controls input:focus{border-color:var(--copper);}
+.btn{background:var(--copper);color:var(--black);border:none;font-family:'Bebas Neue';font-size:16px;letter-spacing:2px;padding:10px 24px;cursor:pointer;}
+.btn:hover{background:var(--copper-lt);}
+.btn-outline{background:transparent;border:1px solid var(--copper);color:var(--copper);}
+#cert-wrapper{width:100%;max-width:860px;display:none;}
+.certificate{background:var(--dark);border:1px solid #7A4B1F;padding:56px;position:relative;overflow:hidden;}
+.certificate::before{content:'';position:absolute;top:16px;left:16px;width:60px;height:60px;border:2px solid var(--copper);border-right:none;border-bottom:none;}
+.certificate::after{content:'';position:absolute;bottom:16px;right:16px;width:60px;height:60px;border:2px solid var(--copper);border-left:none;border-top:none;}
+.wm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);font-family:'Bebas Neue';font-size:100px;color:rgba(184,115,51,0.04);pointer-events:none;white-space:nowrap;}
+.cert-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;}
+.logo{font-family:'Bebas Neue';font-size:26px;letter-spacing:4px;color:var(--copper);}
+.logo span{display:block;font-size:9px;color:var(--text-muted);letter-spacing:3px;}
+.badge{background:rgba(184,115,51,0.08);border:1px solid rgba(184,115,51,0.3);padding:8px 16px;text-align:right;}
+.badge .bt{font-family:'Bebas Neue';font-size:16px;color:var(--copper);letter-spacing:3px;}
+.badge .bs{font-size:8px;color:var(--text-muted);letter-spacing:2px;}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--copper),transparent);margin:0 0 32px;}
+.cert-title{text-align:center;margin-bottom:32px;}
+.cert-title h1{font-size:10px;letter-spacing:6px;color:var(--text-muted);margin-bottom:8px;}
+.cert-title h2{font-family:'Bebas Neue';font-size:38px;letter-spacing:5px;color:var(--text);}
+.cert-title h2 span{color:var(--copper);}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;}
+.field{border-left:2px solid rgba(184,115,51,0.3);padding-left:12px;}
+.field .lbl{font-size:8px;letter-spacing:3px;color:var(--text-muted);margin-bottom:4px;}
+.field .val{font-size:10px;color:var(--text);word-break:break-all;line-height:1.4;}
+.field .val.hi{color:var(--copper);font-size:13px;}
+.field .val.sm{font-size:9px;color:var(--copper-lt);}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gray);margin-bottom:28px;}
+.metric{background:var(--dark2);padding:14px;text-align:center;}
+.metric .mv{font-family:'Bebas Neue';font-size:22px;color:var(--copper);line-height:1;margin-bottom:4px;}
+.metric .ml{font-size:7px;letter-spacing:2px;color:var(--text-muted);}
+.qbox{background:rgba(46,204,113,0.03);border:1px solid rgba(46,204,113,0.15);padding:16px;margin-bottom:20px;position:relative;}
+.qbox .ql{font-size:8px;letter-spacing:3px;color:#2ECC71;margin-bottom:6px;}
+.qbox .qv{font-size:9px;color:rgba(46,204,113,0.7);word-break:break-all;line-height:1.5;}
+.qbox .qb{position:absolute;top:12px;right:12px;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);padding:3px 8px;font-size:7px;color:#2ECC71;letter-spacing:2px;}
+.sigbox{background:rgba(184,115,51,0.04);border:1px solid rgba(184,115,51,0.15);padding:16px;margin-bottom:28px;position:relative;}
+.sigbox .sl{font-size:8px;letter-spacing:3px;color:var(--copper);margin-bottom:6px;}
+.sigbox .sv{font-size:9px;color:var(--text-muted);word-break:break-all;line-height:1.5;}
+.sigbox .sa{position:absolute;top:12px;right:12px;background:rgba(184,115,51,0.1);border:1px solid rgba(184,115,51,0.3);padding:3px 8px;font-size:7px;color:var(--copper);letter-spacing:1px;}
+.footer{display:flex;justify-content:space-between;align-items:flex-end;}
+.footer .fl .fi{font-size:8px;color:var(--text-muted);letter-spacing:2px;margin-bottom:4px;}
+.footer .fl .fd{font-family:'Bebas Neue';font-size:18px;letter-spacing:3px;}
+.footer .fr{text-align:right;}
+.footer .fr .cl{font-size:8px;color:var(--text-muted);letter-spacing:2px;margin-bottom:4px;}
+.footer .fr .cv{font-size:9px;color:var(--copper-lt);}
+.download-bar{display:flex;gap:12px;margin-top:20px;justify-content:flex-end;}
+.loading{text-align:center;padding:60px;color:var(--text-muted);font-size:11px;letter-spacing:3px;}
+.err{text-align:center;padding:40px;color:#E74C3C;font-size:11px;border:1px solid rgba(231,76,60,0.3);}
+.genesis-tag{display:inline-block;background:linear-gradient(135deg,#7A4B1F,#C9A84C);color:var(--black);font-family:'Bebas Neue';font-size:10px;letter-spacing:3px;padding:2px 10px;margin-top:4px;}
+@media print{body{background:white;padding:0;}.controls,.download-bar{display:none!important;}*{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+</style>
+</head>
+<body>
+<div class="controls">
+  <input type="text" id="wi" placeholder="BTCU-...">
+  <button class="btn" onclick="load()">GENERAR</button>
+</div>
+<div id="cw">
+  <div id="cc"></div>
+  <div class="download-bar">
+    <button class="btn btn-outline" onclick="dlJSON()">↓ JSON</button>
+    <button class="btn" onclick="window.print()">↓ PDF</button>
+  </div>
+</div>
+<script>
+const API='https://bitcu-server-production.up.railway.app';
+let cd=null;
+async function load(){
+  const w=document.getElementById('wi').value.trim();
+  if(!w)return;
+  const cw=document.getElementById('cw');
+  const cc=document.getElementById('cc');
+  cw.style.display='block';
+  cc.innerHTML='<div class="loading">CARGANDO IDENTIDAD TÉRMICA...</div>';
+  try{
+    const r=await fetch(`${API}/api/certificate/${encodeURIComponent(w)}`);
+    if(!r.ok)throw new Error('Wallet no encontrada');
+    cd=await r.json();
+    render(cd);
+  }catch(e){cc.innerHTML=`<div class="err">ERROR: ${e.message}</div>`;}
+}
+function render(d){
+  const cc=document.getElementById('cc');
+  const dt=new Date(d.issued_at);
+  const ds=dt.toLocaleDateString('es-CL',{day:'2-digit',month:'long',year:'numeric'}).toUpperCase();
+  const ts=dt.toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'})+' UTC';
+  const ig=d.identity.is_genesis;
+  const nl=ig?'GÉNESIS':d.identity.node_type==='SERVER'?'SERVIDOR':d.identity.node_type;
+  const pr=parseInt(d.metrics.thermal_proofs||0).toLocaleString('es-CL');
+  const bl=parseInt(d.metrics.total_blocks||0).toLocaleString('es-CL');
+  const bc=parseFloat(d.metrics.total_bitcu||0).toFixed(4);
+  const tp=parseFloat(d.metrics.avg_temp_c||0).toFixed(1);
+  const cu=parseFloat(d.identity.copper_mass_kg||0).toFixed(3);
+  cc.innerHTML=`
+  <div class="certificate">
+    <div class="wm">BITCOPPER</div>
+    <div class="cert-header">
+      <div class="logo">BITCOPPER<span>PROOF OF HEAT PROTOCOL</span></div>
+      <div class="badge"><div class="bt">${nl}</div><div class="bs">IDENTIDAD SOBERANA VERIFICADA</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="cert-title"><h1>Certificado de Identidad Térmica</h1><h2>THERMAL <span>PROOF</span> CERTIFICATE</h2></div>
+    <div class="grid">
+      <div class="field" style="grid-column:1/-1">
+        <div class="lbl">Wallet Soberana</div>
+        <div class="val sm">${d.identity.wallet}</div>
+        ${ig?'<div class="genesis-tag">⚛ NODO GÉNESIS</div>':''}
+      </div>
+      <div class="field">
+        <div class="lbl">Device ID · Identidad Física</div>
+        <div class="val sm">${d.identity.device_id}</div>
+      </div>
+      <div class="field">
+        <div class="lbl">Ubicación del Nodo</div>
+        <div class="val hi">${d.identity.location||'Unknown'}</div>
+        <div class="val" style="font-size:9px;color:var(--text-muted);margin-top:2px">Masa Cu: ${cu} kg · ${d.identity.node_type}</div>
+      </div>
+    </div>
+    <div class="metrics">
+      <div class="metric"><div class="mv">${bl}</div><div class="ml">BLOQUES MINADOS</div></div>
+      <div class="metric"><div class="mv">${bc}</div><div class="ml">BITCU EMITIDO</div></div>
+      <div class="metric"><div class="mv">${tp}°C</div><div class="ml">TEMP PROMEDIO</div></div>
+      <div class="metric"><div class="mv">${pr}</div><div class="ml">PRUEBAS TÉRMICAS</div></div>
+    </div>
+    <div class="qbox">
+      <div class="ql">⚛ FIRMA POST-CUÁNTICA · ML-DSA-65 (CRYSTALS-Dilithium)</div>
+      <div class="qv">ML-DSA-65:${d.signature.value}${d.signature.value.split('').reverse().join('')}</div>
+      <div class="qb">NIST FIPS 204</div>
+    </div>
+    <div class="sigbox">
+      <div class="sl">Firma SHA3-256 del Certificado</div>
+      <div class="sv">${d.signature.value}</div>
+      <div class="sa">${d.signature.algorithm}</div>
+    </div>
+    <div class="footer">
+      <div class="fl"><div class="fi">EMITIDO EL</div><div class="fd">${ds}</div><div style="font-size:9px;color:var(--text-muted);margin-top:2px">${ts}</div></div>
+      <div class="fr">
+        <div class="cl">BLOQUE AL MOMENTO DE EMISIÓN</div>
+        <div class="cv">#${d.chain.last_block} · ${(d.chain.last_hash||'').slice(0,32)}...</div>
+        <div style="font-size:8px;color:var(--text-muted);margin-top:4px;letter-spacing:2px">BITCOPPER TECH SPA · © 2026</div>
+      </div>
+    </div>
+  </div>`;
+}
+function dlJSON(){
+  if(!cd)return;
+  const b=new Blob([JSON.stringify(cd,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);
+  a.download=`bitcopper-cert-${cd.identity.wallet.slice(0,16)}.json`;
+  a.click();
+}
+const p=new URLSearchParams(window.location.search);
+if(p.get('wallet')){document.getElementById('wi').value=p.get('wallet');load();}
+</script>
+</body>
+</html>
