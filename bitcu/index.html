@@ -282,6 +282,65 @@ document.addEventListener('keydown',e=>{
   </div>
 </section>
 
+<!-- ── CERTIFICACIÓN 3 CAPAS ── -->
+<section id="certificacion" style="background:var(--black);padding:80px 48px">
+  <div class="section-label">Certificación</div>
+  <h2 class="section-title reveal">Arquitectura de Seguridad en 3 Capas</h2>
+  <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:640px;line-height:1.8;margin-bottom:48px">Cada bloque minado es verificable mediante tres capas independientes. Para falsificar un bloque necesitarías las tres simultáneamente — prácticamente imposible.</p>
+  <div style="display:grid;gap:2px;margin-bottom:48px">
+    <div class="reveal" style="background:var(--dark2);border-left:3px solid var(--copper);padding:32px;display:grid;grid-template-columns:80px 1fr auto;gap:24px;align-items:start">
+      <div style="font-family:'Bebas Neue';font-size:48px;color:var(--copper);line-height:1">01</div>
+      <div>
+        <div style="font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:8px">PROOF OF HEAT · FÍSICA</div>
+        <div style="font-family:'Bebas Neue';font-size:22px;letter-spacing:2px;margin-bottom:12px">Prueba de Calor Físico</div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.7">SHA3-256 del payload térmico — temperatura, CPU, resistividad del cobre, timestamp. El hash es único e irrepetible sin el hardware real generando calor en ese instante exacto. No puede ser calculado en frío.</div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <span style="background:rgba(184,115,51,0.1);border:1px solid rgba(184,115,51,0.3);padding:3px 10px;font-size:8px;letter-spacing:2px;color:var(--copper)">SHA3-256</span>
+          <span style="background:rgba(184,115,51,0.1);border:1px solid rgba(184,115,51,0.3);padding:3px 10px;font-size:8px;letter-spacing:2px;color:var(--copper)">TEMPERATURA</span>
+          <span style="background:rgba(184,115,51,0.1);border:1px solid rgba(184,115,51,0.3);padding:3px 10px;font-size:8px;letter-spacing:2px;color:var(--copper)">RESISTIVIDAD Cu</span>
+        </div>
+      </div>
+      <div style="text-align:right;font-family:'Space Mono';font-size:9px;color:var(--text-muted)">IRREPRODUCIBLE<br>SIN HARDWARE</div>
+    </div>
+    <div class="reveal" style="background:var(--dark2);border-left:3px solid #D4956A;padding:32px;display:grid;grid-template-columns:80px 1fr auto;gap:24px;align-items:start">
+      <div style="font-family:'Bebas Neue';font-size:48px;color:#D4956A;line-height:1">02</div>
+      <div>
+        <div style="font-size:9px;letter-spacing:3px;color:#D4956A;margin-bottom:8px">TAL · IDENTIDAD SOBERANA</div>
+        <div style="font-family:'Bebas Neue';font-size:22px;letter-spacing:2px;margin-bottom:12px">Una Placa = Una Wallet</div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.7">Device ID sellado en blockchain mediante el Thermodynamic Abstraction Layer (TAL). Nadie puede suplantar la identidad del hardware sin ser detectado. El validador elimina intrusos automáticamente mediante la ley de Nyquist térmica.</div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <span style="background:rgba(212,149,106,0.1);border:1px solid rgba(212,149,106,0.3);padding:3px 10px;font-size:8px;letter-spacing:2px;color:#D4956A">TAL v3.0</span>
+          <span style="background:rgba(212,149,106,0.1);border:1px solid rgba(212,149,106,0.3);padding:3px 10px;font-size:8px;letter-spacing:2px;color:#D4956A">DEVICE ID</span>
+          <span style="background:rgba(212,149,106,0.1);border:1px solid rgba(212,149,106,0.3);padding:3px 10px;font-size:8px;letter-spacing:2px;color:#D4956A">NYQUIST VIOLATION</span>
+        </div>
+      </div>
+      <div style="text-align:right;font-family:'Space Mono';font-size:9px;color:var(--text-muted)">1 PLACA<br>1 WALLET</div>
+    </div>
+    <div class="reveal" style="background:var(--dark2);border-left:3px solid #2ECC71;padding:32px;display:grid;grid-template-columns:80px 1fr auto;gap:24px;align-items:start">
+      <div style="font-family:'Bebas Neue';font-size:48px;color:#2ECC71;line-height:1">03</div>
+      <div>
+        <div style="font-size:9px;letter-spacing:3px;color:#2ECC71;margin-bottom:8px">ML-DSA-65 · POST-CUÁNTICA</div>
+        <div style="font-family:'Bebas Neue';font-size:22px;letter-spacing:2px;margin-bottom:12px">Firma Resistente a Computadoras Cuánticas</div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.7">CRYSTALS-Dilithium nivel 3, estándar NIST FIPS 204. La clave privada vive en el hardware del nodo y nunca sale. Resistente a ataques de computadoras cuánticas. Cada bloque porta una firma única verificable criptográficamente.</div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <span style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);padding:3px 10px;font-size:8px;letter-spacing:2px;color:#2ECC71">ML-DSA-65</span>
+          <span style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);padding:3px 10px;font-size:8px;letter-spacing:2px;color:#2ECC71">NIST FIPS 204</span>
+          <span style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);padding:3px 10px;font-size:8px;letter-spacing:2px;color:#2ECC71">CRYSTALS-DILITHIUM</span>
+        </div>
+      </div>
+      <div style="text-align:right;font-family:'Space Mono';font-size:9px;color:var(--text-muted)">QUANTUM<br>RESISTANT</div>
+    </div>
+  </div>
+  <div class="reveal" style="background:var(--dark2);border:1px solid rgba(184,115,51,0.2);padding:32px;text-align:center">
+    <div style="font-size:9px;letter-spacing:3px;color:var(--copper);margin-bottom:12px">VERIFICACIÓN EN VIVO</div>
+    <div style="font-family:'Bebas Neue';font-size:28px;letter-spacing:4px;margin-bottom:8px">Genera tu Certificado Térmico</div>
+    <div style="font-size:13px;color:var(--text-dim);margin-bottom:24px">Ingresa tu wallet para generar un certificado firmado con las 3 capas de seguridad</div>
+    <div style="display:flex;gap:12px;max-width:600px;margin:0 auto">
+      <input id="cert-wallet-input" type="text" placeholder="BTCU-..." style="flex:1;background:var(--black);border:1px solid var(--gray);color:var(--text);font-family:'Space Mono',monospace;font-size:11px;padding:10px 14px;outline:none">
+      <button onclick="window.open('/bitcu/certificate.html?wallet='+document.getElementById('cert-wallet-input').value)" style="background:var(--copper);color:var(--black);font-family:'Bebas Neue';font-size:16px;letter-spacing:2px;padding:10px 24px;border:none;cursor:pointer">VER CERTIFICADO</button>
+    </div>
+  </div>
+</section>
 <section id="descargar" style="background:var(--near-black)">
   <div class="section-label">Descarga</div>
   <h2 class="section-title reveal">Elige tu Plataforma</h2>
