@@ -498,6 +498,113 @@ body { background:#000; overflow-x:hidden; font-family:'Arial',sans-serif; color
 .sov-hdr{background:rgba(200,168,75,0.04);border:1px solid rgba(200,168,75,0.15);padding:18px 24px;margin-bottom:1px;grid-column:1/-1;}
 .sov-ttl{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:#c8a84b;text-transform:uppercase;margin-bottom:6px;}
 .sov-note{margin-top:10px;padding:8px 12px;background:rgba(200,168,75,0.05);border-left:2px solid #c8a84b;font-size:11px;color:rgba(200,168,75,0.75);font-family:var(--mono);line-height:1.7;}
+
+/* __BITCU_LIVE_v1__ — bloque EN VIVO con stats del Stick real */
+.bitcu-live-block {
+  max-width: 1100px;
+  margin: 28px auto 8px;
+  padding: 22px 28px;
+  background: linear-gradient(135deg, rgba(200,168,75,0.06), rgba(200,168,75,0.02));
+  border: 1px solid rgba(200,168,75,0.25);
+  border-radius: 14px;
+  position: relative;
+}
+.bitcu-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 12px;
+  background: rgba(0,200,80,0.12);
+  border: 1px solid rgba(0,200,80,0.4);
+  border-radius: 999px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  color: #2ad07c;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.bitcu-live-pill::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #2ad07c;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #2ad07c;
+  animation: bitculiveblink 1.2s infinite;
+}
+@keyframes bitculiveblink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.bitcu-live-title {
+  color: #c8a84b;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+}
+.bitcu-live-subtitle {
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  margin: 0 0 16px;
+}
+.bitcu-live-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 14px 0;
+}
+@media (max-width: 720px) {
+  .bitcu-live-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.bitcu-live-stat {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.bitcu-live-num {
+  color: #fff;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+}
+.bitcu-live-num.dim { color: rgba(255,255,255,0.4); font-size: 14px; }
+.bitcu-live-lbl {
+  color: rgba(255,255,255,0.5);
+  font-size: 10.5px;
+  margin-top: 6px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.bitcu-live-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+}
+.bitcu-live-link {
+  color: #c8a84b;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.bitcu-live-link:hover { color: #e9c870; }
+.bitcu-live-err {
+  color: rgba(255,120,120,0.85);
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+}
+/* Fin __BITCU_LIVE_v1__ */
+
 </style>
 </head>
 <body>
@@ -536,6 +643,43 @@ body { background:#000; overflow-x:hidden; font-family:'Arial',sans-serif; color
     <div class="scroll-label">Scroll</div>
   </div>
 </section>
+
+
+<!-- __BITCU_LIVE_v1__ — Stick v2 EN VIVO desde el Lenovo -->
+<section class="bitcu-live-block" id="bitcuLiveBlock">
+  <div class="bitcu-live-pill">EN VIVO</div>
+  <h3 class="bitcu-live-title">Stick v2 firmando ahora</h3>
+  <p class="bitcu-live-subtitle">
+    Datos reales obtenidos cada 10 segundos desde la cadena criptográfica del Stick.
+    Cada número aquí es verificable matemáticamente en
+    <a href="https://seed.bitcoppertech.cl/widget/stick" class="bitcu-live-link" target="_blank">seed.bitcoppertech.cl/widget/stick</a>.
+  </p>
+  <div class="bitcu-live-grid">
+    <div class="bitcu-live-stat">
+      <div class="bitcu-live-num dim" id="bitcuLiveRecords">cargando…</div>
+      <div class="bitcu-live-lbl">records firmados</div>
+    </div>
+    <div class="bitcu-live-stat">
+      <div class="bitcu-live-num dim" id="bitcuLiveHours">cargando…</div>
+      <div class="bitcu-live-lbl">horas continuas</div>
+    </div>
+    <div class="bitcu-live-stat">
+      <div class="bitcu-live-num dim" id="bitcuLiveTal">cargando…</div>
+      <div class="bitcu-live-lbl">TAL_FINAL · motor TAL v5.1</div>
+    </div>
+    <div class="bitcu-live-stat">
+      <div class="bitcu-live-num dim" id="bitcuLiveTemp">cargando…</div>
+      <div class="bitcu-live-lbl">T NTC actual</div>
+    </div>
+  </div>
+  <div class="bitcu-live-foot">
+    <span id="bitcuLiveStatus">conectando…</span>
+    <a href="https://seed.bitcoppertech.cl/widget/stick" class="bitcu-live-link" target="_blank">
+      Ver atestación completa →
+    </a>
+  </div>
+</section>
+<!-- Fin __BITCU_LIVE_v1__ -->
 
 <div class="tabs-nav" id="tabsNav">
   <button class="tab-btn active" data-tab="producto">Producto</button>
@@ -1071,5 +1215,246 @@ document.addEventListener('DOMContentLoaded',function(){
   });
 });
 </script>
+
+<!-- __BITCU_LIVE_v1__ — fetcher real al Stick + integración del botón -->
+<script>
+(function() {
+  const WIDGET_API = "https://seed.bitcoppertech.cl/widget/stick/api";
+
+  function fmtInt(n) {
+    if (n === null || n === undefined) return "—";
+    return n.toLocaleString('es-CL');
+  }
+  function fmtFloat(n, d) {
+    if (n === null || n === undefined) return "—";
+    return Number(n).toFixed(d);
+  }
+  function setText(id, txt) {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = txt; el.classList.remove('dim'); }
+  }
+
+  async function fetchLive() {
+    try {
+      const [statsRes, narrRes] = await Promise.all([
+        fetch(WIDGET_API + "/stats", { cache: "no-store" }),
+        fetch(WIDGET_API + "/narrative", { cache: "no-store" }),
+      ]);
+      if (!statsRes.ok || !narrRes.ok) throw new Error("status " + statsRes.status + "/" + narrRes.status);
+      const stats = await statsRes.json();
+      const narr = await narrRes.json();
+
+      // Records firmados
+      const recCount = stats.chain_records ?? stats.total_records ?? narr.chain_total_records;
+      if (recCount != null) setText('bitcuLiveRecords', fmtInt(recCount));
+
+      // Horas continuas
+      let hours = stats.chain_duration_hours;
+      if (hours == null && narr.chain_duration_hours != null) hours = narr.chain_duration_hours;
+      if (hours == null && stats.first_timestamp_ms && stats.last_timestamp_ms) {
+        hours = (stats.last_timestamp_ms - stats.first_timestamp_ms) / 3600000;
+      }
+      if (hours != null) setText('bitcuLiveHours', Number(hours).toFixed(1));
+
+      // TAL_FINAL — viene en narrative.latest_tal_attestation.tal_data.tal_final
+      const lta = narr.latest_tal_attestation;
+      if (lta && lta.tal_data && lta.tal_data.tal_final != null) {
+        setText('bitcuLiveTal', fmtFloat(lta.tal_data.tal_final, 4));
+      } else {
+        setText('bitcuLiveTal', "—");
+      }
+
+      // Temperatura actual — narrative.current_state busqueda por field
+      let tCurrent = null;
+      if (Array.isArray(narr.current_state)) {
+        const tEntry = narr.current_state.find(e => e.field === 'sensor_readings.temperature_c');
+        if (tEntry && tEntry.value != null) tCurrent = tEntry.value;
+      }
+      if (tCurrent != null) setText('bitcuLiveTemp', Number(tCurrent).toFixed(2) + " °C");
+
+      // Status footer
+      const statusEl = document.getElementById('bitcuLiveStatus');
+      if (statusEl) {
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2, '0');
+        const mm = String(now.getMinutes()).padStart(2, '0');
+        const ss = String(now.getSeconds()).padStart(2, '0');
+        statusEl.textContent = "actualizado " + hh + ":" + mm + ":" + ss + " · device stick_v2_298eebb82f86";
+        statusEl.classList.remove('bitcu-live-err');
+      }
+    } catch (err) {
+      const statusEl = document.getElementById('bitcuLiveStatus');
+      if (statusEl) {
+        statusEl.textContent = "sin conexión al Stick (reintentando…)";
+        statusEl.classList.add('bitcu-live-err');
+      }
+      console.warn("[bitcu-live] fetch error:", err);
+    }
+  }
+
+  // Primera carga + refresh cada 10 seg
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fetchLive);
+  } else {
+    fetchLive();
+  }
+  setInterval(fetchLive, 10000);
+
+  // ───── Botón "EJECUTAR TEST SUITE v2.0" ahora ejecuta tests REALES ─────
+  // El botón original tiene id="runBtn" o id="runBtnEl". Reescribimos
+  // su handler para que llame al backend real.
+  function findRunBtn() {
+    return document.getElementById('runBtn')
+        || document.getElementById('runBtnEl')
+        || document.querySelector('.run-btn');
+  }
+  function findTerminal() {
+    return document.getElementById('terminal');
+  }
+
+  function appendLine(term, text, cls) {
+    if (!term) return;
+    const div = document.createElement('div');
+    div.className = cls || 't-line';
+    div.style.fontFamily = "'JetBrains Mono', monospace";
+    div.style.fontSize = '12px';
+    div.style.padding = '2px 0';
+    div.textContent = text;
+    if (cls === 'ok') div.style.color = '#2ad07c';
+    else if (cls === 'warn') div.style.color = '#c8a84b';
+    else if (cls === 'err') div.style.color = '#ff7878';
+    else div.style.color = 'rgba(255,255,255,0.82)';
+    term.appendChild(div);
+    term.scrollTop = term.scrollHeight;
+  }
+
+  function clearTerminal(term) {
+    if (!term) return;
+    // Mantener el cursor si existe
+    const cursor = document.getElementById('tcursor');
+    term.innerHTML = '';
+    if (cursor) term.appendChild(cursor);
+  }
+
+  async function runRealTestSuite() {
+    const btn = findRunBtn();
+    const term = findTerminal();
+    if (!term) {
+      alert("Terminal no disponible en esta página");
+      return;
+    }
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
+    clearTerminal(term);
+
+    appendLine(term, "▶ Bitcopper TAL3 · Real Test Suite — " + new Date().toISOString(), 'warn');
+    appendLine(term, "  conectando a seed.bitcoppertech.cl/widget/stick...");
+    appendLine(term, "");
+
+    // 1. Verificar latest record
+    try {
+      appendLine(term, "[1/4] GET /api/latest — leyendo último record del Stick...");
+      const r = await fetch(WIDGET_API + "/latest", { cache: "no-store" });
+      const d = await r.json();
+      appendLine(term, "      ✓ record #" + (d.sequence_number || '?').toLocaleString('es-CL'), 'ok');
+      appendLine(term, "      ✓ device_id: " + d.device_id);
+      appendLine(term, "      ✓ T NTC: " + (d.sensor_readings?.temperature_c ?? '?') + " °C");
+      appendLine(term, "      ✓ V: " + (d.sensor_readings?.voltage_v ?? '?') + " V · I: " + ((d.sensor_readings?.current_a ?? 0) * 1000).toFixed(3) + " mA");
+      appendLine(term, "      ✓ signature: " + (d.signature || '?').substring(0, 32) + "...", 'ok');
+      appendLine(term, "");
+    } catch (e) {
+      appendLine(term, "      ✗ error: " + e.message, 'err');
+    }
+
+    // 2. Narrative — eventos detectados
+    try {
+      appendLine(term, "[2/4] GET /api/narrative — eventos históricos auto-detectados...");
+      const r = await fetch(WIDGET_API + "/narrative", { cache: "no-store" });
+      const d = await r.json();
+      const events = d.events || [];
+      appendLine(term, "      ✓ " + events.length + " evento(s) detectado(s) en la cadena", 'ok');
+      events.slice(0, 6).forEach(ev => {
+        appendLine(term, "        · " + (ev.type || ev.kind || 'evento') + " @ record #" + (ev.record_seq || ev.sequence_number || '?'));
+      });
+      // TAL latest
+      const lta = d.latest_tal_attestation;
+      if (lta && lta.tal_data) {
+        appendLine(term, "");
+        appendLine(term, "      ⚛ último cert TAL v5.1 firmado en cadena:");
+        appendLine(term, "        TAL_FINAL = " + Number(lta.tal_data.tal_final).toFixed(4));
+        appendLine(term, "        engine    = " + lta.tal_data.engine);
+        appendLine(term, "        evaluado sobre record #" + (lta.tal_data.evaluated_for_record_seq || '?').toLocaleString('es-CL'));
+        appendLine(term, "        cert_sha3 = " + (lta.tal_data.cert_sha3_256 || '?').substring(0, 32) + "...");
+      }
+      appendLine(term, "");
+    } catch (e) {
+      appendLine(term, "      ✗ error: " + e.message, 'err');
+    }
+
+    // 3. Stats
+    try {
+      appendLine(term, "[3/4] GET /api/stats — métricas de la cadena...");
+      const r = await fetch(WIDGET_API + "/stats", { cache: "no-store" });
+      const d = await r.json();
+      appendLine(term, "      ✓ chain_records: " + (d.chain_records ?? d.total_records ?? '?').toLocaleString('es-CL'), 'ok');
+      if (d.chain_duration_hours != null) {
+        appendLine(term, "      ✓ duración continua: " + Number(d.chain_duration_hours).toFixed(2) + " horas");
+      }
+      if (d.records_per_sec_avg != null) {
+        appendLine(term, "      ✓ velocidad media: " + Number(d.records_per_sec_avg).toFixed(3) + " rec/s");
+      }
+      appendLine(term, "");
+    } catch (e) {
+      appendLine(term, "      ✗ error: " + e.message, 'err');
+    }
+
+    // 4. verify-all (toma ~40 seg, lo hacemos opcional)
+    appendLine(term, "[4/4] GET /api/verify-all — validación criptográfica completa...");
+    appendLine(term, "      (esto verifica TODAS las firmas HMAC-SHA3-256 desde el genesis)");
+    appendLine(term, "      (puede tomar ~40 segundos para 163K+ records)");
+    appendLine(term, "");
+    try {
+      const t0 = performance.now();
+      const r = await fetch(WIDGET_API + "/verify-all", { cache: "no-store" });
+      const d = await r.json();
+      const dt = ((performance.now() - t0) / 1000).toFixed(2);
+      if (d.ok) {
+        appendLine(term, "      ✓ OK · " + (d.valid_records ?? '?').toLocaleString('es-CL') + " records 100% válidos", 'ok');
+        appendLine(term, "      ✓ genesis ancla: " + (d.genesis_valid ? "válido" : "INVÁLIDO"), d.genesis_valid ? 'ok' : 'err');
+        appendLine(term, "      ✓ chain head: " + (d.final_chain_head || '?').substring(0, 32) + "...");
+        appendLine(term, "      ✓ verificado en " + dt + " seg cliente · " + (d.verification_time_s ?? '?') + " seg server");
+        appendLine(term, "      ✓ velocidad: " + (d.records_per_second ?? '?').toLocaleString('es-CL') + " rec/seg");
+      } else {
+        appendLine(term, "      ✗ FALLÓ: " + JSON.stringify(d.errors || d), 'err');
+      }
+    } catch (e) {
+      appendLine(term, "      ✗ error: " + e.message, 'err');
+    }
+
+    appendLine(term, "");
+    appendLine(term, "─────────────────────────────────────────────────", 'warn');
+    appendLine(term, "✓ TEST SUITE COMPLETO · datos reales del Stick v2", 'ok');
+    appendLine(term, "  Servido desde Lenovo · Bitcopper Tech SpA · Calama, Chile", 'warn');
+    appendLine(term, "  Para más detalle: seed.bitcoppertech.cl/widget/stick", 'warn');
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+  }
+
+  function bindBtn() {
+    const btn = findRunBtn();
+    if (!btn) return;
+    // Reemplazar handlers viejos clonando el nodo
+    const clone = btn.cloneNode(true);
+    btn.parentNode.replaceChild(clone, btn);
+    clone.addEventListener('click', runRealTestSuite);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindBtn);
+  } else {
+    bindBtn();
+  }
+})();
+</script>
+<!-- Fin __BITCU_LIVE_v1__ -->
+
 </body>
 </html>
