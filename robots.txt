@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /indexold.html
+Disallow: /indexold2.html
+Disallow: /corp-index.html
+
+Sitemap: https://bitcoppertech.cl/sitemap.xml

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRAI — Bitcopper Technologies</title>
+<meta name="description" content="PRAI: protocolo del ecosistema Bitcopper con anterioridad técnica sellada en la blockchain de Bitcoin mediante OpenTimestamps. Evidencia pública y verificable.">
+<link rel="canonical" href="https://bitcoppertech.cl/prai">
+<meta name="theme-color" content="#B87333">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bitcoppertech.cl/prai">
+<meta property="og:site_name" content="Bitcopper Technologies LLC">
+<meta property="og:title" content="PRAI — Bitcopper Technologies">
+<meta property="og:description" content="Protocolo con prior art anclado en la blockchain de Bitcoin vía OpenTimestamps. Evidencia pública y verificable.">
+<meta property="og:image" content="https://bitcoppertech.cl/icon-512.png">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--copper:#B87333;--copper-light:#D4944A;--blue:#2B7FD4;--black:#000;--near-black:#080808;--dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--gray:#2A2A2A;--text:#E8E0D8;--text-dim:#7A7065;--text-muted:#4A4540;--green:#2ECC71;--amber:#ffc040}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+nav.scrolled{backdrop-filter:blur(20px);background:rgba(0,0,0,0.85);border-bottom:1px solid rgba(184,115,51,0.15)}
+.nav-logo{display:flex;align-items:center;gap:16px;text-decoration:none}
+.nav-logo-text{display:flex;flex-direction:column}
+.nav-logo-name{font-family:'Bebas Neue';font-size:20px;letter-spacing:4px;color:var(--text)}
+.nav-logo-sub{font-family:'Space Mono';font-size:8px;letter-spacing:3px;color:var(--copper)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--text-dim);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:color 0.3s;font-family:'Space Mono'}
+.nav-links a:hover{color:var(--copper)}
+.hero{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding:160px 60px 80px;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(184,115,51,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(184,115,51,0.03) 1px,transparent 1px);background-size:60px 60px}
+.hero-glow{position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(184,115,51,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:pulse 5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}}
+.hero-content{position:relative;z-index:2;max-width:1000px}
+.hero-tag{font-family:'Space Mono';font-size:10px;letter-spacing:5px;color:var(--copper);text-transform:uppercase;margin-bottom:32px;display:flex;align-items:center;gap:16px}
+.hero-tag::before{content:'';width:40px;height:1px;background:var(--copper)}
+.hero-title{font-family:'Bebas Neue';font-size:clamp(60px,10vw,120px);line-height:0.9;letter-spacing:2px;margin-bottom:16px}
+.hero-title .copper{color:var(--copper)}
+.hero-desc{font-size:16px;line-height:1.8;color:var(--text-dim);max-width:640px;margin-bottom:40px}
+.hero-badges{display:flex;gap:16px;flex-wrap:wrap}
+.badge{background:var(--dark2);border:1px solid var(--gray);padding:8px 20px;font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted)}
+.badge.active{border-color:rgba(46,204,113,0.4);color:var(--green)}
+section{padding:100px 60px;position:relative}
+.section-label{font-family:'Space Mono';font-size:9px;letter-spacing:5px;color:var(--copper);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:16px}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(184,115,51,0.4),transparent);max-width:200px}
+.section-title{font-family:'Bebas Neue';font-size:clamp(36px,5vw,60px);letter-spacing:3px;line-height:1;margin-bottom:24px}
+.prose{font-size:15px;line-height:1.9;color:var(--text-dim);max-width:720px}
+.prose strong{color:var(--copper);font-weight:500}
+.evidence-table{width:100%;border-collapse:collapse;margin-top:48px;font-family:'Space Mono'}
+.evidence-table th{text-align:left;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--copper);padding:14px 16px;border-bottom:1px solid rgba(184,115,51,0.3)}
+.evidence-table td{font-size:12px;color:var(--text-dim);padding:14px 16px;border-bottom:1px solid var(--gray);vertical-align:top}
+.evidence-table td .doc{color:var(--text);font-size:12px}
+.evidence-table td .hash{color:var(--text-muted);word-break:break-all}
+.blk{display:inline-block;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);color:var(--green);font-size:10px;letter-spacing:1px;padding:3px 10px}
+.verify-box{background:var(--dark2);border:1px solid var(--gray);border-left:3px solid var(--copper);padding:32px;margin-top:48px;max-width:720px}
+.verify-box h3{font-family:'Bebas Neue';font-size:24px;letter-spacing:2px;margin-bottom:12px}
+.verify-box p{font-size:13px;color:var(--text-dim);line-height:1.8}
+.verify-box code{font-family:'Space Mono';font-size:11px;color:var(--copper);background:var(--dark3);padding:2px 6px}
+.verify-box a{color:var(--copper)}
+footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);padding:40px 60px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-copy{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--text-muted)}
+.footer-tag{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--copper);font-style:italic}
+.contrast-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:48px 0;max-width:920px}
+.contrast-card{background:var(--dark3);border:1px solid var(--gray);padding:36px}
+.contrast-prai{border-top:3px solid var(--copper)}
+.contrast-title{font-family:'Bebas Neue';font-size:22px;letter-spacing:3px;color:var(--text-dim);margin-bottom:16px}
+.contrast-flow{font-family:'Space Mono';font-size:12px;letter-spacing:1px;color:var(--text-dim);line-height:1.9;margin-bottom:16px}
+.contrast-desc{font-size:13px;color:var(--text-muted);line-height:1.8}
+.sub-title{font-family:'Bebas Neue';font-size:32px;letter-spacing:2px;margin:64px 0 16px}
+.layers-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:56px;max-width:820px}
+.layer-card{background:var(--dark2);border:1px solid var(--gray);padding:36px}
+.layer-direct{border-top:3px solid var(--copper)}
+.layer-indirect{border-top:3px solid var(--blue)}
+.layer-title{font-family:'Bebas Neue';font-size:26px;letter-spacing:3px;color:var(--copper);margin-bottom:8px}
+.layer-desc{font-size:13px;color:var(--text-dim);line-height:1.8;margin-bottom:20px}
+.ring-list{list-style:none}
+.ring-list li{padding:10px 0;border-bottom:1px solid var(--gray)}
+.ring-list li:last-child{border-bottom:none}
+.ring-name{font-family:'Space Mono';font-size:12px;letter-spacing:2px;color:var(--copper)}
+.ring-name.blue{color:var(--blue)}
+@media(max-width:900px){.layers-grid{grid-template-columns:1fr}.contrast-grid{grid-template-columns:1fr}nav{padding:20px 24px}.nav-links{display:none}section{padding:70px 24px}.hero{padding:130px 24px 60px}footer{padding:40px 24px}.evidence-table{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <a href="/" class="nav-logo">
+    <div style="width:40px;height:40px;border:1.5px solid var(--copper);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:16px;color:var(--copper)">BCu</div>
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">BITCOPPER</span>
+      <span class="nav-logo-sub">TECHNOLOGIES LLC</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/#productos">Productos</a></li>
+    <li><a href="/bitcu" style="color:var(--copper)">BITCU</a></li>
+    <li><a href="/prai" style="color:var(--copper)">PRAI</a></li>
+    <li><a href="/tal3" style="color:var(--amber)">TAL</a></li>
+    <li><a href="/bitcu-stick" style="color:var(--amber)">BitCU Stick</a></li>
+    <li><a href="/explorer">Explorer</a></li>
+    <li><a href="/#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">El Nuevo Est&aacute;ndar de Confianza &middot; Evidencia F&iacute;sica</div>
+    <h1 class="hero-title"><span class="copper">PRAI</span></h1>
+    <p class="hero-desc">Arquitectura <strong style="color:var(--copper)">Multiring de 8 anillos</strong> sobre el motor TAL, con dos capas: directa (SPACE &middot; OLD &middot; STICK &middot; LORA) e indirecta (BEE-SENSE &middot; TREE-SENSE &middot; SOLI-SENSE &middot; SALAR-SENSE). Su anterioridad t&eacute;cnica est&aacute; sellada criptogr&aacute;ficamente en la blockchain de Bitcoin mediante <strong style="color:var(--copper)">OpenTimestamps</strong>. Cada documento de dise&ntilde;o y prior art tiene un hash SHA-256 anclado en un bloque minado de Bitcoin: prueba de existencia p&uacute;blica, inmutable y verificable por cualquier persona sin confiar en Bitcopper.</p>
+    <div class="hero-badges">
+      <div class="badge active">4 DOCUMENTOS CONFIRMADOS</div>
+      <div class="badge active">ANCLADO EN BITCOIN</div>
+      <div class="badge active">8 ANILLOS &middot; MOTOR TAL</div>
+      <div class="badge">OPENTIMESTAMPS</div>
+      <div class="badge">SHA-256</div>
+    </div>
+  </div>
+</section>
+
+<section id="estandar" style="background:var(--dark2)">
+  <div class="section-label">El Est&aacute;ndar</div>
+  <h2 class="section-title">Un Nuevo Est&aacute;ndar de Confianza</h2>
+  <p class="prose">Los sistemas digitales tradicionales construyen la confianza <strong>despu&eacute;s</strong> del dato: asumen v&aacute;lida la informaci&oacute;n que consumen y la protegen reci&eacute;n en el canal, en el consenso o en la reputaci&oacute;n del operador. PRAI invierte esa relaci&oacute;n: la confianza se establece <strong>antes de que el dato exista como valor</strong>, en el instante mismo de su captura f&iacute;sica.</p>
+  <p class="prose" style="margin-top:20px">Cada registro nace firmado en el origen por un elemento seguro de hardware cuya clave privada nunca abandona el silicio. Un dato sin firma del elemento seguro <strong>no constituye evidencia</strong>: el sistema no distingue entre un fallo del propio operador y un intento de inyecci&oacute;n por un tercero — si la cadena matem&aacute;tica no cierra, el veredicto es de no certificaci&oacute;n. La confianza no depende de qui&eacute;n emite el dato, sino de que la cadena criptogr&aacute;fica cierre.</p>
+
+  <div class="contrast-grid">
+    <div class="contrast-card">
+      <div class="contrast-title">Modelo tradicional</div>
+      <div class="contrast-flow">Datos &rarr; Transacci&oacute;n &rarr; Valor</div>
+      <p class="contrast-desc">La validez del dato se presume. La confianza se construye despu&eacute;s, por consenso distribuido o reputaci&oacute;n.</p>
+    </div>
+    <div class="contrast-card contrast-prai">
+      <div class="contrast-title" style="color:var(--copper)">Est&aacute;ndar PRAI</div>
+      <div class="contrast-flow" style="color:var(--copper)">Realidad f&iacute;sica &rarr; Atestaci&oacute;n criptogr&aacute;fica &rarr; Evidencia verificable &rarr; Valor &rarr; Transacci&oacute;n</div>
+      <p class="contrast-desc">Nada adquiere valor econ&oacute;mico ni entra a la cadena sin evidencia f&iacute;sica independiente y criptogr&aacute;ficamente demostrable.</p>
+    </div>
+  </div>
+
+  <h3 class="sub-title">Cinco Dimensiones de Protecci&oacute;n</h3>
+  <p class="prose">La evidencia f&iacute;sica que sustenta el est&aacute;ndar se preserva en unidades autocontenidas protegidas simult&aacute;neamente en cinco dimensiones independientes:</p>
+  <table class="evidence-table" style="max-width:820px">
+    <thead><tr><th>Dimensi&oacute;n</th><th>Mecanismo</th></tr></thead>
+    <tbody>
+      <tr><td><span class="doc">Integridad</span></td><td>Digest SHA3-256 sobre forma can&oacute;nica reproducible</td></tr>
+      <tr><td><span class="doc">Autenticidad</span></td><td>Firma cl&aacute;sica Ed25519 sobre el digest</td></tr>
+      <tr><td><span class="doc">Resistencia post-cu&aacute;ntica</span></td><td>Firma ML-DSA-65 (FIPS 204) sobre el mismo digest</td></tr>
+      <tr><td><span class="doc">Trazabilidad</span></td><td>Encadenamiento de registros y ra&iacute;z acumulada</td></tr>
+      <tr><td><span class="doc">Evidencia temporal</span></td><td>Anclaje del digest en cadena de bloques p&uacute;blica</td></tr>
+    </tbody>
+  </table>
+  <p class="prose" style="margin-top:32px">Las dos firmas son independientes entre s&iacute;: ninguna se apoya en la otra y ambas protegen exactamente el mismo digest. La integridad de la evidencia sigue siendo demostrable aunque uno de los dos algoritmos sea comprometido en el futuro. Y la unidad de evidencia es <strong>autoverificable offline</strong>: puede archivarse durante a&ntilde;os y comprobarse despu&eacute;s sin acceso a la infraestructura del emisor, sin conexi&oacute;n y sin confiar en el operador. La c&aacute;psula sobrevive a su creador.</p>
+  <div class="verify-box" style="border-left-color:var(--amber)">
+    <h3>PRINCIPIO RECTOR</h3>
+    <p style="font-size:15px;color:var(--text)">&ldquo;La inteligencia artificial interpreta la evidencia; el n&uacute;cleo criptogr&aacute;fico determina la confianza.&rdquo;</p>
+    <p style="margin-top:12px">La inteligencia anal&iacute;tica es opcional; la confianza no. El sistema es plenamente confiable antes de que ning&uacute;n algoritmo de IA participe, porque la verdad del dato se establece criptogr&aacute;ficamente en el origen.</p>
+  </div>
+</section>
+
+<section id="multiring">
+  <div class="section-label">Arquitectura</div>
+  <h2 class="section-title">Multiring: 8 Anillos, Un Motor</h2>
+  <p class="prose">PRAI se estructura como una arquitectura <strong>Multiring de 8 anillos</strong> que orbitan el <strong>motor TAL</strong> (Thermodynamic Abstraction Layer), el n&uacute;cleo que traduce fen&oacute;menos f&iacute;sicos reales en score de consenso. El ecosistema opera en <strong>dos capas</strong>: una capa directa de nodos que atestiguan por hardware propio, y una capa indirecta de anillos de sensado que capturan se&ntilde;ales del entorno f&iacute;sico.</p>
+  <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Arquitectura PRAI Multiring: 8 anillos sobre el motor TAL" style="max-width:640px;width:100%;height:auto;display:block;margin:56px auto 0">
+    <circle cx="400" cy="400" r="150" fill="none" stroke="#B87333" stroke-opacity="0.35" stroke-dasharray="4 6"/>
+    <circle cx="400" cy="400" r="290" fill="none" stroke="#2B7FD4" stroke-opacity="0.35" stroke-dasharray="4 6"/>
+    <line x1="400" y1="400" x2="605.1" y2="194.9" stroke="#2B7FD4" stroke-opacity="0.25" stroke-width="1"/>
+    <circle cx="605.1" cy="194.9" r="46" fill="#141414" stroke="#2B7FD4" stroke-width="1.5"/>
+    <text x="605.1" y="198.9" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#2B7FD4" letter-spacing="1">BEE-SENSE</text>
+    <line x1="400" y1="400" x2="605.1" y2="605.1" stroke="#2B7FD4" stroke-opacity="0.25" stroke-width="1"/>
+    <circle cx="605.1" cy="605.1" r="46" fill="#141414" stroke="#2B7FD4" stroke-width="1.5"/>
+    <text x="605.1" y="609.1" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#2B7FD4" letter-spacing="1">TREE-SENSE</text>
+    <line x1="400" y1="400" x2="194.9" y2="605.1" stroke="#2B7FD4" stroke-opacity="0.25" stroke-width="1"/>
+    <circle cx="194.9" cy="605.1" r="46" fill="#141414" stroke="#2B7FD4" stroke-width="1.5"/>
+    <text x="194.9" y="609.1" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#2B7FD4" letter-spacing="1">SOLI-SENSE</text>
+    <line x1="400" y1="400" x2="194.9" y2="194.9" stroke="#2B7FD4" stroke-opacity="0.25" stroke-width="1"/>
+    <circle cx="194.9" cy="194.9" r="46" fill="#141414" stroke="#2B7FD4" stroke-width="1.5"/>
+    <text x="194.9" y="198.9" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#2B7FD4" letter-spacing="1">SALAR-SENSE</text>
+    <line x1="400" y1="400" x2="400.0" y2="250.0" stroke="#B87333" stroke-opacity="0.25" stroke-width="1"/>
+    <circle cx="400.0" cy="250.0" r="46" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
+    <text x="400.0" y="254.0" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#B87333" letter-spacing="1">SPACE</text>
+    <line x1="400" y1="400" x2="550.0" y2="400.0" stroke="#B87333" stroke-opacity="0.25" stroke-width="1"/>
+    <circle cx="550.0" cy="400.0" r="46" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
+    <text x="550.0" y="404.0" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#B87333" letter-spacing="1">OLD</text>
+    <line x1="400" y1="400" x2="400.0" y2="550.0" stroke="#B87333" stroke-opacity="0.25" stroke-width="1"/>
+    <circle cx="400.0" cy="550.0" r="46" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
+    <text x="400.0" y="554.0" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#B87333" letter-spacing="1">STICK</text>
+    <line x1="400" y1="400" x2="250.0" y2="400.0" stroke="#B87333" stroke-opacity="0.25" stroke-width="1"/>
+    <circle cx="250.0" cy="400.0" r="46" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
+    <text x="250.0" y="404.0" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#B87333" letter-spacing="1">LORA</text>
+    <circle cx="400" cy="400" r="64" fill="#0D0D0D" stroke="#ffc040" stroke-width="2"/>
+    <text x="400" y="396" text-anchor="middle" font-family="Bebas Neue" font-size="34" fill="#ffc040" letter-spacing="3">TAL</text>
+    <text x="400" y="420" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">MOTOR</text>
+  </svg>
+  <div class="layers-grid">
+    <div class="layer-card layer-direct">
+      <div class="layer-title">Capa Directa</div>
+      <p class="layer-desc">Anillos de atestaci&oacute;n por hardware: el dato nace sellado en el propio dispositivo.</p>
+      <ul class="ring-list">
+        <li><span class="ring-name">SPACE</span></li>
+        <li><span class="ring-name">OLD</span></li>
+        <li><span class="ring-name">STICK</span></li>
+        <li><span class="ring-name">LORA</span></li>
+      </ul>
+    </div>
+    <div class="layer-card layer-indirect">
+      <div class="layer-title" style="color:var(--blue)">Capa Indirecta</div>
+      <p class="layer-desc">Anillos de sensado del entorno f&iacute;sico que alimentan el motor TAL.</p>
+      <ul class="ring-list">
+        <li><span class="ring-name blue">BEE-SENSE</span></li>
+        <li><span class="ring-name blue">TREE-SENSE</span></li>
+        <li><span class="ring-name blue">SOLI-SENSE</span></li>
+        <li><span class="ring-name blue">SALAR-SENSE</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="evidencia" style="background:var(--dark2)">
+  <div class="section-label">Evidencia</div>
+  <h2 class="section-title">Prior Art Verificable</h2>
+  <p class="prose">Los siguientes documentos t&eacute;cnicos de PRAI fueron sellados con OpenTimestamps y su prueba de existencia qued&oacute; <strong>confirmada en bloques minados de la blockchain de Bitcoin</strong>. El hash SHA-256 de cada archivo est&aacute; comprometido en el bloque indicado: modificar un solo byte del documento invalida la prueba.</p>
+  <table class="evidence-table">
+    <thead>
+      <tr><th>Documento</th><th>SHA-256 (prefijo)</th><th>Bloque Bitcoin</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="doc">PRAI_memoria_tecnica_anclaje.pdf</span></td>
+        <td><span class="hash">f23aa2c6446f&hellip;</span></td>
+        <td><span class="blk">BLK 956,586</span></td>
+      </tr>
+      <tr>
+        <td><span class="doc">POH-PRAI-X402_Bitcu_PRAI_Prior_Art.pdf</span></td>
+        <td><span class="hash">1718a8d43c93&hellip;</span></td>
+        <td><span class="blk">BLK 957,236</span></td>
+      </tr>
+      <tr>
+        <td><span class="doc">PRAI_MULTIRING_PRIOR_ART.md</span></td>
+        <td><span class="hash">e45e8ff14928&hellip;</span></td>
+        <td><span class="blk">BLK 957,819</span></td>
+      </tr>
+      <tr>
+        <td><span class="doc">PRAI_TWIN_PRIOR_ART.md</span></td>
+        <td><span class="hash">cb087c2f232d&hellip;</span></td>
+        <td><span class="blk">BLK 957,928</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="verify-box">
+    <h3>C&Oacute;MO VERIFICAR</h3>
+    <p>Cualquier persona con el documento original y su archivo <code>.ots</code> puede verificar la prueba de forma independiente con el cliente oficial de c&oacute;digo abierto:</p>
+    <p style="margin-top:12px"><code>ots verify DOCUMENTO.ots</code></p>
+    <p style="margin-top:12px">El cliente y la documentaci&oacute;n del protocolo est&aacute;n disponibles en <a href="https://opentimestamps.org" rel="noopener" target="_blank">opentimestamps.org</a>. La verificaci&oacute;n no requiere confiar en Bitcopper ni en ning&uacute;n tercero: solo en la blockchain de Bitcoin.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">&copy; 2026 Bitcopper Technologies LLC &middot; Wyoming, USA &middot; Pedro Ramos Morales</div>
+  <div class="footer-tag">In cuprum veritas.</div>
+</footer>
+
+<script>
+(function(){
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){
+    if (window.scrollY > 40) { nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
