@@ -127,6 +127,7 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
       <div class="badge active">ANCLADO EN BITCOIN</div>
       <div class="badge active">8 DE 8 ANILLOS VERIFICADOS</div>
       <div class="badge active">3 CAPAS INDEPENDIENTES</div>
+      <div class="badge active">POST-QUANTUM &middot; ML-DSA-65 &middot; FIPS 204</div>
       <div class="badge">OPENTIMESTAMPS</div>
       <div class="badge">SHA-256</div>
     </div>
@@ -242,7 +243,7 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
     <circle cx="587.4" cy="587.4" r="58" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
     <text x="587.4" y="571.4" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">ANILLO 3</text>
     <text x="587.4" y="591.4" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#B87333" letter-spacing="1">AUTENTICIDAD</text>
-    <text x="587.4" y="609.4" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#7A7065">Firma</text>
+    <text x="587.4" y="609.4" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#7A7065">Firma en origen</text>
     <line x1="400" y1="400" x2="400.0" y2="665.0" stroke="#B87333" stroke-opacity="0.18" stroke-width="1"/>
     <circle cx="400.0" cy="665.0" r="58" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
     <text x="400.0" y="649.0" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">ANILLO 4</text>
@@ -257,7 +258,7 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
     <circle cx="135.0" cy="400.0" r="58" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
     <text x="135.0" y="384.0" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">ANILLO 6</text>
     <text x="135.0" y="404.0" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#B87333" letter-spacing="1">PRESERVACI&Oacute;N</text>
-    <text x="135.0" y="422.0" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#7A7065">C&aacute;psulas</text>
+    <text x="135.0" y="422.0" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#7A7065">C&aacute;psulas &middot; firma h&iacute;brida</text>
     <line x1="400" y1="400" x2="212.6" y2="212.6" stroke="#B87333" stroke-opacity="0.18" stroke-width="1"/>
     <circle cx="212.6" cy="212.6" r="58" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
     <text x="212.6" y="196.6" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">ANILLO 7</text>
@@ -273,13 +274,15 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
       <tr><td><span class="doc">Anillo 0 &middot; Nacimiento</span></td><td>Firmware</td></tr>
       <tr><td><span class="doc">Anillo 1 &middot; Identidad</span></td><td>Elemento seguro &middot; ECDSA P-256</td></tr>
       <tr><td><span class="doc">Anillo 2 &middot; Coherencia</span></td><td>Motor TAL</td></tr>
-      <tr><td><span class="doc">Anillo 3 &middot; Autenticidad</span></td><td>Firma</td></tr>
+      <tr><td><span class="doc">Anillo 3 &middot; Autenticidad</span></td><td>Firma del elemento seguro en el origen del dato</td></tr>
       <tr><td><span class="doc">Anillo 4 &middot; Continuidad</span></td><td>Cadena</td></tr>
       <tr><td><span class="doc">Anillo 5 &middot; Auditor</span></td><td>Seed</td></tr>
-      <tr><td><span class="doc">Anillo 6 &middot; Preservaci&oacute;n</span></td><td>C&aacute;psulas</td></tr>
+      <tr><td><span class="doc">Anillo 6 &middot; Preservaci&oacute;n</span></td><td>C&aacute;psulas &middot; firma h&iacute;brida Ed25519 + ML-DSA-65 (FIPS 204, post-cu&aacute;ntica)</td></tr>
       <tr><td><span class="doc">Anillo 7 &middot; Inmutabilidad</span></td><td>Bitcoin</td></tr>
     </tbody>
   </table>
+
+  <p class="prose" style="margin-top:32px">En el anillo de preservaci&oacute;n, cada c&aacute;psula de evidencia se protege con <strong>dos firmas criptogr&aacute;ficas independientes sobre el mismo digest SHA3-256</strong>: una cl&aacute;sica Ed25519 y una post-cu&aacute;ntica ML-DSA-65 conforme al est&aacute;ndar FIPS 204. La validez de una no depende de la otra: la integridad de la evidencia sigue siendo demostrable aunque uno de los dos algoritmos sea comprometido por computaci&oacute;n cu&aacute;ntica en el futuro.</p>
 
   <h3 class="sub-title">Ecosistema de Captura: Dos Capas</h3>
   <p class="prose">El ecosistema que alimenta a PRAI opera en dos capas de dispositivos: una <strong>capa directa</strong> de nodos que atestiguan por hardware propio, y una <strong>capa indirecta</strong> de anillos de sensado del entorno f&iacute;sico.</p>

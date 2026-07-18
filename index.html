@@ -112,6 +112,10 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:var(--black)}
 ::-webkit-scrollbar-thumb{background:var(--copper)}
+.prai-atom{position:absolute;top:28px;right:28px;width:56px;height:56px;pointer-events:none}
+.prai-atom .orbit-spin{transform-origin:50% 50%;animation:atomspin 14s linear infinite}
+@keyframes atomspin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.prai-atom .orbit-spin{animation:none}}
 @media(max-width:900px){nav{padding:20px 24px}.nav-links{display:none}section{padding:80px 24px}.hero{padding:100px 24px 60px}.products-grid,.about-grid,.contact-grid,.footer-inner{grid-template-columns:1fr;gap:2px}footer{padding:40px 24px}}
 </style>
 <script type="application/ld+json">
@@ -183,10 +187,21 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
   <p class="reveal" style="font-size:15px;color:var(--text-dim);max-width:600px;line-height:1.8">Ocho productos que conectan el mundo físico con la economía digital, nacidos desde la tierra del cobre.</p>
   <div class="products-grid">
     <a href="/prai" class="product-card reveal" style="border-color:rgba(184,115,51,0.35)">
+      <svg class="prai-atom" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g class="orbit-spin">
+          <ellipse cx="50" cy="50" rx="42" ry="16" fill="none" stroke="#ffc040" stroke-width="2.5" stroke-opacity="0.85"/>
+          <ellipse cx="50" cy="50" rx="42" ry="16" fill="none" stroke="#ffc040" stroke-width="2.5" stroke-opacity="0.85" transform="rotate(60 50 50)"/>
+          <ellipse cx="50" cy="50" rx="42" ry="16" fill="none" stroke="#ffc040" stroke-width="2.5" stroke-opacity="0.85" transform="rotate(120 50 50)"/>
+          <circle cx="92" cy="50" r="4.5" fill="#ffc040"/>
+          <circle cx="29" cy="86.4" r="4.5" fill="#ffc040"/>
+          <circle cx="29" cy="13.6" r="4.5" fill="#ffc040"/>
+        </g>
+        <circle cx="50" cy="50" r="7" fill="#ffc040"/>
+      </svg>
       <div class="product-tag">Protocolo &middot; Core &middot; Evidence &middot; Twin</div>
       <div class="product-name">PRAI</div>
-      <div class="product-desc">El nuevo est&aacute;ndar de confianza sustentado en evidencia f&iacute;sica. Tres capas independientes: PRAI Core establece la confianza, PRAI Evidence Layer preserva y distribuye evidencia verificable, y PRAI Twin interpreta con IA exclusivamente evidencia validada. Prior art anclado en Bitcoin.</div>
-      <div><span class="product-status">ANCLADO EN BITCOIN</span></div>
+      <div class="product-desc">El nuevo est&aacute;ndar de confianza sustentado en evidencia f&iacute;sica. Tres capas independientes: PRAI Core establece la confianza, PRAI Evidence Layer preserva y distribuye evidencia verificable, y PRAI Twin interpreta con IA exclusivamente evidencia validada. Firma h&iacute;brida cl&aacute;sica + post-cu&aacute;ntica (ML-DSA-65, FIPS 204). Prior art anclado en Bitcoin.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="product-status" style="color:var(--amber);border-color:rgba(255,192,64,0.4);background:rgba(255,192,64,0.1)">VALIDADO PARA PRODUCCI&Oacute;N</span><span class="product-status">ANCLADO EN BITCOIN</span></div>
       <div class="product-link">Ver PRAI &rarr;</div>
     </a>
     <a href="/bitcu" class="product-card reveal">
