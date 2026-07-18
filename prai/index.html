@@ -65,6 +65,15 @@ section{padding:100px 60px;position:relative}
 footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);padding:40px 60px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .footer-copy{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--text-muted)}
 .footer-tag{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--copper);font-style:italic}
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px}
+.tier-card{background:var(--dark2);border:1px solid var(--gray);padding:36px}
+.tier-num{font-family:'Space Mono';font-size:11px;letter-spacing:3px;color:var(--copper);margin-bottom:12px}
+.tier-name{font-family:'Bebas Neue';font-size:28px;letter-spacing:2px;color:var(--text);line-height:1.1}
+.tier-sub{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--copper);text-transform:uppercase;margin:8px 0 20px}
+.tier-list{list-style:none}
+.tier-list li{font-size:13px;color:var(--text-dim);line-height:1.7;padding:8px 0;border-bottom:1px solid var(--gray)}
+.tier-list li:last-child{border-bottom:none}
+.motto{font-family:'Space Mono';font-size:14px;letter-spacing:1px;color:var(--text-dim);text-align:center;margin-top:56px;line-height:2}
 .contrast-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:48px 0;max-width:920px}
 .contrast-card{background:var(--dark3);border:1px solid var(--gray);padding:36px}
 .contrast-prai{border-top:3px solid var(--copper)}
@@ -83,7 +92,7 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
 .ring-list li:last-child{border-bottom:none}
 .ring-name{font-family:'Space Mono';font-size:12px;letter-spacing:2px;color:var(--copper)}
 .ring-name.blue{color:var(--blue)}
-@media(max-width:900px){.layers-grid{grid-template-columns:1fr}.contrast-grid{grid-template-columns:1fr}nav{padding:20px 24px}.nav-links{display:none}section{padding:70px 24px}.hero{padding:130px 24px 60px}footer{padding:40px 24px}.evidence-table{display:block;overflow-x:auto}}
+@media(max-width:900px){.layers-grid{grid-template-columns:1fr}.contrast-grid{grid-template-columns:1fr}.tier-grid{grid-template-columns:1fr}nav{padding:20px 24px}.nav-links{display:none}section{padding:70px 24px}.hero{padding:130px 24px 60px}footer{padding:40px 24px}.evidence-table{display:block;overflow-x:auto}}
 </style>
 </head>
 <body>
@@ -112,15 +121,61 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
   <div class="hero-content">
     <div class="hero-tag">El Nuevo Est&aacute;ndar de Confianza &middot; Evidencia F&iacute;sica</div>
     <h1 class="hero-title"><span class="copper">PRAI</span></h1>
-    <p class="hero-desc">Arquitectura <strong style="color:var(--copper)">Multiring de 8 anillos</strong> sobre el motor TAL, con dos capas: directa (SPACE &middot; OLD &middot; STICK &middot; LORA) e indirecta (BEE-SENSE &middot; TREE-SENSE &middot; SOLI-SENSE &middot; SALAR-SENSE). Su anterioridad t&eacute;cnica est&aacute; sellada criptogr&aacute;ficamente en la blockchain de Bitcoin mediante <strong style="color:var(--copper)">OpenTimestamps</strong>. Cada documento de dise&ntilde;o y prior art tiene un hash SHA-256 anclado en un bloque minado de Bitcoin: prueba de existencia p&uacute;blica, inmutable y verificable por cualquier persona sin confiar en Bitcopper.</p>
+    <p class="hero-desc">PRAI&trade; est&aacute; compuesto por <strong style="color:var(--copper)">tres capas independientes</strong>: PRAI Core, que establece la confianza; PRAI Evidence Layer, que preserva y distribuye evidencia verificable; y PRAI Twin, que utiliza inteligencia artificial para interpretar exclusivamente evidencia previamente validada. Su anterioridad t&eacute;cnica est&aacute; sellada criptogr&aacute;ficamente en la blockchain de Bitcoin mediante <strong style="color:var(--copper)">OpenTimestamps</strong>. Cada documento de dise&ntilde;o y prior art tiene un hash SHA-256 anclado en un bloque minado de Bitcoin: prueba de existencia p&uacute;blica, inmutable y verificable por cualquier persona sin confiar en Bitcopper.</p>
     <div class="hero-badges">
       <div class="badge active">4 DOCUMENTOS CONFIRMADOS</div>
       <div class="badge active">ANCLADO EN BITCOIN</div>
-      <div class="badge active">8 ANILLOS &middot; MOTOR TAL</div>
+      <div class="badge active">8 DE 8 ANILLOS VERIFICADOS</div>
+      <div class="badge active">3 CAPAS INDEPENDIENTES</div>
       <div class="badge">OPENTIMESTAMPS</div>
       <div class="badge">SHA-256</div>
     </div>
   </div>
+</section>
+
+<section id="capas">
+  <div class="section-label">Arquitectura</div>
+  <h2 class="section-title">Tres Capas Independientes</h2>
+  <p class="prose">La informaci&oacute;n fluye desde el evento f&iacute;sico hasta la decisi&oacute;n asistida por IA a trav&eacute;s de tres capas con responsabilidades separadas y no solapadas. La inteligencia artificial est&aacute; completamente desacoplada del mecanismo de confianza.</p>
+  <div class="tier-grid">
+    <div class="tier-card" style="border-top:3px solid var(--copper)">
+      <div class="tier-num">01</div>
+      <div class="tier-name">PRAI CORE</div>
+      <div class="tier-sub">Capa de Confianza</div>
+      <ul class="tier-list">
+        <li>Captura el instante f&iacute;sico mediante TAL</li>
+        <li>Verifica la identidad del dispositivo</li>
+        <li>Genera la evidencia criptogr&aacute;fica</li>
+        <li>Firma, sella temporalmente y preserva la cadena de confianza</li>
+        <li>Decide si una evidencia es confiable o no</li>
+      </ul>
+    </div>
+    <div class="tier-card" style="border-top:3px solid var(--amber)">
+      <div class="tier-num" style="color:var(--amber)">02</div>
+      <div class="tier-name">PRAI EVIDENCE LAYER</div>
+      <div class="tier-sub" style="color:var(--amber)">Capa de Evidencia</div>
+      <ul class="tier-list">
+        <li>Almacena y organiza la evidencia verificable</li>
+        <li>Mantiene la continuidad temporal</li>
+        <li>Expone la evidencia mediante APIs</li>
+        <li>Alimenta a m&uacute;ltiples consumidores sin alterar la evidencia</li>
+        <li>No es IA. No toma decisiones. Distribuye evidencia ya validada</li>
+      </ul>
+    </div>
+    <div class="tier-card" style="border-top:3px solid var(--blue)">
+      <div class="tier-num" style="color:var(--blue)">03</div>
+      <div class="tier-name">PRAI TWIN</div>
+      <div class="tier-sub" style="color:var(--blue)">Capa de Inteligencia</div>
+      <ul class="tier-list">
+        <li>Consume exclusivamente evidencia validada</li>
+        <li>Analiza patrones y detecta anomal&iacute;as</li>
+        <li>Construye el Digital Twin</li>
+        <li>Genera predicciones y apoyo a decisiones</li>
+        <li>Nunca modifica la evidencia ni reemplaza la decisi&oacute;n criptogr&aacute;fica del Core</li>
+      </ul>
+    </div>
+  </div>
+  <div class="motto">La confianza nace en <span style="color:var(--copper)">PRAI Core</span>. La evidencia fluye por <span style="color:var(--amber)">PRAI Evidence</span>. La inteligencia emerge en <span style="color:var(--blue)">PRAI Twin</span>.</div>
 </section>
 
 <section id="estandar" style="background:var(--dark2)">
@@ -163,44 +218,75 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
 </section>
 
 <section id="multiring">
-  <div class="section-label">Arquitectura</div>
-  <h2 class="section-title">Multiring: 8 Anillos, Un Motor</h2>
-  <p class="prose">PRAI se estructura como una arquitectura <strong>Multiring de 8 anillos</strong> que orbitan el <strong>motor TAL</strong> (Thermodynamic Abstraction Layer), el n&uacute;cleo que traduce fen&oacute;menos f&iacute;sicos reales en score de consenso. El ecosistema opera en <strong>dos capas</strong>: una capa directa de nodos que atestiguan por hardware propio, y una capa indirecta de anillos de sensado que capturan se&ntilde;ales del entorno f&iacute;sico.</p>
-  <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Arquitectura PRAI Multiring: 8 anillos sobre el motor TAL" style="max-width:640px;width:100%;height:auto;display:block;margin:56px auto 0">
-    <circle cx="400" cy="400" r="150" fill="none" stroke="#B87333" stroke-opacity="0.35" stroke-dasharray="4 6"/>
-    <circle cx="400" cy="400" r="290" fill="none" stroke="#2B7FD4" stroke-opacity="0.35" stroke-dasharray="4 6"/>
-    <line x1="400" y1="400" x2="605.1" y2="194.9" stroke="#2B7FD4" stroke-opacity="0.25" stroke-width="1"/>
-    <circle cx="605.1" cy="194.9" r="46" fill="#141414" stroke="#2B7FD4" stroke-width="1.5"/>
-    <text x="605.1" y="198.9" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#2B7FD4" letter-spacing="1">BEE-SENSE</text>
-    <line x1="400" y1="400" x2="605.1" y2="605.1" stroke="#2B7FD4" stroke-opacity="0.25" stroke-width="1"/>
-    <circle cx="605.1" cy="605.1" r="46" fill="#141414" stroke="#2B7FD4" stroke-width="1.5"/>
-    <text x="605.1" y="609.1" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#2B7FD4" letter-spacing="1">TREE-SENSE</text>
-    <line x1="400" y1="400" x2="194.9" y2="605.1" stroke="#2B7FD4" stroke-opacity="0.25" stroke-width="1"/>
-    <circle cx="194.9" cy="605.1" r="46" fill="#141414" stroke="#2B7FD4" stroke-width="1.5"/>
-    <text x="194.9" y="609.1" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#2B7FD4" letter-spacing="1">SOLI-SENSE</text>
-    <line x1="400" y1="400" x2="194.9" y2="194.9" stroke="#2B7FD4" stroke-opacity="0.25" stroke-width="1"/>
-    <circle cx="194.9" cy="194.9" r="46" fill="#141414" stroke="#2B7FD4" stroke-width="1.5"/>
-    <text x="194.9" y="198.9" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#2B7FD4" letter-spacing="1">SALAR-SENSE</text>
-    <line x1="400" y1="400" x2="400.0" y2="250.0" stroke="#B87333" stroke-opacity="0.25" stroke-width="1"/>
-    <circle cx="400.0" cy="250.0" r="46" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
-    <text x="400.0" y="254.0" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#B87333" letter-spacing="1">SPACE</text>
-    <line x1="400" y1="400" x2="550.0" y2="400.0" stroke="#B87333" stroke-opacity="0.25" stroke-width="1"/>
-    <circle cx="550.0" cy="400.0" r="46" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
-    <text x="550.0" y="404.0" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#B87333" letter-spacing="1">OLD</text>
-    <line x1="400" y1="400" x2="400.0" y2="550.0" stroke="#B87333" stroke-opacity="0.25" stroke-width="1"/>
-    <circle cx="400.0" cy="550.0" r="46" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
-    <text x="400.0" y="554.0" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#B87333" letter-spacing="1">STICK</text>
-    <line x1="400" y1="400" x2="250.0" y2="400.0" stroke="#B87333" stroke-opacity="0.25" stroke-width="1"/>
-    <circle cx="250.0" cy="400.0" r="46" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
-    <text x="250.0" y="404.0" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#B87333" letter-spacing="1">LORA</text>
-    <circle cx="400" cy="400" r="64" fill="#0D0D0D" stroke="#ffc040" stroke-width="2"/>
-    <text x="400" y="396" text-anchor="middle" font-family="Bebas Neue" font-size="34" fill="#ffc040" letter-spacing="3">TAL</text>
-    <text x="400" y="420" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">MOTOR</text>
+  <div class="section-label">PRAI Core</div>
+  <h2 class="section-title">Multiring: 8 Anillos de Evidencia</h2>
+  <p class="prose">Dentro de PRAI Core, cada dato atraviesa una <strong>cadena de 8 anillos de verificaci&oacute;n</strong> que arranca en la realidad f&iacute;sica capturada por sensores y termina anclada en la blockchain de Bitcoin. Cada anillo valida una dimensi&oacute;n distinta de la evidencia; la cadena solo se considera &iacute;ntegra cuando los 8 anillos verifican.</p>
+  <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadena de evidencia PRAI: 8 anillos desde la realidad f&iacute;sica hasta la inmutabilidad en Bitcoin" style="max-width:680px;width:100%;height:auto;display:block;margin:56px auto 0">
+    <circle cx="400" cy="400" r="265" fill="none" stroke="#B87333" stroke-opacity="0.3" stroke-dasharray="4 6"/>
+    <line x1="400" y1="400" x2="400.0" y2="135.0" stroke="#B87333" stroke-opacity="0.18" stroke-width="1"/>
+    <circle cx="400.0" cy="135.0" r="58" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
+    <text x="400.0" y="119.0" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">ANILLO 0</text>
+    <text x="400.0" y="139.0" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#B87333" letter-spacing="1">NACIMIENTO</text>
+    <text x="400.0" y="157.0" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#7A7065">Firmware</text>
+    <line x1="400" y1="400" x2="587.4" y2="212.6" stroke="#B87333" stroke-opacity="0.18" stroke-width="1"/>
+    <circle cx="587.4" cy="212.6" r="58" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
+    <text x="587.4" y="196.6" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">ANILLO 1</text>
+    <text x="587.4" y="216.6" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#B87333" letter-spacing="1">IDENTIDAD</text>
+    <text x="587.4" y="234.6" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#7A7065">Elemento seguro &middot; ECDSA P-256</text>
+    <line x1="400" y1="400" x2="665.0" y2="400.0" stroke="#B87333" stroke-opacity="0.18" stroke-width="1"/>
+    <circle cx="665.0" cy="400.0" r="58" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
+    <text x="665.0" y="384.0" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">ANILLO 2</text>
+    <text x="665.0" y="404.0" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#B87333" letter-spacing="1">COHERENCIA</text>
+    <text x="665.0" y="422.0" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#7A7065">Motor TAL</text>
+    <line x1="400" y1="400" x2="587.4" y2="587.4" stroke="#B87333" stroke-opacity="0.18" stroke-width="1"/>
+    <circle cx="587.4" cy="587.4" r="58" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
+    <text x="587.4" y="571.4" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">ANILLO 3</text>
+    <text x="587.4" y="591.4" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#B87333" letter-spacing="1">AUTENTICIDAD</text>
+    <text x="587.4" y="609.4" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#7A7065">Firma</text>
+    <line x1="400" y1="400" x2="400.0" y2="665.0" stroke="#B87333" stroke-opacity="0.18" stroke-width="1"/>
+    <circle cx="400.0" cy="665.0" r="58" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
+    <text x="400.0" y="649.0" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">ANILLO 4</text>
+    <text x="400.0" y="669.0" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#B87333" letter-spacing="1">CONTINUIDAD</text>
+    <text x="400.0" y="687.0" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#7A7065">Cadena</text>
+    <line x1="400" y1="400" x2="212.6" y2="587.4" stroke="#B87333" stroke-opacity="0.18" stroke-width="1"/>
+    <circle cx="212.6" cy="587.4" r="58" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
+    <text x="212.6" y="571.4" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">ANILLO 5</text>
+    <text x="212.6" y="591.4" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#B87333" letter-spacing="1">AUDITOR</text>
+    <text x="212.6" y="609.4" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#7A7065">Seed</text>
+    <line x1="400" y1="400" x2="135.0" y2="400.0" stroke="#B87333" stroke-opacity="0.18" stroke-width="1"/>
+    <circle cx="135.0" cy="400.0" r="58" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
+    <text x="135.0" y="384.0" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">ANILLO 6</text>
+    <text x="135.0" y="404.0" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#B87333" letter-spacing="1">PRESERVACI&Oacute;N</text>
+    <text x="135.0" y="422.0" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#7A7065">C&aacute;psulas</text>
+    <line x1="400" y1="400" x2="212.6" y2="212.6" stroke="#B87333" stroke-opacity="0.18" stroke-width="1"/>
+    <circle cx="212.6" cy="212.6" r="58" fill="#141414" stroke="#B87333" stroke-width="1.5"/>
+    <text x="212.6" y="196.6" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#7A7065" letter-spacing="2">ANILLO 7</text>
+    <text x="212.6" y="216.6" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#B87333" letter-spacing="1">INMUTABILIDAD</text>
+    <text x="212.6" y="234.6" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#7A7065">Bitcoin</text>
+    <circle cx="400" cy="400" r="80" fill="#0D0D0D" stroke="#2ECC71" stroke-width="2"/>
+    <text x="400" y="392" text-anchor="middle" font-family="Bebas Neue" font-size="22" fill="#2ECC71" letter-spacing="2">REALIDAD</text>
+    <text x="400" y="416" text-anchor="middle" font-family="Bebas Neue" font-size="22" fill="#2ECC71" letter-spacing="2">F&Iacute;SICA</text>
   </svg>
+  <table class="evidence-table" style="max-width:820px">
+    <thead><tr><th>Anillo</th><th>Mecanismo</th></tr></thead>
+    <tbody>
+      <tr><td><span class="doc">Anillo 0 &middot; Nacimiento</span></td><td>Firmware</td></tr>
+      <tr><td><span class="doc">Anillo 1 &middot; Identidad</span></td><td>Elemento seguro &middot; ECDSA P-256</td></tr>
+      <tr><td><span class="doc">Anillo 2 &middot; Coherencia</span></td><td>Motor TAL</td></tr>
+      <tr><td><span class="doc">Anillo 3 &middot; Autenticidad</span></td><td>Firma</td></tr>
+      <tr><td><span class="doc">Anillo 4 &middot; Continuidad</span></td><td>Cadena</td></tr>
+      <tr><td><span class="doc">Anillo 5 &middot; Auditor</span></td><td>Seed</td></tr>
+      <tr><td><span class="doc">Anillo 6 &middot; Preservaci&oacute;n</span></td><td>C&aacute;psulas</td></tr>
+      <tr><td><span class="doc">Anillo 7 &middot; Inmutabilidad</span></td><td>Bitcoin</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="sub-title">Ecosistema de Captura: Dos Capas</h3>
+  <p class="prose">El ecosistema que alimenta a PRAI opera en dos capas de dispositivos: una <strong>capa directa</strong> de nodos que atestiguan por hardware propio, y una <strong>capa indirecta</strong> de anillos de sensado del entorno f&iacute;sico.</p>
   <div class="layers-grid">
     <div class="layer-card layer-direct">
       <div class="layer-title">Capa Directa</div>
-      <p class="layer-desc">Anillos de atestaci&oacute;n por hardware: el dato nace sellado en el propio dispositivo.</p>
+      <p class="layer-desc">Nodos de atestaci&oacute;n por hardware: el dato nace sellado en el propio dispositivo.</p>
       <ul class="ring-list">
         <li><span class="ring-name">SPACE</span></li>
         <li><span class="ring-name">OLD</span></li>
@@ -210,7 +296,7 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
     </div>
     <div class="layer-card layer-indirect">
       <div class="layer-title" style="color:var(--blue)">Capa Indirecta</div>
-      <p class="layer-desc">Anillos de sensado del entorno f&iacute;sico que alimentan el motor TAL.</p>
+      <p class="layer-desc">Anillos de sensado del entorno f&iacute;sico que alimentan la cadena de evidencia.</p>
       <ul class="ring-list">
         <li><span class="ring-name blue">BEE-SENSE</span></li>
         <li><span class="ring-name blue">TREE-SENSE</span></li>
