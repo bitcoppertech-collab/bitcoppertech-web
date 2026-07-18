@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRAI — Bitcopper Technologies</title>
+<meta name="description" content="PRAI: protocolo del ecosistema Bitcopper con anterioridad técnica sellada en la blockchain de Bitcoin mediante OpenTimestamps. Evidencia pública y verificable.">
+<link rel="canonical" href="https://bitcoppertech.cl/prai">
+<meta name="theme-color" content="#B87333">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bitcoppertech.cl/prai">
+<meta property="og:site_name" content="Bitcopper Technologies LLC">
+<meta property="og:title" content="PRAI — Bitcopper Technologies">
+<meta property="og:description" content="Protocolo con prior art anclado en la blockchain de Bitcoin vía OpenTimestamps. Evidencia pública y verificable.">
+<meta property="og:image" content="https://bitcoppertech.cl/icon-512.png">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--copper:#B87333;--copper-light:#D4944A;--blue:#2B7FD4;--black:#000;--near-black:#080808;--dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--gray:#2A2A2A;--text:#E8E0D8;--text-dim:#7A7065;--text-muted:#4A4540;--green:#2ECC71;--amber:#ffc040}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+nav.scrolled{backdrop-filter:blur(20px);background:rgba(0,0,0,0.85);border-bottom:1px solid rgba(184,115,51,0.15)}
+.nav-logo{display:flex;align-items:center;gap:16px;text-decoration:none}
+.nav-logo-text{display:flex;flex-direction:column}
+.nav-logo-name{font-family:'Bebas Neue';font-size:20px;letter-spacing:4px;color:var(--text)}
+.nav-logo-sub{font-family:'Space Mono';font-size:8px;letter-spacing:3px;color:var(--copper)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--text-dim);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:color 0.3s;font-family:'Space Mono'}
+.nav-links a:hover{color:var(--copper)}
+.hero{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding:160px 60px 80px;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(184,115,51,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(184,115,51,0.03) 1px,transparent 1px);background-size:60px 60px}
+.hero-glow{position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(184,115,51,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:pulse 5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}}
+.hero-content{position:relative;z-index:2;max-width:1000px}
+.hero-tag{font-family:'Space Mono';font-size:10px;letter-spacing:5px;color:var(--copper);text-transform:uppercase;margin-bottom:32px;display:flex;align-items:center;gap:16px}
+.hero-tag::before{content:'';width:40px;height:1px;background:var(--copper)}
+.hero-title{font-family:'Bebas Neue';font-size:clamp(60px,10vw,120px);line-height:0.9;letter-spacing:2px;margin-bottom:16px}
+.hero-title .copper{color:var(--copper)}
+.hero-desc{font-size:16px;line-height:1.8;color:var(--text-dim);max-width:640px;margin-bottom:40px}
+.hero-badges{display:flex;gap:16px;flex-wrap:wrap}
+.badge{background:var(--dark2);border:1px solid var(--gray);padding:8px 20px;font-family:'Space Mono';font-size:9px;letter-spacing:3px;color:var(--text-muted)}
+.badge.active{border-color:rgba(46,204,113,0.4);color:var(--green)}
+section{padding:100px 60px;position:relative}
+.section-label{font-family:'Space Mono';font-size:9px;letter-spacing:5px;color:var(--copper);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:16px}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(184,115,51,0.4),transparent);max-width:200px}
+.section-title{font-family:'Bebas Neue';font-size:clamp(36px,5vw,60px);letter-spacing:3px;line-height:1;margin-bottom:24px}
+.prose{font-size:15px;line-height:1.9;color:var(--text-dim);max-width:720px}
+.prose strong{color:var(--copper);font-weight:500}
+.evidence-table{width:100%;border-collapse:collapse;margin-top:48px;font-family:'Space Mono'}
+.evidence-table th{text-align:left;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--copper);padding:14px 16px;border-bottom:1px solid rgba(184,115,51,0.3)}
+.evidence-table td{font-size:12px;color:var(--text-dim);padding:14px 16px;border-bottom:1px solid var(--gray);vertical-align:top}
+.evidence-table td .doc{color:var(--text);font-size:12px}
+.evidence-table td .hash{color:var(--text-muted);word-break:break-all}
+.blk{display:inline-block;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);color:var(--green);font-size:10px;letter-spacing:1px;padding:3px 10px}
+.verify-box{background:var(--dark2);border:1px solid var(--gray);border-left:3px solid var(--copper);padding:32px;margin-top:48px;max-width:720px}
+.verify-box h3{font-family:'Bebas Neue';font-size:24px;letter-spacing:2px;margin-bottom:12px}
+.verify-box p{font-size:13px;color:var(--text-dim);line-height:1.8}
+.verify-box code{font-family:'Space Mono';font-size:11px;color:var(--copper);background:var(--dark3);padding:2px 6px}
+.verify-box a{color:var(--copper)}
+footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);padding:40px 60px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-copy{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--text-muted)}
+.footer-tag{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--copper);font-style:italic}
+@media(max-width:900px){nav{padding:20px 24px}.nav-links{display:none}section{padding:70px 24px}.hero{padding:130px 24px 60px}footer{padding:40px 24px}.evidence-table{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <a href="/" class="nav-logo">
+    <div style="width:40px;height:40px;border:1.5px solid var(--copper);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:16px;color:var(--copper)">BCu</div>
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">BITCOPPER</span>
+      <span class="nav-logo-sub">TECHNOLOGIES LLC</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/#productos">Productos</a></li>
+    <li><a href="/bitcu" style="color:var(--copper)">BITCU</a></li>
+    <li><a href="/prai" style="color:var(--copper)">PRAI</a></li>
+    <li><a href="/tal3" style="color:var(--amber)">TAL</a></li>
+    <li><a href="/bitcu-stick" style="color:var(--amber)">BitCU Stick</a></li>
+    <li><a href="/explorer">Explorer</a></li>
+    <li><a href="/#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Protocolo &middot; Prior Art Anclado en Bitcoin</div>
+    <h1 class="hero-title"><span class="copper">PRAI</span></h1>
+    <p class="hero-desc">Protocolo del ecosistema Bitcopper cuya anterioridad t&eacute;cnica est&aacute; sellada criptogr&aacute;ficamente en la blockchain de Bitcoin mediante <strong style="color:var(--copper)">OpenTimestamps</strong>. Cada documento de dise&ntilde;o y prior art tiene un hash SHA-256 anclado en un bloque minado de Bitcoin: prueba de existencia p&uacute;blica, inmutable y verificable por cualquier persona sin confiar en Bitcopper.</p>
+    <div class="hero-badges">
+      <div class="badge active">4 DOCUMENTOS CONFIRMADOS</div>
+      <div class="badge active">ANCLADO EN BITCOIN</div>
+      <div class="badge">OPENTIMESTAMPS</div>
+      <div class="badge">SHA-256</div>
+    </div>
+  </div>
+</section>
+
+<section id="evidencia" style="background:var(--dark2)">
+  <div class="section-label">Evidencia</div>
+  <h2 class="section-title">Prior Art Verificable</h2>
+  <p class="prose">Los siguientes documentos t&eacute;cnicos de PRAI fueron sellados con OpenTimestamps y su prueba de existencia qued&oacute; <strong>confirmada en bloques minados de la blockchain de Bitcoin</strong>. El hash SHA-256 de cada archivo est&aacute; comprometido en el bloque indicado: modificar un solo byte del documento invalida la prueba.</p>
+  <table class="evidence-table">
+    <thead>
+      <tr><th>Documento</th><th>SHA-256 (prefijo)</th><th>Bloque Bitcoin</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="doc">PRAI_memoria_tecnica_anclaje.pdf</span></td>
+        <td><span class="hash">f23aa2c6446f&hellip;</span></td>
+        <td><span class="blk">BLK 956,586</span></td>
+      </tr>
+      <tr>
+        <td><span class="doc">POH-PRAI-X402_Bitcu_PRAI_Prior_Art.pdf</span></td>
+        <td><span class="hash">1718a8d43c93&hellip;</span></td>
+        <td><span class="blk">BLK 957,236</span></td>
+      </tr>
+      <tr>
+        <td><span class="doc">PRAI_MULTIRING_PRIOR_ART.md</span></td>
+        <td><span class="hash">e45e8ff14928&hellip;</span></td>
+        <td><span class="blk">BLK 957,819</span></td>
+      </tr>
+      <tr>
+        <td><span class="doc">PRAI_TWIN_PRIOR_ART.md</span></td>
+        <td><span class="hash">cb087c2f232d&hellip;</span></td>
+        <td><span class="blk">BLK 957,928</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="verify-box">
+    <h3>C&Oacute;MO VERIFICAR</h3>
+    <p>Cualquier persona con el documento original y su archivo <code>.ots</code> puede verificar la prueba de forma independiente con el cliente oficial de c&oacute;digo abierto:</p>
+    <p style="margin-top:12px"><code>ots verify DOCUMENTO.ots</code></p>
+    <p style="margin-top:12px">El cliente y la documentaci&oacute;n del protocolo est&aacute;n disponibles en <a href="https://opentimestamps.org" rel="noopener" target="_blank">opentimestamps.org</a>. La verificaci&oacute;n no requiere confiar en Bitcopper ni en ning&uacute;n tercero: solo en la blockchain de Bitcoin.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">&copy; 2026 Bitcopper Technologies LLC &middot; Wyoming, USA &middot; Pedro Ramos Morales</div>
+  <div class="footer-tag">In cuprum veritas.</div>
+</footer>
+
+<script>
+(function(){
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){
+    if (window.scrollY > 40) { nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
