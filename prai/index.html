@@ -65,14 +65,16 @@ section{padding:100px 60px;position:relative}
 footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);padding:40px 60px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .footer-copy{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--text-muted)}
 .footer-tag{font-family:'Space Mono';font-size:10px;letter-spacing:2px;color:var(--copper);font-style:italic}
-.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px}
-.tier-card{background:var(--dark2);border:1px solid var(--gray);padding:36px}
-.tier-num{font-family:'Space Mono';font-size:11px;letter-spacing:3px;color:var(--copper);margin-bottom:12px}
-.tier-name{font-family:'Bebas Neue';font-size:28px;letter-spacing:2px;color:var(--text);line-height:1.1}
-.tier-sub{font-family:'Space Mono';font-size:10px;letter-spacing:3px;color:var(--copper);text-transform:uppercase;margin:8px 0 20px}
-.tier-list{list-style:none}
-.tier-list li{font-size:13px;color:var(--text-dim);line-height:1.7;padding:8px 0;border-bottom:1px solid var(--gray)}
-.tier-list li:last-child{border-bottom:none}
+.stack{margin-top:56px;max-width:960px;display:flex;flex-direction:column;gap:2px}
+.stack-layer{background:var(--dark2);border:1px solid var(--gray);display:grid;grid-template-columns:150px 1fr;transition:background 0.3s}
+.stack-layer:hover{background:var(--dark3)}
+.stack-num{font-family:'Space Mono';font-size:11px;letter-spacing:3px;padding:32px 0 32px 32px}
+.stack-body{padding:32px 32px 32px 0}
+.stack-name{font-family:'Bebas Neue';font-size:28px;letter-spacing:2px;color:var(--text);line-height:1.1}
+.stack-sub{font-family:'Space Mono';font-size:10px;letter-spacing:2px;text-transform:uppercase;margin:6px 0 14px}
+.stack-desc{font-size:14px;color:var(--text-dim);line-height:1.8;margin-bottom:16px}
+.stack-items{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.stack-items li{font-family:'Space Mono';font-size:10px;letter-spacing:1px;color:var(--text-muted);background:var(--dark3);border:1px solid var(--gray);padding:6px 12px}
 .motto{font-family:'Space Mono';font-size:14px;letter-spacing:1px;color:var(--text-dim);text-align:center;margin-top:56px;line-height:2}
 .contrast-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:48px 0;max-width:920px}
 .contrast-card{background:var(--dark3);border:1px solid var(--gray);padding:36px}
@@ -92,7 +94,7 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
 .ring-list li:last-child{border-bottom:none}
 .ring-name{font-family:'Space Mono';font-size:12px;letter-spacing:2px;color:var(--copper)}
 .ring-name.blue{color:var(--blue)}
-@media(max-width:900px){.layers-grid{grid-template-columns:1fr}.contrast-grid{grid-template-columns:1fr}.tier-grid{grid-template-columns:1fr}nav{padding:20px 24px}.nav-links{display:none}section{padding:70px 24px}.hero{padding:130px 24px 60px}footer{padding:40px 24px}.evidence-table{display:block;overflow-x:auto}}
+@media(max-width:900px){.stack-layer{grid-template-columns:1fr}.stack-num{padding:24px 24px 0}.stack-body{padding:16px 24px 28px}.layers-grid{grid-template-columns:1fr}.contrast-grid{grid-template-columns:1fr}nav{padding:20px 24px}.nav-links{display:none}section{padding:70px 24px}.hero{padding:130px 24px 60px}footer{padding:40px 24px}.evidence-table{display:block;overflow-x:auto}}
 </style>
 </head>
 <body>
@@ -121,12 +123,13 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
   <div class="hero-content">
     <div class="hero-tag">El Nuevo Est&aacute;ndar de Confianza &middot; Evidencia F&iacute;sica</div>
     <h1 class="hero-title"><span class="copper">PRAI</span></h1>
-    <p class="hero-desc">PRAI&trade; est&aacute; compuesto por <strong style="color:var(--copper)">tres capas independientes</strong>: PRAI Core, que establece la confianza; PRAI Evidence Layer, que preserva y distribuye evidencia verificable; y PRAI Twin, que utiliza inteligencia artificial para interpretar exclusivamente evidencia previamente validada. Su anterioridad t&eacute;cnica est&aacute; sellada criptogr&aacute;ficamente en la blockchain de Bitcoin mediante <strong style="color:var(--copper)">OpenTimestamps</strong>. Cada documento de dise&ntilde;o y prior art tiene un hash SHA-256 anclado en un bloque minado de Bitcoin: prueba de existencia p&uacute;blica, inmutable y verificable por cualquier persona sin confiar en Bitcopper.</p>
+    <div style="font-family:'Space Mono';font-size:11px;letter-spacing:4px;color:var(--text-dim);text-transform:uppercase;margin-bottom:28px">Physical Reality Attestation Infrastructure</div>
+    <p class="hero-desc"><strong style="color:var(--copper)">Physical Reality Attestation Infrastructure</strong>. Una infraestructura de confianza para la evidencia f&iacute;sica, estructurada en cinco capas: la realidad f&iacute;sica, el nodo Bitcu Stick que la convierte en c&aacute;psulas de evidencia, el Trust Orchestrator que gobierna la confianza del ecosistema, el Cognitive Engine que interpreta con IA solo evidencia ya evaluada, y la integraci&oacute;n con los sistemas existentes. Su anterioridad t&eacute;cnica est&aacute; sellada criptogr&aacute;ficamente en la blockchain de Bitcoin mediante <strong style="color:var(--copper)">OpenTimestamps</strong>. Cada documento de dise&ntilde;o y prior art tiene un hash SHA-256 anclado en un bloque minado de Bitcoin: prueba de existencia p&uacute;blica, inmutable y verificable por cualquier persona sin confiar en Bitcopper.</p>
     <div class="hero-badges">
       <div class="badge active">4 DOCUMENTOS CONFIRMADOS</div>
       <div class="badge active">ANCLADO EN BITCOIN</div>
       <div class="badge active">8 DE 8 ANILLOS VERIFICADOS</div>
-      <div class="badge active">3 CAPAS INDEPENDIENTES</div>
+      <div class="badge active">5 CAPAS &middot; RESPONSABILIDADES SEPARADAS</div>
       <div class="badge active">POST-QUANTUM &middot; ML-DSA-65 &middot; FIPS 204</div>
       <div class="badge">OPENTIMESTAMPS</div>
       <div class="badge">SHA-256</div>
@@ -136,47 +139,93 @@ footer{background:var(--near-black);border-top:1px solid rgba(184,115,51,0.2);pa
 
 <section id="capas">
   <div class="section-label">Arquitectura</div>
-  <h2 class="section-title">Tres Capas Independientes</h2>
-  <p class="prose">La informaci&oacute;n fluye desde el evento f&iacute;sico hasta la decisi&oacute;n asistida por IA a trav&eacute;s de tres capas con responsabilidades separadas y no solapadas. La inteligencia artificial est&aacute; completamente desacoplada del mecanismo de confianza.</p>
-  <div class="tier-grid">
-    <div class="tier-card" style="border-top:3px solid var(--copper)">
-      <div class="tier-num">01</div>
-      <div class="tier-name">PRAI CORE</div>
-      <div class="tier-sub">Capa de Confianza</div>
-      <ul class="tier-list">
-        <li>Captura el instante f&iacute;sico mediante TAL</li>
-        <li>Verifica la identidad del dispositivo</li>
-        <li>Genera la evidencia criptogr&aacute;fica</li>
-        <li>Firma, sella temporalmente y preserva la cadena de confianza</li>
-        <li>Decide si una evidencia es confiable o no</li>
-      </ul>
+  <h2 class="section-title">Cinco Capas, Una Responsabilidad Cada Una</h2>
+  <p class="prose">PRAI no es otro sensor, ni otra IA, ni otro SCADA: es una <strong>infraestructura de confianza para la evidencia f&iacute;sica</strong>. La informaci&oacute;n fluye desde el evento real hasta la decisi&oacute;n explicable a trav&eacute;s de cinco capas con responsabilidades separadas, de modo que ning&uacute;n componente intenta hacerlo todo.</p>
+  <div class="stack">
+    <div class="stack-layer" style="border-left:3px solid var(--green)">
+      <div class="stack-num" style="color:var(--green)">CAPA 0</div>
+      <div class="stack-body">
+        <div class="stack-name">REALIDAD F&Iacute;SICA</div>
+        <div class="stack-sub" style="color:var(--green)">El evento real</div>
+        <p class="stack-desc">Aqu&iacute; ocurre el fen&oacute;meno. Todav&iacute;a no existe evidencia.</p>
+        <ul class="stack-items">
+        <li>Sensores</li>
+        <li>Robots</li>
+        <li>PLC</li>
+        <li>OBD</li>
+        <li>LoRa</li>
+        <li>Sat&eacute;lites</li>
+        <li>Datacenter</li>
+        <li>Instrumentaci&oacute;n industrial</li>
+        </ul>
+      </div>
     </div>
-    <div class="tier-card" style="border-top:3px solid var(--amber)">
-      <div class="tier-num" style="color:var(--amber)">02</div>
-      <div class="tier-name">PRAI EVIDENCE LAYER</div>
-      <div class="tier-sub" style="color:var(--amber)">Capa de Evidencia</div>
-      <ul class="tier-list">
-        <li>Almacena y organiza la evidencia verificable</li>
-        <li>Mantiene la continuidad temporal</li>
-        <li>Expone la evidencia mediante APIs</li>
-        <li>Alimenta a m&uacute;ltiples consumidores sin alterar la evidencia</li>
-        <li>No es IA. No toma decisiones. Distribuye evidencia ya validada</li>
-      </ul>
+    <div class="stack-layer" style="border-left:3px solid var(--copper)">
+      <div class="stack-num" style="color:var(--copper)">CAPA 1</div>
+      <div class="stack-body">
+        <div class="stack-name">BITCU STICK</div>
+        <div class="stack-sub" style="color:var(--copper)">Nodo PRAI &middot; Origen de la confianza</div>
+        <p class="stack-desc">Transforma un fen&oacute;meno f&iacute;sico en una C&aacute;psula de Evidencia PRAI. Su misi&oacute;n no es hacer IA.</p>
+        <ul class="stack-items">
+        <li>Secure Boot &middot; eFuse</li>
+        <li>Identidad criptogr&aacute;fica</li>
+        <li>Motor TAL &middot; evaluaci&oacute;n f&iacute;sica</li>
+        <li>8 Anillos PRAI</li>
+        <li>Firma</li>
+        <li>Cadena de confianza local</li>
+        </ul>
+      </div>
     </div>
-    <div class="tier-card" style="border-top:3px solid var(--blue)">
-      <div class="tier-num" style="color:var(--blue)">03</div>
-      <div class="tier-name">PRAI TWIN</div>
-      <div class="tier-sub" style="color:var(--blue)">Capa de Inteligencia</div>
-      <ul class="tier-list">
-        <li>Consume exclusivamente evidencia validada</li>
-        <li>Analiza patrones y detecta anomal&iacute;as</li>
-        <li>Construye el Digital Twin</li>
-        <li>Genera predicciones y apoyo a decisiones</li>
-        <li>Nunca modifica la evidencia ni reemplaza la decisi&oacute;n criptogr&aacute;fica del Core</li>
-      </ul>
+    <div class="stack-layer" style="border-left:3px solid var(--amber)">
+      <div class="stack-num" style="color:var(--amber)">CAPA 2</div>
+      <div class="stack-body">
+        <div class="stack-name">PRAI TRUST ORCHESTRATOR</div>
+        <div class="stack-sub" style="color:var(--amber)">Gobierno de la confianza</div>
+        <p class="stack-desc">Recibe miles de c&aacute;psulas y construye la confianza global del ecosistema. No mueve paquetes: comprende qu&eacute; representan.</p>
+        <ul class="stack-items">
+        <li>Verifica firmas y cadenas</li>
+        <li>Clasifica por dominio</li>
+        <li>Correlaciona eventos</li>
+        <li>Une m&uacute;ltiples fuentes</li>
+        <li>Calcula confianza consolidada</li>
+        <li>Construye historial y expone APIs</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stack-layer" style="border-left:3px solid var(--blue)">
+      <div class="stack-num" style="color:var(--blue)">CAPA 3</div>
+      <div class="stack-body">
+        <div class="stack-name">PRAI COGNITIVE ENGINE</div>
+        <div class="stack-sub" style="color:var(--blue)">Bitcu-IA Local &middot; Inteligencia</div>
+        <p class="stack-desc">Aqu&iacute; reci&eacute;n aparece la IA. No consume datos: consume evidencia cuya confianza ya fue evaluada.</p>
+        <ul class="stack-items">
+        <li>Inferencia local</li>
+        <li>Detecci&oacute;n de patrones</li>
+        <li>ESG &middot; Carbono</li>
+        <li>Producci&oacute;n Premium &middot; Riesgos</li>
+        <li>Diagn&oacute;stico y recomendaciones</li>
+        <li>Explicabilidad: confianza, origen, cadena, contexto</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stack-layer" style="border-left:3px solid var(--text-dim)">
+      <div class="stack-num" style="color:var(--text-dim)">CAPA 4</div>
+      <div class="stack-body">
+        <div class="stack-name">INTEGRACI&Oacute;N</div>
+        <div class="stack-sub" style="color:var(--text-dim)">Sistemas existentes</div>
+        <p class="stack-desc">PRAI nunca reemplaza estos sistemas: los alimenta con evidencia confiable.</p>
+        <ul class="stack-items">
+        <li>SCADA</li>
+        <li>Dashboard</li>
+        <li>ERP</li>
+        <li>MES</li>
+        <li>Auditor&iacute;as</li>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="motto">La confianza nace en <span style="color:var(--copper)">PRAI Core</span>. La evidencia fluye por <span style="color:var(--amber)">PRAI Evidence</span>. La inteligencia emerge en <span style="color:var(--blue)">PRAI Twin</span>.</div>
+  <div class="motto">La realidad ocurre primero. PRAI la convierte en <span style="color:var(--copper)">evidencia verificable</span>. El <span style="color:var(--amber)">Orquestador</span> construye una visi&oacute;n confiable del ecosistema. La <span style="color:var(--blue)">IA</span> transforma esa evidencia en decisiones explicables.</div>
+  <p class="prose" style="margin-top:48px">La arquitectura es escalable por dise&ntilde;o: pueden a&ntilde;adirse nuevos tipos de nodos &mdash;robots, drones, sat&eacute;lites, equipos industriales&mdash; sin cambiar el papel del Orquestador ni de la IA, porque todos hablan el mismo lenguaje: <strong>c&aacute;psulas de evidencia atestada por PRAI</strong>.</p>
 </section>
 
 <section id="estandar" style="background:var(--dark2)">
