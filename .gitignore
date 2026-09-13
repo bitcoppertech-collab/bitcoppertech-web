@@ -1,3 +1,7 @@
 .vercel
 .DS_Store
 .env.local
+
+# respaldos locales
+*.bak-*
+*.bak
